@@ -3,8 +3,8 @@
 	include ("../../include/connect.php");
 	include ("../../include/function.php");
 	include ("config.php");
-	Check_Permission ($check_module,$_SESSION[login_id],"read");
-	if ($_GET[page] == ""){$_REQUEST[page] = 1;	}
+	Check_Permission($conn,$check_module,$_SESSION['login_id'],"read");
+	if ($_GET['page'] == ""){$_REQUEST['page'] = 1;	}
 	$param = get_param($a_param,$a_not_exists);
 	
 	if(isset($_GET['priod'])){$_REQUEST['sh1'] = 1;$_REQUEST['sh2'] = 1;$_REQUEST['sh3'] = 1;$_REQUEST['sh4'] = 1;$_REQUEST['sh5'] = 1;$_REQUEST['sh6'] = 1;$_REQUEST['sh7'] = 1;$_REQUEST['sh8'] = 1;$_REQUEST['sh9'] = 1;$_REQUEST['sh10'] = 1;}	
@@ -19,10 +19,10 @@
 	
 	if($_REQUEST['priod'] == 0){
 		$daterriod = " AND `job_open`  between '".$date_fm."' and '".$date_to."'"; 
-		$dateshow = "เริ่มวันที่ : ".format_date($date_fm)."&nbsp;&nbsp;ถึงวันที่ : ".format_date($date_to); 
+		$dateshow = "เริ่มวันที่ : ".format_date($conn,$date_fm)."&nbsp;&nbsp;ถึงวันที่ : ".format_date($conn,$date_to); 
 	}
 	else{
-		$dateshow = "วันที่ค้นหา : ".format_date(date("Y-m-d")); 
+		$dateshow = "วันที่ค้นหา : ".format_date($conn,date("Y-m-d")); 
 	}
 	
 	$condition = "";
@@ -74,8 +74,8 @@
 	  <tr>
 	    <th colspan="4" style="text-align:left;font-size:12px;"><p>บริษัท โอเมก้า ดิชวอชเชอร์ (ประเทศไทย) จำกัด<br />
 	      รายงานการเปิดใบงานลูกค้า<br />
-        ประเภทลูกค้า  : <?php  if($_POST['ctype'] != ""){echo getcustom_type($_POST['ctype']);}else{echo "ทั้งหมด";}?><br />
-        ประเภทบริการ  : <?php  if($_POST['sr_ctype']){echo get_servicename($_POST['sr_ctype']);}else{echo "ทั้งหมด";}?></p></th>
+        ประเภทลูกค้า  : <?php  if($_POST['ctype'] != ""){echo getcustom_type($conn,$_POST['ctype']);}else{echo "ทั้งหมด";}?><br />
+        ประเภทบริการ  : <?php  if($_POST['sr_ctype']){echo get_servicename($conn,$_POST['sr_ctype']);}else{echo "ทั้งหมด";}?></p></th>
 	    <th colspan="4" style="text-align:right;font-size:11px;"><?php  echo $dateshow;?></th>
       </tr>
       <tr>
@@ -95,17 +95,17 @@
       </tr>
       <?php  
 		$sql = "SELECT * FROM s_first_order as fr, s_service_report as sv WHERE sv.cus_id = fr.fo_id ".$condition." ".$daterriod." AND sv.st_setting = 0 ORDER BY sv.job_open ASC";
-	  	$qu_fr = @mysql_query($sql);
+	  	$qu_fr = @mysqli_query($conn,$sql);
 		$sum = 0;
-		while($row_fr = @mysql_fetch_array($qu_fr)){
+		while($row_fr = @mysqli_fetch_array($qu_fr)){
 			?>
 			<tr>
               <?php  if($_REQUEST['sh1'] == 1){?><td><?php  echo $row_fr['cd_name'];?><br />
               <?php  echo $row_fr['cd_tel'];?></td><?php  }?>
               <?php  if($_REQUEST['sh2'] == 1){?><td><?php  echo $row_fr['loc_name']."<br />".$row_fr['loc_address'];?></td><?php  }?>
-              <?php  if($_REQUEST['sh3'] == 1){?><td><?php  echo getcustom_type($row_fr['sr_ctype2']);?></td><?php  }?>
-              <?php  if($_REQUEST['sh4'] == 1){?><td><?php  echo get_servicename($row_fr['sr_ctype']);?></td><?php  }?>
-              <?php  if($_REQUEST['sh5'] == 1){?><td><?php  echo $row_fr['sv_id'];?> / <?php  echo format_date($row_fr['job_open']);?></td><?php  }?>
+              <?php  if($_REQUEST['sh3'] == 1){?><td><?php  echo getcustom_type($conn,$row_fr['sr_ctype2']);?></td><?php  }?>
+              <?php  if($_REQUEST['sh4'] == 1){?><td><?php  echo get_servicename($conn,$row_fr['sr_ctype']);?></td><?php  }?>
+              <?php  if($_REQUEST['sh5'] == 1){?><td><?php  echo $row_fr['sv_id'];?> / <?php  echo format_date($conn,$row_fr['job_open']);?></td><?php  }?>
               <?php  if($_REQUEST['sh6'] == 1 || $_REQUEST['sh7'] == 1){?><td style="padding:0;">
               	<table width="99%" border="0" cellpadding="0" cellspacing="0" class="tbreport" style="margin-bottom:5px;">
                 <?php  
@@ -180,7 +180,7 @@
 				?>
               </table></td><?php  }?>
               <?php  if($_REQUEST['sh8'] == 1){?><td> <?php  echo $row_fr['detail_recom'];?></td><?php  }?>
-              <?php  if($_REQUEST['sh9'] == 1){?><td><?php  echo get_technician_id($row_fr['loc_contact']);?></td><?php  }?>
+              <?php  if($_REQUEST['sh9'] == 1){?><td><?php  echo get_technician_id($conn,$row_fr['loc_contact']);?></td><?php  }?>
             </tr>
 			
 			

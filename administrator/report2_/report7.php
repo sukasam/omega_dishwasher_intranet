@@ -3,8 +3,8 @@
 	include ("../../include/connect.php");
 	include ("../../include/function.php");
 	include ("config.php");
-	Check_Permission ($check_module,$_SESSION[login_id],"read");
-	if ($_GET[page] == ""){$_REQUEST[page] = 1;	}
+	Check_Permission($conn,$check_module,$_SESSION['login_id'],"read");
+	if ($_GET['page'] == ""){$_REQUEST['page'] = 1;	}
 	$param = get_param($a_param,$a_not_exists);
 	
 	$sfix = $_REQUEST['sfix'];
@@ -15,10 +15,10 @@
 	
 	if($_REQUEST['priod'] == 0){
 		$daterriod = " AND `date_forder`  between '".$date_fm."' and '".$date_to."'"; 
-		$dateshow = "เริ่มวันที่ : ".format_date($date_fm)."&nbsp;&nbsp;ถึงวันที่ : ".format_date($date_to); 
+		$dateshow = "เริ่มวันที่ : ".format_date($conn,$date_fm)."&nbsp;&nbsp;ถึงวันที่ : ".format_date($conn,$date_to); 
 	}
 	else{
-		$dateshow = "วันที่ค้นหา : ".format_date(date("Y-m-d")); 
+		$dateshow = "วันที่ค้นหา : ".format_date($conn,date("Y-m-d")); 
 	}
 	
 	$condition = "";
@@ -70,26 +70,26 @@
       </tr>
       <?php  
 		$sql = "SELECT * FROM s_first_order as fr, s_service_report as sv WHERE fr.fo_id = sv.cus_id ".$condition." ".$daterriod." ORDER BY fr.cd_name ASC";
-	  	$qu_fr = @mysql_query($sql);
+	  	$qu_fr = @mysqli_query($conn,$sql);
 		$sum = 0;
 		$sums = 0;
-		while($row_fr = @mysql_fetch_array($qu_fr)){
+		while($row_fr = @mysqli_fetch_array($qu_fr)){
 				
 			?>
 			<tr>
               <td><?php  echo $row_fr['cd_name'];?><br />
               <?php  echo $row_fr['cd_tel'];?></td>
-              <td><?php  echo province_name($row_fr['cd_province']);?></td>
+              <td><?php  echo province_name($conn,$row_fr['cd_province']);?></td>
               <td><?php  echo $row_fr['sv_id'];?></td>     
               <td style="">
               	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tbreport">
                   <?php  
 				  	$chk = get_fixlist($row_fr['ckf_list']);
 					for($i=0;$i<sizeof($chk);$i++){
-						if(get_fixname($chk[$i]) != ""){
+						if(get_fixname($conn,$chk[$i]) != ""){
 							?>
 		  <tr>
-							<td style="border:0;padding-bottom:0;padding-top:0;"><?php  echo get_fixname($chk[$i]);?></td>
+							<td style="border:0;padding-bottom:0;padding-top:0;"><?php  echo get_fixname($conn,$chk[$i]);?></td>
 						  	</tr>
 							<?php 
 						}

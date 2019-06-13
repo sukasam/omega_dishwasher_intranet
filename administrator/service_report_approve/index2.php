@@ -3,26 +3,26 @@
 	include ("../../include/connect.php");
 	include ("../../include/function.php");
 	include ("config2.php");
-	Check_Permission ($check_module,$_SESSION[login_id],"read");
-	if ($_GET[page] == ""){$_REQUEST[page] = 1;	}
+	Check_Permission($conn,$check_module,$_SESSION['login_id'],"read");
+	if ($_GET['page'] == ""){$_REQUEST['page'] = 1;	}
 	$param = get_param($a_param,$a_not_exists);
 	
-	if($_GET[action] == "delete"){
-		$code = Check_Permission ($check_module,$_SESSION["login_id"],"delete");		
+	if($_GET['action'] == "delete"){
+		$code = Check_Permission($conn,$check_module,$_SESSION["login_id"],"delete");		
 		if ($code == "1") {
 			$sql = "delete from $tbl_name  where $PK_field = '$_GET[$PK_field]'";
-			@mysql_query($sql);			
+			@mysqli_query($conn,$sql);			
 			header ("location:index2.php");
 		} 
 	}
 	
 	//-------------------------------------------------------------------------------------
-	 if ($_GET[b] <> "" and $_GET[s] <> "") { 
-		if ($_GET[s] == 0) $status = 1;
-		if ($_GET[s] == 1) $status = 0;
-		Check_Permission ($check_module,$_SESSION[login_id],"update");
-		$sql_status = "update $tbl_name set st_setting = '$status' where $PK_field = '$_GET[b]'";
-		@mysql_query ($sql_status);
+	 if ($_GET['b'] <> "" and $_GET['s'] <> "") { 
+		if ($_GET['s'] == 0) $status = 1;
+		if ($_GET['s'] == 1) $status = 0;
+		Check_Permission($conn,$check_module,$_SESSION['login_id'],"update");
+		$sql_status = "update $tbl_name set st_setting = ".$status." where $PK_field = ".$_GET['b']."";
+		@mysqli_query($conn,$sql_status);
 		if($_GET['page'] != ""){$conpage = "page=".$_GET['page'];}
 		header ("location:?".$conpage); 
 	}
@@ -33,18 +33,18 @@
 	 	 $cc = $_GET['cc'];
 		 $ids = $_GET['sr_id'];
 		 
-		 Check_Permission ($check_module,$_SESSION[login_id],"update");
+		 Check_Permission($conn,$check_module,$_SESSION['login_id'],"update");
 		 
 		 $sql_status = "update $tbl_name set approve = '".$cc."' where $PK_field = '".$ids."'";
-		 @mysql_query ($sql_status);
+		 @mysqli_query($conn,$sql_status);
 		/*if ($_GET[dd] == 0) $status = 1;
 		if ($_GET[dd] == 1) $status = 0;
 		if ($_GET[dd] == 2) $status = 0;
-		Check_Permission ($check_module,$_SESSION[login_id],"update");
-		$sql_status = "update $tbl_name set st_setting = '$status' where $PK_field = '$_GET[cc]'";
-		@mysql_query ($sql_status);
-		$sql_fostatus = "update s_first_order set status = '$status' where fo_id = '$_GET[cus_id]'";
-		@mysql_query ($sql_fostatus);*/
+		Check_Permission($conn,$check_module,$_SESSION['login_id'],"update");
+		$sql_status = "update $tbl_name set st_setting = ".$status." where $PK_field = ".$_GET['cc'];
+		@mysqli_query($conn,$sql_status);
+		$sql_fostatus = "update s_first_order set status = ".$status." where fo_id = '$_GET[cus_id]'";
+		@mysqli_query($conn,$sql_fostatus);*/
 		if($_GET['page'] != ""){$conpage = "page=".$_GET['page'];}
 		header ("location:?".$conpage); 
 		
@@ -55,9 +55,9 @@
 <HEAD>
 <TITLE><?php  echo $s_title;?></TITLE>
 <META content="text/html; charset=utf-8" http-equiv=Content-Type>
-<LINK rel=stylesheet type=text/css href="../css/reset.css" media=screen>
-<LINK rel=stylesheet type=text/css href="../css/style.css" media=screen>
-<LINK rel=stylesheet type=text/css href="../css/invalid.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/reset.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/style.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/invalid.css" media=screen>
 <SCRIPT type=text/javascript src="../js/jquery-1.3.2.min.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/simpla.jquery.configuration.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/facebox.js"></SCRIPT>
@@ -200,20 +200,20 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 					include ("../include/page_init.php");
 					/*echo $sql;
 					break;*/
-					$query = @mysql_query ($sql);
-					if($_GET[page] == "") $_GET[page] = 1;
-					$counter = ($_GET[page]-1)*$pagesize;
+					$query = @mysqli_query($conn,$sql);
+					if($_GET['page'] == "") $_GET['page'] = 1;
+					$counter = ($_GET['page']-1)*$pagesize;
 					
-					while ($rec = @mysql_fetch_array ($query)) { 
+					while ($rec = @mysqli_fetch_array($query)) { 
 					$counter++;
 				   ?>
         <TR>
           <TD style="vertical-align:middle;"><INPUT type=checkbox name="del[]" value="<?php  echo $rec[$PK_field]; ?>" ></TD>
           <TD style="vertical-align:middle;"><span class="text"><?php  echo sprintf("%04d",$counter); ?></span></TD>
-          <TD style="vertical-align:middle;"><?php  $chaf = eregi_replace("/","-",$rec["sv_id"]); ?><div align="center"><span class="text"><a href="../../upload/service_report_open/<?php  echo $chaf;?>.pdf" target="_blank"><?php  echo $rec["sv_id"] ; ?></a></span></div></TD>
-          <TD style="vertical-align:middle;"><span class="text"><?php  echo get_customername($rec["cus_id"]); ?></span></TD>
-          <TD style="vertical-align:middle;"><span class="text"><?php  echo get_localsettingname($rec["cus_id"]); ?></span></TD>
-          <TD style="vertical-align:middle;"><?php  echo get_technician_name($rec["loc_contact"]);?></TD>
+          <TD style="vertical-align:middle;"><?php  $chaf = str_replace("/","-",$rec["sv_id"]); ?><div align="center"><span class="text"><a href="../../upload/service_report_open/<?php  echo $chaf;?>.pdf" target="_blank"><?php  echo $rec["sv_id"] ; ?></a></span></div></TD>
+          <TD style="vertical-align:middle;"><span class="text"><?php  echo get_customername($conn,$rec["cus_id"]); ?></span></TD>
+          <TD style="vertical-align:middle;"><span class="text"><?php  echo get_localsettingname($conn,$rec["cus_id"]); ?></span></TD>
+          <TD style="vertical-align:middle;"><?php  echo get_technician_name($conn,$rec["loc_contact"]);?></TD>
           <TD style="vertical-align:middle"><select name="jumpMenu" id="jumpMenu" onChange="MM_jumpMenu('parent',this,0)" style=" <?php  if($rec["approve"] == "0"){echo "background:#FF0;color:#000;";}elseif($rec["approve"] == "1"){echo "background:#090;color:#FFF;";}elseif($rec["approve"] == "3"){echo "background:#C60;color:#FFF;";}else{echo "background:#F00;color:#FFF;";}?>">
             <option value="index2.php?action=apps&cc=0&sr_id=<?php  echo $rec["sr_id"];?>&page=<?php  echo $_GET['page'];?>" <?php  if($rec["approve"] == "0"){echo 'selected="selected"';}?> style="background:#FFF;color:#000;">รอการอนุมัติ</option>
             <option value="index2.php?action=apps&cc=1&sr_id=<?php  echo $rec["sr_id"];?>&page=<?php  echo $_GET['page'];?>" <?php  if($rec["approve"] == "1"){echo 'selected="selected"';}?> style="background:#FFF;color:#000;">อนุมัติ</option>

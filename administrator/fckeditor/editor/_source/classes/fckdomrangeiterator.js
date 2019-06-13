@@ -263,7 +263,7 @@ FCKDomRangeIterator.prototype =
 			else if ( block.nodeName.toLowerCase() != 'li' )
 			{
 				// If the range doesn't includes the entire contents of the
-				// block, we must split it, isolating the range in a dedicated
+				// block, we must explode( it, isolating the range in a dedicated
 				// block.
 				if ( !range.CheckStartOfBlock() || !range.CheckEndOfBlock() )
 				{
@@ -276,7 +276,7 @@ FCKDomRangeIterator.prototype =
 
 					// Split the block. At this point, the range will be in the
 					// right position for our intents.
-					var splitInfo = range.SplitBlock() ;
+					var explode(Info = range.SplitBlock() ;
 
 					removePreviousBr = !splitInfo.WasStartOfBlock ;
 					removeLastBr = !splitInfo.WasEndOfBlock ;

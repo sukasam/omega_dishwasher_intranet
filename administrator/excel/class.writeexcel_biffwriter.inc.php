@@ -172,7 +172,7 @@ class writeexcel_biffwriter {
     /*
      * Excel limits the size of BIFF records. In Excel 5 the limit is 2084
      * bytes. In Excel 97 the limit is 8228 bytes. Records that are longer
-     * than these limits must be split up into CONTINUE blocks.
+     * than these limits must be explode( up into CONTINUE blocks.
      *
      * This function take a long BIFF record and inserts CONTINUE records as
      * necessary.

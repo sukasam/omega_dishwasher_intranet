@@ -3,8 +3,8 @@
 	include ("../../include/connect.php");
 	include ("../../include/function.php");
 	include ("config.php");
-	Check_Permission ($check_module,$_SESSION[login_id],"read");
-	if ($_GET[page] == ""){$_REQUEST[page] = 1;	}
+	Check_Permission($conn,$check_module,$_SESSION['login_id'],"read");
+	if ($_GET['page'] == ""){$_REQUEST['page'] = 1;	}
 	$param = get_param($a_param,$a_not_exists);
 	
 	$sr_ctype = $_REQUEST['sr_ctype'];		
@@ -20,10 +20,10 @@
 	
 	if($_REQUEST['priod'] == 0){
 		$daterriod = " AND `sr_stime`  between '".$date_fm."' and '".$date_to."'"; 
-		$dateshow = "เริ่มวันที่ : ".format_date($date_fm)."&nbsp;&nbsp;ถึงวันที่ : ".format_date($date_to); 
+		$dateshow = "เริ่มวันที่ : ".format_date($conn,$date_fm)."&nbsp;&nbsp;ถึงวันที่ : ".format_date($conn,$date_to); 
 	}
 	else{
-		$dateshow = "วันที่ดำเนินการ : ".format_date(date("Y-m-d")); 
+		$dateshow = "วันที่ดำเนินการ : ".format_date($conn,date("Y-m-d")); 
 	}
 	
 	$condition = "";
@@ -105,10 +105,10 @@
 		$dbservicesub = "s_service_report3sub";
 	  
 		$sql = "SELECT * FROM s_first_order as fr, ".$dbservice." as sv WHERE sv.cus_id = fr.fo_id  ".$condition." ".$daterriod." ORDER BY fr.cd_name ASC";
-	  	$qu_fr = @mysql_query($sql);
+	  	$qu_fr = @mysqli_query($conn,$sql);
 		$sum = 0;
 		$totals = 0;
-		while($row_fr = @mysql_fetch_array($qu_fr)){
+		while($row_fr = @mysqli_fetch_array($qu_fr)){
 						
 			?>
 			<tr>
@@ -119,18 +119,18 @@
               <?php  if($_REQUEST['sh3'] == 1){?><td><?php  echo $row_fr['detail_recom'];?></td><?php  }?>
               <?php  if($_REQUEST['sh4'] == 1 || $_REQUEST['sh5'] == 1 || $_REQUEST['sh8'] == 1){?><td style="padding:0;">
               	<?php  
-				$qu_pfirst = @mysql_query("SELECT * FROM ".$dbservicesub." WHERE sr_id = '".$row_fr['sr_id']."'");
+				$qu_pfirst = @mysqli_query($conn,"SELECT * FROM ".$dbservicesub." WHERE sr_id = '".$row_fr['sr_id']."'");
 				?>
 				<table border="0" width="90%" cellspacing="0" cellpadding="0" class="tbreport">
 				<?php 
 				$totalamount = 0;
-				while($row = @mysql_fetch_array($qu_pfirst)){
+				while($row = @mysqli_fetch_array($qu_pfirst)){
 					if($row['codes 	'] != "" || $row['lists'] != ""){
 						$total = $row['prices']*$row['opens'];
 						$totalamount += $row['opens'];
 					?>
 					<tr>
-					  <?php  if($_REQUEST['sh4'] == 1){?><td style="border-bottom:none;" width="50%"><?php  echo get_sparpart_name($row['lists']);?></td><?php  }?>
+					  <?php  if($_REQUEST['sh4'] == 1){?><td style="border-bottom:none;" width="50%"><?php  echo get_sparpart_name($conn,$row['lists']);?></td><?php  }?>
 					  <?php  if($_REQUEST['sh5'] == 1){?><td align="right" style="border-bottom:none;" width="25%"><?php  echo $row['opens'];?></td><?php  }?>
 					  <?php  if($_REQUEST['sh8'] == 1){?><td align="right" style="border-bottom:none;" width="25%"><?php  echo number_format($total,2);?></td><?php  }?>
 					</tr>
@@ -143,9 +143,9 @@
 				?>
                 </table>
               </td><?php  }?>
-              <?php  if($_REQUEST['sh6'] == 1){?><td style="padding:0;"><?php  echo format_date($row_fr['job_open']);?></td><?php  }?>
-              <?php  if($_REQUEST['sh7'] == 1){?><td style="padding:0;"><?php  echo format_date($row_fr['sr_stime']);?></td><?php  }?>
-              <?php  if($_REQUEST['sh9'] == 1){?><td style="padding:0;"><?php  echo get_technician_id($row_fr['loc_contact']);?></td><?php  }?>
+              <?php  if($_REQUEST['sh6'] == 1){?><td style="padding:0;"><?php  echo format_date($conn,$row_fr['job_open']);?></td><?php  }?>
+              <?php  if($_REQUEST['sh7'] == 1){?><td style="padding:0;"><?php  echo format_date($conn,$row_fr['sr_stime']);?></td><?php  }?>
+              <?php  if($_REQUEST['sh9'] == 1){?><td style="padding:0;"><?php  echo get_technician_id($conn,$row_fr['loc_contact']);?></td><?php  }?>
             </tr>
 			<?php 
 			$sum += 1;

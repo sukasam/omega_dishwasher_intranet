@@ -4,7 +4,7 @@ include ("../../include/connect.php");
 include ("../../include/function.php"); 
 include ("config.php");
 
-	Check_Permission ($check_module,$_SESSION["login_id"],"delete");
+	Check_Permission($conn,$check_module,$_SESSION["login_id"],"delete");
 	$param = get_param($a_param,$a_not_exists);
 	if (!isset ($del)) header ("location:index.php?$param"); 
 	if ($Action == "OK") { 
@@ -12,7 +12,7 @@ include ("config.php");
 			$msg = explode(" ", $msg);
 			foreach ($msg as $key=>$value) { 			
 				$sql_su = "delete from $tbl_name where " . $PK_field . " = '$value'";
-				@mysql_query ($sql_su);				
+				@mysqli_query($conn,$sql_su);				
 			} 
 			header ("location:index.php?$param"); 	
 		}
@@ -27,9 +27,9 @@ include ("config.php");
 <HEAD>
 <TITLE><?php  echo $s_title;?></TITLE>
 <META content="text/html; charset=utf-8" http-equiv=Content-Type>
-<LINK rel=stylesheet type=text/css href="../css/reset.css" media=screen>
-<LINK rel=stylesheet type=text/css href="../css/style.css" media=screen>
-<LINK rel=stylesheet type=text/css href="../css/invalid.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/reset.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/style.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/invalid.css" media=screen>
 <SCRIPT type=text/javascript src="../js/jquery-1.3.2.min.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/simpla.jquery.configuration.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/facebox.js"></SCRIPT>

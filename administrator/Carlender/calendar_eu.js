@@ -159,7 +159,7 @@ function f_tcalHide (n_date) {
 	this.b_visible = false;
 }
 
-function f_tcalToggle () {
+function f_tcalToggle ($conn,) {
 	return this.b_visible ? this.f_hide() : this.f_show();
 }
 

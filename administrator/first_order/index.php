@@ -3,26 +3,26 @@
 	include ("../../include/connect.php");
 	include ("../../include/function.php");
 	include ("config.php");
-	Check_Permission ($check_module,$_SESSION[login_id],"read");
-	if ($_GET[page] == ""){$_REQUEST[page] = 1;	}
+	Check_Permission($conn,$check_module,$_SESSION['login_id'],"read");
+	if ($_GET['page'] == ""){$_REQUEST['page'] = 1;	}
 	$param = get_param($a_param,$a_not_exists);
 	
-	if($_GET[action] == "delete"){
-		$code = Check_Permission ($check_module,$_SESSION["login_id"],"delete");		
+	if($_GET['action'] == "delete"){
+		$code = Check_Permission($conn,$check_module,$_SESSION["login_id"],"delete");		
 		if ($code == "1") {
 			$sql = "delete from $tbl_name  where $PK_field = '$_GET[$PK_field]'";
-			@mysql_query($sql);			
+			@mysqli_query($conn,$sql);			
 			header ("location:index.php");
 		} 
 	}
 	
 	//-------------------------------------------------------------------------------------
-	 if ($_GET[b] <> "" and $_GET[s] <> "") { 
-		if ($_GET[s] == 0) $status = 1;
-		if ($_GET[s] == 1) $status = 0;
-		Check_Permission ($check_module,$_SESSION[login_id],"update");
-		$sql_status = "update $tbl_name set st_setting = '$status' where $PK_field = '$_GET[b]'";
-		@mysql_query ($sql_status);
+	 if ($_GET['b'] <> "" and $_GET['s'] <> "") { 
+		if ($_GET['s'] == 0) $status = 1;
+		if ($_GET['s'] == 1) $status = 0;
+		Check_Permission($conn,$check_module,$_SESSION['login_id'],"update");
+		$sql_status = "update $tbl_name set st_setting = ".$status." where $PK_field = ".$_GET['b']."";
+		@mysqli_query($conn,$sql_status);
 		if($_GET['page'] != ""){$conpage = "page=".$_GET['page'];}
 		header ("location:?".$conpage); 
 	}
@@ -31,11 +31,11 @@
 	 if ($_GET[bb] <> "" and $_GET[ss] <> "") { 
 		if ($_GET[ss] == 0) $status = 1;
 		if ($_GET[ss] == 1) $status = 0;
-		Check_Permission ($check_module,$_SESSION[login_id],"update");
-		$sql_status = "update $tbl_name set status = '$status' where $PK_field = '$_GET[bb]'";
-		@mysql_query ($sql_status);
-		$sql_svstatus = "update s_service_report set st_setting = '$status' where cus_id = '$_GET[foid]'";
-		@mysql_query ($sql_svstatus);
+		Check_Permission($conn,$check_module,$_SESSION['login_id'],"update");
+		$sql_status = "update $tbl_name set status = ".$status." where $PK_field = '$_GET[bb]'";
+		@mysqli_query($conn,$sql_status);
+		$sql_svstatus = "update s_service_report set st_setting = ".$status." where cus_id = '$_GET[foid]'";
+		@mysqli_query($conn,$sql_svstatus);
 		if($_GET['page'] != ""){$conpage = "page=".$_GET['page'];}
 		header ("location:?".$conpage); 
 	}
@@ -45,9 +45,9 @@
 		if ($_GET[gg] == 0) $status_use = 0;
 		if ($_GET[gg] == 1) $status_use = 1;
 		if ($_GET[gg] == 2) $status_use = 2;
-		Check_Permission ($check_module,$_SESSION[login_id],"update");
+		Check_Permission($conn,$check_module,$_SESSION['login_id'],"update");
 		$sql_status = "update $tbl_name set status_use = '$status_use' where $PK_field = '$_GET[ff]'";
-		@mysql_query ($sql_status);
+		@mysqli_query($conn,$sql_status);
 		
 		if($_GET['page'] != ""){$conpage = "page=".$_GET['page'];}
 		header ("location:?".$conpage); 
@@ -59,9 +59,9 @@
 <HEAD>
 <TITLE><?php  echo $s_title;?></TITLE>
 <META content="text/html; charset=utf-8" http-equiv=Content-Type>
-<LINK rel=stylesheet type=text/css href="../css/reset.css" media=screen>
-<LINK rel=stylesheet type=text/css href="../css/style.css" media=screen>
-<LINK rel=stylesheet type=text/css href="../css/invalid.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/reset.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/style.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/invalid.css" media=screen>
 <SCRIPT type=text/javascript src="../js/jquery-1.3.2.min.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/simpla.jquery.configuration.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/facebox.js"></SCRIPT>
@@ -177,17 +177,20 @@ function check_select(frm){
 					if ($sortby <> "") $sql .= " " . $sortby;
 					include ("../include/page_init.php");
 					//echo $sql;
-					$query = @mysql_query ($sql);
-					if($_GET[page] == "") $_GET[page] = 1;
-					$counter = ($_GET[page]-1)*$pagesize;
+					$query = @mysqli_query($conn,$sql);
+					if($_GET['page'] == "") $_GET['page'] = 1;
+					$counter = ($_GET['page']-1)*$pagesize;
 					
-					while ($rec = @mysql_fetch_array ($query)) { 
+					while ($rec = @mysqli_fetch_array($query)) { 
 					$counter++;
 				   ?>
         <TR>
           <TD><INPUT type=checkbox name="del[]" value="<?php  echo $rec[$PK_field]; ?>" ></TD>
           <TD><span class="text"><?php  echo sprintf("%04d",$counter); ?></span></TD>
-          <TD><?php  $chaf = eregi_replace("/","-",$rec["fs_id"]); ?><span class="text"><a href="../../upload/first_order/<?php  echo $chaf;?>.pdf" target="_blank"><?php  echo $rec["fs_id"] ; ?></a></span></TD>
+          <TD><?php  
+          $chaf = str_replace("/","-",$rec["fs_id"]); ?>
+          
+          <span class="text"><a href="../../upload/first_order/<?php  echo $chaf;?>.pdf" target="_blank"><?php  echo $rec["fs_id"] ; ?></a></span></TD>
           <TD>          <span class="text"><?php  echo $rec["cd_name"] ; ?></span></TD>
           <TD><span class="text"><?php  echo $rec["loc_name"] ; ?></span></TD>
           <TD nowrap style="vertical-align:middle"><div align="center">
@@ -209,7 +212,7 @@ function check_select(frm){
             <a href="../first_order/?bb=<?php  echo $rec[$PK_field]; ?>&ss=<?php  echo $rec["status"]; ?>&page=<?php  echo $_GET['page']; ?>&<?php  echo $FK_field; ?>=<?php  echo $_REQUEST["$FK_field"];?>&foid=<?php  echo $rec["fo_id"]; ?>"><img src="../icons/status_on.gif" width="10" height="10"></a>
             <?php  } else{?>
             <a href="../first_order/?bb=<?php  echo $rec[$PK_field]; ?>&ss=<?php  echo $rec["status"]; ?>&page=<?php  echo $_GET['page']; ?>&<?php  echo $FK_field; ?>=<?php  echo $_REQUEST["$FK_field"];?>&foid=<?php  echo $rec["fo_id"]; ?>"><img src="../icons/status_off.gif" width="10" height="10"></a>
-            <div align="center"><a href="../../upload/service_report_close/<?php  echo get_srreport($rec["fs_id"]);?>.pdf" target="_blank"><p style="background:#999;color:#FFFFFF;padding:2px;"><?php  echo get_srreport($rec["fo_id"]);?></p></a></div>
+            <div align="center"><a href="../../upload/service_report_close/<?php  echo get_srreport($conn,$rec["fs_id"]);?>.pdf" target="_blank"><p style="background:#999;color:#FFFFFF;padding:2px;"><?php  echo get_srreport($conn,$rec["fo_id"]);?></p></a></div>
             <?php  }?>
           </div>-->
           <div align="center"><A href="service_close.php?fo_id=<?php  echo $rec["fo_id"];?>"><IMG  alt=icon src="../images/icons/icon-48-install.png"></A></div>

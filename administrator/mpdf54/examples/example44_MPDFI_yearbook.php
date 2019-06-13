@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 // First write all your entries to a PDF file, forcing each entry to fit on one page
 include("../mpdf.php");

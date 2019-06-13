@@ -4,8 +4,8 @@
 	include ("../../include/function.php");
 	include ("config.php");
 
-	Check_Permission ($check_module,$_SESSION[login_id],"read");
-	if ($_GET[page] == ""){$_REQUEST[page] = 1;	}
+	Check_Permission($conn,$check_module,$_SESSION['login_id'],"read");
+	if ($_GET['page'] == ""){$_REQUEST['page'] = 1;	}
 	$param = get_param($a_param,$a_not_exists);
 	
 
@@ -23,11 +23,11 @@
 		$yesrStart = $_GET['year'];	
 	}
 	
-	if($_GET[action] == "delete"){
-		$code = Check_Permission ($check_module,$_SESSION["login_id"],"delete");		
+	if($_GET['action'] == "delete"){
+		$code = Check_Permission($conn,$check_module,$_SESSION["login_id"],"delete");		
 		if ($code == "1") {
 			$sql = "delete from $tbl_name  where $PK_field = '$_GET[$PK_field]'";
-			@mysql_query($sql);			
+			@mysqli_query($conn,$sql);			
 			header ("location:index.php");
 		} 
 	}
@@ -38,9 +38,9 @@
 <HEAD>
 <TITLE><?php  echo $s_title;?></TITLE>
 <META content="text/html; charset=utf-8" http-equiv=Content-Type>
-<LINK rel=stylesheet type=text/css href="../css/reset.css" media=screen>
-<LINK rel=stylesheet type=text/css href="../css/style.css" media=screen>
-<LINK rel=stylesheet type=text/css href="../css/invalid.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/reset.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/style.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/invalid.css" media=screen>
 <SCRIPT type=text/javascript src="../js/jquery-1.3.2.min.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/simpla.jquery.configuration.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/facebox.js"></SCRIPT>
@@ -121,8 +121,8 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 	<select name="loccontact" id="loccontact" id="jumpMenu" onchange="MM_jumpMenu('parent',this,0)" style="height:30px;">
       <option value="index.php?month=<?php  echo $monthStart;?>&year=<?php  echo $yesrStart;?><?php  echo $paramCtype;?>"><== กรุณาเลือกชื่อช่าง ==></option>
           <?php  
-              $qu_custec = @mysql_query("SELECT * FROM s_group_technician ORDER BY group_name ASC");
-              while($row_custec = @mysql_fetch_array($qu_custec)){
+              $qu_custec = @mysqli_query($conn,"SELECT * FROM s_group_technician ORDER BY group_name ASC");
+              while($row_custec = @mysqli_fetch_array($qu_custec)){
                   ?>
                   <option value="index.php?month=<?php  echo $monthStart;?>&year=<?php  echo $yesrStart;?>&loccontact=<?php  echo $row_custec['group_id'];?><?php  echo $paramCtype;?>" <?php  if($row_custec['group_id'] == $_GET['loccontact']){echo 'selected';}?>><?php  echo $row_custec['group_name']. " (Tel : ".$row_custec['group_tel'].")";?></option>
                   <?php 
@@ -133,8 +133,8 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
       <select name="sr_ctype" id="sr_ctype" id="jumpMenu" onchange="MM_jumpMenu('parent',this,0)" style="height:30px;display: none;">
                 <option value="index.php?month=<?php  echo $monthStart;?>&year=<?php  echo $yesrStart;?><?php  echo $paramLoc;?>"><== กรุณาเลือกประเภทบริการลูกค้า ==></option>
                 	<?php  
-						$qu_cusftype = @mysql_query("SELECT * FROM s_group_service ORDER BY group_name ASC");
-						while($row_cusftype = @mysql_fetch_array($qu_cusftype)){
+						$qu_cusftype = @mysqli_query($conn,"SELECT * FROM s_group_service ORDER BY group_name ASC");
+						while($row_cusftype = @mysqli_fetch_array($qu_cusftype)){
 							?>
 							<option value="index.php?month=<?php  echo $monthStart;?>&year=<?php  echo $yesrStart;?><?php  echo $paramLoc;?>&sr_ctype=<?php  echo $row_cusftype['group_id'];?>" <?php  if($row_cusftype['group_id'] == $_GET['sr_ctype']){echo 'selected';}?>><?php  echo $row_cusftype['group_name'];?></option>
 							<?php 
@@ -179,8 +179,8 @@ if(isset($_GET['sr_ctype'])){
 }
 
 /*$query = "SELECT event_id,event_title,event_day,event_time FROM $db_table WHERE event_month='$month' AND event_year='$year' ORDER BY event_time";
-$query_result = @mysql_query ($query);
-while ($info = @mysql_fetch_array($query_result))
+$query_result = @mysqli_query($conn,$query);
+while ($info = @mysqli_fetch_array($query_result))
 {
     $day = $info['event_day'];
     $event_id = $info['event_id'];
@@ -290,7 +290,7 @@ if($_GET['month'] == 2){
 	
 	$sqlSched = "SELECT * FROM `s_first_order` WHERE `technic_service` = ".$_GET['loccontact'].$condition." ORDER BY `cd_province` ,`loc_name` ASC;";
 	
-	$quSched = mysql_query($sqlSched);
+	$quSched = mysqli_query($conn,$sqlSched);
 ?>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tableSc">
@@ -307,7 +307,8 @@ if($_GET['month'] == 2){
     </tr>
     <?php 
 	  $runRow = 1;
-	  while($rowSched = mysql_fetch_array($quSched)){
+	  while($rowSched = mysqli_fetch_array($quSched)){
+		  
 		  if($rowSched['cpro2'] == 1 || $rowSched['cpro2'] == 2 || $rowSched['cpro2'] == 99 || $rowSched['cpro2'] == 148 || $rowSched['cpro2'] == 201){
 			  
 			  if($rowSched['cpro1'] == 147){
@@ -316,12 +317,12 @@ if($_GET['month'] == 2){
 				<tr>
 				  <td><?php echo $runRow++;?></td>
 				  <td style="text-align: left;"><?php echo $rowSched['loc_name'];?></td>
-				  <td><?php echo get_proname($rowSched['cpro1']);?></td>
+				  <td><?php echo get_proname($conn,$rowSched['cpro1']);?></td>
 				  <td><?php echo $rowSched['pro_pod1'];?></td>
 				  <td><?php echo $rowSched['pro_sn1'];?></td>
-				  <td><?php echo province_name($rowSched['cd_province']);?></td>
-				  <td><?php echo custype_name($rowSched['ctype']);?></td>
-				  <td><?php if($rowSched['cpro1'] == 147){echo "งานบริการประจำ 3 เดือน/ครั้ง";}else{echo get_servicename($rowSched['type_service']);}?></td>
+				  <td><?php echo province_name($conn,$rowSched['cd_province']);?></td>
+				  <td><?php echo custype_name($conn,$rowSched['ctype']);?></td>
+				  <td><?php if($rowSched['cpro1'] == 147){echo "งานบริการประจำ 3 เดือน/ครั้ง";}else{echo get_servicename($conn,$rowSched['type_service']);}?></td>
 				</tr>
 				  <?php
 				  }
@@ -330,12 +331,12 @@ if($_GET['month'] == 2){
 				<tr>
 				  <td><?php echo $runRow++;?></td>
 				  <td style="text-align: left;"><?php echo $rowSched['loc_name'];?></td>
-				  <td><?php echo get_proname($rowSched['cpro1']);?></td>
+				  <td><?php echo get_proname($conn,$rowSched['cpro1']);?></td>
 				  <td><?php echo $rowSched['pro_pod1'];?></td>
 				  <td><?php echo $rowSched['pro_sn1'];?></td>
-				  <td><?php echo province_name($rowSched['cd_province']);?></td>
-				  <td><?php echo custype_name($rowSched['ctype']);?></td>
-				  <td><?php if($rowSched['cpro1'] == 147){echo "งานบริการประจำ 3 เดือน/ครั้ง";}else{echo get_servicename($rowSched['type_service']);}?></td>
+				  <td><?php echo province_name($conn,$rowSched['cd_province']);?></td>
+				  <td><?php echo custype_name($conn,$rowSched['ctype']);?></td>
+				  <td><?php if($rowSched['cpro1'] == 147){echo "งานบริการประจำ 3 เดือน/ครั้ง";}else{echo get_servicename($conn,$rowSched['type_service']);}?></td>
 				</tr>
 				  <?php
 			  }
@@ -346,12 +347,12 @@ if($_GET['month'] == 2){
 				   <tr>
 					  <td><?php echo $runRow++;?></td>
 					  <td style="text-align: left;"><?php echo $rowSched['loc_name'];?></td>
-					  <td><?php echo get_proname($rowSched['cpro2']);?></td>
+					  <td><?php echo get_proname($conn,$rowSched['cpro2']);?></td>
 					  <td><?php echo $rowSched['pro_pod2'];?></td>
 					  <td><?php echo $rowSched['pro_sn2'];?></td>
-					  <td><?php echo province_name($rowSched['cd_province']);?></td>
-					  <td><?php echo custype_name($rowSched['ctype']);?></td>
-					  <td><?php if($rowSched['cpro2'] == 147){echo "งานบริการประจำ 3 เดือน/ครั้ง";}else{echo get_servicename($rowSched['type_service']);}?></td>
+					  <td><?php echo province_name($conn,$rowSched['cd_province']);?></td>
+					  <td><?php echo custype_name($conn,$rowSched['ctype']);?></td>
+					  <td><?php if($rowSched['cpro2'] == 147){echo "งานบริการประจำ 3 เดือน/ครั้ง";}else{echo get_servicename($conn,$rowSched['type_service']);}?></td>
 					</tr>
 				  <?php
 				  }
@@ -360,12 +361,12 @@ if($_GET['month'] == 2){
 			   <tr>
 				  <td><?php echo $runRow++;?></td>
 				  <td style="text-align: left;"><?php echo $rowSched['loc_name'];?></td>
-				  <td><?php echo get_proname($rowSched['cpro2']);?></td>
+				  <td><?php echo get_proname($conn,$rowSched['cpro2']);?></td>
 				  <td><?php echo $rowSched['pro_pod2'];?></td>
 				  <td><?php echo $rowSched['pro_sn2'];?></td>
-				  <td><?php echo province_name($rowSched['cd_province']);?></td>
-				  <td><?php echo custype_name($rowSched['ctype']);?></td>
-				  <td><?php if($rowSched['cpro2'] == 147){echo "งานบริการประจำ 3 เดือน/ครั้ง";}else{echo get_servicename($rowSched['type_service']);}?></td>
+				  <td><?php echo province_name($conn,$rowSched['cd_province']);?></td>
+				  <td><?php echo custype_name($conn,$rowSched['ctype']);?></td>
+				  <td><?php if($rowSched['cpro2'] == 147){echo "งานบริการประจำ 3 เดือน/ครั้ง";}else{echo get_servicename($conn,$rowSched['type_service']);}?></td>
 				</tr>
 			  <?php
 			  }
@@ -376,12 +377,12 @@ if($_GET['month'] == 2){
 				<tr>
 				  <td><?php echo $runRow++;?></td>
 				  <td style="text-align: left;"><?php echo $rowSched['loc_name'];?></td>
-				  <td><?php echo get_proname($rowSched['cpro1']);?></td>
+				  <td><?php echo get_proname($conn,$rowSched['cpro1']);?></td>
 				  <td><?php echo $rowSched['pro_pod1'];?></td>
 				  <td><?php echo $rowSched['pro_sn1'];?></td>
-				  <td><?php echo province_name($rowSched['cd_province']);?></td>
-				  <td><?php echo custype_name($rowSched['ctype']);?></td>
-				  <td><?php echo get_servicename($rowSched['type_service']);?></td>
+				  <td><?php echo province_name($conn,$rowSched['cd_province']);?></td>
+				  <td><?php echo custype_name($conn,$rowSched['ctype']);?></td>
+				  <td><?php echo get_servicename($conn,$rowSched['type_service']);?></td>
 				</tr>
 			<?php
 		 }
@@ -399,8 +400,8 @@ if($_GET['month'] == 2){
 <input type="image" src="icon_print.png" alt="Submit" width="48" style="background-color: #dddddd;padding: 10px 40px;border-radius: 5px;" onclick="window.open('<?php echo $linkPrint;?>');">
 <?php
 	$getMonth = $_GET['month']-1;
-	$quGen = mysql_query("SELECT * FROM service_schedule WHERE month = '".$getMonth."' AND technician = '".$_GET['loccontact']."'");
-	$numCreated = mysql_num_rows($quGen);
+	$quGen = mysqli_query($conn,"SELECT * FROM service_schedule WHERE month = '".$getMonth."' AND technician = '".$_GET['loccontact']."'");
+	$numCreated = mysqli_num_rows($quGen);
 	if($numCreated == 0){
 		$linkGenPDF = "createService.php?month=".$_GET['month']."&year=".$_GET['year']."&loccontact=".$_GET['loccontact'];
 		?>

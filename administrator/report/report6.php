@@ -3,8 +3,8 @@
 	include ("../../include/connect.php");
 	include ("../../include/function.php");
 	include ("config.php");
-	Check_Permission ($check_module,$_SESSION[login_id],"read");
-	if ($_GET[page] == ""){$_REQUEST[page] = 1;	}
+	Check_Permission($conn,$check_module,$_SESSION['login_id'],"read");
+	if ($_GET['page'] == ""){$_REQUEST['page'] = 1;	}
 	$param = get_param($a_param,$a_not_exists);
 	
 	if(isset($_GET['ctype'])){$_REQUEST['sh1'] = 1;$_REQUEST['sh2'] = 1;$_REQUEST['sh3'] = 1;$_REQUEST['sh4'] = 1;$_REQUEST['sh5'] = 1;$_REQUEST['sh6'] = 1;$_REQUEST['sh7'] = 1;$_REQUEST['sh8'] = 1;$_REQUEST['sh9'] = 1;$_REQUEST['sh10'] = 1;}
@@ -17,10 +17,10 @@
 	
 	if($_REQUEST['priod'] == 0){
 		$daterriod = " AND `date_forder` between '".$date_fm."' and '".$date_to."'"; 
-		$dateshow = "เริ่มวันที่ : ".format_date($date_fm)."&nbsp;&nbsp;ถึงวันที่ : ".format_date($date_to); 
+		$dateshow = "เริ่มวันที่ : ".format_date($conn,$date_fm)."&nbsp;&nbsp;ถึงวันที่ : ".format_date($conn,$date_to); 
 	}
 	else{
-		$dateshow = "วันที่ค้นหา : ".format_date(date("Y-m-d")); 
+		$dateshow = "วันที่ค้นหา : ".format_date($conn,date("Y-m-d")); 
 	}
 	
 	$codi = " AND status_use = 0";
@@ -32,7 +32,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>เลือกตามประเภทลูกค้า ( <?php  echo custype_name($ctype);?> )</title>
+<title>เลือกตามประเภทลูกค้า ( <?php  echo custype_name($conn,$ctype);?> )</title>
 <style type="text/css">
  .tbreport{
  	font-size:10px;
@@ -55,7 +55,7 @@
 	<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbreport">
 	  <tr>
 	    <th colspan="2" style="text-align:left;font-size:12px;">บริษัท โอเมก้า ดิชวอชเชอร์ (ประเทศไทย) จำกัด<br />
-        รายงานตามประเภทลูกค้า ( <?php  echo custype_name($ctype);?> )</th>
+        รายงานตามประเภทลูกค้า ( <?php  echo custype_name($conn,$ctype);?> )</th>
 	    <th colspan="7" style="text-align:right;font-size:11px;"><?php  echo $dateshow;?></th>
       </tr>
       <tr>
@@ -74,17 +74,17 @@
         <?php  if($_REQUEST['sh9'] == 1){?><th width="7%">ผู้ขาย</th><?php  }?>
       </tr>
       <?php  
-	  	$qu_fr = @mysql_query($sql);
+	  	$qu_fr = @mysqli_query($conn,$sql);
 		$sum = 0;	
-		while($row_fr = @mysql_fetch_array($qu_fr)){
+		while($row_fr = @mysqli_fetch_array($qu_fr)){
 			?>
 			<tr>
               <?php  if($_REQUEST['sh1'] == 1){?><td><?php  echo $row_fr['cd_name'];?><br />
               <?php  echo $row_fr['cd_tel'];?></td><?php  }?>
               <?php  if($_REQUEST['sh2'] == 1){?><td><?php  echo $row_fr['loc_name'];?><br />
               <?php  echo $row_fr['loc_address'];?></td><?php  }?>
-              <?php  if($_REQUEST['sh3'] == 1){?><td><?php  echo get_groupcusname($row_fr['cg_type']);?></td><?php  }?>
-              <?php  if($_REQUEST['sh4'] == 1){?><td><?php  echo format_date($row_fr['date_quf'])." / ".format_date($row_fr['date_qut']);?></td><?php  }?>
+              <?php  if($_REQUEST['sh3'] == 1){?><td><?php  echo get_groupcusname($conn,$row_fr['cg_type']);?></td><?php  }?>
+              <?php  if($_REQUEST['sh4'] == 1){?><td><?php  echo format_date($conn,$row_fr['date_quf'])." / ".format_date($conn,$row_fr['date_qut']);?></td><?php  }?>
               <?php  if($_REQUEST['sh5'] == 1 || $_REQUEST['sh6'] == 1){?><td style="padding:0;">
               	<table width="80%" border="0" cellpadding="0" cellspacing="0" class="tbreport" style="margin-bottom:5px;">
                 <?php  
@@ -187,8 +187,8 @@
                 <?php  }?>
                 </table>
               </td><?php  }?>
-              <?php  if($_REQUEST['sh8'] == 1){?><td><?php  echo format_date($row_fr['cs_setting']);?></td><?php  }?>
-              <?php  if($_REQUEST['sh9'] == 1){?><td><?php  echo get_sale_id($row_fr['cs_sell']);?></td><?php  }?>
+              <?php  if($_REQUEST['sh8'] == 1){?><td><?php  echo format_date($conn,$row_fr['cs_setting']);?></td><?php  }?>
+              <?php  if($_REQUEST['sh9'] == 1){?><td><?php  echo get_sale_id($conn,$row_fr['cs_sell']);?></td><?php  }?>
             </tr>
 			<?php 
 			$sum += 1;	

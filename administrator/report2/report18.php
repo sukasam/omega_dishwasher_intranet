@@ -3,8 +3,8 @@
 	include ("../../include/connect.php");
 	include ("../../include/function.php");
 	include ("config.php");
-	Check_Permission ($check_module,$_SESSION[login_id],"read");
-	if ($_GET[page] == ""){$_REQUEST[page] = 1;	}
+	Check_Permission($conn,$check_module,$_SESSION['login_id'],"read");
+	if ($_GET['page'] == ""){$_REQUEST['page'] = 1;	}
 	$param = get_param($a_param,$a_not_exists);
 	
 	$loc_contact = $_REQUEST['loc_contact'];
@@ -15,10 +15,10 @@
 	
 	if($_REQUEST['priod'] == 0){
 		$daterriod = " AND `detail3`  between '".$date_fm."' and '".$date_to."'"; 
-		$dateshow = "เริ่มวันที่ : ".format_date($date_fm)."&nbsp;&nbsp;ถึงวันที่ : ".format_date($date_to); 
+		$dateshow = "เริ่มวันที่ : ".format_date($conn,$date_fm)."&nbsp;&nbsp;ถึงวันที่ : ".format_date($conn,$date_to); 
 	}
 	else{
-		$dateshow = "วันที่ค้นหา : ".format_date(date("Y-m-d")); 
+		$dateshow = "วันที่ค้นหา : ".format_date($conn,date("Y-m-d")); 
 	}
 	
 	$sql = "SELECT * FROM s_service_cost WHERE 1 ".$daterriod." ORDER BY detail3 ASC";
@@ -56,18 +56,18 @@
       </tr>
       <?php  
 		
-	  	$qu_sr = @mysql_query($sql);
+	  	$qu_sr = @mysqli_query($conn,$sql);
 		$sum = 0;
 		$sumDetail7 = 0;
 		$sumDetail8 = 0;
-		while($row_sr = @mysql_fetch_array($qu_sr)){
+		while($row_sr = @mysqli_fetch_array($qu_sr)){
 			
 			
-			$row_srv = mysql_fetch_array(mysql_query("SELECT * FROM s_service_report WHERE sr_id= '".$row_sr['job_id']."'"));
+			$row_srv = mysqli_fetch_array(mysqli_query($conn,"SELECT * FROM s_service_report WHERE sr_id= '".$row_sr['job_id']."'"));
 			
-			$row_fr = mysql_fetch_array(mysql_query("SELECT * FROM s_first_order WHERE fo_id= '".$row_srv['cus_id']."'"));
+			$row_fr = mysqli_fetch_array(mysqli_query($conn,"SELECT * FROM s_first_order WHERE fo_id= '".$row_srv['cus_id']."'"));
 			
-			//$numTechnician = get_number_technician_cost($row_sr['job_id']);
+			//$numTechnician = get_number_technician_cost($conn,$row_sr['job_id']);
 			
 			
 			if($row_sr['setup'] != ""){

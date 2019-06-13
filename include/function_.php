@@ -3,22 +3,22 @@
 Last Revised : 1 Dec, 2006
 /* ******************* 
 
-Check_Permission ($check_module,$user_id,$action)
+Check_Permission($conn,$check_module,$user_id,$action)
 Cal_Age($date)
-Show_Data ($tbl_name, $key, $value, $fieldname)
-Show_Full_Category ($value)
+Show_Data($conn,$tbl_name, $key, $value, $fieldname)
+Show_Full_Category($conn,$value)
 Update_Transaction_DateTime ($sql, $mode)
 date_format ($create_date) 
 CheckBox ($box_name, $value) 
-CmdDropDown ($sql, $box_name, $fieldkey, $value, $fieldshow) 
-CmdListBox ($sql, $box_name, $fieldkey, $value, $fieldshow) 
+CmdDropDown($conn,$sql, $box_name, $fieldkey, $value, $fieldshow) 
+CmdListBox($conn,$sql, $box_name, $fieldkey, $value, $fieldshow) 
 CheckData ($value) 
 Show_Sort ($orderby, $cn,  $field_select, $sortby,$page) 
 Show_Sort_bg ($field) 
 Msg_Error ("Login or password not found")
-function calculate_price($cart)
+function calculate_price($conn,$cart)
 function calculate_items($cart)
-function get_product_detail ($product_id) 
+function get_product_detail ($conn,$product_id) 
 function NumToThai($value) 
 function gen_random ($length)
 function show_check($str) 
@@ -32,17 +32,17 @@ function Show_Choice_month ($select_name, $list_array , $value) {
 function Cal_Age($date)
 function uploadfile($path,$filename,$file,$sizes,$rotate, $quality)
 function make_thumb($input_file_name, $input_file_path,$width,$quality)
-function Toggle ($value, $tbl_name, $field, $field_change) { 
-function get_product_details($product_id)
-function Show_Image ($ref_id, $gallery_group, $flag) { 
-function Get_Point($member_id){
+function Toggle ($conn,$value, $tbl_name, $field, $field_change) { 
+function get_product_details($conn,$product_id)
+function Show_Image ($conn,$ref_id, $gallery_group, $flag) { 
+function Get_Point($conn,$member_id){
 function resize($fromimage, $toimage, $size=500, $imagesname="jpg") {
 function Show_Flash_banner($pathfiles,$width,$height){
 **********************/
-function Show_Image ($ref_id, $gallery_group, $flag, $size) { 
+function Show_Image ($conn,$ref_id, $gallery_group, $flag, $size) { 
 		  $sql = "select * from gallery where ref_id = '$ref_id' and gallery_group = '$gallery_group'";
-		  $query  = @mysql_query($sql);
- 		  while ($rec  = @mysql_fetch_array ($query)) { 
+		  $query  = @mysqli_query($conn,$sql);
+ 		  while ($rec  = @mysqli_fetch_array($query)) { 
 		  		$filename = "upload/" . $gallery_group . "/" . $rec["gallery_id"] . "_$size.jpg";
  			   if (file_exists ($filename)) {
 				$msg = '<img src="' . $filename . '" border="0">';
@@ -52,26 +52,26 @@ function Show_Image ($ref_id, $gallery_group, $flag, $size) {
 }
 //------------------------------------------------------------------------------------------------------
 
-function get_product_details($product_id)
+function get_product_details($conn,$product_id)
 {
   if (!$product_id || $product_id=="")
      return false;
    $query = "select * from product where product_id='$product_id'";
-    $result = @mysql_query($query);
+    $result = @mysqli_query($conn,$query);
    if (!$result)
      return false;
-   $result = @mysql_fetch_array($result);
+   $result = @mysqli_fetch_array($result);
    return $result;
 }	
 //------------------------------------------------------------------------------------------------------
 
-function Toggle ($value, $tbl_name, $field, $field_change) { 
+function Toggle ($conn,$value, $tbl_name, $field, $field_change) { 
 		$sql = "select * from " . $tbl_name . " where " . $field . " = '$value'";
-		$query = @mysql_query ($sql);
-		if ($rec = @mysql_fetch_array ($query)) {
+		$query = @mysqli_query($conn,$sql);
+		if ($rec = @mysqli_fetch_array($query)) {
 			if ($rec[$field_change] == "" || $rec[$field_change] == "0") {  $status = '1'; }  else { $status = ''; }
-			$sql = "update  " . $tbl_name . " set " . $field_change . "  = '$status'  where " . $field . " = '$value'";
-			@mysql_query ($sql);
+			$sql = "update  " . $tbl_name . " set " . $field_change . "  = ".$status."  where " . $field . " = '$value'";
+			@mysqli_query($conn,$sql);
 			//echo $sql;
  		}
 } 
@@ -156,9 +156,9 @@ function Show_Text ($label,$value) {
 //------------------------------------------------------------------------------------------------------
 
 function format_date_en ($value,$type) { 
-	list ($s_date,$s_time)  = split (" ", $value);
-	list ($s_year, $s_month, $s_day) = split ("-", $s_date);
-	list ($s_hour, $s_minute, $s_second) = split (":", $s_time);
+	list ($s_date,$s_time)  = explode(" ", $value);
+	list ($s_year, $s_month, $s_day) = explode("-", $s_date);
+	list ($s_hour, $s_minute, $s_second) = explode(":", $s_time);
 	$s_month +=0;
 	$s_day += 0;
 	if ($s_day == "0") return "";
@@ -238,13 +238,13 @@ function format_month_th ($value) {
 
 function format_date_th ($value,$type) { 
 	if (strlen ($value) > 10) { 
-			list ($s_date,$s_time)  = split (" ", $value);
-			list ($s_year, $s_month, $s_day) = split ("-", $s_date);
-			list ($s_hour, $s_minute, $s_second) = split (":", $s_time);
+			list ($s_date,$s_time)  = explode(" ", $value);
+			list ($s_year, $s_month, $s_day) = explode("-", $s_date);
+			list ($s_hour, $s_minute, $s_second) = explode(":", $s_time);
 	}
 	else 
 	{
-			list ($s_year, $s_month, $s_day) = split ("-", $value);
+			list ($s_year, $s_month, $s_day) = explode("-", $value);
 	}
 	$s_month +=0;
 	$s_day += 0;
@@ -334,7 +334,7 @@ function NumToThai($value)
   $NumToThai = ""; 
   $Pos    = 0; 
 
- list ($Number, $Satang)  = split ("[.]", $value);
+ list ($Number, $Satang)  = explode("[.]", $value);
   // Process 
   while ($Number > 0 ) 
   { 
@@ -407,7 +407,7 @@ return $convert;
 	} 
 //------------------------------------------------------------------------------------------------------	
 	
-function calculate_price($cart)
+function calculate_price($conn,$cart)
 {
   $price = 0.0;
   if(is_array($cart))
@@ -416,7 +416,7 @@ function calculate_price($cart)
   foreach($cart as $product_id => $qty)
  {  
     $query = "select price from product where product_id ='$product_id'";
-     $result = @mysql_query($query);
+     $result = @mysqli_query($conn,$query);
      if ($result)
       {
         $item_price = mysql_result($result, 0, "price");
@@ -442,15 +442,15 @@ return $items;
 }
 //------------------------------------------------------------------------------------------------------
 
-function get_product_detail ($product_id) 
+function get_product_detail ($conn,$product_id) 
 {
 	if (!$product_id || $product_id == "") return false;
 	$sql = "select * from product where product_id = '$product_id'";
-	$query = @mysql_query ($sql);
+	$query = @mysqli_query($conn,$sql);
 	
 	if (!$query)
 		return false;
-	$rec = @mysql_fetch_array ($query);
+	$rec = @mysqli_fetch_array($query);
 	return $rec;
 		
 }
@@ -471,7 +471,7 @@ return $ret;
 }
 //------------------------------------------------------------------------------------------------------
 
-function Check_Permission2 ($check_module,$user_id,$action)
+function Check_Permission2($conn,$check_module,$user_id,$action)
 {
 	$sql = "select * from s_user_p where user_id = '$user_id' and s_module like '$check_module' and ";
 	if ($action == "read") $sql .= " read_p like '1'";
@@ -479,9 +479,9 @@ function Check_Permission2 ($check_module,$user_id,$action)
 	if ($action == "update") $sql .= " update_p like '1'";
 	if ($action == "delete") $sql .= " delete_p like '1'";
 	//echo $sql;
-	$query = @mysql_query ($sql) or die ("Can not check permission");
+	$query = @mysqli_query($conn,$sql) or die ("Can not check permission");
 	$code = 0;  
-	if   ($rec = @mysql_fetch_array  ($query)) { 
+	if   ($rec = @mysqli_fetch_array  ($query)) { 
 		switch ($action) {
 			case "read" : $code = $rec["read_p"]; break;
 			case "add" : $code = $rec["add_p"]; break;
@@ -496,13 +496,13 @@ function Check_Permission2 ($check_module,$user_id,$action)
 }
 //------------------------------------------------------------------------------------------------------
 
-function Show_Data ($tbl_name, $key, $value, $fieldname)
+function Show_Data($conn,$tbl_name, $key, $value, $fieldname)
 {
 	$sql = "select * from $tbl_name where $key like '" . $value . "'";
-	$query = @mysql_query ($sql);
-	$fields = split (":", $fieldname);
+	$query = @mysqli_query($conn,$sql);
+	$fields = explode(":", $fieldname);
 	$msg = "";
-	if ($rec = @mysql_fetch_array ($query)) { 
+	if ($rec = @mysqli_fetch_array($query)) { 
 		foreach ($fields as $key => $value ) { 
 			$msg .= " : " . $rec[$value];
 		}
@@ -512,19 +512,19 @@ function Show_Data ($tbl_name, $key, $value, $fieldname)
 }
 //------------------------------------------------------------------------------------------------------
 
-function Show_Full_Category ($value)
+function Show_Full_Category($conn,$value)
 {
 	$stop = 0;
 	$sql = "select * from category where category_id  like '" . $value . "'";
-	$query = @mysql_query ($sql);
-	$rec = @mysql_fetch_array ($query) 	;
+	$query = @mysqli_query($conn,$sql);
+	$rec = @mysqli_fetch_array($query) 	;
 	$url = $rec["category_name"];
 	$parent_category_id = $rec["parent_category_id"];
 	while ($parent_category_id  <> '0' and !$stop ) { 
 		//echo "65555555";
 	$sql = "select * from category where category_id  like '" . $parent_category_id . "'";
-		$query = @mysql_query ($sql);
-		if ($rec = @mysql_fetch_array ($query) )  
+		$query = @mysqli_query($conn,$sql);
+		if ($rec = @mysqli_fetch_array($query) )  
 		{
 			$url = $rec["category_name"] . " > " . $url;
 			$parent_category_id = $rec["parent_category_id"];
@@ -537,18 +537,18 @@ function Show_Full_Category ($value)
 //	$url = "Home" . " > " . $url;
 	echo $url;
 }
-function Show_Full_Category_data ($value)
+function Show_Full_Category_data($conn,$value)
 {
 	$stop = 0;
 	$sql = "select * from category where category_id  like '" . $value . "'";
-	$query = @mysql_query ($sql);
-	$rec = @mysql_fetch_array ($query) 	;
+	$query = @mysqli_query($conn,$sql);
+	$rec = @mysqli_fetch_array($query) 	;
 	$url = $rec["category_name"];
 	$parent_category_id = $rec["parent_category_id"];
 	while ($parent_category_id  <> '0' and !$stop ) { 
 		$sql = "select * from category where category_id  like '" . $parent_category_id . "'";
-		$query = @mysql_query ($sql);
-		if ($rec = @mysql_fetch_array ($query) )  
+		$query = @mysqli_query($conn,$sql);
+		if ($rec = @mysqli_fetch_array($query) )  
 		{
 			$url = $rec["category_name"] . " > " . $url;
 			$parent_category_id = $rec["parent_category_id"];
@@ -561,18 +561,18 @@ function Show_Full_Category_data ($value)
 //	$url = "Home" . " > " . $url;
 	return $url;
 }
-function Show_Full_Category_nav ($value)
+function Show_Full_Category_nav($conn,$value)
 {
 	$stop = 0;
 	$sql = "select * from category where category_id  like '" . $value . "'";
-	$query = @mysql_query ($sql);
-	$rec = @mysql_fetch_array ($query) 	;
+	$query = @mysqli_query($conn,$sql);
+	$rec = @mysqli_fetch_array($query) 	;
 	$url = '<a href="list.php?category_id=' . $rec["category_id"] . '">' . $rec["category_name"] .  $url . '</a>';
 	$parent_category_id = $rec["parent_category_id"];
 	while ($parent_category_id  <> '1' and !$stop ) { 
 		$sql = "select * from category where category_id  like '" . $parent_category_id . "'";
-		$query = @mysql_query ($sql);
-		if ($rec = @mysql_fetch_array ($query) )  
+		$query = @mysqli_query($conn,$sql);
+		if ($rec = @mysqli_fetch_array($query) )  
 		{
 			$url = '<a href="' . $_SERVER['PHP_SELF'] . '?category_id=' . $rec["category_id"] . '">' . $rec["category_name"] . '</a> > ' .  $url ;
 			$parent_category_id = $rec["parent_category_id"];
@@ -600,69 +600,69 @@ function Update_Transaction_DateTime ($sql, $mode)
 	return $sql;
 }
 /* function date_format ($create_date) { 
-	list($year1, $month1, $day1, $hour1, $minute1, $second1 ) = split('[-.]', $create_date);
+	list($year1, $month1, $day1, $hour1, $minute1, $second1 ) = explode('[-.]', $create_date);
 	return mktime(0,0,0,$month1,$day1,$year1); 
 }  */
 function CheckBox ($box_name, $value) { 
 	if ($value) $value = " checked ";
 	echo '<input name="' . $box_name . '" type="checkbox" value="1" ' . $value . '>';
 }
-function CmdDropDown ($sql, $box_name, $fieldkey, $value, $fieldshow) { 
+function CmdDropDown($conn,$sql, $box_name, $fieldkey, $value, $fieldshow) { 
 	if ($value == "0" or $value == "") $select_none = " selected "; else $select_none = "";
 	echo '<select name="' . $box_name . '" >';
 	echo '<option value="" ' . $select_none . '>Select One</option>';
 	
-	$query = @mysql_query ($sql);
+	$query = @mysqli_query($conn,$sql);
 	
- 	while ($rec = @mysql_fetch_array ($query)) { 
+ 	while ($rec = @mysqli_fetch_array($query)) { 
 
 		if ($rec[$fieldkey] == $value) $selected = " selected "; else 		$selected= "";
 		echo '<option value="' . $rec[$fieldkey] . '" '.  $selected . '>' . $rec[$fieldshow] . '</option>';
 	} 
     echo '</select>';
 }
-function CmdDropDown2 ($sql, $box_name, $fieldkey, $value, $fieldshow,$fieldshow2) { 
+function CmdDropDown2($conn,$sql, $box_name, $fieldkey, $value, $fieldshow,$fieldshow2) { 
 	if ($value == "0" or $value == "") $select_none = " selected "; else $select_none = "";
 	echo '<select name="' . $box_name . '" >';
 	echo '<option value="" ' . $select_none . '>Select One</option>';
-	$query = @mysql_query ($sql);
-	while ($rec = @mysql_fetch_array ($query)) { 
+	$query = @mysqli_query($conn,$sql);
+	while ($rec = @mysqli_fetch_array($query)) { 
 
 		if ($rec[$fieldkey] == $value) $selected = " selected "; else 		$selected= "";
 		echo '<option value="' . $rec[$fieldkey] . '" '.  $selected . '>' . $rec[$fieldshow] . " ( " . $rec[$fieldshow2] . ' )</option>';
 	} 
     echo '</select>';
 }
-function CmdDropDown3 ($sql, $box_name, $fieldkey, $value, $fieldshow) { 
+function CmdDropDown3($conn,$sql, $box_name, $fieldkey, $value, $fieldshow) { 
 	if ($value == "0" or $value == "") $select_none = " selected "; else $select_none = "";
 	echo '<select name="' . $box_name . '" >';
 	echo '<option value="" ' . $select_none . '>Other</option>';
-	$query = @mysql_query ($sql);
-	while ($rec = @mysql_fetch_array ($query)) { 
+	$query = @mysqli_query($conn,$sql);
+	while ($rec = @mysqli_fetch_array($query)) { 
 
 		if ($rec[$fieldkey] == $value) $selected = " selected "; else 		$selected= "";
 		echo '<option value="' . $rec[$fieldkey] . '" '.  $selected . '>' . $rec[$fieldshow] . '</option>';
 	} 
     echo '</select>';
 }
-function CmdDropDown4 ($sql, $box_name, $fieldkey, $value, $fieldshow) { 
+function CmdDropDown4($conn,$sql, $box_name, $fieldkey, $value, $fieldshow) { 
 	if ($value == "0" or $value == "") $select_none = " selected "; else $select_none = "";
 	echo '<select name="' . $box_name . '" >';
 	echo '<option value="" ' . $select_none . '>Select One</option>';
 	echo '<option value="" ' . $select_none . '>????</option>';
-	$query = @mysql_query ($sql);
-	while ($rec = @mysql_fetch_array ($query)) { 
+	$query = @mysqli_query($conn,$sql);
+	while ($rec = @mysqli_fetch_array($query)) { 
 
 		if ($rec[$fieldkey] == $value) $selected = " selected "; else 		$selected= "";
 		echo '<option value="' . $rec[$fieldkey] . '" '.  $selected . '>' . $rec[$fieldshow] . '</option>';
 	} 
     echo '</select>';
 }
-function CmdListBox ($sql, $box_name, $fieldkey, $value, $fieldshow, $total_value) { 
+function CmdListBox($conn,$sql, $box_name, $fieldkey, $value, $fieldshow, $total_value) { 
 	echo '<select name="' . $box_name . '" size=15 multiple>';
 	echo '<option value=""  >Select One</option>';
-	$query = @mysql_query ($sql);
-	while ($rec = @mysql_fetch_array ($query)) { 
+	$query = @mysqli_query($conn,$sql);
+	while ($rec = @mysqli_fetch_array($query)) { 
 		$selected= "";
 		if (in_array ($rec[$fieldkey],$total_value)) $selected = " selected ";
 		echo '                    <option value="' . $rec[$fieldkey] . '" '.  $selected . '>' . $rec[$fieldshow] . '</option>';
@@ -691,7 +691,7 @@ function Show_Sort ($orderby, $cn,  $field_select, $sortby,$page) {
 	if ($sortby <> "") $param .= "&sortby=$sortby";
 	if ($keyword <> "") $param .= "&keyword=$keyword";
 
-	if ($page <> "") $param .= "&page=$_GET[page]";
+	if ($page <> "") $param .= "&page=".$_GET['page'];
 	$link_1 = "<a href ='" . $_SERVER['SCRIPT_NAME'] ."?" . $param ."'>";
 	$url =  $link_1 . $cn . "</a>" ;
 	if ($sortby <> "") $url .= $img;
@@ -835,10 +835,10 @@ $unit:
        } 
 	   
 } 
-function cal_point($member_id,$action_type,$point){
+function cal_point($conn,$member_id,$action_type,$point){
 				$sql = "select point from member where member_id = '$member_id'";
-				$query = @mysql_query($sql);
-				$rec = @mysql_fetch_array($query);
+				$query = @mysqli_query($conn,$sql);
+				$rec = @mysqli_fetch_array($query);
 				$mpoint =  $rec["point"]; 
 				if ($action_type == "+"){
 				//$mpoint = ???????????? query
@@ -920,21 +920,21 @@ function uploadfile($input_file_path, $input_file_name, $file, $sizes, $quality)
 	}
 }
 
-function Get_Point($member_id){
+function Get_Point($conn,$member_id){
 	$sql = "select * from transaction where customer_id = '$member_id' order by transaction_id desc";
-	$rec = @mysql_fetch_array(@mysql_query($sql));
+	$rec = @mysqli_fetch_array(@mysqli_query($conn,$sql));
 	$total_point = $rec["total_point"];
 	return $total_point;	
 }
 //---------------------------------------------------------------------------------------------------------------------------------
 
-function Check_Permission ($check_module,$user_id,$action)
+function Check_Permission($conn,$check_module,$user_id,$action)
 {
 	$sql = "select * from s_user_group where user_id = '$user_id'";
-  	$query = @mysql_query ($sql) or die ("1");
+  	$query = @mysqli_query($conn,$sql) or die ("1");
 	$groups = "";
 
-	while ($rec = @mysql_fetch_array ($query)) {
+	while ($rec = @mysqli_fetch_array($query)) {
 		$groups .= "or group_id = '$rec[group_id]'";
   	}
   	if ($groups <> "") {
@@ -942,15 +942,15 @@ function Check_Permission ($check_module,$user_id,$action)
 		$groups = " and (" . $groups . ")";
 	}
 	$sql = "select * from s_module where module_name like '$check_module'";
-	$query = @mysql_query ($sql) or die ("2");
+	$query = @mysqli_query($conn,$sql) or die ("2");
 	$module_id = 0;
-	while ($rec = @mysql_fetch_array ($query)) {
+	while ($rec = @mysqli_fetch_array($query)) {
 		$module_id  = $rec["module_id"];
   	}		
 	$sql = "select * from s_user where user_id = '$user_id'";
-	$query = @mysql_query ($sql) or die ("3");
-	if ($rec = @mysql_fetch_array ($query)) {
-		if ($rec["admin_flag"] == '1' or $_SESSION[s_group_all] == "ALL") {
+	$query = @mysqli_query($conn,$sql) or die ("3");
+	if ($rec = @mysqli_fetch_array($query)) {
+		if ($rec["admin_flag"] == '1' or $_SESSION['s_group_all'] == "ALL") {
 				
 		}
 		else
@@ -964,10 +964,10 @@ if ($action == "delete") $sql .= " delete_p like '1'";
 
 		$sql = "select * from s_user_p where user_id = '$user_id'  and  module_id like '$module_id'";
 
-		$query = @mysql_query ($sql) or die ("4");
-		if (@mysql_num_rows ($query)) {
+		$query = @mysqli_query($conn,$sql) or die ("4");
+		if (@mysqli_num_rows ($query)) {
 
-			while ($rec = @mysql_fetch_array ($query)) {
+			while ($rec = @mysqli_fetch_array($query)) {
 				switch ($action) {
 					case "read" : $code = $rec["read_p"]; break;
 					case "add" :  $code = $rec["add_p"]; break;
@@ -986,9 +986,9 @@ if ($action == "delete") $sql .= " delete_p like '1'";
 			if($groups <> "") {
 				$sql = "select sum(read_p) as s_read,sum(add_p) as s_add,sum(update_p) as s_update,sum(delete_p) as s_delete,module_id,group_id from s_user_p group by module_id,group_id having module_id like '$module_id' ".$groups ;
 				//echo $sql;
-				$query = @mysql_query($sql) or die("5");
-				if (@mysql_num_rows ($query) == 0) $code = "";
-				if ($rec = @mysql_fetch_array  ($query)) {
+				$query = @mysqli_query($conn,$sql) or die("5");
+				if (@mysqli_num_rows ($query) == 0) $code = "";
+				if ($rec = @mysqli_fetch_array  ($query)) {
 					switch ($action) {
 						case "read" : $code = $rec["s_read"]; break;
 						case "add" : $code = $rec["s_add"]; break;
@@ -1011,14 +1011,14 @@ return $code;
 }	
 //---------------------------------------------------------------------------------------------------------------------------------
 
-function Check_Permission_menu ($check_module,$user_id,$action)
+function Check_Permission_menu($conn,$check_module,$user_id,$action)
 {
 	$permission_denine = 0;
 	$sql = "select * from s_user_group where user_id = '$user_id'";
-  	$query = @mysql_query ($sql) or die ("1");
+  	$query = @mysqli_query($conn,$sql) or die ("1");
 	$groups = "";
 
-	while ($rec = @mysql_fetch_array ($query)) {
+	while ($rec = @mysqli_fetch_array($query)) {
 		$groups .= "or group_id = '$rec[group_id]'";
   	}
   	if ($groups <> "") {
@@ -1026,15 +1026,15 @@ function Check_Permission_menu ($check_module,$user_id,$action)
 		$groups = " and (" . $groups . ")";
 	}
 	$sql = "select * from s_module where module_name like '$check_module'";
-	$query = @mysql_query ($sql) or die ("2");
+	$query = @mysqli_query($conn,$sql) or die ("2");
 	$module_id = 0;
-	while ($rec = @mysql_fetch_array ($query)) {
+	while ($rec = @mysqli_fetch_array($query)) {
 		$module_id  = $rec["module_id"];
   	}		
 	$sql = "select * from s_user where user_id = '$user_id'";
-	$query = @mysql_query ($sql) or die ("3");
-	if ($rec = @mysql_fetch_array ($query)) {
-		if ($rec["admin_flag"] == '1' or $_SESSION[s_group_all] == "ALL") {
+	$query = @mysqli_query($conn,$sql) or die ("3");
+	if ($rec = @mysqli_fetch_array($query)) {
+		if ($rec["admin_flag"] == '1' or $_SESSION['s_group_all'] == "ALL") {
 				
 		}
 		else
@@ -1048,10 +1048,10 @@ if ($action == "delete") $sql .= " delete_p like '1'";
 
 		$sql = "select * from s_user_p where user_id = '$user_id'  and  module_id like '$module_id'";
 
-		$query = @mysql_query ($sql) or die ("4");
-		if (@mysql_num_rows ($query)) {
+		$query = @mysqli_query($conn,$sql) or die ("4");
+		if (@mysqli_num_rows ($query)) {
 
-			while ($rec = @mysql_fetch_array ($query)) {
+			while ($rec = @mysqli_fetch_array($query)) {
 				switch ($action) {
 					case "read" : $code = $rec["read_p"]; break;
 					case "add" :  $code = $rec["add_p"]; break;
@@ -1070,10 +1070,10 @@ if ($action == "delete") $sql .= " delete_p like '1'";
 			$code ="";
 			if($groups <> "") {
 				$sql = "select sum(read_p) as s_read,sum(add_p) as s_add,sum(update_p) as s_update,sum(delete_p) as s_delete,module_id,group_id from s_user_p group by module_id,group_id having module_id like '$module_id' ".$groups ;
-				$query = @mysql_query($sql) or die("5");
+				$query = @mysqli_query($conn,$sql) or die("5");
 				
-				if (@mysql_num_rows ($query) == 0) $code = "";
-				if ($rec = @mysql_fetch_array  ($query)) {
+				if (@mysqli_num_rows ($query) == 0) $code = "";
+				if ($rec = @mysqli_fetch_array  ($query)) {
 					switch ($action) {
 						case "read" : $code = $rec["s_read"]; break;
 						case "add" : $code = $rec["s_add"]; break;
@@ -1097,19 +1097,19 @@ $permission_denine = 1;
 return $permission_denine;
 }	
 
-function Show_Full_Category_spec ($value)
+function Show_Full_Category_spec($conn,$value)
 {
 	$stop = 0;
 	$sql = "select * from category_spec where category_spec_id  like '" . $value . "'";
-	$query = @mysql_query ($sql);
-	$rec = @mysql_fetch_array ($query) 	;
+	$query = @mysqli_query($conn,$sql);
+	$rec = @mysqli_fetch_array($query) 	;
 	$url = $rec["cat_name"];
 	$parent_category_id = $rec["parent_category_id"];
 	while ($parent_category_id  <> '0' and !$stop ) { 
 		//echo "65555555";
 	$sql = "select * from category_spec where category_spec_id  like '" . $parent_category_id . "'";
-		$query = @mysql_query ($sql);
-		if ($rec = @mysql_fetch_array ($query) )  
+		$query = @mysqli_query($conn,$sql);
+		if ($rec = @mysqli_fetch_array($query) )  
 		{
 			$url = $rec["cat_name"] . " > " . $url;
 			$parent_category_id = $rec["parent_category_id"];
@@ -1123,27 +1123,27 @@ function Show_Full_Category_spec ($value)
 	return $url;
 }
 
-function record_member($page_name){
+function record_member($conn,$page_name){
 	$now_date = date("Y-m-d");
-	$sql = "select * from member_log where user_id = '$_SESSION[login_id]' and create_date like '$now_date%' ";
-	$query = @mysql_query($sql);
-	if(@mysql_num_rows($query) == 0){
-		$sql = "insert into member_log (user_id,page_log,create_date) values ('$_SESSION[login_id]','$page_name','$now_date') ";
-		@mysql_query($sql);
+	$sql = "select * from member_log where user_id = '".$_SESSION['login_id']."' and create_date like '$now_date%' ";
+	$query = @mysqli_query($conn,$sql);
+	if(@mysqli_num_rows($query) == 0){
+		$sql = "insert into member_log (user_id,page_log,create_date) values ('".$_SESSION['login_id']."','$page_name','$now_date') ";
+		@mysqli_query($conn,$sql);
 	}else{
-		$rec = @mysql_fetch_array($query);
+		$rec = @mysqli_fetch_array($query);
 		@reset($a_page_log);
 		unset($a_page_log);
 		$a_page_log = @explode(",",$rec[page_log]);
 		if(!@in_array($page_name,$a_page_log)){
 			$page_log = $rec[page_log].",".$page_name;
 			$sql = "update member_log set page_log = '$page_log' where member_log_id = '$rec[member_log_id]' ";
-			@mysql_query($sql);
+			@mysqli_query($conn,$sql);
 		}
 	}
 }
 function check_azAZ09($text){
-	if(ereg("[^0-9A-Za-z]",$text)) return false;
+	if(preg_match("[^0-9A-Za-z]",$text)) return false;
 	else return true;
 }		
 function get_param($a_param,$a_not_exists){
@@ -1156,7 +1156,7 @@ function get_param($a_param,$a_not_exists){
 	}
 	if(count($_REQUEST) > 0){
 		foreach($_REQUEST as $key => $value){ 
-			if( ereg("pre_",$key) && ($value <> "") ) 
+			if( preg_match("pre_",$key) && ($value <> "") ) 
 				$param2 .= "&".$key."=".$value;
 		}
 	}
@@ -1173,7 +1173,7 @@ function post_param($a_param,$a_not_exists){
 	}
 	if(count($_REQUEST) > 0) {
 		foreach($_REQUEST as $key => $value){
-			if( ereg("pre_",$key) && ($value <> "") )
+			if( preg_match("pre_",$key) && ($value <> "") )
 					 echo "<input type=\"hidden\" name=\"$key\" value=\"$value\">";
 		}// end foreach
 	}
@@ -1193,19 +1193,19 @@ function get_return_param(){
 	$param = ""; 
 	if(count($_REQUEST) > 0) {
 		foreach($_REQUEST as $key => $value){
-			if( ereg("pre_",$key) && ($value <> "") )
+			if( preg_match("pre_",$key) && ($value <> "") )
 				$param .= "&".str_replace("pre_","",$key)."=".$value;
 		}
 		$param = substr($param,1);
 	}
 	return $param;
 }
-function check_username($name){
+function check_username($conn,$name){
 	$return_id = "";
 	$sql = "select * from person where name_th = '$name' or name_en = '$name' ";
-	$query = @mysql_query($sql);
-	if(@mysql_num_rows($query) > 0) {
-		$rec = @mysql_fetch_array($query);
+	$query = @mysqli_query($conn,$sql);
+	if(@mysqli_num_rows($query) > 0) {
+		$rec = @mysqli_fetch_array($query);
 		$return_id = $rec[person_id];
 	}else{
 		$username = gen_random(4);
@@ -1213,25 +1213,25 @@ function check_username($name){
 		$stop = 0;
 		while($stop != 0){
 			$sql = "select * from s_user where username = '$username' and password = '$password' ";
-			$query = @mysql_query($sql);
-			if(@mysql_num_rows($query) == 0)
+			$query = @mysqli_query($conn,$sql);
+			if(@mysqli_num_rows($query) == 0)
 				$stop = 1;
 			else
 				$uername = gen_random(4);
 		}
 		$sql = "insert into s_user (username , password , create_date , create_by) values ('$username','$password','".date("Y-m-d H:i:s")."' , '".$_SESSION[login_name]."')";
-		@mysql_query($sql);
-		$user_id = mysql_insert_id();
+		@mysqli_query($conn,$sql);
+		$user_id = mysqli_insert_id($conn);
 		
 		$sql = "insert into person (name_th , researcher , user_id , create_date , create_by) values ('$name' , '1' , '$user_id' , '".date("Y-m-d H:i:s")."' , '".$_SESSION[login_name]."')";
-		@mysql_query($sql);
-		$return_id = mysql_insert_id();
+		@mysqli_query($conn,$sql);
+		$return_id = mysqli_insert_id($conn);
 	}
 	return $return_id;
 }
 
 function show_menu($menu_id,$menu_name){
-	if(ereg(",".$menu_id.",",$_SESSION[s_menu_id].",")){
+	if(preg_match(",".$menu_id.",",$_SESSION[s_menu_id].",")){
 		if($menu_id == $_SESSION[s_now_menu])
 			echo "<font color=\"#FF0000\">$menu_name</font>"; 
 		else
@@ -1467,14 +1467,14 @@ function current_page($lang){
 	echo $currentUrl;	
 }
 
-function check_firstorder(){
+function check_firstorder($conn){
 	
 	$thdate = substr(date("Y")+543,2);
 	$concheck = "FO ".$thdate.date("/m/");
 	
-	$qu_forder = @mysql_query("SELECT * FROM s_first_order WHERE fs_id like '%".$concheck."%' ORDER BY fs_id DESC");
-	$num_oder = @mysql_num_rows($qu_forder);
-	$row_forder = @mysql_fetch_array($qu_forder);
+	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_first_order WHERE fs_id like '%".$concheck."%' ORDER BY fs_id DESC");
+	$num_oder = @mysqli_num_rows($qu_forder);
+	$row_forder = @mysqli_fetch_array($qu_forder);
 	
 	if($row_forder['fs_id'] == ""){
 		return "FO ".$thdate.date("/m/")."001";
@@ -1484,14 +1484,14 @@ function check_firstorder(){
 	}
 	
 }
-function check_servicereport(){
+function check_servicereport($conn){
 	
 	$thdate = substr(date("Y")+543,2);
 	$concheck = "SR ".$thdate.date("/m/");
 	
-	$qu_forder = @mysql_query("SELECT * FROM s_service_report WHERE sv_id like '%".$concheck."%' ORDER BY sv_id DESC");
-	$num_oder = @mysql_num_rows($qu_forder);
-	$row_forder = @mysql_fetch_array($qu_forder);
+	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_service_report WHERE sv_id like '%".$concheck."%' ORDER BY sv_id DESC");
+	$num_oder = @mysqli_num_rows($qu_forder);
+	$row_forder = @mysqli_fetch_array($qu_forder);
 	
 	if($row_forder['sv_id'] == ""){
 		return "SR ".$thdate.date("/m/")."001";
@@ -1502,51 +1502,51 @@ function check_servicereport(){
 }
 
 function format_date ($value) {
-	list ($s_year, $s_month, $s_day) = split ("-", $value);
+	list ($s_year, $s_month, $s_day) = explode("-", $value);
 	$year=$s_year+543;
 	return $s_day.'-'.$s_month.'-'.$year;
 }
 
 function get_groupcusname ($value) {
-	$row_cgroup = @mysql_fetch_array(@mysql_query("SELECT * FROM s_group_type WHERE group_id = '".$value."'"));
+	$row_cgroup = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM s_group_type WHERE group_id = '".$value."'"));
 	return $row_cgroup['group_name'];
 }
 
 function province_name ($value) {
-	$row_provunce = @mysql_fetch_array(@mysql_query("SELECT * FROM s_province WHERE province_id = '".$value."'"));
+	$row_provunce = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM s_province WHERE province_id = '".$value."'"));
 	return $row_provunce['province_name'];
 }
 
 function custype_name ($value) {
-	$row_cusg = @mysql_fetch_array(@mysql_query("SELECT * FROM s_group_custommer WHERE group_id = '".$value."'"));
+	$row_cusg = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM s_group_custommer WHERE group_id = '".$value."'"));
 	return $row_cusg['group_name'];
 }
 
-function protype_name ($value) {
-	$row_protype = @mysql_fetch_array(@mysql_query("SELECT * FROM  s_group_product WHERE group_id = '".$value."'"));
+function protype_name ($conn,$value) {
+	$row_protype = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM  s_group_product WHERE group_id = '".$value."'"));
 	return $row_protype['group_name'];
 }
 
-function get_proname($value) {
-	$row_protype = @mysql_fetch_array(@mysql_query("SELECT * FROM  s_group_typeproduct WHERE group_id = '".$value."'"));
+function get_proname($conn,$value) {
+	$row_protype = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM  s_group_typeproduct WHERE group_id = '".$value."'"));
 	return $row_protype['group_name'];
 }
 
-function get_servicename($value) {
-	$row_servtype = @mysql_fetch_array(@mysql_query("SELECT * FROM  s_group_service WHERE group_id = '".$value."'"));
+function get_servicename($conn,$value) {
+	$row_servtype = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM  s_group_service WHERE group_id = '".$value."'"));
 	return $row_servtype['group_name'];
 }
 
-function get_serial($value) {
-	$row_protype = @mysql_fetch_array(@mysql_query("SELECT * FROM  s_group_typeproduct WHERE group_id = '".$value."'"));
+function get_serial($conn,$value) {
+	$row_protype = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM  s_group_typeproduct WHERE group_id = '".$value."'"));
 	return $row_protype['group_pro_pod'];
 }
-function get_sn($value) {
-	$row_protype = @mysql_fetch_array(@mysql_query("SELECT * FROM  s_group_typeproduct WHERE group_id = '".$value."'"));
+function get_sn($conn,$value) {
+	$row_protype = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM  s_group_typeproduct WHERE group_id = '".$value."'"));
 	return $row_protype['group_pro_sn'];
 }
-function get_price($value) {
-	$row_protype = @mysql_fetch_array(@mysql_query("SELECT * FROM  s_group_typeproduct WHERE group_id = '".$value."'"));
+function get_price($conn,$value) {
+	$row_protype = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM  s_group_typeproduct WHERE group_id = '".$value."'"));
 	return $row_protype['group_pro_price'];
 }
 
@@ -1563,9 +1563,9 @@ function get_calsprice($cprice,$camount) {
 		return $prspro = $cprice * $camount;
 }
 
-function get_sumprice($value) {
+function get_sumprice($conn,$value) {
 	
-	$row_fod = @mysql_fetch_array(@mysql_query("SELECT * FROM  s_first_order WHERE fo_id = '".$value."'"));
+	$row_fod = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM  s_first_order WHERE fo_id = '".$value."'"));
 	
 	$proprice1 = get_calsprice($row_fod['cprice1'],$row_fod['camount1']);
 	$proprice2 = get_calsprice($row_fod['cprice2'],$row_fod['camount2']);
@@ -1580,39 +1580,39 @@ function get_sumprice($value) {
 	return $sumproprice;
 }
 
-function get_vatprice($value) {
-	$sumpro = get_sumprice($value);
+function get_vatprice($conn,$value) {
+	$sumpro = get_sumprice($conn,$value);
 	$getvat = ($sumpro * 7) / 100;
 	return $getvat;
 }
 
-function get_totalprice($value) {
-	$sum = get_sumprice($value);
-	$vat = get_vatprice($value);
+function get_totalprice($conn,$value) {
+	$sum = get_sumprice($conn,$value);
+	$vat = get_vatprice($conn,$value);
 	
 	$total = $sum + $vat;
 	
 	return $total;
 }
 
-function get_firstorder($fo_id) {
-	$row_first_order = @mysql_fetch_array(@mysql_query("SELECT * FROM  s_first_order WHERE fo_id = '".$fo_id."'"));
+function get_firstorder($conn,$fo_id) {
+	$row_first_order = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM  s_first_order WHERE fo_id = '".$fo_id."'"));
 	return $row_first_order;
 }
 
-function get_servicereport($sv_id) {
-	$row_service_report = @mysql_fetch_array(@mysql_query("SELECT * FROM  s_service_report WHERE sv_id = '".$sv_id."'"));
+function get_servicereport($conn,$sv_id) {
+	$row_service_report = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM  s_service_report WHERE sv_id = '".$sv_id."'"));
 	return $row_service_report;
 }
 
 
-function get_customername($fo_id) {
-	$row_first_order = @mysql_fetch_array(@mysql_query("SELECT * FROM  s_first_order WHERE fo_id = '".$fo_id."'"));
+function get_customername($conn,$fo_id) {
+	$row_first_order = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM  s_first_order WHERE fo_id = '".$fo_id."'"));
 	return $row_first_order['cd_name'];
 }
 
-function get_localsettingname($fo_id) {
-	$row_first_order = @mysql_fetch_array(@mysql_query("SELECT * FROM  s_first_order WHERE fo_id = '".$fo_id."'"));
+function get_localsettingname($conn,$fo_id) {
+	$row_first_order = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM  s_first_order WHERE fo_id = '".$fo_id."'"));
 	return $row_first_order['loc_name'];
 }
 
@@ -1624,30 +1624,30 @@ function get_fixlist($ckf_list) {
 	return $chkd;
 }
 
-function get_fixname($ckf) {
-	$row_fix = @mysql_fetch_array(@mysql_query("SELECT * FROM  s_group_fix WHERE group_id = '".$ckf."'"));
+function get_fixname($conn,$ckf) {
+	$row_fix = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM  s_group_fix WHERE group_id = '".$ckf."'"));
 	return $row_fix['group_name'];		
 }
 
-function get_sparpart($gid) {
-	$row_dea = @mysql_fetch_array(@mysql_query("SELECT * FROM  s_group_sparpart WHERE group_id = '".$gid."'"));
+function get_sparpart($conn,$gid) {
+	$row_dea = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM  s_group_sparpart WHERE group_id = '".$gid."'"));
 	return $row_dea;		
 }
 
-function get_sparpart_name($gid) {
-	$row_dea = @mysql_fetch_array(@mysql_query("SELECT * FROM  s_group_sparpart WHERE group_id = '".$gid."'"));
+function get_sparpart_name($conn,$gid) {
+	$row_dea = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM  s_group_sparpart WHERE group_id = '".$gid."'"));
 	return $row_dea['group_name'];		
 }
 
 
-function get_servreport($ymd) {
+function get_servreport($conn,$ymd) {
 	
-	$qqu_srv = @mysql_query("SELECT * FROM s_service_report WHERE job_balance = '".$ymd."' LIMIT 4");
-	$numsrv = @mysql_num_rows($qqu_srv);
+	$qqu_srv = @mysqli_query($conn,"SELECT * FROM s_service_report WHERE job_balance = '".$ymd."' LIMIT 4");
+	$numsrv = @mysqli_num_rows($qqu_srv);
 	$res = "";
 	if($numsrv > 0){
-		while($row_dea = @mysql_fetch_array($qqu_srv)){
-			$chaf = eregi_replace("/","-",$row_dea["sv_id"]);
+		while($row_dea = @mysqli_fetch_array($qqu_srv)){
+			$chaf = str_replace("/","-",$row_dea["sv_id"]);
 			$res .= "&nbsp;<a href=\"../../upload/service_report_open/".$chaf.".pdf\" target=\"_blank\"><strong>".$row_dea['sv_id']."</strong></a>\n<br>\n";
 		}	
 	}
@@ -1655,8 +1655,8 @@ function get_servreport($ymd) {
 	return $res;		
 }
 
-function get_imguser($userid) {
-	$row_fix = @mysql_fetch_array(@mysql_query("SELECT * FROM  s_user WHERE user_id = '".$userid."'"));
+function get_imguser($conn,$userid) {
+	$row_fix = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM  s_user WHERE user_id = '".$userid."'"));
 	
 	if($row_fix['u_images'] == " "){$img = "none.jpg";}
 	else{$img = $row_fix['u_images'];}
@@ -1664,9 +1664,9 @@ function get_imguser($userid) {
 	return $img;		
 }
 
-function get_numprosall($value) {
+function get_numprosall($conn,$value) {
 		
-		$row_fod = @mysql_fetch_array(@mysql_query("SELECT * FROM  s_first_order WHERE fo_id = '".$value."'"));
+		$row_fod = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM  s_first_order WHERE fo_id = '".$value."'"));
 		$numprosall = 0;
 		
 		if($row_fod['cpro1'] != ""){$numprosall = $numprosall+1;}
@@ -1680,9 +1680,9 @@ function get_numprosall($value) {
 		return $numprosall;
 }
 
-function get_profirsod($value) {
+function get_profirsod($conn,$value) {
 		
-		$row_fod = @mysql_fetch_array(@mysql_query("SELECT * FROM  s_first_order WHERE fo_id = '".$value."'"));
+		$row_fod = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM  s_first_order WHERE fo_id = '".$value."'"));
 		
 		if($row_fod['cpro1'] != ""){$procp[] = $row_fod['cpro1'];}
 		if($row_fod['cpro2'] != ""){$procp[] = $row_fod['cpro2'];}
@@ -1695,9 +1695,9 @@ function get_profirsod($value) {
 		return $procp;
 }
 
-function get_numprofirsod($value) {
+function get_numprofirsod($conn,$value) {
 		
-		$row_fod = @mysql_fetch_array(@mysql_query("SELECT * FROM  s_first_order WHERE fo_id = '".$value."'"));
+		$row_fod = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM  s_first_order WHERE fo_id = '".$value."'"));
 		
 		if($row_fod['camount1'] != ""){$procp[] = $row_fod['camount1'];}
 		if($row_fod['camount2'] != ""){$procp[] = $row_fod['camount2'];}
@@ -1712,17 +1712,17 @@ function get_numprofirsod($value) {
 
 function get_rpfprosrsn($val){
 	
-	if(get_proname($val) != ""){$pname = get_proname($val);}else{$pname = " - ";}
-	if(get_serial($val) != ""){$psr = get_serial($val);}else{$psr = " - ";}
-	if(get_sn($val) != ""){$psn = get_sn($val);}else{$psn = " - ";}
+	if(get_proname($conn,$val) != ""){$pname = get_proname($conn,$val);}else{$pname = " - ";}
+	if(get_serial($conn,$val) != ""){$psr = get_serial($conn,$val);}else{$psr = " - ";}
+	if(get_sn($conn,$val) != ""){$psn = get_sn($conn,$val);}else{$psn = " - ";}
 		
 	return $pname." / ".$psr." / ".$psn;
 }
 
 
-function get_numfixs($value) {
+function get_numfixs($conn,$value) {
 		
-		$row_fspd = @mysql_fetch_array(@mysql_query("SELECT * FROM  s_service_report WHERE sr_id = '".$value."'"));
+		$row_fspd = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM  s_service_report WHERE sr_id = '".$value."'"));
 		$exfix = explode(",",$row_fspd['ckf_list']);
 		
 		$numd = 0;
@@ -1733,17 +1733,17 @@ function get_numfixs($value) {
 		return $numd;
 }
 
-function get_listfixs($value) {
+function get_listfixs($conn,$value) {
 		
-		$row_fspd = @mysql_fetch_array(@mysql_query("SELECT * FROM  s_service_report WHERE sr_id = '".$value."'"));
+		$row_fspd = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM  s_service_report WHERE sr_id = '".$value."'"));
 		$exfix = explode(",",$row_fspd['ckf_list']);
 
 		return $exfix;
 }
 
-function get_numspapartsall($value) {
+function get_numspapartsall($conn,$value) {
 		
-		$row_fspd = @mysql_fetch_array(@mysql_query("SELECT * FROM  s_service_report WHERE sr_id = '".$value."'"));
+		$row_fspd = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM  s_service_report WHERE sr_id = '".$value."'"));
 		$numspartsall = 0;
 		
 		if($row_fspd['cpro1'] != ""){$numspartsall = $numspartsall+1;}
@@ -1755,9 +1755,9 @@ function get_numspapartsall($value) {
 		return $numspartsall;
 }
 
-function get_prospapart($value) {
+function get_prospapart($conn,$value) {
 		
-		$row_fsd = @mysql_fetch_array(@mysql_query("SELECT * FROM  s_service_report WHERE sr_id = '".$value."'"));
+		$row_fsd = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM  s_service_report WHERE sr_id = '".$value."'"));
 		
 		if($row_fsd['cpro1'] != ""){$rso[] = $row_fsd['cpro1'];}
 		if($row_fsd['cpro2'] != ""){$rso[] = $row_fsd['cpro2'];}
@@ -1769,11 +1769,11 @@ function get_prospapart($value) {
 }
 
 
-function get_lastservice_f($cusid,$sevid){
+function get_lastservice_f($conn,$cusid,$sevid){
 	
-		$qu_lastservice = @mysql_query("SELECT * FROM s_service_report WHERE cus_id = '".$cusid."' ORDER BY sv_id DESC");
-		$numlastservice = mysql_num_rows($qu_lastservice);
-		while($row_lasservice = @mysql_fetch_array($qu_lastservice)){
+		$qu_lastservice = @mysqli_query($conn,"SELECT * FROM s_service_report WHERE cus_id = '".$cusid."' ORDER BY sv_id DESC");
+		$numlastservice = mysqli_num_rows($qu_lastservice);
+		while($row_lasservice = @mysqli_fetch_array($qu_lastservice)){
 			$ser_id[] = $row_lasservice['sv_id'];
 			$ser_job_balance[] = $row_lasservice['job_balance'];
 		}
@@ -1781,17 +1781,17 @@ function get_lastservice_f($cusid,$sevid){
 		$arraysearch = @array_search($sevid,$ser_id);
 		
 		if($ser_id[$arraysearch+1] != ""){
-			return format_date($ser_job_balance[$arraysearch+1]);
+			return format_date($conn,$ser_job_balance[$arraysearch+1]);
 		}else{
 			return " - ";		
 		}
 }
 
-function get_lastservice_s($cusid,$sevid){
+function get_lastservice_s($conn,$cusid,$sevid){
 	
-		$qu_lastservice = @mysql_query("SELECT * FROM s_service_report WHERE cus_id = '".$cusid."' ORDER BY sv_id DESC");
-		$numlastservice = mysql_num_rows($qu_lastservice);
-		while($row_lasservice = @mysql_fetch_array($qu_lastservice)){
+		$qu_lastservice = @mysqli_query($conn,"SELECT * FROM s_service_report WHERE cus_id = '".$cusid."' ORDER BY sv_id DESC");
+		$numlastservice = mysqli_num_rows($qu_lastservice);
+		while($row_lasservice = @mysqli_fetch_array($qu_lastservice)){
 			$ser_id[] = $row_lasservice['sv_id'];
 			$ser_job_balance[] = $row_lasservice['job_balance'];
 		}
@@ -1799,29 +1799,29 @@ function get_lastservice_s($cusid,$sevid){
 		$arraysearch = @array_search($sevid,$ser_id);
 		
 		if($ser_id[$arraysearch] != ""){
-			return format_date($ser_job_balance[$arraysearch]);
+			return format_date($conn,$ser_job_balance[$arraysearch]);
 		}else{
 			return " - ";		
 		}
 }
 
-function get_technician($val) {
-	$row_dea = @mysql_fetch_array(@mysql_query("SELECT * FROM s_group_technician WHERE group_id = '".$val."'"));
+function get_technician($conn,$val) {
+	$row_dea = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM s_group_technician WHERE group_id = '".$val."'"));
 	return $row_dea;		
 }
 
-function get_technician_name($val) {
-	$row_dea = @mysql_fetch_array(@mysql_query("SELECT * FROM s_group_technician WHERE group_id = '".$val."'"));
+function get_technician_name($conn,$val) {
+	$row_dea = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM s_group_technician WHERE group_id = '".$val."'"));
 	return $row_dea['group_name'];		
 }
 
-function get_technician_id($val) {
-	$row_dea = @mysql_fetch_array(@mysql_query("SELECT * FROM s_group_technician WHERE group_id = '".$val."'"));
+function get_technician_id($conn,$val) {
+	$row_dea = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM s_group_technician WHERE group_id = '".$val."'"));
 	return $row_dea['group_cus_id'];		
 }
 
-function get_profirstorder($val) {
-	$row_pfirst = @mysql_fetch_array(@mysql_query("SELECT * FROM s_first_order WHERE fo_id = '".$val."'"));
+function get_profirstorder($conn,$val) {
+	$row_pfirst = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM s_first_order WHERE fo_id = '".$val."'"));
 	
 	$row_pfirst['cpro1'];
 	$row_pfirst['cpro2'];
@@ -1841,8 +1841,8 @@ function get_profirstorder($val) {
 
 	return $prolist;		
 }
-function get_podfirstorder($val) {
-	$row_pfirst = @mysql_fetch_array(@mysql_query("SELECT * FROM s_first_order WHERE fo_id = '".$val."'"));
+function get_podfirstorder($conn,$val) {
+	$row_pfirst = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM s_first_order WHERE fo_id = '".$val."'"));
 	
 	$row_pfirst['pro_pod1'];
 	$row_pfirst['pro_pod2'];
@@ -1862,8 +1862,8 @@ function get_podfirstorder($val) {
 	
 	return $propodlist;		
 }
-function get_snfirstorder($val) {
-	$row_pfirst = @mysql_fetch_array(@mysql_query("SELECT * FROM s_first_order WHERE fo_id = '".$val."'"));
+function get_snfirstorder($conn,$val) {
+	$row_pfirst = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM s_first_order WHERE fo_id = '".$val."'"));
 
 	$row_pfirst['pro_sn1'];
 	$row_pfirst['pro_sn2'];

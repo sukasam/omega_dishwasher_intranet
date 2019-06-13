@@ -8,14 +8,14 @@
 <?php 
 	
 	
-	$finfos = get_firstorder($_POST['cus_id']);
+	$finfos = get_firstorder($conn,$_POST['cus_id']);
 	
 	$chk = get_fixlist($_POST['ckf_list']);
 	
-	$tecinfos = get_technician($_POST['loc_contact']);
+	$tecinfos = get_technician($conn,$_POST['loc_contact']);
 	$ty = "460";
 	foreach($chk as $vals){
-		$sfix .= '<div class="m03" style="margin-top:'.$ty.'px;"> - '.get_fixname($vals).'</div>';	
+		$sfix .= '<div class="m03" style="margin-top:'.$ty.'px;"> - '.get_fixname($conn,$vals).'</div>';	
 		$ty += 20;
 	}
 
@@ -232,18 +232,18 @@
 	</style>
 	<div class="bgheader">'.substr($_POST['sv_id'],2).'</div>
 	<div class="bbtxt1">'.$finfos['cd_name'].'</div>
-	<div class="bbtxt2">'.$finfos['cd_address'].'&nbsp;'.province_name($finfos['cd_province']).'</div>
+	<div class="bbtxt2">'.$finfos['cd_address'].'&nbsp;'.province_name($conn,$finfos['cd_province']).'</div>
 	<div class="bbtxt3">'.$finfos['cd_tel'].'</div>
 	<div class="bbtxt31">'.$finfos['cd_fax'].'</div>
 	<div class="bbtxt4">'.$finfos['c_contact'].'</div>
 	<div class="bbtxt41">'.$finfos['c_tel'].'</div>
 	
-	<div class="bbtxt5">'.get_servicename($_POST['sr_ctype']).'&nbsp;&nbsp;&nbsp;&nbsp;'.custype_name($_POST['sr_ctype2']).'</div>
+	<div class="bbtxt5">'.get_servicename($conn,$_POST['sr_ctype']).'&nbsp;&nbsp;&nbsp;&nbsp;'.custype_name($conn,$_POST['sr_ctype2']).'</div>
 	<div class="bbtxt6">'.$finfos['fs_id'].'</div>
-	<div class="bbtxt7">'.format_date($_POST['job_open']).'</div>
-	<div class="bbtxt8">'.format_date($_POST['job_balance']).'</div>
+	<div class="bbtxt7">'.format_date($conn,$_POST['job_open']).'</div>
+	<div class="bbtxt8">'.format_date($conn,$_POST['job_balance']).'</div>
 	<div class="bbtxt9">'.$_POST['job_last'].'</div>
-	<div class="bbtxt91">'.format_date($_POST['sr_stime']).'</div>
+	<div class="bbtxt91">'.format_date($conn,$_POST['sr_stime']).'</div>
 	
 	<div class="bx01">'.$finfos['loc_name'].'</div>
 	<div class="bx02">'.$_POST['loc_pro'].'</div>

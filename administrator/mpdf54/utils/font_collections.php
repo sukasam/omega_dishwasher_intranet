@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /* This script prints out details of any TrueType collection font files
    in your font directory. Files ending wih .otc are examined.
@@ -34,8 +34,8 @@ else { $ttfdir = _MPDF_TTFONTPATH; }
 
 $mqr=ini_get("magic_quotes_runtime");
 if ($mqr) { set_magic_quotes_runtime(0); }
-if (!class_exists('TTFontFile', false)) { include(_MPDF_PATH .'classes/ttfontsuni.php'); }
-$ttf = new TTFontFile();
+if (!class_exists('TTFontFile_Analysis', false)) { include(_MPDF_PATH .'classes/ttfontsuni_analysis.php'); }
+$ttf = new TTFontFile_Analysis();
 
 $ff = scandir($ttfdir);
 

@@ -3,8 +3,8 @@
 	include ("../../include/connect.php");
 	include ("../../include/function.php");
 	include ("config.php");
-	Check_Permission ($check_module,$_SESSION[login_id],"read");
-	if ($_GET[page] == ""){$_REQUEST[page] = 1;	}
+	Check_Permission($conn,$check_module,$_SESSION['login_id'],"read");
+	if ($_GET['page'] == ""){$_REQUEST['page'] = 1;	}
 	$param = get_param($a_param,$a_not_exists);
 	
 	$cg_type = $_REQUEST['cg_type'];
@@ -16,10 +16,10 @@
 	
 	if($_REQUEST['priod'] == 0){
 		$daterriod = " AND `sr_stime`  between '".$date_fm."' and '".$date_to."'"; 
-		$dateshow = "เริ่มวันที่ : ".format_date($date_fm)."&nbsp;&nbsp;ถึงวันที่ : ".format_date($date_to); 
+		$dateshow = "เริ่มวันที่ : ".format_date($conn,$date_fm)."&nbsp;&nbsp;ถึงวันที่ : ".format_date($conn,$date_to); 
 	}
 	else{
-		$dateshow = "วันที่ค้นหา : ".format_date(date("Y-m-d")); 
+		$dateshow = "วันที่ค้นหา : ".format_date($conn,date("Y-m-d")); 
 	}
 	
 	$condition = "";
@@ -61,10 +61,10 @@
 	    <th colspan="5" style="text-align:left;font-size:12px;">	      บริษัท โอเมก้า ดิชวอชเชอร์ (ประเทศไทย) จำกัด<br />
 รายงานการให้บริการตามกลุ่มลูกค้า<br />
 ประเภทลูกค้า  :
-<?php  if($_POST['ctype'] != ""){echo custype_name($_POST['ctype']);}else{echo "ทั้งหมด";}?>
+<?php  if($_POST['ctype'] != ""){echo custype_name($conn,$_POST['ctype']);}else{echo "ทั้งหมด";}?>
 <br />
 ประเภทบริการ  :
-<?php  if($_POST['sr_ctype']){echo get_servicename($_POST['sr_ctype']);}else{echo "ทั้งหมด";}?></th>
+<?php  if($_POST['sr_ctype']){echo get_servicename($conn,$_POST['sr_ctype']);}else{echo "ทั้งหมด";}?></th>
 	    <th width="26%" colspan="4" style="text-align:right;font-size:11px;vertical-align:bottom;"><?php  echo $dateshow;?></th>
       </tr>
       <tr>
@@ -77,18 +77,18 @@
       </tr>
       <?php  
 		$sql = "SELECT * FROM s_first_order as fr, s_service_report as sv WHERE sv.cus_id = fr.fo_id ".$condition." ".$daterriod." ORDER BY fr.cd_name ASC";
-	  	$qu_fr = @mysql_query($sql);
+	  	$qu_fr = @mysqli_query($conn,$sql);
 		$sum = 0;
-		while($row_fr = @mysql_fetch_array($qu_fr)){
+		while($row_fr = @mysqli_fetch_array($qu_fr)){
 			
 			?>
 			<tr>
               <td><?php  echo $row_fr['cd_name'];?><br />
               <?php  echo $row_fr['cd_tel'];?></td>
-              <td><?php  echo province_name($row_fr['cd_province']);?></td>
+              <td><?php  echo province_name($conn,$row_fr['cd_province']);?></td>
               <td><?php  echo $row_fr['sv_id'];?></td>
-              <td><?php  echo format_date($row_fr['job_open'])." / ". ($row_fr['job_close']);?></td>
-              <td><?php  echo format_date($row_fr['sr_stime']);?></td>   
+              <td><?php  echo format_date($conn,$row_fr['job_open'])." / ". ($row_fr['job_close']);?></td>
+              <td><?php  echo format_date($conn,$row_fr['sr_stime']);?></td>   
               <td><?php  echo $row_fr['detail_recom'];?></td>              
             </tr>
 			<?php 

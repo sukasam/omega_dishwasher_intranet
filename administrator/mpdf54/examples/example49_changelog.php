@@ -1,4 +1,4 @@
-<?php 
+<?php
 ini_set("memory_limit","384M");
 
 // This is because changelog.txt contains over 100000 characters, and preg_* functions in mPDF won't work.

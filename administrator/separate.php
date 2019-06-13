@@ -13,10 +13,10 @@
 <body>
 
 <?php  
-	$qu_fq = @mysql_query("SELECT * FROM s_first_order ORDER BY fo_id DESC");
-	while($row_fq = mysql_fetch_array($qu_fq)){
+	$qu_fq = @mysqli_query($conn,"SELECT * FROM s_first_order ORDER BY fo_id DESC");
+	while($row_fq = mysqli_fetch_array($qu_fq)){
 		if(substr($row_fq['fs_id'],0,2) == "SV"){
-			@mysql_query("UPDATE `omega_intranet`.`s_first_order` SET `separate` = '1' WHERE `s_first_order`.`fo_id` ='".$row_fq['fo_id']."' LIMIT 1 ;");
+			@mysqli_query($conn,"UPDATE `omega_intranet`.`s_first_order` SET `separate` = '1' WHERE `s_first_order`.`fo_id` ='".$row_fq['fo_id']."' LIMIT 1 ;");
 		}
 	}
 	echo "Update Success";

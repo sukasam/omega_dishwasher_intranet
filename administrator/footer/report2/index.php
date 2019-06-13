@@ -3,15 +3,15 @@
 	include ("../../include/connect.php");
 	include ("../../include/function.php");
 	include ("config.php");
-	Check_Permission ($check_module,$_SESSION[login_id],"read");
-	if ($_GET[page] == ""){$_REQUEST[page] = 1;	}
+	Check_Permission($conn,$check_module,$_SESSION['login_id'],"read");
+	if ($_GET['page'] == ""){$_REQUEST['page'] = 1;	}
 	$param = get_param($a_param,$a_not_exists);
 	
-	if($_GET[action] == "delete"){
-		$code = Check_Permission ($check_module,$_SESSION["login_id"],"delete");		
+	if($_GET['action'] == "delete"){
+		$code = Check_Permission($conn,$check_module,$_SESSION["login_id"],"delete");		
 		if ($code == "1") {
 			$sql = "delete from $tbl_name  where $PK_field = '$_GET[$PK_field]'";
-			@mysql_query($sql);			
+			@mysqli_query($conn,$sql);			
 			header ("location:index.php");
 		} 
 	}
@@ -39,9 +39,9 @@
 <HEAD>
 <TITLE><?php  echo $s_title;?></TITLE>
 <META content="text/html; charset=utf-8" http-equiv=Content-Type>
-<LINK rel=stylesheet type=text/css href="../css/reset.css" media=screen>
-<LINK rel=stylesheet type=text/css href="../css/style.css" media=screen>
-<LINK rel=stylesheet type=text/css href="../css/invalid.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/reset.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/style.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/invalid.css" media=screen>
 <SCRIPT type=text/javascript src="../js/jquery-1.3.2.min.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/simpla.jquery.configuration.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/facebox.js"></SCRIPT>
@@ -185,8 +185,8 @@ function check_select(frm){
                             <td><select name="sr_ctype" id="sr_ctype">
                               <option value="">กรุณาเลือก</option>
                               <?php  
-                                    $qu_cusftype = @mysql_query("SELECT * FROM s_group_service ORDER BY group_name ASC");
-                                    while($row_cusftype = @mysql_fetch_array($qu_cusftype)){
+                                    $qu_cusftype = @mysqli_query($conn,"SELECT * FROM s_group_service ORDER BY group_name ASC");
+                                    while($row_cusftype = @mysqli_fetch_array($qu_cusftype)){
                                         ?>
                               <option value="<?php  echo $row_cusftype['group_id'];?>" <?php  if($row_cusftype['group_id'] == $sr_ctype){echo 'selected';}?>><?php  echo $row_cusftype['group_name'];?></option>
                               <?php 
@@ -200,8 +200,8 @@ function check_select(frm){
                             <select name="ctype" id="ctype" class="inputselect" >
                             	<option value="">กรุณาเลือก</option>
 								<?php 
-                                    $quccustommer = @mysql_query("SELECT * FROM s_group_custommer ORDER BY group_name ASC");
-                                    while($row_cgcus = @mysql_fetch_array($quccustommer)){
+                                    $quccustommer = @mysqli_query($conn,"SELECT * FROM s_group_custommer ORDER BY group_name ASC");
+                                    while($row_cgcus = @mysqli_fetch_array($quccustommer)){
 										if(substr($row_cgcus['group_name'],0,2) == "SR"){
                                       ?>
                                         <option value="<?php  echo $row_cgcus['group_id'];?>" <?php  if($ctype == $row_cgcus['group_id']){echo 'selected';}?>><?php  echo $row_cgcus['group_name'];?></option>
@@ -296,8 +296,8 @@ SN
                             <td><select name="sr_ctype" id="sr_ctype">
                               <option value="">กรุณาเลือก</option>
                               <?php  
-                                    $qu_cusftype = @mysql_query("SELECT * FROM s_group_service ORDER BY group_name ASC");
-                                    while($row_cusftype = @mysql_fetch_array($qu_cusftype)){
+                                    $qu_cusftype = @mysqli_query($conn,"SELECT * FROM s_group_service ORDER BY group_name ASC");
+                                    while($row_cusftype = @mysqli_fetch_array($qu_cusftype)){
                                         ?>
                               <option value="<?php  echo $row_cusftype['group_id'];?>" <?php  if($row_cusftype['group_id'] == $sr_ctype){echo 'selected';}?>><?php  echo $row_cusftype['group_name'];?></option>
                               <?php 
@@ -311,8 +311,8 @@ SN
                             <select name="ctype" id="ctype" class="inputselect" >
                             	<option value="">กรุณาเลือก</option>
 								<?php 
-                                    $quccustommer = @mysql_query("SELECT * FROM s_group_custommer ORDER BY group_name ASC");
-                                    while($row_cgcus = @mysql_fetch_array($quccustommer)){
+                                    $quccustommer = @mysqli_query($conn,"SELECT * FROM s_group_custommer ORDER BY group_name ASC");
+                                    while($row_cgcus = @mysqli_fetch_array($quccustommer)){
 										if(substr($row_cgcus['group_name'],0,2) == "SR"){
                                       ?>
                                         <option value="<?php  echo $row_cgcus['group_id'];?>" <?php  if($ctype == $row_cgcus['group_id']){echo 'selected';}?>><?php  echo $row_cgcus['group_name'];?></option>
@@ -409,8 +409,8 @@ S/N
                             <td><select name="sr_ctype" id="sr_ctype">
                               <option value="">กรุณาเลือก</option>
                               <?php  
-                                    $qu_cusftype = @mysql_query("SELECT * FROM s_group_service ORDER BY group_name ASC");
-                                    while($row_cusftype = @mysql_fetch_array($qu_cusftype)){
+                                    $qu_cusftype = @mysqli_query($conn,"SELECT * FROM s_group_service ORDER BY group_name ASC");
+                                    while($row_cusftype = @mysqli_fetch_array($qu_cusftype)){
                                         ?>
                               <option value="<?php  echo $row_cusftype['group_id'];?>" <?php  if($row_cusftype['group_id'] == $sr_ctype){echo 'selected';}?>><?php  echo $row_cusftype['group_name'];?></option>
                               <?php 
@@ -424,8 +424,8 @@ S/N
                             <select name="ctype" id="ctype" class="inputselect" >
                             	<option value="">กรุณาเลือก</option>
 								<?php 
-                                    $quccustommer = @mysql_query("SELECT * FROM s_group_custommer ORDER BY group_name ASC");
-                                    while($row_cgcus = @mysql_fetch_array($quccustommer)){
+                                    $quccustommer = @mysqli_query($conn,"SELECT * FROM s_group_custommer ORDER BY group_name ASC");
+                                    while($row_cgcus = @mysqli_fetch_array($quccustommer)){
 										if(substr($row_cgcus['group_name'],0,2) == "SR"){
                                       ?>
                                         <option value="<?php  echo $row_cgcus['group_id'];?>" <?php  if($ctype == $row_cgcus['group_id']){echo 'selected';}?>><?php  echo $row_cgcus['group_name'];?></option>
@@ -511,8 +511,8 @@ S/N
                             <td width="90%">
                             <select name="ctype" id="ctype" class="inputselect" >
 								<?php 
-                                    $quccustommer = @mysql_query("SELECT * FROM s_group_custommer ORDER BY group_name ASC");
-                                    while($row_cgcus = @mysql_fetch_array($quccustommer)){
+                                    $quccustommer = @mysqli_query($conn,"SELECT * FROM s_group_custommer ORDER BY group_name ASC");
+                                    while($row_cgcus = @mysqli_fetch_array($quccustommer)){
 										if(substr($row_cgcus['group_name'],0,2) == "SR"){
                                       ?>
                                         <option value="<?php  echo $row_cgcus['group_id'];?>" <?php  if($ctype == $row_cgcus['group_id']){echo 'selected';}?>><?php  echo $row_cgcus['group_name'];?></option>
@@ -528,8 +528,8 @@ S/N
                             <td><select name="sr_ctype" id="sr_ctype">
                                 <option value="">กรุณาเลือก</option>
                                 <?php  
-                                    $qu_cusftype = @mysql_query("SELECT * FROM s_group_service ORDER BY group_name ASC");
-                                    while($row_cusftype = @mysql_fetch_array($qu_cusftype)){
+                                    $qu_cusftype = @mysqli_query($conn,"SELECT * FROM s_group_service ORDER BY group_name ASC");
+                                    while($row_cusftype = @mysqli_fetch_array($qu_cusftype)){
                                         ?>
                                         <option value="<?php  echo $row_cusftype['group_id'];?>" <?php  if($row_cusftype['group_id'] == $sr_ctype){echo 'selected';}?>><?php  echo $row_cusftype['group_name'];?></option>
                                         <?php 
@@ -596,8 +596,8 @@ S/N
                             <td><select name="sr_ctype" id="sr_ctype">
                               <option value="">กรุณาเลือก</option>
                               <?php  
-                                    $qu_cusftype = @mysql_query("SELECT * FROM s_group_service ORDER BY group_name ASC");
-                                    while($row_cusftype = @mysql_fetch_array($qu_cusftype)){
+                                    $qu_cusftype = @mysqli_query($conn,"SELECT * FROM s_group_service ORDER BY group_name ASC");
+                                    while($row_cusftype = @mysqli_fetch_array($qu_cusftype)){
                                         ?>
                               <option value="<?php  echo $row_cusftype['group_id'];?>" <?php  if($row_cusftype['group_id'] == $sr_ctype){echo 'selected';}?>><?php  echo $row_cusftype['group_name'];?></option>
                               <?php 
@@ -611,8 +611,8 @@ S/N
                             <select name="ctype" id="ctype" class="inputselect" >
                             	<option value="">กรุณาเลือก</option>
 								<?php 
-                                    $quccustommer = @mysql_query("SELECT * FROM s_group_custommer ORDER BY group_name ASC");
-                                    while($row_cgcus = @mysql_fetch_array($quccustommer)){
+                                    $quccustommer = @mysqli_query($conn,"SELECT * FROM s_group_custommer ORDER BY group_name ASC");
+                                    while($row_cgcus = @mysqli_fetch_array($quccustommer)){
 										if(substr($row_cgcus['group_name'],0,2) == "SR"){
                                       ?>
                                         <option value="<?php  echo $row_cgcus['group_id'];?>" <?php  if($ctype == $row_cgcus['group_id']){echo 'selected';}?>><?php  echo $row_cgcus['group_name'];?></option>
@@ -708,8 +708,8 @@ S/N
                             <td><select name="cpro" id="cpro_ecip">
                             	<option value="">กรุณาเลือก</option>
                               <?php 
-                                  $qupro1 = @mysql_query("SELECT * FROM s_group_sparpart ORDER BY group_name ASC");
-                                  while($row_qupro1 = @mysql_fetch_array($qupro1)){
+                                  $qupro1 = @mysqli_query($conn,"SELECT * FROM s_group_sparpart ORDER BY group_name ASC");
+                                  while($row_qupro1 = @mysqli_fetch_array($qupro1)){
                                     ?>
                                       <option value="<?php  echo $row_qupro1['group_id'];?>"><?php  echo $row_qupro1['group_name'];?></option>
                                     <?php 	
@@ -727,8 +727,8 @@ S/N
                             <td><select name="sr_ctype" id="sr_ctype">
                               <option value="">กรุณาเลือก</option>
                               <?php  
-                                    $qu_cusftype = @mysql_query("SELECT * FROM s_group_service ORDER BY group_name ASC");
-                                    while($row_cusftype = @mysql_fetch_array($qu_cusftype)){
+                                    $qu_cusftype = @mysqli_query($conn,"SELECT * FROM s_group_service ORDER BY group_name ASC");
+                                    while($row_cusftype = @mysqli_fetch_array($qu_cusftype)){
                                         ?>
                               <option value="<?php  echo $row_cusftype['group_id'];?>" <?php  if($row_cusftype['group_id'] == $sr_ctype){echo 'selected';}?>><?php  echo $row_cusftype['group_name'];?></option>
                               <?php 
@@ -741,8 +741,8 @@ S/N
                             <td><select name="ctype2" id="ctype2" class="inputselect" >
                               <option value="">กรุณาเลือก</option>
                               <?php 
-                                    $quccustommer = @mysql_query("SELECT * FROM s_group_custommer ORDER BY group_name ASC");
-                                    while($row_cgcus = @mysql_fetch_array($quccustommer)){
+                                    $quccustommer = @mysqli_query($conn,"SELECT * FROM s_group_custommer ORDER BY group_name ASC");
+                                    while($row_cgcus = @mysqli_fetch_array($quccustommer)){
 										if(substr($row_cgcus['group_name'],0,2) == "SR"){
                                       ?>
                               <option value="<?php  echo $row_cgcus['group_id'];?>" <?php  if($ctype == $row_cgcus['group_id']){echo 'selected';}?>><?php  echo $row_cgcus['group_name'];?></option>
@@ -829,10 +829,10 @@ S/N
                             <td><select name="sfix" id="sfix">
                             	<option value="">กรุณาเลือก</option>
                                     <?php  
-										$qu_fix = @mysql_query("SELECT * FROM s_group_fix ORDER BY group_name ASC");
-										$numfix = @mysql_num_rows($qu_fix);
+										$qu_fix = @mysqli_query($conn,"SELECT * FROM s_group_fix ORDER BY group_name ASC");
+										$numfix = @mysqli_num_rows($qu_fix);
 										$nd = 1;
-										while($row_fix = @mysql_fetch_array($qu_fix)){
+										while($row_fix = @mysqli_fetch_array($qu_fix)){
                                             ?>
                                             <option value="<?php  echo $row_fix['group_id'];?>"><?php  echo $row_fix['group_name'];?></option>
                                             <?php 
@@ -903,8 +903,8 @@ S/N
                             <td><select name="loc_contact" id="loc_contact">
                             	<!--<option value="">กรุณาเลือก</option>-->
                                     <?php  
-                                        $qu_custec = @mysql_query("SELECT * FROM s_group_technician ORDER BY group_name ASC");
-                                        while($row_custec = @mysql_fetch_array($qu_custec)){
+                                        $qu_custec = @mysqli_query($conn,"SELECT * FROM s_group_technician ORDER BY group_name ASC");
+                                        while($row_custec = @mysqli_fetch_array($qu_custec)){
                                             ?>
                                             <option value="<?php  echo $row_custec['group_id'];?>" <?php  if($row_custec['group_id'] == $loc_contact){echo 'selected';}?>><?php  echo $row_custec['group_name']. " (Tel : ".$row_custec['group_tel'].")";?></option>
                                             <?php 
@@ -917,8 +917,8 @@ S/N
                             <td><select name="sr_ctype" id="sr_ctype">
                               <option value="">กรุณาเลือก</option>
                               <?php  
-                                    $qu_cusftype = @mysql_query("SELECT * FROM s_group_service ORDER BY group_name ASC");
-                                    while($row_cusftype = @mysql_fetch_array($qu_cusftype)){
+                                    $qu_cusftype = @mysqli_query($conn,"SELECT * FROM s_group_service ORDER BY group_name ASC");
+                                    while($row_cusftype = @mysqli_fetch_array($qu_cusftype)){
                                         ?>
                               <option value="<?php  echo $row_cusftype['group_id'];?>" <?php  if($row_cusftype['group_id'] == $sr_ctype){echo 'selected';}?>><?php  echo $row_cusftype['group_name'];?></option>
                               <?php 
@@ -931,8 +931,8 @@ S/N
                             <td><select name="ctype2" id="ctype2" class="inputselect" >
                               <option value="">กรุณาเลือก</option>
                               <?php 
-                                    $quccustommer = @mysql_query("SELECT * FROM s_group_custommer ORDER BY group_name ASC");
-                                    while($row_cgcus = @mysql_fetch_array($quccustommer)){
+                                    $quccustommer = @mysqli_query($conn,"SELECT * FROM s_group_custommer ORDER BY group_name ASC");
+                                    while($row_cgcus = @mysqli_fetch_array($quccustommer)){
 										if(substr($row_cgcus['group_name'],0,2) == "SR"){
                                       ?>
                               <option value="<?php  echo $row_cgcus['group_id'];?>" <?php  if($ctype == $row_cgcus['group_id']){echo 'selected';}?>><?php  echo $row_cgcus['group_name'];?></option>
@@ -957,8 +957,8 @@ S/N
                             	<select id="cpro_ecip" name="cpro">
                                 <option value="">กรุณาเลือกรายการ</option>
                                 	 <?php  
-                                    $qu_sparpart = @mysql_query("SELECT * FROM s_group_sparpart ORDER BY group_name ASC");
-                                    while($row_sparpart = @mysql_fetch_array($qu_sparpart)){
+                                    $qu_sparpart = @mysqli_query($conn,"SELECT * FROM s_group_sparpart ORDER BY group_name ASC");
+                                    while($row_sparpart = @mysqli_fetch_array($qu_sparpart)){
                                         ?>
                                         <option value="<?php  echo $row_sparpart['group_id'];?>"><?php  echo $row_sparpart['group_name'];?></option>
                                      <?php 
@@ -1049,8 +1049,8 @@ S/N
                             <td width="90%">
                             <select name="cd_province" id="cd_province" class="inputselect">
 							<?php 
-                                $quprovince = @mysql_query("SELECT * FROM s_province ORDER BY province_id ASC");
-                                while($row_province = @mysql_fetch_array($quprovince)){
+                                $quprovince = @mysqli_query($conn,"SELECT * FROM s_province ORDER BY province_id ASC");
+                                while($row_province = @mysqli_fetch_array($quprovince)){
                                   ?>
                                     <option value="<?php  echo $row_province['province_id'];?>" <?php  if($cd_province == $row_province['province_id']){echo 'selected';}?>><?php  echo $row_province['province_name'];?></option>
                                   <?php 	
@@ -1064,8 +1064,8 @@ S/N
                             <td><select name="sr_ctype" id="sr_ctype">
                                 <option value="">กรุณาเลือก</option>
                                 <?php  
-                                    $qu_cusftype = @mysql_query("SELECT * FROM s_group_service ORDER BY group_name ASC");
-                                    while($row_cusftype = @mysql_fetch_array($qu_cusftype)){
+                                    $qu_cusftype = @mysqli_query($conn,"SELECT * FROM s_group_service ORDER BY group_name ASC");
+                                    while($row_cusftype = @mysqli_fetch_array($qu_cusftype)){
                                         ?>
                                         <option value="<?php  echo $row_cusftype['group_id'];?>" <?php  if($row_cusftype['group_id'] == $sr_ctype){echo 'selected';}?>><?php  echo $row_cusftype['group_name'];?></option>
                                         <?php 
@@ -1132,8 +1132,8 @@ S/N
                             <td><select name="sr_ctype" id="sr_ctype">
                               <option value="">กรุณาเลือก</option>
                               <?php  
-                                    $qu_cusftype = @mysql_query("SELECT * FROM s_group_service ORDER BY group_name ASC");
-                                    while($row_cusftype = @mysql_fetch_array($qu_cusftype)){
+                                    $qu_cusftype = @mysqli_query($conn,"SELECT * FROM s_group_service ORDER BY group_name ASC");
+                                    while($row_cusftype = @mysqli_fetch_array($qu_cusftype)){
                                         ?>
                               <option value="<?php  echo $row_cusftype['group_id'];?>" <?php  if($row_cusftype['group_id'] == $sr_ctype){echo 'selected';}?>><?php  echo $row_cusftype['group_name'];?></option>
                               <?php 
@@ -1196,23 +1196,23 @@ S/N
 
 		if($_GET['poi'] == 0){
 			$daterriod2 = " AND `job_close`  between '".$_GET['df']."' and '".$_GET['dt']."'"; 
-			list ($s_year, $s_month, $s_day) = split ("-", $_GET['df']);
+			list ($s_year, $s_month, $s_day) = explode("-", $_GET['df']);
 			$datefm = $s_day."/".$s_month."/".$s_year;
-			list ($s_year, $s_month, $s_day) = split ("-", $_GET['dt']);
+			list ($s_year, $s_month, $s_day) = explode("-", $_GET['dt']);
 			$dateft = $s_day."/".$s_month."/".$s_year;
 		}
 			$sql1 = "SELECT * FROM s_first_order as fr, s_service_report as sv WHERE sv.cus_id = fr.fo_id AND sv.st_setting = 1 ".$daterriod2." ORDER BY sv.job_close ASC";
-			$numclose = @mysql_num_rows(@mysql_query($sql1));
+			$numclose = @mysqli_num_rows(@mysqli_query($conn,$sql1));
 			
 		if($_GET['poi'] == 0){
 			$daterriod = " AND `job_open`  between '".$_GET['df']."' and '".$_GET['dt']."'"; 
-			list ($s_year, $s_month, $s_day) = split ("-", $_GET['df']);
+			list ($s_year, $s_month, $s_day) = explode("-", $_GET['df']);
 			$datefm = $s_day."/".$s_month."/".$s_year;
-			list ($s_year, $s_month, $s_day) = split ("-", $_GET['dt']);
+			list ($s_year, $s_month, $s_day) = explode("-", $_GET['dt']);
 			$dateft = $s_day."/".$s_month."/".$s_year;
 		}
 			$sql = "SELECT * FROM s_first_order as fr, s_service_report as sv WHERE sv.cus_id = fr.fo_id ".$daterriod." AND sv.st_setting = 0 ORDER BY sv.job_open ASC";
-			$numopen = @mysql_num_rows(@mysql_query($sql));
+			$numopen = @mysqli_num_rows(@mysqli_query($conn,$sql));
 
 			
 			?>
@@ -1234,7 +1234,7 @@ S/N
                         <td><table class="formFields" cellspacing="0" width="100%">
                           <tr>
                             <td width="10%" nowrap class="name">เริ่มวันที่
-                               <input type="text" name="date_fm" readonly value="<?php  if($_GET['df'] != ""){list ($s_year, $s_month, $s_day) = split ("-", $_GET['df']);echo $s_day."/".$s_month."/".$s_year;}else{echo date("d/m/Y");}?>" class="inpfoder"/><script language="JavaScript">new tcal ({'formname': 'form1','controlname': 'date_fm'});</script>
+                               <input type="text" name="date_fm" readonly value="<?php  if($_GET['df'] != ""){list ($s_year, $s_month, $s_day) = explode("-", $_GET['df']);echo $s_day."/".$s_month."/".$s_year;}else{echo date("d/m/Y");}?>" class="inpfoder"/><script language="JavaScript">new tcal ({'formname': 'form1','controlname': 'date_fm'});</script>
                                &nbsp;&nbsp; ถึงวันที่ 
                               <input type="text" name="date_to" readonly value="<?php  echo date("d/m/Y");?>" class="inpfoder"/><script language="JavaScript">new tcal ({'formname': 'form1','controlname': 'date_to'});</script></td>
                             <td width="90%"><span class="name">
@@ -1261,9 +1261,9 @@ S/N
                         <td>
                         <div align="right"><?php 
                         	if($_GET['poi'] == 0){
-								echo $dateshow = "เริ่มวันที่ : ".format_date($_GET['df'])."&nbsp;&nbsp;ถึงวันที่ : ".format_date($_GET['dt']); 
+								echo $dateshow = "เริ่มวันที่ : ".format_date($conn,$_GET['df'])."&nbsp;&nbsp;ถึงวันที่ : ".format_date($conn,$_GET['dt']); 
 							}else{
-								echo $dateshow = "วันที่ค้นหา : ".format_date(date("Y-m-d")); 	
+								echo $dateshow = "วันที่ค้นหา : ".format_date($conn,date("Y-m-d")); 	
 							}
 						?></div>
                         </td>
@@ -1298,15 +1298,15 @@ S/N
                         <td><?php  
 							if($_GET['poi'] == 0){
 								$daterriod5 = " AND `job_close`  between '".$_GET['df']."' and '".$_GET['dt']."'"; 
-								list ($s_year, $s_month, $s_day) = split ("-", $_GET['df']);
+								list ($s_year, $s_month, $s_day) = explode("-", $_GET['df']);
 								$datefm = $s_day."/".$s_month."/".$s_year;
-								list ($s_year, $s_month, $s_day) = split ("-", $_GET['dt']);
+								list ($s_year, $s_month, $s_day) = explode("-", $_GET['dt']);
 								$dateft = $s_day."/".$s_month."/".$s_year;
 							}
 							$sql = "SELECT * FROM s_first_order as fr, s_service_report as sv WHERE sv.cus_id = fr.fo_id ".$daterriod5." AND (sv.cpro1 != '') ORDER BY fr.cd_name ASC";
-							$qu_fr = @mysql_query($sql);
+							$qu_fr = @mysqli_query($conn,$sql);
 							$sum = 0;
-							while($row_fr = @mysql_fetch_array($qu_fr)){
+							while($row_fr = @mysqli_fetch_array($qu_fr)){
 								$sum += ($row_fr['cprice1']+$row_fr['cprice2']+$row_fr['cprice3']+$row_fr['cprice4']+$row_fr['cprice5']);
 							}
 							
@@ -1322,8 +1322,8 @@ S/N
                         <td>&nbsp;</td>
                       </tr>
                       <?php  
-					  	$typecus = @mysql_query("SELECT * FROM s_group_service ORDER BY group_name ASC");
-						while($roeservice = mysql_fetch_array($typecus)){
+					  	$typecus = @mysqli_query($conn,"SELECT * FROM s_group_service ORDER BY group_name ASC");
+						while($roeservice = mysqli_fetch_array($typecus)){
 						?>
                      	<tr>
                             <td><?php  echo $roeservice['group_name'];?></td>
@@ -1331,13 +1331,13 @@ S/N
                             	<?php  
 							if($_GET['poi'] == 0){
 								$daterriod4 = " AND `job_close`  between '".$_GET['df']."' and '".$_GET['dt']."'"; 
-								list ($s_year, $s_month, $s_day) = split ("-", $_GET['df']);
+								list ($s_year, $s_month, $s_day) = explode("-", $_GET['df']);
 								$datefm = $s_day."/".$s_month."/".$s_year;
-								list ($s_year, $s_month, $s_day) = split ("-", $_GET['dt']);
+								list ($s_year, $s_month, $s_day) = explode("-", $_GET['dt']);
 								$dateft = $s_day."/".$s_month."/".$s_year;
 							}
 							$sql4 = "SELECT * FROM s_first_order as fr, s_service_report as sv WHERE sv.cus_id = fr.fo_id  ".$daterriod4." and sv.sr_ctype = '".$roeservice['group_id']."' ORDER BY fr.cd_name ASC";
-	  						$qu_fr4 = mysql_num_rows(@mysql_query($sql4));
+	  						$qu_fr4 = mysqli_num_rows(@mysqli_query($conn,$sql4));
 							?>
                           <a href="report5.php?date_fm=<?php  echo $datefm;?>&date_to=<?php  echo $dateft;?>&priod=<?php  echo $_GET['poi'];?>&sr_ctype=<?php  echo $roeservice['group_id'];?>" target="_blank"><?php  echo number_format($qu_fr4);?></a>
                             </td>
@@ -1412,8 +1412,8 @@ S/N
                             <td><select name="sr_ctype" id="sr_ctype">
                               <option value="">กรุณาเลือก</option>
                               <?php  
-                                    $qu_cusftype = @mysql_query("SELECT * FROM s_group_service ORDER BY group_name ASC");
-                                    while($row_cusftype = @mysql_fetch_array($qu_cusftype)){
+                                    $qu_cusftype = @mysqli_query($conn,"SELECT * FROM s_group_service ORDER BY group_name ASC");
+                                    while($row_cusftype = @mysqli_fetch_array($qu_cusftype)){
                                         ?>
                               <option value="<?php  echo $row_cusftype['group_id'];?>" <?php  if($row_cusftype['group_id'] == $sr_ctype){echo 'selected';}?>><?php  echo $row_cusftype['group_name'];?></option>
                               <?php 
@@ -1426,8 +1426,8 @@ S/N
                             <td><select name="ctype" id="ctype" class="inputselect" >
                               <option value="">กรุณาเลือก</option>
                               <?php 
-                                    $quccustommer = @mysql_query("SELECT * FROM s_group_custommer ORDER BY group_name ASC");
-                                    while($row_cgcus = @mysql_fetch_array($quccustommer)){
+                                    $quccustommer = @mysqli_query($conn,"SELECT * FROM s_group_custommer ORDER BY group_name ASC");
+                                    while($row_cgcus = @mysqli_fetch_array($quccustommer)){
 									if(substr($row_cgcus['group_name'],0,2) == "SR"){
                                       ?>
                               <option value="<?php  echo $row_cgcus['group_id'];?>" <?php  if($ctype == $row_cgcus['group_id']){echo 'selected';}?>><?php  echo $row_cgcus['group_name'];?></option>
@@ -1447,8 +1447,8 @@ S/N
                             <td><select name="loc_contact" id="loc_contact">
                              <option value="">กรุณาเลือก</option>
                               <?php  
-                                        $qu_custec = @mysql_query("SELECT * FROM s_group_technician ORDER BY group_name ASC");
-                                        while($row_custec = @mysql_fetch_array($qu_custec)){
+                                        $qu_custec = @mysqli_query($conn,"SELECT * FROM s_group_technician ORDER BY group_name ASC");
+                                        while($row_custec = @mysqli_fetch_array($qu_custec)){
                                             ?>
                               <option value="<?php  echo $row_custec['group_id'];?>" <?php  if($row_custec['group_id'] == $loc_contact){echo 'selected';}?>><?php  echo $row_custec['group_name']. " (Tel : ".$row_custec['group_tel'].")";?></option>
                               <?php 
@@ -1546,8 +1546,8 @@ S/N
                             <td><select name="sr_ctype" id="sr_ctype">
                               <option value="">กรุณาเลือก</option>
                               <?php  
-                                    $qu_cusftype = @mysql_query("SELECT * FROM s_group_service ORDER BY group_name ASC");
-                                    while($row_cusftype = @mysql_fetch_array($qu_cusftype)){
+                                    $qu_cusftype = @mysqli_query($conn,"SELECT * FROM s_group_service ORDER BY group_name ASC");
+                                    while($row_cusftype = @mysqli_fetch_array($qu_cusftype)){
                                         ?>
                               <option value="<?php  echo $row_cusftype['group_id'];?>" <?php  if($row_cusftype['group_id'] == $sr_ctype){echo 'selected';}?>><?php  echo $row_cusftype['group_name'];?></option>
                               <?php 
@@ -1560,8 +1560,8 @@ S/N
                             <td><select name="ctype" id="ctype" class="inputselect" >
                               <option value="">กรุณาเลือก</option>
                               <?php 
-                                    $quccustommer = @mysql_query("SELECT * FROM s_group_custommer ORDER BY group_name ASC");
-                                    while($row_cgcus = @mysql_fetch_array($quccustommer)){
+                                    $quccustommer = @mysqli_query($conn,"SELECT * FROM s_group_custommer ORDER BY group_name ASC");
+                                    while($row_cgcus = @mysqli_fetch_array($quccustommer)){
 									if(substr($row_cgcus['group_name'],0,2) == "SR"){
                                       ?>
                               <option value="<?php  echo $row_cgcus['group_id'];?>" <?php  if($ctype == $row_cgcus['group_id']){echo 'selected';}?>><?php  echo $row_cgcus['group_name'];?></option>
@@ -1581,8 +1581,8 @@ S/N
                             <td><select name="loc_contact" id="loc_contact">
                               <option value="">กรุณาเลือก</option>
                               <?php  
-                                        $qu_custec = @mysql_query("SELECT * FROM s_group_technician ORDER BY group_name ASC");
-                                        while($row_custec = @mysql_fetch_array($qu_custec)){
+                                        $qu_custec = @mysqli_query($conn,"SELECT * FROM s_group_technician ORDER BY group_name ASC");
+                                        while($row_custec = @mysqli_fetch_array($qu_custec)){
                                             ?>
                               <option value="<?php  echo $row_custec['group_id'];?>" <?php  if($row_custec['group_id'] == $loc_contact){echo 'selected';}?>><?php  echo $row_custec['group_name']. " (Tel : ".$row_custec['group_tel'].")";?></option>
                               <?php 
@@ -1682,8 +1682,8 @@ S/N
                             <td><select name="sr_ctype" id="sr_ctype">
                               <option value="">กรุณาเลือก</option>
                               <?php  
-                                    $qu_cusftype = @mysql_query("SELECT * FROM s_group_service ORDER BY group_name ASC");
-                                    while($row_cusftype = @mysql_fetch_array($qu_cusftype)){
+                                    $qu_cusftype = @mysqli_query($conn,"SELECT * FROM s_group_service ORDER BY group_name ASC");
+                                    while($row_cusftype = @mysqli_fetch_array($qu_cusftype)){
                                         ?>
                               <option value="<?php  echo $row_cusftype['group_id'];?>" <?php  if($row_cusftype['group_id'] == $sr_ctype){echo 'selected';}?>><?php  echo $row_cusftype['group_name'];?></option>
                               <?php 
@@ -1696,8 +1696,8 @@ S/N
                             <td><select name="ctype" id="ctype" class="inputselect" >
                               <option value="">กรุณาเลือก</option>
                               <?php 
-                                    $quccustommer = @mysql_query("SELECT * FROM s_group_custommer ORDER BY group_name ASC");
-                                    while($row_cgcus = @mysql_fetch_array($quccustommer)){
+                                    $quccustommer = @mysqli_query($conn,"SELECT * FROM s_group_custommer ORDER BY group_name ASC");
+                                    while($row_cgcus = @mysqli_fetch_array($quccustommer)){
 									if(substr($row_cgcus['group_name'],0,2) == "SR"){
                                       ?>
                               <option value="<?php  echo $row_cgcus['group_id'];?>" <?php  if($ctype == $row_cgcus['group_id']){echo 'selected';}?>><?php  echo $row_cgcus['group_name'];?></option>
@@ -1717,8 +1717,8 @@ S/N
                             <td><select name="loc_seal" id="loc_seal" class="inputselect" style="width:250px;">
                               <option value="">กรุณาเลือกรายการ</option>
                               <?php 
-                                          $qupros1 = @mysql_query("SELECT * FROM s_group_pod ORDER BY group_name ASC");
-                                          while($row_qupros1 = @@mysql_fetch_array($qupros1)){
+                                          $qupros1 = @mysqli_query($conn,"SELECT * FROM s_group_pod ORDER BY group_name ASC");
+                                          while($row_qupros1 = @@mysqli_fetch_array($qupros1)){
                                             ?>
                               <option value="<?php  echo $row_qupros1['group_name'];?>"><?php  echo $row_qupros1['group_name'];?></option>
                               <?php 	
@@ -1803,8 +1803,8 @@ S/N
                             <td><select name="sr_ctype" id="sr_ctype">
                               <option value="">กรุณาเลือก</option>
                               <?php  
-                                    $qu_cusftype = @mysql_query("SELECT * FROM s_group_service ORDER BY group_name ASC");
-                                    while($row_cusftype = @mysql_fetch_array($qu_cusftype)){
+                                    $qu_cusftype = @mysqli_query($conn,"SELECT * FROM s_group_service ORDER BY group_name ASC");
+                                    while($row_cusftype = @mysqli_fetch_array($qu_cusftype)){
                                         ?>
                               <option value="<?php  echo $row_cusftype['group_id'];?>" <?php  if($row_cusftype['group_id'] == $sr_ctype){echo 'selected';}?>><?php  echo $row_cusftype['group_name'];?></option>
                               <?php 
@@ -1817,8 +1817,8 @@ S/N
                             <td><select name="ctype" id="ctype" class="inputselect" >
                               <option value="">กรุณาเลือก</option>
                               <?php 
-                                    $quccustommer = @mysql_query("SELECT * FROM s_group_custommer ORDER BY group_name ASC");
-                                    while($row_cgcus = @mysql_fetch_array($quccustommer)){
+                                    $quccustommer = @mysqli_query($conn,"SELECT * FROM s_group_custommer ORDER BY group_name ASC");
+                                    while($row_cgcus = @mysqli_fetch_array($quccustommer)){
 									if(substr($row_cgcus['group_name'],0,2) == "SR"){
                                       ?>
                               <option value="<?php  echo $row_cgcus['group_id'];?>" <?php  if($ctype == $row_cgcus['group_id']){echo 'selected';}?>><?php  echo $row_cgcus['group_name'];?></option>
@@ -1838,8 +1838,8 @@ S/N
                             <td><select name="loc_contact" id="loc_contact">
                              <option value="">กรุณาเลือก</option>
                               <?php  
-                                        $qu_custec = @mysql_query("SELECT * FROM s_group_technician ORDER BY group_name ASC");
-                                        while($row_custec = @mysql_fetch_array($qu_custec)){
+                                        $qu_custec = @mysqli_query($conn,"SELECT * FROM s_group_technician ORDER BY group_name ASC");
+                                        while($row_custec = @mysqli_fetch_array($qu_custec)){
                                             ?>
                               <option value="<?php  echo $row_custec['group_id'];?>" <?php  if($row_custec['group_id'] == $loc_contact){echo 'selected';}?>><?php  echo $row_custec['group_name']. " (Tel : ".$row_custec['group_tel'].")";?></option>
                               <?php 

@@ -5,7 +5,7 @@ include ("../../include/function.php");
 include ("config.php");
 	
 	$del = $_POST['del'];
-	Check_Permission ($check_module,$_SESSION["login_id"],"delete");
+	Check_Permission($conn,$check_module,$_SESSION["login_id"],"delete");
 	$param = get_param($a_param,$a_not_exists);
 	if (!isset ($del)) header ("location:index.php?$param"); 
 	if ($_POST[Action] == "OK") { 
@@ -14,13 +14,13 @@ include ("config.php");
 			foreach ($msg as $key=>$value) { 
 				//ลบข้อมูล s_user
 				$sql_su = "delete from $tbl_name where " . $PK_field . " = '$value'";
-				@mysql_query ($sql_su);
+				@mysqli_query($conn,$sql_su);
 				//ลบข้อมูล s_user_group
 				$sql_sug = "delete from s_user_group where " . $PK_field . " = '$value'";
-				@mysql_query ($sql_sug);
+				@mysqli_query($conn,$sql_sug);
 				//ลบข้อมูล s_user_p
 				$sql_sup = "delete from s_user_p where " . $PK_field . " = '$value'";
-				@mysql_query ($sql_sup);
+				@mysqli_query($conn,$sql_sup);
 			} 
 			header ("location:index.php?$param"); 	
 		}
@@ -35,9 +35,9 @@ include ("config.php");
 <HEAD>
 <TITLE><?php  echo $s_title;?></TITLE>
 <META content="text/html; charset=utf-8" http-equiv=Content-Type>
-<LINK rel=stylesheet type=text/css href="../css/reset.css" media=screen>
-<LINK rel=stylesheet type=text/css href="../css/style.css" media=screen>
-<LINK rel=stylesheet type=text/css href="../css/invalid.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/reset.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/style.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/invalid.css" media=screen>
 <SCRIPT type=text/javascript src="../js/jquery-1.3.2.min.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/simpla.jquery.configuration.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/facebox.js"></SCRIPT>

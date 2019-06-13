@@ -4,28 +4,28 @@
 	include ("../../include/function.php");
 	include ("config.php");
 
-	if ($_POST[mode] <> "") { 
+	if ($_POST['mode'] <> "") { 
 		$param = "";
 		$a_not_exists = array();
 		$param = get_param($a_param,$a_not_exists);
 
-		if ($_POST[mode] == "add") { 
+		if ($_POST['mode'] == "add") { 
 				include "../include/m_add.php";
 			header ("location:index.php?" . $param); 
 		}
-		if ($_POST[mode] == "update" ) { 
+		if ($_POST['mode'] == "update" ) { 
 			include ("../include/m_update.php");
 			header ("location:index.php?" . $param); 
 		}
 	}
-	if ($_GET[mode] == "add") { 
-		 Check_Permission ($check_module,$_SESSION[login_id],"add");
+	if ($_GET['mode'] == "add") { 
+		 Check_Permission($conn,$check_module,$_SESSION['login_id'],"add");
 	}
-	if ($_GET[mode] == "update") { 
-		 Check_Permission ($check_module,$_SESSION[login_id],"update");
+	if ($_GET['mode'] == "update") { 
+		 Check_Permission($conn,$check_module,$_SESSION['login_id'],"update");
 		$sql = "select * from $tbl_name where $PK_field = '" . $_GET[$PK_field] ."'";
-		$query = @mysql_query ($sql);
-		while ($rec = @mysql_fetch_array ($query)) { 
+		$query = @mysqli_query($conn,$sql);
+		while ($rec = @mysqli_fetch_array($query)) { 
 			$$PK_field = $rec[$PK_field];
 			foreach ($fieldlist as $key => $value) { 
 				$$value = $rec[$value];
@@ -38,9 +38,9 @@
 <HEAD>
 <TITLE><?php  echo $s_title;?></TITLE>
 <META content="text/html; charset=utf-8" http-equiv=Content-Type>
-<LINK rel=stylesheet type=text/css href="../css/reset.css" media=screen>
-<LINK rel=stylesheet type=text/css href="../css/style.css" media=screen>
-<LINK rel=stylesheet type=text/css href="../css/invalid.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/reset.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/style.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/invalid.css" media=screen>
 <SCRIPT type=text/javascript src="../js/jquery-1.3.2.min.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/simpla.jquery.configuration.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/facebox.js"></SCRIPT>
@@ -125,7 +125,7 @@ function check(frm){
 			$a_not_exists = array();
 			post_param($a_param,$a_not_exists); 
 			?>
-      <input name="mode" type="hidden" id="mode" value="<?php  echo $_GET[mode];?>">
+      <input name="mode" type="hidden" id="mode" value="<?php  echo $_GET['mode'];?>">
       <input name="<?php  echo $PK_field;?>" type="hidden" id="<?php  echo $PK_field;?>" value="<?php  echo $_GET[$PK_field];?>">
     </div>
   </form>

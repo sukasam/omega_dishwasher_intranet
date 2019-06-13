@@ -30,9 +30,9 @@
 	/*if($fs_id != ""){ $condition .= " AND pro_type  = '".$pro_sn."'" ;}
 	if($fs_id != ""){ $condition .= " AND pro_type  = '".$pro_sr."'" ;}*/
 	
-	$qu_serfirsh = @mysql_query("SELECT * FROM s_first_order WHERE 1 ".$condition." ORDER BY fs_id ASC");
-	$numfrish  = @mysql_num_rows($qu_serfirsh);
-	@mysql_query("SET NAMES tis620");
+	$qu_serfirsh = @mysqli_query($conn,"SELECT * FROM s_first_order WHERE 1 ".$condition." ORDER BY fs_id ASC");
+	$numfrish  = @mysqli_num_rows($qu_serfirsh);
+	@mysqli_query($conn,"SET NAMES tis620");
 	
 	# Example of using the WriteExcel module to create worksheet panes.
 #
@@ -90,9 +90,9 @@ for ($i=0;$i<=12;$i++) {
 }
 
 $row_ex = 1;
-while($row_serfirsh = @mysql_fetch_array($qu_serfirsh)){
+while($row_serfirsh = @mysqli_fetch_array($qu_serfirsh)){
 
-	$firshoinfo = get_firstorder($row_serfirsh['fo_id']);
+	$firshoinfo = get_firstorder($conn,$row_serfirsh['fo_id']);
 	
 	$a_sdate=explode("-",$firshoinfo['date_forder']);
 	$date_forder=$a_sdate[2]."/".$a_sdate[1]."/".$a_sdate[0];
@@ -100,11 +100,11 @@ while($row_serfirsh = @mysql_fetch_array($qu_serfirsh)){
 	$worksheet1->write($row_ex, 0, $firshoinfo['fs_id'], $center);
 	$worksheet1->write($row_ex, 1, $date_forder, $center);
 	$worksheet1->write($row_ex, 2, "( ".$firshoinfo['cd_name']." ) / ( ".$firshoinfo['cd_address']." ) / ( ".$firshoinfo['cd_tel']." )", $left);
-	$worksheet1->write($row_ex, 3, get_groupcusname($firshoinfo['cg_type']), $left);
+	$worksheet1->write($row_ex, 3, get_groupcusname($conn,$firshoinfo['cg_type']), $left);
 	
-	$numprosall = get_numprosall($firshoinfo['fo_id']);
-	$prosall = get_profirsod($firshoinfo['fo_id']);
-	$nprosall = get_numprofirsod($firshoinfo['fo_id']);
+	$numprosall = get_numprosall($conn,$firshoinfo['fo_id']);
+	$prosall = get_profirsod($conn,$firshoinfo['fo_id']);
+	$nprosall = get_numprofirsod($conn,$firshoinfo['fo_id']);
 	
 	for($ui = 0; $ui < sizeof($prosall); $ui++){
 		$worksheet1->write($row_ex+$ui, 4, get_rpfprosrsn($prosall[$ui]), $left);	
@@ -114,10 +114,10 @@ while($row_serfirsh = @mysql_fetch_array($qu_serfirsh)){
 		$worksheet1->write($row_ex+$bi, 5, $nprosall[$bi], $right);
 	}
 	
-	$worksheet1->write($row_ex, 6, number_format(get_totalprice($firshoinfo["fo_id"]),2), $right);
-	$worksheet1->write($row_ex, 7, custype_name($firshoinfo['ctype']), $center);
-	$worksheet1->write($row_ex, 8, "(".format_date($firshoinfo['date_quf']).") / (".format_date($firshoinfo['date_qut']).")", $center);
-	$worksheet1->write($row_ex, 9, format_date($firshoinfo['cs_setting']), $center);
+	$worksheet1->write($row_ex, 6, number_format(get_totalprice($conn,$firshoinfo["fo_id"]),2), $right);
+	$worksheet1->write($row_ex, 7, custype_name($conn,$firshoinfo['ctype']), $center);
+	$worksheet1->write($row_ex, 8, "(".format_date($conn,$firshoinfo['date_quf']).") / (".format_date($conn,$firshoinfo['date_qut']).")", $center);
+	$worksheet1->write($row_ex, 9, format_date($conn,$firshoinfo['cs_setting']), $center);
 	$worksheet1->write($row_ex, 10, $firshoinfo['loc_shopping'], $left);
 	$worksheet1->write($row_ex, 11, $firshoinfo['loc_name'], $left);
 	$worksheet1->write($row_ex, 12, $firshoinfo['cs_sell'], $left);

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /* 
    This script prints out all characters in a TrueType font file
@@ -34,9 +34,11 @@ $mpdf->StartProgressBarOutput(2);
 
 $mpdf->SetDisplayMode('fullpage');
 
-$mpdf->useSubstitutions = false;
+$mpdf->useSubstitutions = true;
 $mpdf->debug = true;
 $mpdf->simpleTables = true;
+// force fonts to be embedded whole i.e. NOT susbet
+$mpdf->percentSubset = 0;
 
 //==============================================================
 //==============================================================

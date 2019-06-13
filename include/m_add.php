@@ -11,7 +11,8 @@
 		$value = substr ($value,1, strlen ($value));
 		$value .= ",'" . date ("Y-m-d H:i:s")  . "', '" . $_SESSION["login_name"] . "'";
 		$sql = "insert into $tbl_name ( " . $field . ")  values (". $value . ")";
-		@mysql_query ($sql);
-		$id = mysql_insert_id ();
-		//echo $sql;
+		@mysqli_query($conn,$sql);
+		$id = mysqli_insert_id ($conn);
+		/*echo $sql;
+		break;*/
 		?>

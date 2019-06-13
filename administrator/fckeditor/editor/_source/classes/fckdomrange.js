@@ -751,21 +751,21 @@ FCKDomRange.prototype =
 
 	/**
 	 * Split the block element for the current range. It deletes the contents
-	 * of the range and splits the block in the collapsed position, resulting
+	 * of the range and explode(s the block in the collapsed position, resulting
 	 * in two sucessive blocks. The range is then positioned in the middle of
 	 * them.
 	 *
 	 * It returns and object with the following properties:
 	 *		- PreviousBlock	: a reference to the block element that preceeds
-	 *		  the range after the split.
+	 *		  the range after the explode(.
 	 *		- NextBlock : a reference to the block element that follows the
-	 *		  range after the split.
+	 *		  range after the explode(.
 	 *		- WasStartOfBlock : a boolean indicating that the range was
 	 *		  originaly at the start of the block.
 	 *		- WasEndOfBlock : a boolean indicating that the range was originaly
 	 *		  at the end of the block.
 	 *
-	 * If the range was originaly at the start of the block, no split will happen
+	 * If the range was originaly at the start of the block, no explode( will happen
 	 * and the PreviousBlock value will be null. The same is valid for the
 	 * NextBlock value if the range was at the end of the block.
 	 */

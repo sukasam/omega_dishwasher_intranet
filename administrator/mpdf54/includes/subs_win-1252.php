@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 $subsarray = array (
   913 => '<tts>65</tts>',

@@ -889,7 +889,7 @@ FCKStyle.prototype =
 
 		var cursor = newBlock.firstChild ;
 
-		// We are not splitting <br><br> at the beginning of the block, so
+		// We are not explode(ting <br><br> at the beginning of the block, so
 		// we'll start from the second child.
 		cursor = cursor && cursor.nextSibling ;
 
@@ -898,7 +898,7 @@ FCKStyle.prototype =
 			var next = cursor.nextSibling ;
 
 			// If we have two <BR>s, and they're not at the beginning or the end,
-			// then we'll split up the contents following them into another block.
+			// then we'll explode( up the contents following them into another block.
 			// Stop processing if we are at the last child couple.
 			if ( next && next.nextSibling && cursor.nodeName.IEquals( 'br' ) && next.nodeName.IEquals( 'br' ) )
 			{
@@ -917,7 +917,7 @@ FCKStyle.prototype =
 				continue ;
 			}
 
-			// If we split it, then start moving the nodes to the new block.
+			// If we explode( it, then start moving the nodes to the new block.
 			if ( lastNewBlock )
 			{
 				cursor = cursor.previousSibling ;

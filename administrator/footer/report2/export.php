@@ -38,9 +38,9 @@
 	/*echo "SELECT sr.*,fo.* FROM s_service_report as sr, s_first_order as fo  WHERE 1 AND sr.cus_id = fo.fo_id ".$condition."  group by sv_id ORDER BY sv_id ASC";
 	break;*/
 	
-	$qu_serfirsh = @mysql_query("SELECT sr.*,fo.* FROM s_service_report as sr, s_first_order as fo  WHERE 1 AND sr.cus_id = fo.fo_id ".$condition."  group by sv_id ORDER BY sv_id ASC");
-	$numfrish  = @mysql_num_rows($qu_serfirsh);
-	@mysql_query("SET NAMES tis620");
+	$qu_serfirsh = @mysqli_query($conn,"SELECT sr.*,fo.* FROM s_service_report as sr, s_first_order as fo  WHERE 1 AND sr.cus_id = fo.fo_id ".$condition."  group by sv_id ORDER BY sv_id ASC");
+	$numfrish  = @mysqli_num_rows($qu_serfirsh);
+	@mysqli_query($conn,"SET NAMES tis620");
 
 	
 # Example of using the WriteExcel module to create worksheet panes.
@@ -100,16 +100,16 @@ for ($i=0;$i<=10;$i++) {
 
 
 $row_ex = 1;
-while($row_serreport = @mysql_fetch_array($qu_serfirsh)){
+while($row_serreport = @mysqli_fetch_array($qu_serfirsh)){
 
-	$serreportinfo = get_servicereport($row_serreport['sv_id']);
-	$firshoinfo = get_firstorder($row_serreport['cus_id']);
+	$serreportinfo = get_servicereport($conn,$row_serreport['sv_id']);
+	$firshoinfo = get_firstorder($conn,$row_serreport['cus_id']);
 	
-	$spaimfo1 = get_sparpart($serreportinfo['cpro1']);
-	$spaimfo2 = get_sparpart($serreportinfo['cpro2']);
-	$spaimfo3 = get_sparpart($serreportinfo['cpro3']);
-	$spaimfo4 = get_sparpart($serreportinfo['cpro4']);
-	$spaimfo5 = get_sparpart($serreportinfo['cpro5']);
+	$spaimfo1 = get_sparpart($conn,$serreportinfo['cpro1']);
+	$spaimfo2 = get_sparpart($conn,$serreportinfo['cpro2']);
+	$spaimfo3 = get_sparpart($conn,$serreportinfo['cpro3']);
+	$spaimfo4 = get_sparpart($conn,$serreportinfo['cpro4']);
+	$spaimfo5 = get_sparpart($conn,$serreportinfo['cpro5']);
 	
 	$totalprice = ($serreportinfo['camount1'] * $serreportinfo['cprice1']) + ($serreportinfo['camount2'] * $serreportinfo['cprice2']) + ($serreportinfo['camount3'] * $serreportinfo['cprice3']) + ($serreportinfo['camount4'] * $serreportinfo['cprice4']) + ($serreportinfo['camount5'] * $serreportinfo['cprice5']);
 	
@@ -118,25 +118,25 @@ while($row_serreport = @mysql_fetch_array($qu_serfirsh)){
 	if($serreportinfo['loc_sn'] != ""){$loc_sn = $serreportinfo['loc_sn'];}else{$loc_sn = " - ";}
 		
 	$worksheet1->write($row_ex, 0, $serreportinfo['sv_id'], $center);
-	$worksheet1->write($row_ex, 1, "( ".format_date($serreportinfo['job_open']).") / (".format_date($serreportinfo['job_close'])." ) / (".format_date($serreportinfo['job_balance'])." )", $center);
+	$worksheet1->write($row_ex, 1, "( ".format_date($conn,$serreportinfo['job_open']).") / (".format_date($conn,$serreportinfo['job_close'])." ) / (".format_date($conn,$serreportinfo['job_balance'])." )", $center);
 	$worksheet1->write($row_ex, 2, "( ".$firshoinfo['cd_name']." ) / ( ".$firshoinfo['cd_address']." ) / ( ".$firshoinfo['cd_tel']." )", $left);
-	$worksheet1->write($row_ex, 3, get_groupcusname($firshoinfo['cg_type']), $left);
-	$worksheet1->write($row_ex, 4, get_servicename($serreportinfo['sr_ctype']), $left);
+	$worksheet1->write($row_ex, 3, get_groupcusname($conn,$firshoinfo['cg_type']), $left);
+	$worksheet1->write($row_ex, 4, get_servicename($conn,$serreportinfo['sr_ctype']), $left);
 	$worksheet1->write($row_ex, 5, $loc_pro." / ".$loc_seal." / ".$loc_sn, $left);
-	$worksheet1->write($row_ex, 6, "(".format_date($firshoinfo['date_quf']).") / (".format_date($firshoinfo['date_qut']).")", $center);
+	$worksheet1->write($row_ex, 6, "(".format_date($conn,$firshoinfo['date_quf']).") / (".format_date($conn,$firshoinfo['date_qut']).")", $center);
 	
-	$numfixs = get_numfixs($row_serreport['sr_id']);
-	$listfixs = get_listfixs($row_serreport['sr_id']);
+	$numfixs = get_numfixs($conn,$row_serreport['sr_id']);
+	$listfixs = get_listfixs($conn,$row_serreport['sr_id']);
 	
 	for($by=0;$by<sizeof($listfixs);$by++){
-		$worksheet1->write($row_ex+$by, 7, get_fixname($listfixs[$by]), $left);
+		$worksheet1->write($row_ex+$by, 7, get_fixname($conn,$listfixs[$by]), $left);
 	}
 	
-	$numspartpart = get_numspapartsall($row_serreport['sr_id']);
-	$psspartpart = get_prospapart($row_serreport['sr_id']);
+	$numspartpart = get_numspapartsall($conn,$row_serreport['sr_id']);
+	$psspartpart = get_prospapart($conn,$row_serreport['sr_id']);
 	
 	for($i=0;$i<=sizeof($psspartpart);$i++){
-		$worksheet1->write($row_ex+$i, 8, get_sparpart_name($psspartpart[$i]), $left);
+		$worksheet1->write($row_ex+$i, 8, get_sparpart_name($conn,$psspartpart[$i]), $left);
 	}
 	
 	$worksheet1->write($row_ex, 9, number_format($totalprice,2), $right);

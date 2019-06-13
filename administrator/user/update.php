@@ -4,19 +4,19 @@
 	include ("../../include/function.php");
 	include ("config.php");
 
-	if ($_POST[mode] <> "") { 
+	if ($_POST['mode'] <> "") { 
 		$param = "";
 		$a_not_exists = array();
 		$param = get_param($a_param,$a_not_exists);
 
-		if ($_POST[mode] == "add") { 
+		if ($_POST['mode'] == "add") { 
 			$sql = "select * from $tbl_name where username = '$_POST[username]' ";
-			$query = @mysql_query($sql);
+			$query = @mysqli_query($conn,$sql);
 			
-			if(@mysql_num_rows($query) == 0) {
+			if(@mysqli_num_rows($query) == 0) {
 				
 				include "../include/m_add.php";
-				$id=@mysql_insert_id();
+				$id=@mysqli_insert_id($conn);
 				
 				if ($_FILES['ufimages']['name'] != "") { 
 				$mname="";
@@ -35,7 +35,7 @@
 						uploadfile($path,$filename,$_FILES['ufimages']['tmp_name'],$width, $quality);
 				} // end foreach				
 					$sql = "update $tbl_name set u_images  = '$filename' where $PK_field = '$id' ";
-					@mysql_query($sql);				
+					@mysqli_query($conn,$sql);				
 				} // end if ($_FILES[ufimages][name] != "")	
 				
 				header ("location:index.php?" . $param); 
@@ -46,11 +46,11 @@
 			}
 		}
 //-------------------------------------------------------------------------------------------------------------------------------------
-		if ($_POST[mode] == "update" ) { 	
+		if ($_POST['mode'] == "update" ) { 	
 			$sql = "select * from s_user where username = '$_POST[username]' and user_id <> '$_POST[$PK_field]' ";
-			$query = @mysql_query ($sql);
-			if (@mysql_num_rows($query) == 0) { //====> Username Avalible 
-					$rec = @mysql_fetch_array ($query);		
+			$query = @mysqli_query($conn,$sql);
+			if (@mysqli_num_rows($query) == 0) { //====> Username Avalible 
+					$rec = @mysqli_fetch_array($query);		
 										
 					if($_POST[new_p]<>""){$_POST[password]=$_POST[new_p];}
 					
@@ -73,7 +73,7 @@
 								uploadfile($path,$filename,$_FILES['ufimages']['tmp_name'],$width, $quality);
 						} // end foreach				
 						$sql = "update $tbl_name set u_images = '$filename' where $PK_field = '".$_POST[$PK_field]."' ";
-						@mysql_query($sql);				
+						@mysqli_query($conn,$sql);				
 					} // end if ($_FILES[ufimages][name] != "")
 
 					
@@ -86,15 +86,15 @@
 	}
 }
 //-------------------------------------------------------------------------------------------------------------------------------------
-	if ( ($_GET[mode] == "add") && (count($_POST) == 0)) { 
-		 Check_Permission ($check_module,$_SESSION[login_id],"add");
+	if ( ($_GET['mode'] == "add") && (count($_POST) == 0)) { 
+		 Check_Permission($conn,$check_module,$_SESSION['login_id'],"add");
 	}
 //-------------------------------------------------------------------------------------------------------------------------------------
-	if ( ($_GET[mode] == "update") && (count($_POST) == 0) ) { 
-		 Check_Permission ($check_module,$_SESSION[login_id],"update");
+	if ( ($_GET['mode'] == "update") && (count($_POST) == 0) ) { 
+		 Check_Permission($conn,$check_module,$_SESSION['login_id'],"update");
 		$sql = "select * from $tbl_name where $PK_field = '" . $_GET[$PK_field] ."'";
-		$query = @mysql_query ($sql);
-		while ($rec = @mysql_fetch_array ($query)) { 
+		$query = @mysqli_query($conn,$sql);
+		while ($rec = @mysqli_fetch_array($query)) { 
 			$$PK_field = $rec[$PK_field];
 			foreach ($fieldlist as $key => $value) { 
 				$$value = $rec[$value];
@@ -110,7 +110,7 @@
 			@unlink("../../upload/catalog/".$_GET['del_id']);		
 		}	
 			$sql = "update $tbl_name set u_images =' ' where $PK_field = '$_GET[$PK_field]' ";
-			@mysql_query($sql);	
+			@mysqli_query($conn,$sql);	
 			 
 	}
 ?>
@@ -119,9 +119,9 @@
 <HEAD>
 <TITLE><?php  echo $s_title;?></TITLE>
 <META content="text/html; charset=utf-8" http-equiv=Content-Type>
-<LINK rel=stylesheet type=text/css href="../css/reset.css" media=screen>
-<LINK rel=stylesheet type=text/css href="../css/style.css" media=screen>
-<LINK rel=stylesheet type=text/css href="../css/invalid.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/reset.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/style.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/invalid.css" media=screen>
 <SCRIPT type=text/javascript src="../js/jquery-1.3.2.min.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/simpla.jquery.configuration.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/facebox.js"></SCRIPT>
@@ -217,7 +217,7 @@ function check(frm){
                   <br>
 					<?php 
 					  if($u_images != ""){?>
-                  <img src="../../upload/user/<?php  echo $u_images?>" width="155">[ <a href="?mode=<?php  echo $_GET[mode]?>&<?php  echo $PK_field?>=<?php  echo $$PK_field;?>&<?php  echo $FR_field?>=<?php  echo $$FR_field;?>&del_id=<?php  echo $u_images;?>&page=<?php  echo $page;?>">Delete</a>]
+                  <img src="../../upload/user/<?php  echo $u_images?>" width="155">[ <a href="?mode=<?php  echo $_GET['mode']?>&<?php  echo $PK_field?>=<?php  echo $$PK_field;?>&<?php  echo $FR_field?>=<?php  echo $$FR_field;?>&del_id=<?php  echo $u_images;?>&page=<?php  echo $page;?>">Delete</a>]
                   <?php  }?>
                   <input name="u_images" type="hidden" value="<?php  echo $u_images; ?>">
                   </td>

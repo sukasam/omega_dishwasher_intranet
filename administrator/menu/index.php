@@ -4,19 +4,19 @@
 	include ("../../include/function.php");
 	include ("config.php");
 
-	Check_Permission ($check_module,$_SESSION[login_id],"read");
+	Check_Permission($conn,$check_module,$_SESSION['login_id'],"read");
 
-	if ($_GET[page] == ""){$_REQUEST[page] = 1;	}
+	if ($_GET['page'] == ""){$_REQUEST['page'] = 1;	}
 
 	$param = get_param($a_param,$a_not_exists);
 
 	
 
-	if($_GET[action] == "delete"){
-		//$code = Check_Permission ($check_module,$_SESSION["login_id"],"delete");
+	if($_GET['action'] == "delete"){
+		//$code = Check_Permission($conn,$check_module,$_SESSION["login_id"],"delete");
 		//if ($code == "1") {
 			$sql = "delete from $tbl_name  where $PK_field = '$_GET[$PK_field]'";
-			@mysql_query($sql);
+			@mysqli_query($conn,$sql);
 			header ("location:index.php"); 
 
 		//}
@@ -35,17 +35,17 @@
 
 			$sql = "select * from $tbl_name where $PK_field = '$_GET[id]' ";
 
-			$query = @mysql_query ($sql);
+			$query = @mysqli_query($conn,$sql);
 
- 			if ($rec = @mysql_fetch_array ($query)) $rank = $rec["rank"]; 
+ 			if ($rec = @mysqli_fetch_array($query)) $rank = $rec["rank"]; 
 
 
 
 			$sql = "select * from $tbl_name where rank " . $sign . " '$rank' order by rank " . $or;
 
-			$query = @mysql_query ($sql);
+			$query = @mysqli_query($conn,$sql);
 
- 			if ($rec = @mysql_fetch_array ($query)) { 
+ 			if ($rec = @mysqli_fetch_array($query)) { 
 
 				$pre_rank = $rec["rank"]; 
 
@@ -57,13 +57,13 @@
 
 				$sql = "update $tbl_name set rank = '$rank' where $PK_field = '$pre_gallery_id'"; 
 
-				@mysql_query ($sql);
+				@mysqli_query($conn,$sql);
 
 				//echo $sql;
 
  				$sql = "update $tbl_name set rank = '$pre_rank' where $PK_field = '$_GET[id]'";
 
-				@mysql_query ($sql);
+				@mysqli_query($conn,$sql);
 
   			}  
 
@@ -85,11 +85,11 @@
 
 <META content="text/html; charset=utf-8" http-equiv=Content-Type>
 
-<LINK rel=stylesheet type=text/css href="../css/reset.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/reset.css" media=screen>
 
-<LINK rel=stylesheet type=text/css href="../css/style.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/style.css" media=screen>
 
-<LINK rel=stylesheet type=text/css href="../css/invalid.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/invalid.css" media=screen>
 
 <SCRIPT type=text/javascript src="../js/jquery-1.3.2.min.js"></SCRIPT>
 
@@ -319,15 +319,15 @@ function check_select(frm){
 
 					//echo $sql;
 
-					$query = @mysql_query ($sql);
+					$query = @mysqli_query($conn,$sql);
 
-					if($_GET[page] == "") $_GET[page] = 1;
+					if($_GET['page'] == "") $_GET['page'] = 1;
 
-					$counter = ($_GET[page]-1)*$pagesize;
+					$counter = ($_GET['page']-1)*$pagesize;
 
 					
 
-					while ($rec = @mysql_fetch_array ($query)) { 
+					while ($rec = @mysqli_fetch_array($query)) { 
 
 					$counter++;
 

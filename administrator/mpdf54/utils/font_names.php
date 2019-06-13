@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /* This script examines your font directory. 
    Point your browser to 

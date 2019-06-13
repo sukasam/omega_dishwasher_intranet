@@ -13,7 +13,7 @@
 		$sql = "insert into $tbl_name ( " . $field . ")  values (". $value . ")";
 		/*echo $sql;
 		break;*/
-		@mysql_query ($sql);
-		$id = mysql_insert_id ();
+		@mysqli_query($conn,$sql);
+		$id = mysqli_insert_id ($conn);
 
 		?>

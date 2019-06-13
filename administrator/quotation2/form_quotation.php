@@ -80,9 +80,9 @@ $form = '
             <strong>โทรศัพท์ :</strong> '.$_POST["cd_tel"].'<strong>&nbsp;&nbsp;&nbsp;อีเมล์ :</strong> '.$_POST["cd_fax"].'<br /><br />
             <strong>ชื่อผู้ติดต่อ : </strong>'.$_POST["c_contact"].'<strong>&nbsp;&nbsp;&nbsp;เบอร์โทร :</strong> '.$_POST["c_tel"].' </td>
             <td width="43%" valign="top" style="font-size:11px;font-family:Verdana, Geneva, sans-serif;padding:9px 5px;">
-            <strong>วันที่ :</strong> '.format_date($_POST["date_forder"]).'<br /><br />
+            <strong>วันที่ :</strong> '.format_date($conn,$_POST["date_forder"]).'<br /><br />
             <strong>เลขที่เสนอราคา :</strong>'.$_POST["fs_id"].'<br /><br />
-            <strong>ประเภทสินค้า :</strong> '.protype_name($_POST["pro_type"]).'<br /><br />
+            <strong>ประเภทสินค้า :</strong> '.protype_name($conn,$_POST["pro_type"]).'<br /><br />
 			</td>
           </tr>
 </table>
@@ -98,7 +98,7 @@ $form = '
     </tr>
     <tr>
       <td style="border:1px solid #003399;padding:9px 5px;">'.$cpro1.'</td>
-      <td style="border:1px solid #003399;text-align:left;padding:9px 5px;">'.get_proname($_POST["cpro1"]).$pro_pod1.'</td>
+      <td style="border:1px solid #003399;text-align:left;padding:9px 5px;">'.get_proname($conn,$_POST["cpro1"]).$pro_pod1.'</td>
       <td style="border:1px solid #003399;padding:9px 5px;">'.$_POST["pro_sn1"].'</td>
       <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">'.number_format($_POST["camount1"]).'</td>
       <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">'.$prpro1.'&nbsp;&nbsp;</td>
@@ -106,7 +106,7 @@ $form = '
     </tr>
     <tr>
       <td style="border:1px solid #003399;padding:9px 5px;">'.$cpro2.'</td>
-      <td style="border:1px solid #003399;text-align:left;padding:9px 5px;">'.get_proname($_POST["cpro2"]).$pro_pod2.'</td>
+      <td style="border:1px solid #003399;text-align:left;padding:9px 5px;">'.get_proname($conn,$_POST["cpro2"]).$pro_pod2.'</td>
       <td style="border:1px solid #003399;padding:9px 5px;">'.$_POST["pro_sn2"].'</td>
       <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">'.number_format($_POST["camount2"]).'</td>
       <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">'.$prpro2.'&nbsp;&nbsp;</td>
@@ -114,7 +114,7 @@ $form = '
     </tr>
     <tr>
       <td style="border:1px solid #003399;padding:9px 5px;">'.$cpro3.'</td>
-      <td style="border:1px solid #003399;text-align:left;padding:9px 5px;">'.get_proname($_POST["cpro3"]).$pro_pod3.'</td>
+      <td style="border:1px solid #003399;text-align:left;padding:9px 5px;">'.get_proname($conn,$_POST["cpro3"]).$pro_pod3.'</td>
       <td style="border:1px solid #003399;padding:9px 5px;">'.$_POST["pro_sn3"].'</td>
       <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">'.number_format($_POST["camount3"]).'</td>
       <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">'.$prpro3.'&nbsp;&nbsp;</td>
@@ -122,7 +122,7 @@ $form = '
     </tr>
     <tr>
       <td style="border:1px solid #003399;padding:9px 5px;">'.$cpro4.'</td>
-      <td style="border:1px solid #003399;text-align:left;padding:9px 5px;">'.get_proname($_POST["cpro4"]).$pro_pod4.'</td>
+      <td style="border:1px solid #003399;text-align:left;padding:9px 5px;">'.get_proname($conn,$_POST["cpro4"]).$pro_pod4.'</td>
       <td style="border:1px solid #003399;padding:9px 5px;">'.$_POST["pro_sn4"].'</td>
       <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">'.number_format($_POST["camount4"]).'</td>
       <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">'.$prpro4.'&nbsp;&nbsp;</td>
@@ -130,7 +130,7 @@ $form = '
     </tr>
     <tr>
       <td style="border:1px solid #003399;padding:9px 5px;">'.$cpro5.'</td>
-      <td style="border:1px solid #003399;text-align:left;padding:9px 5px;">'.get_proname($_POST["cpro5"]).$pro_pod5.'</td>
+      <td style="border:1px solid #003399;text-align:left;padding:9px 5px;">'.get_proname($conn,$_POST["cpro5"]).$pro_pod5.'</td>
       <td style="border:1px solid #003399;padding:9px 5px;">'.$_POST["pro_sn5"].'</td>
       <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">'.number_format($_POST["camount5"]).'</td>
       <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">'.$prpro5.'&nbsp;&nbsp;</td>
@@ -251,7 +251,7 @@ $form = '
         <td width="33%" style="border:1px solid #003399;font-size:11px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
         	<table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td style="border-bottom:1px solid #003399;padding-bottom:10px;font-size:11px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong >'.getsalename($_POST["cs_sell"]).'</strong></td>
+                <td style="border-bottom:1px solid #003399;padding-bottom:10px;font-size:11px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong >'.getsalename($conn,$_POST["cs_sell"]).'</strong></td>
               </tr>
               <tr>
                 <td style="padding-top:10px;padding-bottom:10px;font-size:11px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>พนักงานขาย</strong></td>
@@ -259,7 +259,7 @@ $form = '
               <tr>
               <td style="font-size:11px;font-family:Verdana, Geneva, sans-serif;text-align:center;">
               <strong>เบอร์โทร '.$_POST["tel_sell"].'</strong>
-              <br><br><strong>วันที่ '.format_date($_POST["date_sell"]).'</strong></td>
+              <br><br><strong>วันที่ '.format_date($conn,$_POST["date_sell"]).'</strong></td>
               </tr>
             </table>
 
@@ -276,7 +276,7 @@ $form = '
               <td style="font-size:11px;font-family:Verdana, Geneva, sans-serif;text-align:center;">
               <strong>เบอร์โทร '.$_POST["tel_hsell"].'</strong>
               <br><br>
-              <strong>วันที่ '.format_date($_POST["date_hsell"]).'</strong></td>
+              <strong>วันที่ '.format_date($conn,$_POST["date_hsell"]).'</strong></td>
               </tr>
             </table>
         </td>
@@ -292,7 +292,7 @@ $form = '
               <td style="font-size:11px;font-family:Verdana, Geneva, sans-serif;text-align:center;">
               <strong>เบอร์โทร '.$_POST["tel_account"].'</strong>
               <br><br>
-              <strong>วันที่ '.format_date($_POST["date_account"]).'</strong></td>
+              <strong>วันที่ '.format_date($conn,$_POST["date_account"]).'</strong></td>
               </tr>
             </table>
         </td>

@@ -66,7 +66,7 @@ for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
         $pdf->Cell(0, 0, $txt, 0, 0, '');
 
         $pdf->SetXY(160, 73.5);
-        $txt = iconv('UTF-8', 'Windows-874', protype_name($_POST['pro_type']));
+        $txt = iconv('UTF-8', 'Windows-874', protype_name($conn,$_POST['pro_type']));
         //$pdf->Cell(0, 0, $txt, 0, 0, '');
 		$pdf->Cell(0,0,$txt,0,1,'');
 
@@ -92,7 +92,7 @@ for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
 			
 			$datafree = array(
 				"1",
-				get_proname($_POST['cpro1']),
+				get_proname($conn,$_POST['cpro1']),
 				$_POST['pro_sn1'],
 				number_format($_POST['camount1']),
 				number_format($_POST['cprice1']),
@@ -116,7 +116,7 @@ for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
 			
 			$datafree = array(
 				"2",
-				get_proname($_POST['cpro2']),
+				get_proname($conn,$_POST['cpro2']),
 				$_POST['pro_sn2'],
 				number_format($_POST['camount2']),
 				number_format($_POST['cprice2']),
@@ -140,7 +140,7 @@ for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
 			
 			$datafree = array(
 				"3",
-				get_proname($_POST['cpro3']),
+				get_proname($conn,$_POST['cpro3']),
 				$_POST['pro_sn3'],
 				number_format($_POST['camount3']),
 				number_format($_POST['cprice3']),
@@ -516,5 +516,5 @@ for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
 }
 
 // Output the new PDF
-$chaf = eregi_replace("/","-",$_POST['fs_id']);
+$chaf = str_replace("/","-",$_POST['fs_id']);
 $pdf->Output('../../upload/quotation/'.$chaf.'.pdf','F');

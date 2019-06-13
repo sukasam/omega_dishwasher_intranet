@@ -108,7 +108,7 @@ var FCKDomTools =
 				else if ( sTrimmed.length < iOriginalLength )
 				{
 					// If the trimmed text length is less than the original
-					// length, strip all spaces from the end by splitting
+					// length, strip all spaces from the end by explode(ting
 					// the text and removing the resulting useless node.
 
 					eChildNode.splitText( sTrimmed.length ) ;

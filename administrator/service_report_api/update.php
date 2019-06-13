@@ -4,7 +4,7 @@
 	include ("../../include/function.php");
 	include ("config.php");
 
-	if ($_POST[mode] <> "") { 
+	if ($_POST['mode'] <> "") { 
 		
 		$_POST['sr_stime'] = date("Y-m-d");
 		$_POST['job_open'] = date("Y-m-d");
@@ -12,10 +12,11 @@
 		$_POST['job_balance'] = date("Y-m-d");
 
 
-		if ($_POST[mode] == "add") { 
+		if ($_POST['mode'] == "add") { 
+		
 			
 			$_POST['sv_id'] = check_servicereport("SR".date("Y/m/"));
-			$_POST['job_last'] = get_lastservice_s($_POST['cus_id'],"");
+			$_POST['job_last'] = get_lastservice_s($conn,$_POST['cus_id'],"");
 
 			/*echo "<pre>";
 			echo print_r($_POST);
@@ -25,7 +26,7 @@
 			
 			include "../include/m_add.php";
 			
-			$id = mysql_insert_id();
+			$id = mysqli_insert_id($conn);
 				
 			include_once("../mpdf54/mpdf.php");
 			
@@ -33,14 +34,14 @@
 			$mpdf=new mPDF('UTF-8'); 
 			$mpdf->SetAutoFont();
 			$mpdf->WriteHTML($form);
-			$chaf = eregi_replace("/","-",$_POST['sv_id']); 
+			$chaf = str_replace("/","-",$_POST['sv_id']); 
 			$mpdf->Output('../../upload/service_report_open/'.$chaf.'.pdf','F');
 			
 			//echo $_POST['sv_id'];
 			
-			@mysql_query("INSERT INTO `service_schedule` (`id`, `month`, `technician`, `sv_id`, `fo_id`, `pdf`, `created`) VALUES (NULL, '".date("m")."', '".$_POST['loc_contact']."', '".$_POST['sv_id']."', '".$_POST['fo_id']."', '".$chaf.".pdf', CURRENT_TIMESTAMP);");
+			@mysqli_query($conn,"INSERT INTO `service_schedule` (`id`, `month`, `technician`, `sv_id`, `fo_id`, `pdf`, `created`) VALUES (NULL, '".date("m")."', '".$_POST['loc_contact']."', '".$_POST['sv_id']."', '".$_POST['fo_id']."', '".$chaf.".pdf', CURRENT_TIMESTAMP);");
 			
-			$pid = mysql_insert_id();
+			$pid = mysqli_insert_id($conn);
 			
 			
 			
@@ -48,12 +49,12 @@
 			
 			//header ("location:index.php?" . $param); 
 		}
-		/*if ($_POST[mode] == "update" ) {
+		/*if ($_POST['mode'] == "update" ) {
 			
 			$_POST['detail_recom'] = nl2br($_POST['detail_recom']);
 			$_POST['detail_calpr'] = nl2br($_POST['detail_calpr']);
 			
-			$_POST['job_last'] = get_lastservice_f($_POST['cus_id'],$_POST['sv_id']);
+			$_POST['job_last'] = get_lastservice_f($conn,$_POST['cus_id'],$_POST['sv_id']);
 			
 			foreach ($_POST['ckf_list2'] as $value) {
 				$checklist .= $value.',';
@@ -72,7 +73,7 @@
 			$mpdf=new mPDF('UTF-8'); 
 			$mpdf->SetAutoFont();
 			$mpdf->WriteHTML($form);
-			$chaf = eregi_replace("/","-",$_POST['sv_id']); 
+			$chaf = str_replace("/","-",$_POST['sv_id']); 
 			$mpdf->Output('../../upload/service_report_open/'.$chaf.'.pdf','F');
 			
 			//header ("location:index.php?" . $param); 

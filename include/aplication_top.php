@@ -26,8 +26,8 @@ $listsmenu = explode('/',$_SERVER['SCRIPT_FILENAME']);
 $lmenu = strtolower($listsmenu[count($listsmenu)-1]);
 
 if($_SESSION['lang'] == "thai"){
-	@mysql_query("SET NAMES tis620");
+	@mysqli_query($conn,"SET NAMES tis620");
 }else{
-	@mysql_query("SET NAMES utf8");
+	@mysqli_query($conn,"SET NAMES utf8");
 }
 ?>

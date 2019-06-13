@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 if ($_REQUEST['filename']) { $filename = $_REQUEST['filename']; }
 else { die("No file specified"); }

@@ -1,13 +1,13 @@
 <?php 
 if($_POST[seo]=="Submit"){
 	$sql="update s_module set tag_title='$_POST[tag_title]' ,tag_meta='$_POST[tag_meta]' where module_name='".$check_module."' ";
-	@mysql_query($sql);
-	//header ("location:index.php?page=$_GET[page]");
+	@mysqli_query($conn,$sql);
+	//header ("location:index.php?page=$_GET['page']");
 }
 
 $sql = "select * from s_module where module_name='".$check_module."' ";
-$query = @mysql_query ($sql);
-$rec_tag = @mysql_fetch_array ($query);
+$query = @mysqli_query($conn,$sql);
+$rec_tag = @mysqli_fetch_array($query);
 $tag_title=$rec_tag["tag_title"];
 $tag_meta=$rec_tag["tag_meta"];
 ?>

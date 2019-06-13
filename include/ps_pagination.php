@@ -67,13 +67,13 @@ class PS_Pagination {
 		}
 		
 		//Find total number of rows
-		$all_rs = @mysql_query($this->sql );
+		$all_rs = @mysqli_query($conn,$this->sql );
 		if (! $all_rs) {
 			if ($this->debug)
 				echo "SQL query failed. Check your query.<br /><br />Error Returned: " . mysql_error();
 			return false;
 		}
-		$this->total_rows = @mysql_num_rows($all_rs );
+		$this->total_rows = @mysqli_num_rows($all_rs );
 		@mysql_close($all_rs );
 		
 		//Return FALSE if no rows found
@@ -98,7 +98,7 @@ class PS_Pagination {
 		$this->offset = $this->rows_per_page * ($this->page - 1);
 		
 		//Fetch the required result set
-		$rs = @mysql_query($this->sql . " LIMIT {$this->offset}, {$this->rows_per_page}" );
+		$rs = @mysqli_query($conn,$this->sql . " LIMIT {$this->offset}, {$this->rows_per_page}" );
 		if (! $rs) {
 			if ($this->debug)
 				echo "Pagination query failed. Check your query.<br /><br />Error Returned: " . mysql_error();

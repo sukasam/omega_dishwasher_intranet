@@ -1,5 +1,4 @@
 <?php  
- header("Location:http://omegadishwasher-family.com/site/");
 	include ("../include/config.php");
 	include ("../include/connect.php");
 	include ("../include/function.php");
@@ -10,9 +9,9 @@
 	
 	if ($_GET['action'] == "check") { 
 		$sql = "select * from s_user where username like '$_POST[login_name]' and password like '$_POST[passwd]'";
-		$query = @mysql_query ($sql);
-                $numuser = mysql_num_rows($query);
-                $rec = @mysql_fetch_array ($query);
+		$query = @mysqli_query($conn,$sql);
+                $numuser = mysqli_num_rows($query);
+                $rec = @mysqli_fetch_array($query);
 
 		/*echo $numuser;
 		break;*/

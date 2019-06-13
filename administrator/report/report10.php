@@ -3,8 +3,8 @@
 	include ("../../include/connect.php");
 	include ("../../include/function.php");
 	include ("config.php");
-	Check_Permission ($check_module,$_SESSION[login_id],"read");
-	if ($_GET[page] == ""){$_REQUEST[page] = 1;	}
+	Check_Permission($conn,$check_module,$_SESSION['login_id'],"read");
+	if ($_GET['page'] == ""){$_REQUEST['page'] = 1;	}
 	$param = get_param($a_param,$a_not_exists);
 	
 	$cusid = $_REQUEST['cusid'];
@@ -33,10 +33,10 @@
 	if(($_REQUEST['base1'] != 1 || $_REQUEST['basebox2'] != 1) && ($_REQUEST['base1'] != 2 || $_REQUEST['basebox2'] != 1) && ($_REQUEST['base1'] != 3 || $_REQUEST['basebox2'] != 3) && ($_REQUEST['base1'] != 4 || $_REQUEST['basebox2'] != 3)){
 		if($_REQUEST['priod'] == 0){
 			$daterriod = " AND `date_forder`  between '".$date_fm."' and '".$date_to."'"; 
-			$dateshow = "เริ่มวันที่ : ".format_date($date_fm)."&nbsp;&nbsp;ถึงวันที่ : ".format_date($date_to); 
+			$dateshow = "เริ่มวันที่ : ".format_date($conn,$date_fm)."&nbsp;&nbsp;ถึงวันที่ : ".format_date($conn,$date_to); 
 		}
 		else{
-			$dateshow = "วันที่ค้นหา : ".format_date(date("Y-m-d")); 
+			$dateshow = "วันที่ค้นหา : ".format_date($conn,date("Y-m-d")); 
 		}	
 	}
 	
@@ -101,17 +101,17 @@
 			$condition .= " AND ctype = ".$_REQUEST['baseboxlist3'];
 			$orderby .= "ORDER BY date_forder ASC";
 			
-			$headtitle = "ประเภทลูกค้า : ".custype_name($_REQUEST['baseboxlist3'])."<br />$dateshow";
+			$headtitle = "ประเภทลูกค้า : ".custype_name($conn,$_REQUEST['baseboxlist3'])."<br />$dateshow";
 			
-			$bselect = "แยกตามประเภทลูกค้า > ประเภทลูกค้า > ".custype_name($_REQUEST['baseboxlist3']);
+			$bselect = "แยกตามประเภทลูกค้า > ประเภทลูกค้า > ".custype_name($conn,$_REQUEST['baseboxlist3']);
 		}
 		if($_REQUEST['basebox2'] == 3){
 			$condition .= " AND cs_sell = ".$_REQUEST['baseboxlist3']." ".$conditionb;
 			$orderby .= "ORDER BY date_forder ASC";
 			
-			$headtitle = "พนักงานขาย : ".getsalename($_REQUEST['baseboxlist3'])."<br />$dateshow";
+			$headtitle = "พนักงานขาย : ".getsalename($conn,$_REQUEST['baseboxlist3'])."<br />$dateshow";
 			
-			$bselect = "แยกตามประเภทลูกค้า > พนักงานขาย > ".getsalename($_REQUEST['baseboxlist3']);
+			$bselect = "แยกตามประเภทลูกค้า > พนักงานขาย > ".getsalename($conn,$_REQUEST['baseboxlist3']);
 		}
 	}
 	if($_REQUEST['base1'] == 2){
@@ -162,9 +162,9 @@
 			$condition .= " AND cg_type = ".$_REQUEST['baseboxlist3']." ".$conditionb;
 			$orderby .= "ORDER BY date_forder ASC";
 			
-			$headtitle = "กลุ่มลูกค่า : ".get_groupcusname($_REQUEST['baseboxlist3'])."<br />$dateshow";
+			$headtitle = "กลุ่มลูกค่า : ".get_groupcusname($conn,$_REQUEST['baseboxlist3'])."<br />$dateshow";
 			
-			$bselect = "แยกตามกลุ่มลูกค้า > กลุ่มลูกค้า > ".get_groupcusname($_REQUEST['baseboxlist3']);
+			$bselect = "แยกตามกลุ่มลูกค้า > กลุ่มลูกค้า > ".get_groupcusname($conn,$_REQUEST['baseboxlist3']);
 			
 		}
 		if($_REQUEST['basebox2'] == 3){
@@ -172,9 +172,9 @@
 			$condition .= " AND cs_sell = ".$_REQUEST['baseboxlist3']." ".$conditionb;
 			$orderby .= "ORDER BY date_forder ASC";
 			
-			$headtitle = "พนักงานขาย : ".getsalename($_REQUEST['baseboxlist3'])."<br />$dateshow";
+			$headtitle = "พนักงานขาย : ".getsalename($conn,$_REQUEST['baseboxlist3'])."<br />$dateshow";
 			
-			$bselect = "แยกตามกลุ่มลูกค้า > พนักงานขาย > ".getsalename($_REQUEST['baseboxlist3']);
+			$bselect = "แยกตามกลุ่มลูกค้า > พนักงานขาย > ".getsalename($conn,$_REQUEST['baseboxlist3']);
 			
 		}
 	}
@@ -183,9 +183,9 @@
 			$condition .= " AND ctype = ".$_REQUEST['baseboxlist3'];
 			$orderby .= "ORDER BY r_id ASC";
 			
-			$headtitle = "ประเภทลูกค้า : ".custype_name($_REQUEST['baseboxlist3'])."<br />$dateshow";
+			$headtitle = "ประเภทลูกค้า : ".custype_name($conn,$_REQUEST['baseboxlist3'])."<br />$dateshow";
 			
-			$bselect = "เรียงตามเลขสัญญา > ประเภทลูกค้า > ".custype_name($_REQUEST['baseboxlist3']);
+			$bselect = "เรียงตามเลขสัญญา > ประเภทลูกค้า > ".custype_name($conn,$_REQUEST['baseboxlist3']);
 			
 			
 		}
@@ -193,9 +193,9 @@
 			$condition .= " AND cg_type = ".$_REQUEST['baseboxlist3']." ".$conditionb;
 			$orderby .= "ORDER BY r_id ASC";
 			
-			$headtitle = "กลุ่มลูกค้า : ".get_groupcusname($_REQUEST['baseboxlist3'])."<br />$dateshow";
+			$headtitle = "กลุ่มลูกค้า : ".get_groupcusname($conn,$_REQUEST['baseboxlist3'])."<br />$dateshow";
 			
-			$bselect = "เรียงตามเลขสัญญา > กลุ่มลูกค้า > ".get_groupcusname($_REQUEST['baseboxlist3']);
+			$bselect = "เรียงตามเลขสัญญา > กลุ่มลูกค้า > ".get_groupcusname($conn,$_REQUEST['baseboxlist3']);
 			
 		}
 		if($_REQUEST['basebox2'] == 3){
@@ -218,9 +218,9 @@
 			$condition .= " AND cs_sell = ".$_REQUEST['baseboxlist3']." ".$conditionb;
 			$orderby .= "ORDER BY r_id ASC";
 			
-			$headtitle = "พนักงานขาย : ".getsalename($_REQUEST['baseboxlist3'])."<br />$dateshow";
+			$headtitle = "พนักงานขาย : ".getsalename($conn,$_REQUEST['baseboxlist3'])."<br />$dateshow";
 			
-			$bselect = "เรียงตามเลขสัญญา > พนักงานขาย > ".getsalename($_REQUEST['baseboxlist3']);
+			$bselect = "เรียงตามเลขสัญญา > พนักงานขาย > ".getsalename($conn,$_REQUEST['baseboxlist3']);
 			
 		}
 	}
@@ -231,17 +231,17 @@
 			$condition .= " AND ctype = ".$_REQUEST['baseboxlist3'];
 			$orderby .= "ORDER BY cd_name ASC";
 			
-			$headtitle = "ประเภทลูกค้า : ".custype_name($_REQUEST['baseboxlist3'])."<br />$dateshow";
+			$headtitle = "ประเภทลูกค้า : ".custype_name($conn,$_REQUEST['baseboxlist3'])."<br />$dateshow";
 			
-			$bselect = "เรียงตามรายชื่อลูกค้า > ประเภทลูกค้า > ".custype_name($_REQUEST['baseboxlist3']);
+			$bselect = "เรียงตามรายชื่อลูกค้า > ประเภทลูกค้า > ".custype_name($conn,$_REQUEST['baseboxlist3']);
 		}
 		if($_REQUEST['basebox2'] == 2){
 			$condition .= " AND cg_type = ".$_REQUEST['baseboxlist3']." ".$conditionb;
 			$orderby .= "ORDER BY cd_name ASC";
 			
-			$headtitle = "กลุ่มลูกค้า : ".get_groupcusname($_REQUEST['baseboxlist3'])."<br />$dateshow";
+			$headtitle = "กลุ่มลูกค้า : ".get_groupcusname($conn,$_REQUEST['baseboxlist3'])."<br />$dateshow";
 			
-			$bselect = "เรียงตามรายชื่อลูกค้า > กลุ่มลูกค้า > ".get_groupcusname($_REQUEST['baseboxlist3']);
+			$bselect = "เรียงตามรายชื่อลูกค้า > กลุ่มลูกค้า > ".get_groupcusname($conn,$_REQUEST['baseboxlist3']);
 			
 		}
 		if($_REQUEST['basebox2'] == 3){
@@ -262,9 +262,9 @@
 			$condition .= " AND cs_sell = ".$_REQUEST['baseboxlist3']." ".$conditionb;
 			$orderby .= "ORDER BY cd_name ASC";
 			
-			$headtitle = "พนักงานขาย : ".getsalename($_REQUEST['baseboxlist3'])."<br />$dateshow";
+			$headtitle = "พนักงานขาย : ".getsalename($conn,$_REQUEST['baseboxlist3'])."<br />$dateshow";
 			
-			$bselect = "เรียงตามรายชื่อลูกค้า > พนักงานขาย > ".getsalename($_REQUEST['baseboxlist3']);
+			$bselect = "เรียงตามรายชื่อลูกค้า > พนักงานขาย > ".getsalename($conn,$_REQUEST['baseboxlist3']);
 		}
 	}
 	
@@ -318,11 +318,11 @@
       </tr>
       <?php  
 	 	$sql = "SELECT * FROM s_first_order WHERE 1 ".$condition." ".$codi." ".$daterriod." ".$conttact." ".$orderby;
-	  	$qu_fr = @mysql_query($sql);
+	  	$qu_fr = @mysqli_query($conn,$sql);
 		$sumtotal = 0;
 		$sumgaruntree = 0;
 		$sum = 0;
-		while($row_fr = @mysql_fetch_array($qu_fr)){
+		while($row_fr = @mysqli_fetch_array($qu_fr)){
 			?>
 			<tr>
               <?php  if($_REQUEST['sh1'] == 1){?><td><?php  echo $row_fr['r_id'];?></td><?php  }?>
@@ -330,15 +330,15 @@
               <?php  echo $row_fr['cd_tel'];?></td><?php  }?>
               <?php  if($_REQUEST['sh3'] == 1){?><td><?php  echo $row_fr['loc_name'];?><br />
               <?php  echo $row_fr['loc_address'];?></td><?php  }?>
-              <?php  if($_REQUEST['sh4'] == 1){?><td><?php  echo custype_name($row_fr['ctype']);?></td><?php  }?>
-              <?php  if($_REQUEST['sh10'] == 1){?><td><?php  echo get_groupcusname($row_fr['cg_type']);?></td><?php  }?>
+              <?php  if($_REQUEST['sh4'] == 1){?><td><?php  echo custype_name($conn,$row_fr['ctype']);?></td><?php  }?>
+              <?php  if($_REQUEST['sh10'] == 1){?><td><?php  echo get_groupcusname($conn,$row_fr['cg_type']);?></td><?php  }?>
               <?php  if($_REQUEST['sh5'] == 1 || $_REQUEST['sh6'] == 1 || $_REQUEST['sh7'] == 1){?><td style="padding:0;">
               	<table width="94%" border="0" cellpadding="0" cellspacing="0" class="tbreport" style="margin-bottom:5px;">
                 <?php  
 					if($row_fr['cpro1'] != ""){
 						?>
 						<tr>
-                          <?php  if($_REQUEST['sh5'] == 1){?><td style="border:0;padding-bottom:0;" width="37%"><?php  echo get_proname($row_fr['cpro1']);?></td><?php  }?>
+                          <?php  if($_REQUEST['sh5'] == 1){?><td style="border:0;padding-bottom:0;" width="37%"><?php  echo get_proname($conn,$row_fr['cpro1']);?></td><?php  }?>
                           <?php  if($_REQUEST['sh6'] == 1){?>
                           <td style="border:0;padding-bottom:0;" width="31%"><?php  echo $row_fr['pro_pod1']." / ".$row_fr['pro_sn1'];?></td><?php  }?>
                           <?php  if($_REQUEST['sh7'] == 1){?><td style="border:0;padding-bottom:0;text-align:right;" width="32%"><?php  echo number_format($row_fr['cprice1']);?>&nbsp;&nbsp;&nbsp;</td><?php  }?>
@@ -351,7 +351,7 @@
 					if($row_fr['cpro2'] != ""){
 						?>
 						<tr>
-                          <?php  if($_REQUEST['sh5'] == 1){?><td style="border:0;padding-bottom:0;padding-top:0;" width="37%"><?php  echo get_proname($row_fr['cpro2']);?></td><?php  }?>
+                          <?php  if($_REQUEST['sh5'] == 1){?><td style="border:0;padding-bottom:0;padding-top:0;" width="37%"><?php  echo get_proname($conn,$row_fr['cpro2']);?></td><?php  }?>
                           <?php  if($_REQUEST['sh6'] == 1){?><td style="border:0;padding-bottom:0;padding-top:0;" width="31%"><?php  echo $row_fr['pro_pod2']." / ".$row_fr['pro_sn2'];?></td><?php  }?>
                           <?php  if($_REQUEST['sh7'] == 1){?><td style="border:0;padding-bottom:0;padding-top:0;text-align:right;" width="32%"><?php  echo number_format($row_fr['cprice2']);?>&nbsp;&nbsp;&nbsp;</td><?php  }?>
                           <?php  $sumtotal += $row_fr['cprice2'];?>
@@ -363,7 +363,7 @@
 					if($row_fr['cpro3'] != ""){
 						?>
 						<tr>
-                          <?php  if($_REQUEST['sh5'] == 1){?><td style="border:0;padding-bottom:0;padding-top:0;" width="37%"><?php  echo get_proname($row_fr['cpro3']);?></td><?php  }?>
+                          <?php  if($_REQUEST['sh5'] == 1){?><td style="border:0;padding-bottom:0;padding-top:0;" width="37%"><?php  echo get_proname($conn,$row_fr['cpro3']);?></td><?php  }?>
                           <?php  if($_REQUEST['sh6'] == 1){?><td style="border:0;padding-bottom:0;padding-top:0;" width="31%"><?php  echo $row_fr['pro_pod3']." / ".$row_fr['pro_sn3'];?></td><?php  }?>
                           <?php  if($_REQUEST['sh7'] == 1){?><td style="border:0;padding-bottom:0;padding-top:0;text-align:right;" width="32%"><?php  echo number_format($row_fr['cprice3']);?>&nbsp;&nbsp;&nbsp;</td><?php  }?>
                           <?php  $sumtotal += $row_fr['cprice3'];?>
@@ -375,7 +375,7 @@
 					if($row_fr['cpro4'] != ""){
 						?>
 						<tr>
-                          <?php  if($_REQUEST['sh5'] == 1){?><td style="border:0;padding-bottom:0;padding-top:0;" width="37%"><?php  echo get_proname($row_fr['cpro4']);?></td><?php  }?>
+                          <?php  if($_REQUEST['sh5'] == 1){?><td style="border:0;padding-bottom:0;padding-top:0;" width="37%"><?php  echo get_proname($conn,$row_fr['cpro4']);?></td><?php  }?>
                           <?php  if($_REQUEST['sh6'] == 1){?><td style="border:0;padding-bottom:0;padding-top:0;" width="31%"><?php  echo $row_fr['pro_pod4']." / ".$row_fr['pro_sn4'];?></td><?php  }?>
                           <?php  if($_REQUEST['sh7'] == 1){?><td style="border:0;padding-bottom:0;padding-top:0;text-align:right;" width="32%"><?php  echo number_format($row_fr['cprice4']);?>&nbsp;&nbsp;&nbsp;</td><?php  }?>
                           <?php  $sumtotal += $row_fr['cprice4'];?>
@@ -387,7 +387,7 @@
 					if($row_fr['cpro5'] != ""){
 						?>
 						<tr>
-                          <?php  if($_REQUEST['sh5'] == 1){?><td style="border:0;padding-bottom:0;padding-top:0;" width="37%"><?php  echo get_proname($row_fr['cpro5']);?></td><?php  }?>
+                          <?php  if($_REQUEST['sh5'] == 1){?><td style="border:0;padding-bottom:0;padding-top:0;" width="37%"><?php  echo get_proname($conn,$row_fr['cpro5']);?></td><?php  }?>
                           <?php  if($_REQUEST['sh6'] == 1){?><td style="border:0;padding-bottom:0;padding-top:0;" width="31%"><?php  echo $row_fr['pro_pod5']." / ".$row_fr['pro_sn5'];?></td><?php  }?>
                           <?php  if($_REQUEST['sh7'] == 1){?><td style="border:0;padding-bottom:0;padding-top:0;text-align:right;" width="32%"><?php  echo number_format($row_fr['cprice5']);?>&nbsp;&nbsp;&nbsp;</td><?php  }?>
                           <?php  $sumtotal += $row_fr['cprice5'];?>
@@ -399,7 +399,7 @@
 					if($row_fr['cpro6'] != ""){
 						?>
 						<tr>
-                          <?php  if($_REQUEST['sh5'] == 1){?><td style="border:0;padding-bottom:0;padding-top:0;" width="37%"><?php  echo get_proname($row_fr['cpro6']);?></td><?php  }?>
+                          <?php  if($_REQUEST['sh5'] == 1){?><td style="border:0;padding-bottom:0;padding-top:0;" width="37%"><?php  echo get_proname($conn,$row_fr['cpro6']);?></td><?php  }?>
                           <?php  if($_REQUEST['sh6'] == 1){?><td style="border:0;padding-bottom:0;padding-top:0;" width="31%"><?php  echo $row_fr['pro_pod6']." / ".$row_fr['pro_sn6'];?></td><?php  }?>
                           <?php  if($_REQUEST['sh7'] == 1){?><td style="border:0;padding-bottom:0;padding-top:0;text-align:right;" width="32%"><?php  echo number_format($row_fr['cprice6']);?>&nbsp;&nbsp;&nbsp;</td><?php  }?>
                           <?php  $sumtotal += $row_fr['cprice6'];?>
@@ -411,7 +411,7 @@
 					if($row_fr['cpro7'] != ""){
 						?>
 						<tr>
-                          <?php  if($_REQUEST['sh5'] == 1){?><td style="border:0;padding-bottom:0;padding-top:0;" width="37%"><?php  echo get_proname($row_fr['cpro7']);?></td><?php  }?>
+                          <?php  if($_REQUEST['sh5'] == 1){?><td style="border:0;padding-bottom:0;padding-top:0;" width="37%"><?php  echo get_proname($conn,$row_fr['cpro7']);?></td><?php  }?>
                           <?php  if($_REQUEST['sh6'] == 1){?><td style="border:0;padding-bottom:0;padding-top:0;" width="31%"><?php  echo $row_fr['pro_pod7']." / ".$row_fr['pro_sn7'];?></td><?php  }?>
                           <?php  if($_REQUEST['sh7'] == 1){?><td style="border:0;padding-bottom:0;padding-top:0;text-align:right;" width="32%"><?php  echo number_format($row_fr['cprice7']);?>&nbsp;&nbsp;&nbsp;</td><?php  }?>
                           <?php  $sumtotal += $row_fr['cprice7'];?>
@@ -422,8 +422,8 @@
 				?>
               </table></td><?php  }?>
               <?php  if($_REQUEST['sh11'] == 1){?><td><?php  echo number_format($row_fr['money_garuntree'],2);?></td><?php  }?>
-              <?php  if($_REQUEST['sh8'] == 1){?><td><?php  echo format_date($row_fr['date_quf']);?></td><?php  }?>
-              <?php  if($_REQUEST['sh9'] == 1){?><td><?php  echo format_date($row_fr['date_qut']);?></td><?php  }?>
+              <?php  if($_REQUEST['sh8'] == 1){?><td><?php  echo format_date($conn,$row_fr['date_quf']);?></td><?php  }?>
+              <?php  if($_REQUEST['sh9'] == 1){?><td><?php  echo format_date($conn,$row_fr['date_qut']);?></td><?php  }?>
             </tr>
 			<?php 
 			$sum += 1;	

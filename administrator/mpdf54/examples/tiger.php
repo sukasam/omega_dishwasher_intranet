@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 if ($_GET['t']=='png') { $filename = 'tiger.png'; $mime = 'png'; }
 else if ($_GET['t']=='gif') { $filename = 'tiger.gif'; $mime = 'gif'; }

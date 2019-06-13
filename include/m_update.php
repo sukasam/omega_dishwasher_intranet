@@ -11,6 +11,8 @@
 		$sql .= ", update_date = '" . date ("Y-m-d H:m:s") . "'";
 		$sql .= ", update_by = '" . $_SESSION["login_name"] .  "'";
 		$sql .= " where $PK_field = '" . $_REQUEST[$PK_field] . "'";
-		@mysql_query ($sql);
+		/*echo $sql;
+		exit();*/
+		@mysqli_query($conn,$sql);
 		$id = $$PK_field;
 		?>

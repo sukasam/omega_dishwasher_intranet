@@ -4,7 +4,9 @@
 	include ("../../include/function.php");
 	include ("config.php");
 
-	if ($_POST[mode] <> "") { 
+	$vowels = array(",");
+
+	if ($_POST['mode'] <> "") { 
 		$param = "";
 		$a_not_exists = array();
 		$param = get_param($a_param,$a_not_exists);
@@ -21,19 +23,19 @@
 		$a_sdate=explode("/",$_POST['job_balance']);
 		$_POST['job_balance']=$a_sdate[2]."-".$a_sdate[1]."-".$a_sdate[0];
 		
-		$_POST['cprice1'] = eregi_replace(",","",$_POST['cprice1']);
-		$_POST['cprice2'] = eregi_replace(",","",$_POST['cprice2']);
-		$_POST['cprice3'] = eregi_replace(",","",$_POST['cprice3']);
-		$_POST['cprice4'] = eregi_replace(",","",$_POST['cprice4']);
-		$_POST['cprice5'] = eregi_replace(",","",$_POST['cprice5']);
+		$_POST['cprice1'] = str_replace($vowels,"",$_POST['cprice1']);
+		$_POST['cprice2'] = str_replace($vowels,"",$_POST['cprice2']);
+		$_POST['cprice3'] = str_replace($vowels,"",$_POST['cprice3']);
+		$_POST['cprice4'] = str_replace($vowels,"",$_POST['cprice4']);
+		$_POST['cprice5'] = str_replace($vowels,"",$_POST['cprice5']);
 
-		if ($_POST[mode] == "update" ) {
+		if ($_POST['mode'] == "update" ) {
 			
 			$_POST['detail_recom'] = nl2br($_POST['detail_recom']);
 			$_POST['detail_recom2'] = nl2br($_POST['detail_recom2']);
 			$_POST['detail_calpr'] = nl2br($_POST['detail_calpr']);
 			
-			$_POST['job_last'] = get_lastservice_f($_POST['cus_id'],$_POST['sv_id']);
+			$_POST['job_last'] = get_lastservice_f($conn,$_POST['cus_id'],$_POST['sv_id']);
 			
 			
 			foreach ($_POST['ckl_list2'] as $value) {
@@ -72,7 +74,7 @@
 			$mpdf=new mPDF('UTF-8'); 
 			$mpdf->SetAutoFont();
 			$mpdf->WriteHTML($form);
-			$chaf = eregi_replace("/","-",$_POST['sv_id']); 
+			$chaf = str_replace("/","-",$_POST['sv_id']); 
 			$mpdf->Output('../../upload/service_report_close/'.$chaf.'.pdf','F');
 			
 			
@@ -80,14 +82,14 @@
 		}
 		
 	}
-	if ($_GET[mode] == "add") { 
-		 Check_Permission ($check_module,$_SESSION[login_id],"add");
+	if ($_GET['mode'] == "add") { 
+		 Check_Permission($conn,$check_module,$_SESSION['login_id'],"add");
 	}
-	if ($_GET[mode] == "update") { 
-		 Check_Permission ($check_module,$_SESSION[login_id],"update");
+	if ($_GET['mode'] == "update") { 
+		 Check_Permission($conn,$check_module,$_SESSION['login_id'],"update");
 		$sql = "select * from $tbl_name where $PK_field = '" . $_GET[$PK_field] ."'";
-		$query = @mysql_query ($sql);
-		while ($rec = @mysql_fetch_array ($query)) { 
+		$query = @mysqli_query($conn,$sql);
+		while ($rec = @mysqli_fetch_array($query)) { 
 			$$PK_field = $rec[$PK_field];
 			foreach ($fieldlist as $key => $value) { 
 				$$value = $rec[$value];
@@ -106,7 +108,7 @@
 		$a_sdate=explode("-",$job_balance);
 		$job_balance=$a_sdate[2]."/".$a_sdate[1]."/".$a_sdate[0];
 		
-		$finfo = get_firstorder($cus_id);
+		$finfo = get_firstorder($conn,$cus_id);
 		
 		$ckl_list = explode(',',$ckl_list);
 		$ckw_list = explode(',',$ckw_list);
@@ -123,9 +125,9 @@
 <HEAD>
 <TITLE><?php  echo $s_title;?></TITLE>
 <META content="text/html; charset=utf-8" http-equiv=Content-Type>
-<LINK rel=stylesheet type=text/css href="../css/reset.css" media=screen>
-<LINK rel=stylesheet type=text/css href="../css/style.css" media=screen>
-<LINK rel=stylesheet type=text/css href="../css/invalid.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/reset.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/style.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/invalid.css" media=screen>
 <SCRIPT type=text/javascript src="../js/jquery-1.3.2.min.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/simpla.jquery.configuration.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/facebox.js"></SCRIPT>
@@ -299,23 +301,23 @@ function check(frm){
 	     <!-- <select name="cus_id" id="cus_id" onChange="checkfirstorder(this.value,'cusadd','cusprovince','custel','cusfax','contactid','datef','datet','cscont','cstel','sloc_name','sevlast','prolist');" style="width:300px;">
                 	<option value="">กรุณาเลือก</option>
                 	<?php  
-						$qu_cusf = @mysql_query("SELECT * FROM s_first_order ORDER BY cd_name ASC");
-						while($row_cusf = @mysql_fetch_array($qu_cusf)){
+						$qu_cusf = @mysqli_query($conn,"SELECT * FROM s_first_order ORDER BY cd_name ASC");
+						while($row_cusf = @mysqli_fetch_array($qu_cusf)){
 							?>
 							<option value="<?php  echo $row_cusf['fo_id'];?>" <?php  if($row_cusf['fo_id'] == $cus_id){echo 'selected';}?>><?php  echo $row_cusf['cd_name']." (".$row_cusf['loc_name'].")";?></option>
 							<?php 
 						}
 					?>
                 </select>-->
-                <?php  echo get_customername($cus_id);?>
+                <?php  echo get_customername($conn,$cus_id);?>
                 <input type="hidden" name="cus_id" value="<?php  echo $cus_id;?>">
                 </td>
 	    <td width="57%"><strong>ประเภทบริการลูกค้า :</strong>
 	      <select name="sr_ctype" id="sr_ctype">
 	        <!--<option value="">กรุณาเลือก</option>-->
 	        <?php  
-						$qu_cusftype = @mysql_query("SELECT * FROM s_group_service ORDER BY group_name ASC");
-						while($row_cusftype = @mysql_fetch_array($qu_cusftype)){
+						$qu_cusftype = @mysqli_query($conn,"SELECT * FROM s_group_service ORDER BY group_name ASC");
+						while($row_cusftype = @mysqli_fetch_array($qu_cusftype)){
 							?>
 	        <option value="<?php  echo $row_cusftype['group_id'];?>" <?php  if($row_cusftype['group_id'] == $sr_ctype){echo 'selected';}?>><?php  echo $row_cusftype['group_name'];?></option>
 	        <?php 
@@ -326,8 +328,8 @@ function check(frm){
             	<select name="sr_ctype2" id="sr_ctype2">
             	  <!--<option value="">กรุณาเลือก</option>-->
             	  <?php  
-						$qu_cusftype2 = @mysql_query("SELECT * FROM s_group_custommer ORDER BY group_name ASC");
-						while($row_cusftype2 = @mysql_fetch_array($qu_cusftype2)){
+						$qu_cusftype2 = @mysqli_query($conn,"SELECT * FROM s_group_custommer ORDER BY group_name ASC");
+						while($row_cusftype2 = @mysqli_fetch_array($qu_cusftype2)){
 							?>
             	  <option value="<?php  echo $row_cusftype2['group_id'];?>" <?php  if($row_cusftype2['group_id'] == $sr_ctype2){echo 'selected';}?>><?php  echo $row_cusftype2['group_name'];?></option>
             	  <?php 
@@ -341,13 +343,13 @@ function check(frm){
 	    <td><strong>เลขที่บริการ  :</strong><input type="text" name="sv_id" value="<?php  if($sv_id == ""){echo check_servicereport("SR".date("Y/m/"));}else{echo $sv_id;};?>" id="sv_id" class="inpfoder" style="border:0;"><!--<input type="text" name="sv_id" value="<?php  if($sv_id == ""){echo "SR";}else{echo $sv_id;};?>" id="sv_id" class="inpfoder" style="border:0;">-->&nbsp;&nbsp;<strong>เลขที่สัญญา  :</strong><span id="contactid"><?php  echo $finfo['fs_id'];?></span></td>
 	    </tr>
 	  <tr>
-	    <td><strong>จังหวัด :</strong> <span id="cusprovince"><?php  echo province_name($finfo['cd_province']);?></span></td>
+	    <td><strong>จังหวัด :</strong> <span id="cusprovince"><?php  echo province_name($conn,$finfo['cd_province']);?></span></td>
 	    <td><strong>วันที่ปิดงาน  :</strong> <span id="datef"></span><input type="text" name="job_close" readonly value="<?php  if($job_close==""){echo date("d/m/Y");}else{ echo $job_close;}?>" class="inpfoder"/>
 	      <script language="JavaScript">new tcal ({'formname': 'form1','controlname': 'job_close'});</script><span id="datet"></span><input type="hidden" name="job_open" value="<?php  if($job_open==""){echo date("d/m/Y");}else{ echo $job_open;}?>" class="inpfoder"/><input type="hidden" name="job_balance" value="<?php  if($job_balance==""){echo date("d/m/Y");}else{ echo $job_balance;}?>" class="inpfoder"/></td>
 	    </tr>
 	  <tr>
 	    <td><strong>โทรศัพท์ :</strong> <span id="custel"><?php  echo $finfo['cd_tel'];?></span><strong>&nbsp;&nbsp;&nbsp;&nbsp;แฟกซ์ :</strong> <span id="cusfax"><?php  echo $finfo['cd_fax'];?></span></td>
-	    <td><strong>บริการครั้งล่าสุด : </strong><span id="sevlast"><?php  echo get_lastservice_f($cus_id,$sv_id);?></span> &nbsp;&nbsp;&nbsp;&nbsp;<strong>บริการครั้งต่อไป  :</strong><span style="font-size:11px;font-family:Verdana, Geneva, sans-serif;padding:5px;">
+	    <td><strong>บริการครั้งล่าสุด : </strong><span id="sevlast"><?php  echo get_lastservice_f($conn,$cus_id,$sv_id);?></span> &nbsp;&nbsp;&nbsp;&nbsp;<strong>บริการครั้งต่อไป  :</strong><span style="font-size:11px;font-family:Verdana, Geneva, sans-serif;padding:5px;">
 	      <input type="text" name="sr_stime" readonly value="<?php  if($sr_stime==""){echo date("d/m/Y");}else{ echo $sr_stime;}?>" class="inpfoder"/>
 	      <script language="JavaScript">new tcal ({'formname': 'form1','controlname': 'sr_stime'});</script>
 	      </span></td>
@@ -364,13 +366,13 @@ function check(frm){
           <strong>เลือกสินค้า :</strong>
           <span id="prolist">
           		<?php  
-				$prolist = get_profirstorder($cus_id);
+				$prolist = get_profirstorder($conn,$cus_id);
 				//$lispp = explode(",",$prolist);
 				$plid = "<select name=\"bbfpro\" id=\"bbfpro\" onchange=\"get_podsn(this.value,'lpa1','lpa2','lpa3','".$cus_id."')\">
 								<option value=\"\">กรุณาเลือก</option>       
 							 ";
 				for($i=0;$i<count($prolist);$i++){
-					$plid .= "<option value=".$i.">".get_proname($prolist[$i])."</option>";
+					$plid .= "<option value=".$i.">".get_proname($conn,$prolist[$i])."</option>";
 				}	
 				echo $plid .=	 "</select>";
 						?>
@@ -388,8 +390,8 @@ function check(frm){
             <select name="loc_contact" id="loc_contact">
                 	<option value="">กรุณาเลือก</option>
                 	<?php  
-						$qu_custec = @mysql_query("SELECT * FROM s_group_technician ORDER BY group_name ASC");
-						while($row_custec = @mysql_fetch_array($qu_custec)){
+						$qu_custec = @mysqli_query($conn,"SELECT * FROM s_group_technician ORDER BY group_name ASC");
+						while($row_custec = @mysqli_fetch_array($qu_custec)){
 							?>
 							<option value="<?php  echo $row_custec['group_id'];?>" <?php  if($row_custec['group_id'] == $loc_contact){echo 'selected';}?>><?php  echo $row_custec['group_name']. " (Tel : ".$row_custec['group_tel'].")";?></option>
 							<?php 
@@ -475,10 +477,10 @@ function check(frm){
           <div class="sc_wrap">
             <ul>
               <?php  
-					 	$qu_fix = @mysql_query("SELECT * FROM s_group_fix ORDER BY group_name ASC");
-						$numfix = @mysql_num_rows($qu_fix);
+					 	$qu_fix = @mysqli_query($conn,"SELECT * FROM s_group_fix ORDER BY group_name ASC");
+						$numfix = @mysqli_num_rows($qu_fix);
 						$nd = 1;
-						while($row_fix = @mysql_fetch_array($qu_fix)){
+						while($row_fix = @mysqli_fetch_array($qu_fix)){
 							?>
               <li>
                 <input type="checkbox" name="ckf_list2[]" onClick="CountChecks('listone',5,this,<?php  echo $numfix;?>)" value="<?php  echo $row_fix['group_id'];?>" id="checkbox<?php  echo $nd;?>" <?php  if(@in_array( $row_fix['group_id'] , $ckf_list )){echo 'checked="checked"';}?>>
@@ -519,8 +521,8 @@ function check(frm){
       	<select name="cpro1" id="cpro1" class="inputselect" style="width:100%;">
       		<option value="">กรุณาเลือกรายการ</option>
 		  <?php 
-              $qupro1 = @mysql_query("SELECT * FROM s_group_sparpart ORDER BY group_name ASC");
-              while($row_qupro1 = @mysql_fetch_array($qupro1)){
+              $qupro1 = @mysqli_query($conn,"SELECT * FROM s_group_sparpart ORDER BY group_name ASC");
+              while($row_qupro1 = @mysqli_fetch_array($qupro1)){
                 ?>
                   <option value="<?php  echo $row_qupro1['group_id'];?>" <?php  if($cpro1 == $row_qupro1['group_id']){echo 'selected';}?>><?php  echo $row_qupro1['group_name'];?></option>
                 <?php 	
@@ -537,8 +539,8 @@ function check(frm){
       <select name="cpro2" id="cpro2" class="inputselect" style="width:100%;">
       		<option value="">กรุณาเลือกรายการ</option>
 		  <?php 
-              $qupro2 = @mysql_query("SELECT * FROM s_group_sparpart ORDER BY group_name ASC");
-              while($row_qupro2 = @mysql_fetch_array($qupro2)){
+              $qupro2 = @mysqli_query($conn,"SELECT * FROM s_group_sparpart ORDER BY group_name ASC");
+              while($row_qupro2 = @mysqli_fetch_array($qupro2)){
                 ?>
                   <option value="<?php  echo $row_qupro2['group_id'];?>" <?php  if($cpro2 == $row_qupro2['group_id']){echo 'selected';}?>><?php  echo $row_qupro2['group_name'];?></option>
                 <?php 	
@@ -554,8 +556,8 @@ function check(frm){
       <select name="cpro3" id="cpro3" class="inputselect" style="width:100%;">
       		<option value="">กรุณาเลือกรายการ</option>
 		  <?php 
-              $qupro3 = @mysql_query("SELECT * FROM s_group_sparpart ORDER BY group_name ASC");
-              while($row_qupro3 = @mysql_fetch_array($qupro3)){
+              $qupro3 = @mysqli_query($conn,"SELECT * FROM s_group_sparpart ORDER BY group_name ASC");
+              while($row_qupro3 = @mysqli_fetch_array($qupro3)){
                 ?>
                   <option value="<?php  echo $row_qupro3['group_id'];?>" <?php  if($cpro3 == $row_qupro3['group_id']){echo 'selected';}?>><?php  echo $row_qupro3['group_name'];?></option>
                 <?php 	
@@ -571,8 +573,8 @@ function check(frm){
       <select name="cpro4" id="cpro4" class="inputselect" style="width:100%;">
       		<option value="">กรุณาเลือกรายการ</option>
 		  <?php 
-              $qupro4 = @mysql_query("SELECT * FROM s_group_sparpart ORDER BY group_name ASC");
-              while($row_qupro4 = @mysql_fetch_array($qupro4)){
+              $qupro4 = @mysqli_query($conn,"SELECT * FROM s_group_sparpart ORDER BY group_name ASC");
+              while($row_qupro4 = @mysqli_fetch_array($qupro4)){
                 ?>
                   <option value="<?php  echo $row_qupro4['group_id'];?>" <?php  if($cpro4 == $row_qupro4['group_id']){echo 'selected';}?>><?php  echo $row_qupro4['group_name'];?></option>
                 <?php 	
@@ -588,8 +590,8 @@ function check(frm){
       <select name="cpro5" id="cpro5" class="inputselect" style="width:100%;">
       		<option value="">กรุณาเลือกรายการ</option>
 		  <?php 
-              $qupro5 = @mysql_query("SELECT * FROM s_group_sparpart ORDER BY group_name ASC");
-              while($row_qupro5 = @mysql_fetch_array($qupro5)){
+              $qupro5 = @mysqli_query($conn,"SELECT * FROM s_group_sparpart ORDER BY group_name ASC");
+              while($row_qupro5 = @mysqli_fetch_array($qupro5)){
                 ?>
                   <option value="<?php  echo $row_qupro5['group_id'];?>" <?php  if($cpro5 == $row_qupro5['group_id']){echo 'selected';}?>><?php  echo $row_qupro5['group_name'];?></option>
                 <?php 	
@@ -659,7 +661,7 @@ function check(frm){
 			$a_not_exists = array();
 			post_param($a_param,$a_not_exists); 
 			?>
-      <input name="mode" type="hidden" id="mode" value="<?php  echo $_GET[mode];?>">
+      <input name="mode" type="hidden" id="mode" value="<?php  echo $_GET['mode'];?>">
       <input name="detail_calpr" type="hidden" id="detail_calpr" value="<?php  echo strip_tags($detail_calpr);?>">
       <input name="detail_recom" type="hidden" id="detail_recom" value="<?php  echo strip_tags($detail_recom);?>">
       <input name="st_setting" type="hidden" id="st_setting" value="<?php  echo $st_setting;?>">   

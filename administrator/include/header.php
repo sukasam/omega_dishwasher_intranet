@@ -1,7 +1,7 @@
  <?php 
  	$sql = "select show_status from b_banner_config where page_name_en='".$pages_config_banner."' ";
-	$query = @mysql_query ($sql);
-	$rec_config = @mysql_fetch_array($query);
+	$query = @mysqli_query($conn,$sql);
+	$rec_config = @mysqli_fetch_array($query);
 	$show_status=$rec_config["show_status"];
 	//echo $show_status;
 	if($show_status==0){
@@ -9,8 +9,8 @@
 <script type="text/javascript" src="/Scripts/AC_RunActiveContent.js"></script>
 <?php 
 	$sql_banner = " select * from b_banner where status=0 ";
-	$query_banner = @mysql_query ($sql_banner);
-	$rec_banner = @mysql_fetch_array ($query_banner);
+	$query_banner = @mysqli_query($conn,$sql_banner);
+	$rec_banner = @mysqli_fetch_array($query_banner);
 	$path_img="upload/banner/".$rec_banner["file_name"];
 	if((file_exists($path_img))&&($rec_banner["file_name"]!= "")){
 	$filestype = substr($rec_banner["file_name"],-3);
@@ -55,8 +55,8 @@
 
 <?php 
 	$sql_background = " select * from b_background where status=0 ";
-	$query_background = @mysql_query ($sql_background);
-	$rec_background = @mysql_fetch_array ($query_background);
+	$query_background = @mysqli_query($conn,$sql_background);
+	$rec_background = @mysqli_fetch_array($query_background);
 	$fixed=$rec_background["fixed"];
 	$margin_top=$rec_background["margin_top"];
 	if($fixed==1){

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 
 include("../mpdf.php");
@@ -480,7 +480,6 @@ if ($_REQUEST['source']) {
 	readfile($file);
 	exit; 
 }
-
 //==============================================================
 $mpdf->WriteHTML($html);
 

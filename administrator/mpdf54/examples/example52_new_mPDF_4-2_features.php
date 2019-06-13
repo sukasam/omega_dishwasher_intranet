@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 
 ini_set("memory_limit","256M");
@@ -407,7 +407,7 @@ This layout can be used to produce company letters with only the first page on l
 
 <pagebreak />
 <h2>Table Layout control</h2>
-<p>mPDF attempts to layout tables according to HTML and CSS specifications. However, because of the difference between screen and paged media, mPDF resizes tables when necessary to make them fit the page. This will happen if the minimum table-width is greater than the page-width. Minimum table-width is defined as the minimum width to accomodate the longest word in each column i.e. words will never be split.
+<p>mPDF attempts to layout tables according to HTML and CSS specifications. However, because of the difference between screen and paged media, mPDF resizes tables when necessary to make them fit the page. This will happen if the minimum table-width is greater than the page-width. Minimum table-width is defined as the minimum width to accomodate the longest word in each column i.e. words will never be explode(.
 </p>
 <p>This resizing (minimum-width) can be disabled using a custom CSS property "overflow" on the TABLE tag. There are 4 options:</p>
 &lt;table style="overflow: auto"&gt; (this is the default, using resizing)

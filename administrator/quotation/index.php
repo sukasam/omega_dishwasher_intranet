@@ -3,18 +3,18 @@
 	include ("../../include/connect.php");
 	include ("../../include/function.php");
 	include ("config.php");
-	Check_Permission ($check_module,$_SESSION[login_id],"read");
-	if ($_GET[page] == ""){$_REQUEST[page] = 1;	}
+	Check_Permission($conn,$check_module,$_SESSION['login_id'],"read");
+	if ($_GET['page'] == ""){$_REQUEST['page'] = 1;	}
 	$param = get_param($a_param,$a_not_exists);
 	
-	if($_GET[action] == "delete"){
-		$code = Check_Permission ($check_module,$_SESSION["login_id"],"delete");		
+	if($_GET['action'] == "delete"){
+		$code = Check_Permission($conn,$check_module,$_SESSION["login_id"],"delete");		
 		if ($code == "1") {
 			$sql = "delete from $tbl_name  where $PK_field = '$_GET[$PK_field]'";
-			@mysql_query($sql);	
+			@mysqli_query($conn,$sql);	
 			
 			$sql2 = "UPDATE `s_quotation2` SET `quotation` = '' WHERE `quotation` = ".$_GET[$PK_field].";";
-			@mysql_query($sql2);	
+			@mysqli_query($conn,$sql2);	
 			//exit();
 			
 			header ("location:index.php");
@@ -23,12 +23,12 @@
 
 	if($_GET['action'] == "createQA"){
 		$sql = "SELECT * FROM s_quotation where qu_id = '".$_GET['id']."'";
-		$query = mysql_query($sql);
-		$recQa = mysql_fetch_array($query);
+		$query = mysqli_query($conn,$sql);
+		$recQa = mysqli_fetch_array($query);
 
 		$fs_idQA = check_quotation2("QA-H ".date("Y/m/"));
 		
-		@mysql_query("INSERT INTO 
+		@mysqli_query($conn,"INSERT INTO 
 									`s_quotation2` (`cd_name`,`cd_address`,`cd_province`,`cd_tel`,`cd_fax`,`fs_id`,`date_forder`,`pro_type`,
 									`pro_pod1`,`pro_pod2`,`pro_pod3`,`pro_pod4`,`pro_pod5`,`pro_pod6`,`pro_pod7`,
 									`pro_sn1`,`pro_sn2`,`pro_sn3`,`pro_sn4`,`pro_sn5`,`pro_sn6`,`pro_sn7`,
@@ -54,28 +54,28 @@
 									'".$recQa['guaran2']."','".$recQa['date_sell']."'
 									);");
 		
-		$idQa = mysql_insert_id();
+		$idQa = mysqli_insert_id($conn);
 		
-		mysql_query("UPDATE `s_quotation2` SET `quotation` = '".$_GET['id']."' WHERE `qu_id` = ".$idQa.";");
-		mysql_query("UPDATE `s_quotation` SET `quotation` = '".$idQa."' WHERE `qu_id` = ".$_GET['id'].";");
+		mysqli_query($conn,"UPDATE `s_quotation2` SET `quotation` = '".$_GET['id']."' WHERE `qu_id` = ".$idQa.";");
+		mysqli_query($conn,"UPDATE `s_quotation` SET `quotation` = '".$idQa."' WHERE `qu_id` = ".$_GET['id'].";");
 		
 		header ("location:index.php");
 		//exit();
 	}
 	
 	//-------------------------------------------------------------------------------------
-	 if ($_GET[b] <> "" and $_GET[s] <> "") { 
-		if ($_GET[s] == 0) $status = 1;
-		if ($_GET[s] == 1) $status = 0;
-		Check_Permission ($check_module,$_SESSION[login_id],"update");
-		$sql_status = "update $tbl_name set st_setting = '$status' where $PK_field = '$_GET[b]'";
-		@mysql_query ($sql_status);
+	 if ($_GET['b'] <> "" and $_GET['s'] <> "") { 
+		if ($_GET['s'] == 0) $status = 1;
+		if ($_GET['s'] == 1) $status = 0;
+		Check_Permission($conn,$check_module,$_SESSION['login_id'],"update");
+		$sql_status = "update $tbl_name set st_setting = ".$status." where $PK_field = ".$_GET['b']."";
+		@mysqli_query($conn,$sql_status);
 		 
 		if($_GET['page'] != ""){$conpage = "page=".$_GET['page'];}
 		 
-		 $sql = "select * from $tbl_name where $PK_field = '$_GET[b]'";
-			$query = @mysql_query ($sql);
-			while ($rec = @mysql_fetch_array ($query)) {
+		 $sql = "select * from $tbl_name where $PK_field = ".$_GET['b']."";
+			$query = @mysqli_query($conn,$sql);
+			while ($rec = @mysqli_fetch_array($query)) {
 				$$PK_field = $rec[$PK_field];
 				foreach ($fieldlist as $key => $value) {
 					$$value = $rec[$value];
@@ -85,11 +85,11 @@
 		if($status == 1){
 			$foid = check_firstorder("FO".date("Y/m/"));
 			
-			@mysql_query("INSERT INTO `s_first_order` (`fo_id`, `cd_name`, `cd_address`, `cd_province`, `cd_tel`, `cd_fax`, `fs_id`, `date_forder`, `cg_type`, `ctype`, `pro_type`, `po_id`, `pro_sn1`, `pro_sn2`, `pro_sn3`, `pro_sn4`, `pro_sn5`, `pro_sn6`, `pro_sn7`, `c_contact`, `c_tel`, `cpro1`, `cpro2`, `cpro3`, `cpro4`, `cpro5`, `cpro6`, `cpro7`, `camount1`, `camount2`, `camount3`, `camount4`, `camount5`, `camount6`, `camount7`, `cprice1`, `cprice2`, `cprice3`, `cprice4`, `cprice5`, `cprice6`, `cprice7`, `cs_pro1`, `cs_pro2`, `cs_pro3`, `cs_pro4`, `cs_pro5`, `cs_amount1`, `cs_amount2`, `cs_amount3`, `cs_amount4`, `cs_amount5`, `type_service`, `cs_sell`, `cs_ship`, `cs_setting`, `date_quf`, `date_qut`) VALUES (NULL, '".$cd_name."', '".$cd_address."', '".$cd_province."', '".$cd_tel."', '".$cd_fax."', '".$foid."','".$date_forder."','17','16', '".$pro_type."', '".$fs_id."', '".$pro_sn1."', '".$pro_sn2."', '".$pro_sn3."', '".$pro_sn4."', '".$pro_sn5."', '".$pro_sn6."', '".$pro_sn7."', '".$c_contact."', '".$c_tel."', '".$cpro1."', '".$cpro2."', '".$cpro3."', '".$cpro4."', '".$cpro5."', '".$cpro6."', '".$cpro7."', '".$camount1."', '".$camount2."', '".$camount3."', '".$camount4."', '".$camount5."', '".$camount6."', '".$camount7."', '".$cprice1."', '".$cprice2."', '".$cprice3."', '".$cprice4."', '".$cprice5."', '".$cprice6."', '".$cprice7."', '".$cs_pro1."', '".$cs_pro2."', '".$cs_pro3."', '".$cs_pro4."', '".$cs_pro5."', '".$cs_amount1."', '".$cs_amount2."', '".$cs_amount3."', '".$cs_amount4."', '".$cs_amount5."', '".$type_service."', '".$cs_sell."','".$date_forder."','".$date_forder."','".$date_forder."','".$date_forder."');");
+			@mysqli_query($conn,"INSERT INTO `s_first_order` (`fo_id`, `cd_name`, `cd_address`, `cd_province`, `cd_tel`, `cd_fax`, `fs_id`, `date_forder`, `cg_type`, `ctype`, `pro_type`, `po_id`, `pro_sn1`, `pro_sn2`, `pro_sn3`, `pro_sn4`, `pro_sn5`, `pro_sn6`, `pro_sn7`, `c_contact`, `c_tel`, `cpro1`, `cpro2`, `cpro3`, `cpro4`, `cpro5`, `cpro6`, `cpro7`, `camount1`, `camount2`, `camount3`, `camount4`, `camount5`, `camount6`, `camount7`, `cprice1`, `cprice2`, `cprice3`, `cprice4`, `cprice5`, `cprice6`, `cprice7`, `cs_pro1`, `cs_pro2`, `cs_pro3`, `cs_pro4`, `cs_pro5`, `cs_amount1`, `cs_amount2`, `cs_amount3`, `cs_amount4`, `cs_amount5`, `type_service`, `cs_sell`, `cs_ship`, `cs_setting`, `date_quf`, `date_qut`) VALUES (NULL, '".$cd_name."', '".$cd_address."', '".$cd_province."', '".$cd_tel."', '".$cd_fax."', '".$foid."','".$date_forder."','17','16', '".$pro_type."', '".$fs_id."', '".$pro_sn1."', '".$pro_sn2."', '".$pro_sn3."', '".$pro_sn4."', '".$pro_sn5."', '".$pro_sn6."', '".$pro_sn7."', '".$c_contact."', '".$c_tel."', '".$cpro1."', '".$cpro2."', '".$cpro3."', '".$cpro4."', '".$cpro5."', '".$cpro6."', '".$cpro7."', '".$camount1."', '".$camount2."', '".$camount3."', '".$camount4."', '".$camount5."', '".$camount6."', '".$camount7."', '".$cprice1."', '".$cprice2."', '".$cprice3."', '".$cprice4."', '".$cprice5."', '".$cprice6."', '".$cprice7."', '".$cs_pro1."', '".$cs_pro2."', '".$cs_pro3."', '".$cs_pro4."', '".$cs_pro5."', '".$cs_amount1."', '".$cs_amount2."', '".$cs_amount3."', '".$cs_amount4."', '".$cs_amount5."', '".$type_service."', '".$cs_sell."','".$date_forder."','".$date_forder."','".$date_forder."','".$date_forder."');");
 
 		}else{
 			echo "DELETE FROM `s_first_order` WHERE `po_id` = '".$fs_id."'";
-			@mysql_query ("DELETE FROM `s_first_order` WHERE `po_id` = '".$fs_id."'");
+			@mysqli_query($conn,"DELETE FROM `s_first_order` WHERE `po_id` = '".$fs_id."'");
 		}
 
 		header ("location:?".$conpage); 
@@ -101,9 +101,9 @@
 		if ($_GET[gg] == 0) $status_use = 0;
 		if ($_GET[gg] == 1) $status_use = 1;
 		if ($_GET[gg] == 2) $status_use = 2;
-		Check_Permission ($check_module,$_SESSION[login_id],"update");
+		Check_Permission($conn,$check_module,$_SESSION['login_id'],"update");
 		$sql_status = "update $tbl_name set status_use = '$status_use' where $PK_field = '$_GET[ff]'";
-		@mysql_query ($sql_status);
+		@mysqli_query($conn,$sql_status);
 		
 		if($_GET['page'] != ""){$conpage = "page=".$_GET['page'];}
 		header ("location:?".$conpage); 
@@ -115,9 +115,9 @@
 <HEAD>
 <TITLE><?php  echo $s_title;?></TITLE>
 <META content="text/html; charset=utf-8" http-equiv=Content-Type>
-<LINK rel=stylesheet type=text/css href="../css/reset.css" media=screen>
-<LINK rel=stylesheet type=text/css href="../css/style.css" media=screen>
-<LINK rel=stylesheet type=text/css href="../css/invalid.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/reset.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/style.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/invalid.css" media=screen>
 <SCRIPT type=text/javascript src="../js/jquery-1.3.2.min.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/simpla.jquery.configuration.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/facebox.js"></SCRIPT>
@@ -235,23 +235,23 @@ function check_select(frm){
 					if ($sortby <> "") $sql .= " " . $sortby;
 					include ("../include/page_init.php");
 					//echo $sql;
-					$query = @mysql_query ($sql);
-					if($_GET[page] == "") $_GET[page] = 1;
-					$counter = ($_GET[page]-1)*$pagesize;
+					$query = @mysqli_query($conn,$sql);
+					if($_GET['page'] == "") $_GET['page'] = 1;
+					$counter = ($_GET['page']-1)*$pagesize;
 					
-					while ($rec = @mysql_fetch_array ($query)) { 
+					while ($rec = @mysqli_fetch_array($query)) { 
 					$counter++;
 				   ?>
         <TR>
           <TD><INPUT type=checkbox name="del[]" value="<?php  echo $rec[$PK_field]; ?>" ></TD>
           <TD><span class="text"><?php  echo sprintf("%04d",$counter); ?></span></TD>
-          <TD><?php  $chaf = eregi_replace("/","-",$rec["fs_id"]); ?><span class="text"><a href="../../upload/quotation/<?php  echo $chaf;?>.pdf" target="_blank"><?php  echo $rec["fs_id"] ; ?></a></span></TD>
+          <TD><?php  $chaf = str_replace("/","-",$rec["fs_id"]); ?><span class="text"><a href="../../upload/quotation/<?php  echo $chaf;?>.pdf" target="_blank"><?php  echo $rec["fs_id"] ; ?></a></span></TD>
           <TD>          <span class="text"><?php  echo $rec["cd_name"] ; ?></span></TD>
 					<TD style="text-align: center;"><?php
 						if($rec["quotation"] != ""){
-							$chafQA = eregi_replace("/","-",getQaHNumber($rec["quotation"]))
+							$chafQA = preg_replace("/","-",getQaHNumber($conn,$rec["quotation"]))
 							?>
-							<a href="../quotation2/update.php?mode=update&qu_id=<?php echo $rec["quotation"];?>"><?php echo getQaHNumber($rec["quotation"]);?></a> 
+							<a href="../quotation2/update.php?mode=update&qu_id=<?php echo $rec["quotation"];?>"><?php echo getQaHNumber($conn,$rec["quotation"]);?></a> 
 							<?php 
 							$file_pointer = '../../upload/quotation/'.$chafQA.'.pdf';
 							if (file_exists($file_pointer)) {
@@ -286,7 +286,7 @@ function check_select(frm){
             <a href="../quotation/?bb=<?php  echo $rec[$PK_field]; ?>&ss=<?php  echo $rec["status"]; ?>&page=<?php  echo $_GET['page']; ?>&<?php  echo $FK_field; ?>=<?php  echo $_REQUEST["$FK_field"];?>&foid=<?php  echo $rec["qu_id"]; ?>"><img src="../icons/status_on.gif" width="10" height="10"></a>
             <?php  } else{?>
             <a href="../quotation/?bb=<?php  echo $rec[$PK_field]; ?>&ss=<?php  echo $rec["status"]; ?>&page=<?php  echo $_GET['page']; ?>&<?php  echo $FK_field; ?>=<?php  echo $_REQUEST["$FK_field"];?>&foid=<?php  echo $rec["qu_id"]; ?>"><img src="../icons/status_off.gif" width="10" height="10"></a>
-            <div align="center"><a href="../../upload/service_report_close/<?php  echo get_srreport($rec["fs_id"]);?>.pdf" target="_blank"><p style="background:#999;color:#FFFFFF;padding:2px;"><?php  echo get_srreport($rec["qu_id"]);?></p></a></div>
+            <div align="center"><a href="../../upload/service_report_close/<?php  echo get_srreport($conn,$rec["fs_id"]);?>.pdf" target="_blank"><p style="background:#999;color:#FFFFFF;padding:2px;"><?php  echo get_srreport($conn,$rec["qu_id"]);?></p></a></div>
             <?php  }?>
           </div>-->
           <div align="center"><A href="service_close.php?qu_id=<?php  echo $rec["qu_id"];?>"><IMG  alt=icon src="../images/icons/icon-48-install.png"></A></div>

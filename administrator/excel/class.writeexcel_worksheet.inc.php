@@ -1657,7 +1657,7 @@ function _write_url_external() {
     if (isset($sheet)) {
         $link_type |= 0x08;
         $sheet_len  = pack("V", length($sheet) + 0x01);
-        $sheet      = join("\0", split('', $sheet));
+        $sheet      = join("\0", explode('', $sheet));
         $sheet     .= "\0\0\0";
     } else {
         $sheet_len   = '';
@@ -2099,8 +2099,8 @@ function _store_panes($_) {
     $record  = 0x0041;       # Record identifier
     $length  = 0x000A;       # Number of bytes to follow
 
-    $y       = $_[0] ? $_[0] : 0;   # Vertical split position
-    $x       = $_[1] ? $_[1] : 0;   # Horizontal split position
+    $y       = $_[0] ? $_[0] : 0;   # Vertical explode( position
+    $x       = $_[1] ? $_[1] : 0;   # Horizontal explode( position
     if (isset($_[2])) {
         $rwTop   = $_[2];        # Top row visible
     }

@@ -135,9 +135,9 @@ function popup(url,name,windowWidth,windowHeight){
 					?>
 					<select name="baseboxlist3" size="10" id="baseboxlist3" style="width:170px;">
                           <?php 
-							$quccustommer = @mysql_query("SELECT * FROM s_group_custommer ORDER BY group_name ASC");
+							$quccustommer = @mysqli_query($conn,"SELECT * FROM s_group_custommer ORDER BY group_name ASC");
 							$runs = 1;
-							while($row_cgcus = @mysql_fetch_array($quccustommer)){
+							while($row_cgcus = @mysqli_fetch_array($quccustommer)){
 								if(substr($row_cgcus['group_name'],0,2) != "SR"){
 									/*if($row_cgcus['group_id'] != 1 && $row_cgcus['group_id'] != 25 && $row_cgcus['group_id'] != 7 && $row_cgcus['group_id'] != 3 && $row_cgcus['group_id'] != 23){*/
 										?>
@@ -155,9 +155,9 @@ function popup(url,name,windowWidth,windowHeight){
 					?>
 					<select name="baseboxlist3" size="10" id="baseboxlist3" style="width:170px;">
 							<?php 
-                                $qusaletype = @mysql_query("SELECT * FROM s_group_sale ORDER BY group_name ASC");
+                                $qusaletype = @mysqli_query($conn,"SELECT * FROM s_group_sale ORDER BY group_name ASC");
 								$runs = 1;
-                                while($row_saletype = @mysql_fetch_array($qusaletype)){
+                                while($row_saletype = @mysqli_fetch_array($qusaletype)){
                                   ?>
                                     <option value="<?php  echo $row_saletype['group_id'];?>" ><?php  echo $row_saletype['group_name'];?></option>
                                   <?php 	
@@ -215,9 +215,9 @@ function popup(url,name,windowWidth,windowHeight){
 					?>
 					<select name="baseboxlist3" size="10" id="baseboxlist3" style="width:170px;">
                           <?php 
-							$qucgtype = @mysql_query("SELECT * FROM s_group_type ORDER BY group_name ASC");
+							$qucgtype = @mysqli_query($conn,"SELECT * FROM s_group_type ORDER BY group_name ASC");
 							$runs = 1;
-							while($row_cgtype = @mysql_fetch_array($qucgtype)){
+							while($row_cgtype = @mysqli_fetch_array($qucgtype)){
 							  if(substr(trim($row_cgtype['group_name']),0,2) != "SV"){
 								?>
 								<option value="<?php  echo $row_cgtype['group_id'];?>"><?php  echo $row_cgtype['group_name'];?></option>
@@ -233,9 +233,9 @@ function popup(url,name,windowWidth,windowHeight){
 					?>
 					<select name="baseboxlist3" size="10" id="baseboxlist3" style="width:170px;">
 							<?php 
-                                $qusaletype = @mysql_query("SELECT * FROM s_group_sale ORDER BY group_name ASC");
+                                $qusaletype = @mysqli_query($conn,"SELECT * FROM s_group_sale ORDER BY group_name ASC");
 								$runs = 1;
-                                while($row_saletype = @mysql_fetch_array($qusaletype)){
+                                while($row_saletype = @mysqli_fetch_array($qusaletype)){
                                   ?>
                                     <option value="<?php  echo $row_saletype['group_id'];?>"><?php  echo $row_saletype['group_name'];?></option>
                                   <?php 	
@@ -284,9 +284,9 @@ function popup(url,name,windowWidth,windowHeight){
 						?>
                         <select name="baseboxlist3" size="10" id="baseboxlist3" style="width:170px;">
 						<?php 
-							$quccustommer = @mysql_query("SELECT * FROM s_group_custommer ORDER BY group_name ASC");
+							$quccustommer = @mysqli_query($conn,"SELECT * FROM s_group_custommer ORDER BY group_name ASC");
 							$runs = 1;
-							while($row_cgcus = @mysql_fetch_array($quccustommer)){
+							while($row_cgcus = @mysqli_fetch_array($quccustommer)){
 								if(substr($row_cgcus['group_name'],0,2) != "SR"){
 									
 									/*if($row_cgcus['group_id'] != 1 && $row_cgcus['group_id'] != 25 && $row_cgcus['group_id'] != 7 && $row_cgcus['group_id'] != 3 && $row_cgcus['group_id'] != 23){*/
@@ -304,9 +304,9 @@ function popup(url,name,windowWidth,windowHeight){
 						?>
 						<select name="baseboxlist3" size="10" id="baseboxlist3" style="width:170px;">
                           <?php 
-							$qucgtype = @mysql_query("SELECT * FROM s_group_type ORDER BY group_name ASC");
+							$qucgtype = @mysqli_query($conn,"SELECT * FROM s_group_type ORDER BY group_name ASC");
 							$runs = 1;
-							while($row_cgtype = @mysql_fetch_array($qucgtype)){
+							while($row_cgtype = @mysqli_fetch_array($qucgtype)){
 							  if(substr(trim($row_cgtype['group_name']),0,2) != "SV"){
 							  ?>
 								<option value="<?php  echo $row_cgtype['group_id'];?>"><?php  echo $row_cgtype['group_name'];?></option>
@@ -330,9 +330,9 @@ function popup(url,name,windowWidth,windowHeight){
 						?>
 						<select name="baseboxlist3" size="10" id="baseboxlist3" style="width:170px;">
 							<?php 
-                                $qusaletype = @mysql_query("SELECT * FROM s_group_sale ORDER BY group_name ASC");
+                                $qusaletype = @mysqli_query($conn,"SELECT * FROM s_group_sale ORDER BY group_name ASC");
 								$runs = 1;
-                                while($row_saletype = @mysql_fetch_array($qusaletype)){
+                                while($row_saletype = @mysqli_fetch_array($qusaletype)){
                                   ?>
                                     <option value="<?php  echo $row_saletype['group_id'];?>"><?php  echo $row_saletype['group_name'];?></option>
                                   <?php 	
@@ -352,9 +352,9 @@ function popup(url,name,windowWidth,windowHeight){
 						?>
                         <select name="baseboxlist3" size="10" id="baseboxlist3" style="width:170px;">
 						<?php 
-							$quccustommer = @mysql_query("SELECT * FROM s_group_custommer ORDER BY group_name ASC");
+							$quccustommer = @mysqli_query($conn,"SELECT * FROM s_group_custommer ORDER BY group_name ASC");
 							$runs = 1;
-							while($row_cgcus = @mysql_fetch_array($quccustommer)){
+							while($row_cgcus = @mysqli_fetch_array($quccustommer)){
 								if(substr($row_cgcus['group_name'],0,2) != "SR"){
 									
 									/*if($row_cgcus['group_id'] != 1 && $row_cgcus['group_id'] != 25 && $row_cgcus['group_id'] != 7 && $row_cgcus['group_id'] != 3 && $row_cgcus['group_id'] != 23){*/
@@ -372,9 +372,9 @@ function popup(url,name,windowWidth,windowHeight){
 						?>
 						<select name="baseboxlist3" size="10" id="baseboxlist3" style="width:170px;">
                           <?php 
-							$qucgtype = @mysql_query("SELECT * FROM s_group_type ORDER BY group_name ASC");
+							$qucgtype = @mysqli_query($conn,"SELECT * FROM s_group_type ORDER BY group_name ASC");
 							$runs = 1;
-							while($row_cgtype = @mysql_fetch_array($qucgtype)){
+							while($row_cgtype = @mysqli_fetch_array($qucgtype)){
 							  if(substr(trim($row_cgtype['group_name']),0,2) != "SV"){
 							  ?>
 								<option value="<?php  echo $row_cgtype['group_id'];?>"><?php  echo $row_cgtype['group_name'];?></option>
@@ -398,9 +398,9 @@ function popup(url,name,windowWidth,windowHeight){
 						?>
 						<select name="baseboxlist3" size="10" id="baseboxlist3" style="width:170px;">
 							<?php 
-                                $qusaletype = @mysql_query("SELECT * FROM s_group_sale ORDER BY group_name ASC");
+                                $qusaletype = @mysqli_query($conn,"SELECT * FROM s_group_sale ORDER BY group_name ASC");
 								$runs = 1;
-                                while($row_saletype = @mysql_fetch_array($qusaletype)){
+                                while($row_saletype = @mysqli_fetch_array($qusaletype)){
                                   ?>
                                     <option value="<?php  echo $row_saletype['group_id'];?>"><?php  echo $row_saletype['group_name'];?></option>
                                   <?php 	

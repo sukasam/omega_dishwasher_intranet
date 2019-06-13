@@ -2,16 +2,16 @@
 <?php 
 	
 	
-	$finfos = get_firstorder($_POST['cus_id']);
+	$finfos = get_firstorder($conn,$_POST['cus_id']);
 	
 	$chk = get_fixlist($_POST['ckf_list']);
 	
-	$tecinfos = get_technician($_POST['loc_contact']);
+	$tecinfos = get_technician($conn,$_POST['loc_contact']);
 	
 	foreach($chk as $vals){
 		$sfix .= '
 		  <tr>
-			<td ><img src="../images/aroow_ch.png" width="10" height="10" border="0" alt="" />&nbsp;'.get_fixname($vals).'</td>
+			<td ><img src="../images/aroow_ch.png" width="10" height="10" border="0" alt="" />&nbsp;'.get_fixname($conn,$vals).'</td>
 		  </tr>
 		';	
 	}
@@ -108,17 +108,17 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tb1">
           <tr>
             <td width="57%" valign="top"><strong>ชื่อลูกค้า :</strong> '.$finfos['cd_name'].' <br />              <strong><br />
-            ที่อยู่ :</strong> '.$finfos['cd_address'].'&nbsp;'.province_name($finfos['cd_province']).'<strong><br />
+            ที่อยู่ :</strong> '.$finfos['cd_address'].'&nbsp;'.province_name($conn,$finfos['cd_province']).'<strong><br />
             <br />
             โทรศัพท์ :</strong> '.$finfos['cd_tel'].'&nbsp;&nbsp;&nbsp;&nbsp;<strong>แฟกซ์ :</strong> '.$finfos['cd_fax'].'<br />
             <br />
             <strong>ชื่อผู้ติดต่อ :</strong> '.$finfos['c_contact'].' <strong>&nbsp;&nbsp;&nbsp;&nbsp;เบอร์โทร :</strong> '.$finfos['c_tel'].'</td>
-            <td width="43%"><strong>ประเภทบริการลูกค้า :</strong> '.get_servicename($_POST['sr_ctype']).' <strong><br />
+            <td width="43%"><strong>ประเภทบริการลูกค้า :</strong> '.get_servicename($conn,$_POST['sr_ctype']).' <strong><br />
             <br>
-            ประเภทลูกค้า :</strong> '.custype_name($_POST['sr_ctype2']).' <strong><br /><br />
-            </strong><strong>วันที่ยืมอะไหล่  :</strong> '.format_date($_POST['job_open']).' <strong>&nbsp;&nbsp;<br />
+            ประเภทลูกค้า :</strong> '.custype_name($conn,$_POST['sr_ctype2']).' <strong><br /><br />
+            </strong><strong>วันที่ยืมอะไหล่  :</strong> '.format_date($conn,$_POST['job_open']).' <strong>&nbsp;&nbsp;<br />
             <br />
-            กำหนดคืนอะไหล่ :</strong> '.format_date($_POST['job_balance']).'<br /><br />            <strong>วันที่คืนอะไหล่  :</strong> '.format_date($_POST['sr_stime']).'</td>
+            กำหนดคืนอะไหล่ :</strong> '.format_date($conn,$_POST['job_balance']).'<br /><br />            <strong>วันที่คืนอะไหล่  :</strong> '.format_date($conn,$_POST['sr_stime']).'</td>
           </tr>
     </table>
 	<br>
@@ -161,7 +161,7 @@
 		 $form .='<tr >
 			<td><center>'.($a+1).'</center></td>
 			<td>'.$codes[$a].'</td>
-			<td>'.get_sparpart_name($lists[$a]).'</td>
+			<td>'.get_sparpart_name($conn,$lists[$a]).'</td>
 			<td align="center">'.$units[$a].'</td>
 			<td align="right">'.$prices[$a].'</td>
 			<td align="right">'.$amounts[$a].'</td>
@@ -188,13 +188,13 @@
 		<td width="33%" style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
         	<table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td style="border-bottom:1px solid #000000;padding-bottom:23px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;">'.get_technician_name($_POST['loc_contact2']).'</td>
+                <td style="border-bottom:1px solid #000000;padding-bottom:23px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;">'.get_technician_name($conn,$_POST['loc_contact2']).'</td>
               </tr>
               <tr>
                 <td style="padding-top:10px;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>ช่างยืม</strong></td>
               </tr>
               <tr>
-                <td style="font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>วันที่ : </strong>'.format_date($_POST['loc_date2']).'</td>
+                <td style="font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>วันที่ : </strong>'.format_date($conn,$_POST['loc_date2']).'</td>
               </tr>
             </table>
         </td>	
@@ -202,13 +202,13 @@
 		<td width="33%" style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
         	<table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;">'.get_technician_name($_POST['cs_sell']).'</td>
+                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;">'.get_technician_name($conn,$_POST['cs_sell']).'</td>
               </tr>
               <tr>
                 <td style="padding-top:10px;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>ผู้จ่ายอะไหล่</strong></td>
               </tr>
               <tr>
-                <td style="font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>วันที่ : </strong>'.format_date($_POST['sell_date']).'</td>
+                <td style="font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>วันที่ : </strong>'.format_date($conn,$_POST['sell_date']).'</td>
               </tr>
             </table>
         </td>
@@ -216,13 +216,13 @@
 		<td width="33%" style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
         	<table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;">'.get_technician_name($_POST['loc_contact3']).'</td>
+                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;">'.get_technician_name($conn,$_POST['loc_contact3']).'</td>
               </tr>
               <tr>
                 <td style="padding-top:10px;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>ผู้อนุมัติ</strong></td>
               </tr>
               <tr>
-                <td style="font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>วันที่ : </strong>'.format_date($_POST['loc_date3']).'</td>
+                <td style="font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>วันที่ : </strong>'.format_date($conn,$_POST['loc_date3']).'</td>
               </tr>
             </table>
         </td>

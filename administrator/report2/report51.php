@@ -3,8 +3,8 @@
 	include ("../../include/connect.php");
 	include ("../../include/function.php");
 	include ("config.php");
-	Check_Permission ($check_module,$_SESSION[login_id],"read");
-	if ($_GET[page] == ""){$_REQUEST[page] = 1;	}
+	Check_Permission($conn,$check_module,$_SESSION['login_id'],"read");
+	if ($_GET['page'] == ""){$_REQUEST['page'] = 1;	}
 	$param = get_param($a_param,$a_not_exists);
 	
 	if(isset($_GET['pro_pod'])){$_REQUEST['sh1'] = 1;$_REQUEST['sh2'] = 1;$_REQUEST['sh3'] = 1;$_REQUEST['sh4'] = 1;$_REQUEST['sh5'] = 1;$_REQUEST['sh6'] = 1;$_REQUEST['sh7'] = 1;$_REQUEST['sh8'] = 1;$_REQUEST['sh9'] = 1;$_REQUEST['sh10'] = 1;}
@@ -17,10 +17,10 @@
 	
 	if($_REQUEST['priod'] == 0){
 		$daterriod = " AND `job_open`  between '".$date_fm."' and '".$date_to."'"; 
-		$dateshow = "เริ่มวันที่ : ".format_date($date_fm)."&nbsp;&nbsp;ถึงวันที่ : ".format_date($date_to); 
+		$dateshow = "เริ่มวันที่ : ".format_date($conn,$date_fm)."&nbsp;&nbsp;ถึงวันที่ : ".format_date($conn,$date_to); 
 	}
 	else{
-		$dateshow = "วันที่ค้นหา : ".format_date(date("Y-m-d")); 
+		$dateshow = "วันที่ค้นหา : ".format_date($conn,date("Y-m-d")); 
 	}
 	
 	if($pro_pod != ""){
@@ -72,20 +72,20 @@
         <th style="text-align:center;font-size:12px;">สาเหตุที่เปลี่ยน</th>
       </tr>
       <?php  
-	  	$qu_sr = @mysql_query($sql);
+	  	$qu_sr = @mysqli_query($conn,$sql);
 		$sum = 0;
-		while($row_sr = @mysql_fetch_array($qu_sr)){
+		while($row_sr = @mysqli_fetch_array($qu_sr)){
 			
-			$row_fr = mysql_fetch_array(mysql_query("SELECT * FROM s_first_order WHERE fo_id= '".$row_sr['cus_id']."'"));
+			$row_fr = mysqli_fetch_array(mysqli_query($conn,"SELECT * FROM s_first_order WHERE fo_id= '".$row_sr['cus_id']."'"));
 			
 			/*$replace1 = str_replace("LP","LP ",$row_sr['srid2']);
 			$replace2 = str_replace("LP  ","LP ",$replace1);*/
 			
-			$row_sr2 = mysql_fetch_array(mysql_query("SELECT * FROM s_service_report2 WHERE srid= '".$row_sr['sr_id']."'"));
+			$row_sr2 = mysqli_fetch_array(mysqli_query($conn,"SELECT * FROM s_service_report2 WHERE srid= '".$row_sr['sr_id']."'"));
 			
-			/*$row_sr3 = mysql_fetch_array(mysql_query("SELECT * FROM s_service_report3 WHERE cus_id= '".$row_sr['cus_id']."'"));
+			/*$row_sr3 = mysqli_fetch_array(mysqli_query($conn,"SELECT * FROM s_service_report3 WHERE cus_id= '".$row_sr['cus_id']."'"));
 			
-			$row_sr5 = mysql_fetch_array(mysql_query("SELECT * FROM s_service_report5 WHERE cus_id= '".$row_sr['cus_id']."'"));*/
+			$row_sr5 = mysqli_fetch_array(mysqli_query($conn,"SELECT * FROM s_service_report5 WHERE cus_id= '".$row_sr['cus_id']."'"));*/
 			
 			//echo $row_sr['srid2'] ."<br />";
 
@@ -93,13 +93,13 @@
 			<tr>
               <?php  if($_REQUEST['sh2'] == 1){?><td><?php  if($row_fr['loc_name'] != ""){echo $row_fr['loc_name'];}else{echo $row_fr['cd_name'];}?><br />
               <?php  echo $row_fr['loc_address'];?></td><?php  }?>
-              <?php  if($_REQUEST['sh4'] == 1){?><td><?php  echo custype_name($row_fr['ctype']);?></td><?php  }?>
+              <?php  if($_REQUEST['sh4'] == 1){?><td><?php  echo custype_name($conn,$row_fr['ctype']);?></td><?php  }?>
               
               <td style="padding:0;text-align: center;"><?php echo $row_sr['loc_seal']." / ".$row_sr['loc_sn'];?></td>
               <td>
               <?php 
-				  $qurow_sr2 = mysql_query("SELECT * FROM s_service_report2sub WHERE sr_id = '".$row_sr2['sr_id']."' AND codes != ''");
-				  $numRS2 = mysql_num_rows($qurow_sr2);
+				  $qurow_sr2 = mysqli_query($conn,"SELECT * FROM s_service_report2sub WHERE sr_id = '".$row_sr2['sr_id']."' AND codes != ''");
+				  $numRS2 = mysqli_num_rows($qurow_sr2);
 				
 				if($numRS2 >= 1){
 			  ?>
@@ -109,11 +109,11 @@
 						<th>จำนวน</th>
 					</tr>
 					<?php
-						while($rowSR2 = mysql_fetch_array($qurow_sr2)){
+						while($rowSR2 = mysqli_fetch_array($qurow_sr2)){
 
 							?>
 							<tr>
-								<td style="width: 60%;"><?php echo get_sparpart_name($rowSR2['lists']);?></td>
+								<td style="width: 60%;"><?php echo get_sparpart_name($conn,$rowSR2['lists']);?></td>
 								<td style="width: 40%;"><?php echo $rowSR2['opens']." ".$rowSR2['units'];?></td>
 							</tr>
 							<?php

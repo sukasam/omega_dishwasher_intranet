@@ -3,8 +3,8 @@
 	include ("../../include/connect.php");
 	include ("../../include/function.php");
 	include ("config.php");
-	Check_Permission ($check_module,$_SESSION[login_id],"read");
-	if ($_GET[page] == ""){$_REQUEST[page] = 1;	}
+	Check_Permission($conn,$check_module,$_SESSION['login_id'],"read");
+	if ($_GET['page'] == ""){$_REQUEST['page'] = 1;	}
 	$param = get_param($a_param,$a_not_exists);
 	
 
@@ -22,11 +22,11 @@
 		$yesrStart = $_GET['year'];	
 	}
 	
-	if($_GET[action] == "delete"){
-		$code = Check_Permission ($check_module,$_SESSION["login_id"],"delete");		
+	if($_GET['action'] == "delete"){
+		$code = Check_Permission($conn,$check_module,$_SESSION["login_id"],"delete");		
 		if ($code == "1") {
 			$sql = "delete from $tbl_name  where $PK_field = '$_GET[$PK_field]'";
-			@mysql_query($sql);			
+			@mysqli_query($conn,$sql);			
 			header ("location:index.php");
 		} 
 	}
@@ -37,9 +37,9 @@
 <HEAD>
 <TITLE><?php  echo $s_title;?></TITLE>
 <META content="text/html; charset=utf-8" http-equiv=Content-Type>
-<LINK rel=stylesheet type=text/css href="../css/reset.css" media=screen>
-<LINK rel=stylesheet type=text/css href="../css/style.css" media=screen>
-<LINK rel=stylesheet type=text/css href="../css/invalid.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/reset.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/style.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/invalid.css" media=screen>
 <SCRIPT type=text/javascript src="../js/jquery-1.3.2.min.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/simpla.jquery.configuration.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/facebox.js"></SCRIPT>
@@ -120,8 +120,8 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
 	<select name="loccontact" id="loccontact" id="jumpMenu" onchange="MM_jumpMenu('parent',this,0)" style="height:30px;">
       <option value="index.php?month=<?php  echo $monthStart;?>&year=<?php  echo $yesrStart;?><?php  echo $paramCtype;?>"><== กรุณาเลือกชื่อช่าง ==></option>
           <?php  
-              $qu_custec = @mysql_query("SELECT * FROM s_group_technician ORDER BY group_name ASC");
-              while($row_custec = @mysql_fetch_array($qu_custec)){
+              $qu_custec = @mysqli_query($conn,"SELECT * FROM s_group_technician ORDER BY group_name ASC");
+              while($row_custec = @mysqli_fetch_array($qu_custec)){
                   ?>
                   <option value="index.php?month=<?php  echo $monthStart;?>&year=<?php  echo $yesrStart;?>&loccontact=<?php  echo $row_custec['group_id'];?><?php  echo $paramCtype;?>" <?php  if($row_custec['group_id'] == $_GET['loccontact']){echo 'selected';}?>><?php  echo $row_custec['group_name']. " (Tel : ".$row_custec['group_tel'].")";?></option>
                   <?php 
@@ -132,8 +132,8 @@ function MM_openBrWindow(theURL,winName,features) { //v2.0
       <select name="sr_ctype" id="sr_ctype" id="jumpMenu" onchange="MM_jumpMenu('parent',this,0)" style="height:30px;">
                 <option value="index.php?month=<?php  echo $monthStart;?>&year=<?php  echo $yesrStart;?><?php  echo $paramLoc;?>"><== กรุณาเลือกประเภทบริการลูกค้า ==></option>
                 	<?php  
-						$qu_cusftype = @mysql_query("SELECT * FROM s_group_service ORDER BY group_name ASC");
-						while($row_cusftype = @mysql_fetch_array($qu_cusftype)){
+						$qu_cusftype = @mysqli_query($conn,"SELECT * FROM s_group_service ORDER BY group_name ASC");
+						while($row_cusftype = @mysqli_fetch_array($qu_cusftype)){
 							?>
 							<option value="index.php?month=<?php  echo $monthStart;?>&year=<?php  echo $yesrStart;?><?php  echo $paramLoc;?>&sr_ctype=<?php  echo $row_cusftype['group_id'];?>" <?php  if($row_cusftype['group_id'] == $_GET['sr_ctype']){echo 'selected';}?>><?php  echo $row_cusftype['group_name'];?></option>
 							<?php 
@@ -178,8 +178,8 @@ if(isset($_GET['sr_ctype'])){
 }
 
 /*$query = "SELECT event_id,event_title,event_day,event_time FROM $db_table WHERE event_month='$month' AND event_year='$year' ORDER BY event_time";
-$query_result = @mysql_query ($query);
-while ($info = @mysql_fetch_array($query_result))
+$query_result = @mysqli_query($conn,$query);
+while ($info = @mysqli_fetch_array($query_result))
 {
     $day = $info['event_day'];
     $event_id = $info['event_id'];
@@ -299,7 +299,7 @@ if($_GET['month'] == 2){
 			
 				echo "<div align=\"left\"><span class=\"eventinbox\">\n";
 				
-					echo get_servreport($_GET['year'].'-'.sprintf("%02d",$link_month).'-'.sprintf("%02d",$i),$_GET['loccontact'],$_GET['sr_ctype']);
+					echo get_servreport($conn,$_GET['year'].'-'.sprintf("%02d",$link_month).'-'.sprintf("%02d",$i),$_GET['loccontact'],$_GET['sr_ctype']);
 				
 				echo "</span></div>\n";
 

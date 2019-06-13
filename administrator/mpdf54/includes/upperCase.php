@@ -1,4 +1,4 @@
-<?php 
+<?php
 $this->upperCase=array (
   97 => 65,
   98 => 66,

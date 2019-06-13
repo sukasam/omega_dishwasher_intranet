@@ -17,7 +17,7 @@ if(chkBrowser("Opera")==1){
 ?>
 <link rel="stylesheet" href="../css/opera.css" type="text/css" media="screen" />
 <?php  }?>
-<LINK rel=stylesheet type=text/css href="../font/stylesheet.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../font/stylesheet.css" media=screen>
 <div class="topmainuser">
 		<ul>
         	<li><a href="../welcome"><img src="../images/template/logo_main.png" width="260" height="121" border="0" alt="" /></a></li>
@@ -29,7 +29,7 @@ if(chkBrowser("Opera")==1){
                     <p style="padding-right:10px;font-size:25px;font-family:Tahoma, Geneva, sans-serif;color:#000000;line-height:25px;text-align:right;padding-top:10px;"><a href="../profiles/?mid=15"><?php  echo $_SESSION["fullname"];?></a></p>
                 </td>
                 <td style="vertical-align:top;border:none;">
-                	<a href="../profiles/?mid=15"><img src="../../upload/user/<?php  echo get_imguser($_SESSION['login_id']);?>" width="155" height="136" border="0" alt=""></a>
+                	<a href="../profiles/?mid=15"><img src="../../upload/user/<?php  echo get_imguser($conn,$_SESSION['login_id']);?>" width="155" height="136" border="0" alt=""></a>
                 </td>
               </tr>
             </table>

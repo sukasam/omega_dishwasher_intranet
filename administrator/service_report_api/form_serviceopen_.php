@@ -2,16 +2,16 @@
 <?php 
 	
 	
-	$finfos = get_firstorder($_POST['cus_id']);
+	$finfos = get_firstorder($conn,$_POST['cus_id']);
 	
 	$chk = get_fixlist($_POST['ckf_list']);
 	
-	$tecinfos = get_technician($_POST['loc_contact']);
+	$tecinfos = get_technician($conn,$_POST['loc_contact']);
 	
 	foreach($chk as $vals){
 		$sfix .= '
 		  <tr>
-			<td ><img src="../images/aroow_ch.png" width="10" height="10" border="0" alt="" />&nbsp;'.get_fixname($vals).'</td>
+			<td ><img src="../images/aroow_ch.png" width="10" height="10" border="0" alt="" />&nbsp;'.get_fixname($conn,$vals).'</td>
 		  </tr>
 		';	
 	}
@@ -104,16 +104,16 @@
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tb1">
           <tr>
             <td width="57%" valign="top"><strong>ชื่อลูกค้า :</strong> '.$finfos['cd_name'].' <br />              <strong><br />
-            ที่อยู่ :</strong> '.$finfos['cd_address'].'&nbsp;'.province_name($finfos['cd_province']).'<strong><br />
+            ที่อยู่ :</strong> '.$finfos['cd_address'].'&nbsp;'.province_name($conn,$finfos['cd_province']).'<strong><br />
             <br />
             โทรศัพท์ :</strong> '.$finfos['cd_tel'].'&nbsp;&nbsp;&nbsp;&nbsp;<strong>แฟกซ์ :</strong> '.$finfos['cd_fax'].'<br />
             <br />
             <strong>ชื่อผู้ติดต่อ :</strong> '.$finfos['c_contact'].' <strong>&nbsp;&nbsp;&nbsp;&nbsp;เบอร์โทร :</strong> '.$finfos['c_tel'].'</td>
-            <td width="43%"><strong>ประเภทบริการลูกค้า :</strong> '.get_servicename($_POST['sr_ctype']).' <strong><br />
+            <td width="43%"><strong>ประเภทบริการลูกค้า :</strong> '.get_servicename($conn,$_POST['sr_ctype']).' <strong><br />
               <br />
-            เลขที่สัญญา  :</strong> '.$finfos['fs_id'].'&nbsp;&nbsp;&nbsp;&nbsp;<strong>วันที่  :</strong> '.format_date($_POST['job_open']).' <strong>&nbsp;&nbsp;<br />
+            เลขที่สัญญา  :</strong> '.$finfos['fs_id'].'&nbsp;&nbsp;&nbsp;&nbsp;<strong>วันที่  :</strong> '.format_date($conn,$_POST['job_open']).' <strong>&nbsp;&nbsp;<br />
             <br />
-            วันครบกำหนดบริการ :</strong> '.format_date($_POST['job_balance']).'<br /><br /><strong>บริการครั้งก่อน : </strong>'.$_POST['job_last'].'&nbsp;&nbsp;<strong>บริการครั้งต่อไป  :</strong> '.format_date($_POST['sr_stime']).'</td>
+            วันครบกำหนดบริการ :</strong> '.format_date($conn,$_POST['job_balance']).'<br /><br /><strong>บริการครั้งก่อน : </strong>'.$_POST['job_last'].'&nbsp;&nbsp;<strong>บริการครั้งต่อไป  :</strong> '.format_date($conn,$_POST['sr_stime']).'</td>
           </tr>
     </table>	
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tb2">

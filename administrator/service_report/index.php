@@ -3,41 +3,41 @@
 	include ("../../include/connect.php");
 	include ("../../include/function.php");
 	include ("config.php");
-	Check_Permission ($check_module,$_SESSION[login_id],"read");
-	if ($_GET[page] == ""){$_REQUEST[page] = 1;	}
+	Check_Permission($conn,$check_module,$_SESSION['login_id'],"read");
+	if ($_GET['page'] == ""){$_REQUEST['page'] = 1;	}
 	$param = get_param($a_param,$a_not_exists);
 
-	if($_GET[action] == "delete"){
-		$code = Check_Permission ($check_module,$_SESSION["login_id"],"delete");
+	if($_GET['action'] == "delete"){
+		$code = Check_Permission($conn,$check_module,$_SESSION["login_id"],"delete");
 		if ($code == "1") {
 			$sql = "delete from $tbl_name  where $PK_field = '$_GET[$PK_field]'";
-			@mysql_query($sql);
+			@mysqli_query($conn,$sql);
 			header ("location:index.php");
 		}
 	}
 
 	//-------------------------------------------------------------------------------------
-	 if ($_GET[b] <> "" and $_GET[s] <> "") {
-		if ($_GET[s] == 0) $status = 1;
-		if ($_GET[s] == 1) $status = 0;
-		Check_Permission ($check_module,$_SESSION[login_id],"update");
-		$sql_status = "update $tbl_name set st_setting = '$status' where $PK_field = '$_GET[b]'";
-		@mysql_query ($sql_status);
-		/*$sql_fostatus = "update s_first_order set status = '$status' where fo_id = '$_GET[cus_id]'";
-		@mysql_query ($sql_fostatus);*/
+	 if ($_GET['b'] <> "" and $_GET['s'] <> "") {
+		if ($_GET['s'] == 0) $status = 1;
+		if ($_GET['s'] == 1) $status = 0;
+		Check_Permission($conn,$check_module,$_SESSION['login_id'],"update");
+		$sql_status = "update $tbl_name set st_setting = '".$status."' where $PK_field = ".$_GET['b']."";
+		@mysqli_query($conn,$sql_status);
+		/*$sql_fostatus = "update s_first_order set status = ".$status." where fo_id = '$_GET[cus_id]'";
+		@mysqli_query($conn,$sql_fostatus);*/
 		if($_GET['page'] != ""){$conpage = "page=".$_GET['page'];}
 		header ("location:?".$conpage);
 	}
 
 	//-------------------------------------------------------------------------------------
-	 if ($_GET[cc] <> "" and $_GET[tt] <> "") {
-		if ($_GET[tt] == 0) $status = 1;
-		if ($_GET[tt] == 1) $status = 0;
-		Check_Permission ($check_module,$_SESSION[login_id],"update");
-		$sql_status = "update $tbl_name set supply = '$status' where $PK_field = '$_GET[cc]'";
-		@mysql_query ($sql_status);
-		/*$sql_fostatus = "update s_first_order set status = '$status' where fo_id = '$_GET[cus_id]'";
-		@mysql_query ($sql_fostatus);*/
+	 if ($_GET['cc'] <> "" and $_GET['tt'] <> "") {
+		if ($_GET['tt'] == 0) $status = 1;
+		if ($_GET['tt'] == 1) $status = 0;
+		Check_Permission($conn,$check_module,$_SESSION['login_id'],"update");
+		$sql_status = "update $tbl_name set supply = ".$status." where $PK_field = ".$_GET['cc'];
+		@mysqli_query($conn,$sql_status);
+		/*$sql_fostatus = "update s_first_order set status = ".$status." where fo_id = '$_GET[cus_id]'";
+		@mysqli_query($conn,$sql_fostatus);*/
 		if($_GET['page'] != ""){$conpage = "page=".$_GET['page'];}
 		header ("location:?".$conpage);
 	}
@@ -47,9 +47,9 @@
 <HEAD>
 <TITLE><?php  echo $s_title;?></TITLE>
 <META content="text/html; charset=utf-8" http-equiv=Content-Type>
-<LINK rel=stylesheet type=text/css href="../css/reset.css" media=screen>
-<LINK rel=stylesheet type=text/css href="../css/style.css" media=screen>
-<LINK rel=stylesheet type=text/css href="../css/invalid.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/reset.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/style.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/invalid.css" media=screen>
 <SCRIPT type=text/javascript src="../js/jquery-1.3.2.min.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/simpla.jquery.configuration.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/facebox.js"></SCRIPT>
@@ -205,26 +205,26 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 					include ("../include/page_init.php");
 					/*echo $sql;
 					break;*/
-					$query = @mysql_query ($sql);
-					if($_GET[page] == "") $_GET[page] = 1;
-					$counter = ($_GET[page]-1)*$pagesize;
+					$query = @mysqli_query($conn,$sql);
+					if($_GET['page'] == "") $_GET['page'] = 1;
+					$counter = ($_GET['page']-1)*$pagesize;
 
-					while ($rec = @mysql_fetch_array ($query)) {
+					while ($rec = @mysqli_fetch_array($query)) {
 					$counter++;
 						
-					$row_sr2 = mysql_fetch_array(mysql_query("SELECT * FROM s_service_report2 WHERE srid= '".$rec['sr_id']."'"));
+					$row_sr2 = mysqli_fetch_array(mysqli_query($conn,"SELECT * FROM s_service_report2 WHERE srid= '".$rec['sr_id']."'"));
 					//echo "MKUNG =".$row_sr2['sr_id'];
 
-					$row_sr3 = mysql_fetch_array(mysql_query("SELECT * FROM s_service_report3 WHERE srid= '".$rec['sr_id']."'"));
+					$row_sr3 = mysqli_fetch_array(mysqli_query($conn,"SELECT * FROM s_service_report3 WHERE srid= '".$rec['sr_id']."'"));
 						
-					/*$row_sr5 = mysql_fetch_array(mysql_query("SELECT * FROM s_service_report5 WHERE srid= '".$rec['sr_id']."'"));*/
+					/*$row_sr5 = mysqli_fetch_array(mysqli_query($conn,"SELECT * FROM s_service_report5 WHERE srid= '".$rec['sr_id']."'"));*/
 				   ?>
         <TR>
           <TD style="vertical-align:middle;"><INPUT type=checkbox name="del[]" value="<?php  echo $rec[$PK_field]; ?>" ></TD>
           <TD style="vertical-align:middle;"><span class="text"><?php  echo sprintf("%04d",$counter); ?></span></TD>
-          <TD style="vertical-align:middle;"><?php  $chaf = eregi_replace("/","-",$rec["sv_id"]); ?><div align="center"><span class="text"><a href="../../upload/service_report_open/<?php  echo $chaf;?>.pdf" target="_blank"><?php  echo $rec["sv_id"] ; ?></a></span></div></TD>
-          <TD style="vertical-align:middle;"><span class="text"><?php  echo get_customername($rec["cus_id"]); ?></span></TD>
-          <TD style="vertical-align:middle;"><span class="text"><?php  echo get_localsettingname($rec["cus_id"]); ?></span></TD>
+          <TD style="vertical-align:middle;"><?php  $chaf = str_replace("/","-",$rec["sv_id"]); ?><div align="center"><span class="text"><a href="../../upload/service_report_open/<?php  echo $chaf;?>.pdf" target="_blank"><?php  echo $rec["sv_id"] ; ?></a></span></div></TD>
+          <TD style="vertical-align:middle;"><span class="text"><?php  echo get_customername($conn,$rec["cus_id"]); ?></span></TD>
+          <TD style="vertical-align:middle;"><span class="text"><?php  echo get_localsettingname($conn,$rec["cus_id"]); ?></span></TD>
           <TD style="vertical-align:middle"><?php  if($rec["approve"] == 1){?>
             <IMG src="../images/icons/yes_approve.png" height="28" title="อนุมัติ">
             <?php  }else if($rec["approve"] == 2){?>
@@ -250,8 +250,8 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
             <A title=Edit href="update.php?mode=update&<?php  echo $PK_field; ?>=<?php  echo $rec["$PK_field"]; if($param <> "") {?>&<?php  echo $param; }?>"><IMG src="../images/icons/paper_content_pencil_48.png" alt=Edit width="25" height="25" title="แก้ไขรายงานแจ้งซ่อม"></A>&nbsp;<a href="../../upload/service_report_open/<?php  echo $chaf;?>.pdf" target="_blank"><img src="../images/icon2/backup.png" alt="" width="25" height="25" style="margin-left:10px;" title="ดาวน์โหลดรายงานช่างซ่ิอม"></a></div></TD>
           <TD style="vertical-align:middle;"><!-- Icons -->
             <div align="center"><A title=Edit href="update2.php?mode=update&<?php  echo $PK_field; ?>=<?php  echo $rec["$PK_field"]; if($param <> "") {?>&<?php  echo $param; }?>"><IMG src="../images/icons/paper_content_pencil_48.png" alt=Edit width="25" height="25" title="แก้ไขรายงานแจ้งซ่อม"></A><a href="../../upload/service_report_close/<?php  echo $chaf;?>.pdf" target="_blank"><img src="../images/icon2/backup.png" width="25" height="25" title="ดาวน์โหลดรายงานช่างซ่ิอม" style="margin-left:10px;"></a></div></TD>
-          <TD style="vertical-align:middle;"><div align="center"><a href="../service_report2/update.php?mode=<?php if($row_sr2['sr_id'] == ""){echo "add&srid=".$rec['sr_id'];}else{echo "update&srid=".$rec['sr_id']."&sr_id=".$row_sr2['sr_id'];}?>"><img src="../images/icons/icon-48-section.png" width="30"></a><?php if($row_sr2['sr_id'] != ""){?><a href="../../upload/service_report_open/<?php echo eregi_replace("/","-",$row_sr2['sv_id']);?>.pdf" target="_blank"><img src="../images/icon2/backup.png" width="25" height="25" title="ดาวน์โหลดรายงานช่างซ่ิอม" style="margin-left:10px;"></a><?php }?></div></TD>
-          <TD style="vertical-align:middle;"><div align="center"><a href="../service_report3/update.php?mode=<?php if($row_sr3['sr_id'] == ""){echo "add&srid=".$rec['sr_id'];}else{echo "update&srid=".$rec['sr_id']."&sr_id=".$row_sr3['sr_id'];}?>"><img src="../images/icons/icon-48-category.png" width="30"></a><?php if($row_sr3['sr_id'] != ""){?><a href="../../upload/service_report_open/<?php echo eregi_replace("/","-",$row_sr3['sv_id']);?>.pdf" target="_blank"><img src="../images/icon2/backup.png" width="25" height="25" title="ดาวน์โหลดรายงานช่างซ่ิอม" style="margin-left:10px;"></a><?php }?></div></TD>
+          <TD style="vertical-align:middle;"><div align="center"><a href="../service_report2/update.php?mode=<?php if($row_sr2['sr_id'] == ""){echo "add&srid=".$rec['sr_id'];}else{echo "update&srid=".$rec['sr_id']."&sr_id=".$row_sr2['sr_id'];}?>"><img src="../images/icons/icon-48-section.png" width="30"></a><?php if($row_sr2['sr_id'] != ""){?><a href="../../upload/service_report_open/<?php echo str_replace("/","-",$row_sr2['sv_id']);?>.pdf" target="_blank"><img src="../images/icon2/backup.png" width="25" height="25" title="ดาวน์โหลดรายงานช่างซ่ิอม" style="margin-left:10px;"></a><?php }?></div></TD>
+          <TD style="vertical-align:middle;"><div align="center"><a href="../service_report3/update.php?mode=<?php if($row_sr3['sr_id'] == ""){echo "add&srid=".$rec['sr_id'];}else{echo "update&srid=".$rec['sr_id']."&sr_id=".$row_sr3['sr_id'];}?>"><img src="../images/icons/icon-48-category.png" width="30"></a><?php if($row_sr3['sr_id'] != ""){?><a href="../../upload/service_report_open/<?php echo str_replace("/","-",$row_sr3['sv_id']);?>.pdf" target="_blank"><img src="../images/icon2/backup.png" width="25" height="25" title="ดาวน์โหลดรายงานช่างซ่ิอม" style="margin-left:10px;"></a><?php }?></div></TD>
           <TD style="vertical-align:middle;"><div align="center">
           <?php if($row_sr3['sr_id'] != ""){?>
           <a href="../service_report3/index.php?act=return&sr_id=<?php echo $row_sr3['sr_id'];?>"><img src="../images/icons/icon-48-install.png" width="30"></a>

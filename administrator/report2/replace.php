@@ -4,8 +4,8 @@
 	include ("../../include/function.php");
 	include ("config.php");
 
-	$qu = mysql_query("SELECT * FROM s_service_report2 WHERE srid !=''");
-	while($row = mysql_fetch_array($qu)){
+	$qu = mysqli_query($conn,"SELECT * FROM s_service_report2 WHERE srid !=''");
+	while($row = mysqli_fetch_array($qu)){
 		
 		$rowReplace = str_replace("","SR",$row['srid']);
 		$rowReplace1 = str_replace("SR ","SR",$row['srid']);
@@ -19,11 +19,11 @@
 		
 		//echo strtoupper($rowReplace4)."<br>";
 		
-		$qo2 = mysql_query("SELECT * FROM s_service_report WHERE sv_id = '".$rowReplace4."'");
-		$row2 = mysql_fetch_array($qo2);
+		$qo2 = mysqli_query($conn,"SELECT * FROM s_service_report WHERE sv_id = '".$rowReplace4."'");
+		$row2 = mysqli_fetch_array($qo2);
 		
 		if($row2['sr_id'] != ""){
-			@mysql_query("UPDATE `s_service_report2` SET `srid` = '".$row2['sr_id']."' WHERE `s_service_report2`.`sr_id` = '".$row['sr_id']."';");
+			@mysqli_query($conn,"UPDATE `s_service_report2` SET `srid` = '".$row2['sr_id']."' WHERE `s_service_report2`.`sr_id` = '".$row['sr_id']."';");
 			//echo "UPDATE `s_service_report2` SET `srid` = '".$row2['sr_id']."' WHERE `s_service_report2`.`sr_id` = '".$row['sr_id']."';";
 			//exit();
 		}

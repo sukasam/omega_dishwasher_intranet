@@ -3,39 +3,39 @@
 	include ("../../include/connect.php");
 	include ("../../include/function.php");
 	include ("config.php");
-	Check_Permission ($check_module,$_SESSION[login_id],"read");
-	if ($_GET[page] == ""){$_REQUEST[page] = 1;	}
+	Check_Permission($conn,$check_module,$_SESSION['login_id'],"read");
+	if ($_GET['page'] == ""){$_REQUEST['page'] = 1;	}
 	$param = get_param($a_param,$a_not_exists);
 	
-	if($_GET[action] == "delete"){
-		$code = Check_Permission ($check_module,$_SESSION["login_id"],"delete");		
+	if($_GET['action'] == "delete"){
+		$code = Check_Permission($conn,$check_module,$_SESSION["login_id"],"delete");		
 		if ($code == "1") {
 			$sql = "delete from $tbl_name  where $PK_field = '$_GET[$PK_field]'";
-			@mysql_query($sql);			
+			@mysqli_query($conn,$sql);			
 			header ("location:index.php");
 		} 
 	}
 	
 	//-------------------------------------------------------------------------------------
-	 if ($_GET[b] <> "" and $_GET[s] <> "") { 
-		if ($_GET[s] == 0) $status = 1;
-		if ($_GET[s] == 1) $status = 0;
-		Check_Permission ($check_module,$_SESSION[login_id],"update");
-		$sql_status = "update $tbl_name set st_setting = '$status' where $PK_field = '$_GET[b]'";
-		@mysql_query ($sql_status);
+	 if ($_GET['b'] <> "" and $_GET['s'] <> "") { 
+		if ($_GET['s'] == 0) $status = 1;
+		if ($_GET['s'] == 1) $status = 0;
+		Check_Permission($conn,$check_module,$_SESSION['login_id'],"update");
+		$sql_status = "update $tbl_name set st_setting = ".$status." where $PK_field = ".$_GET['b']."";
+		@mysqli_query($conn,$sql_status);
 		if($_GET['page'] != ""){$conpage = "page=".$_GET['page'];}
 		header ("location:?".$conpage); 
 	}
 	
 	if($_GET['act'] == "return"){
-		$copydb = @mysql_fetch_array(@mysql_query("SELECT * FROM s_service_report3 WHERE sr_id = '".$_GET['sr_id']."'"));
-		$copydb5 = @mysql_fetch_array(@mysql_query("SELECT * FROM s_service_report5 WHERE sr_id = '".$_GET['sr_id']."'"));
+		$copydb = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM s_service_report3 WHERE sr_id = '".$_GET['sr_id']."'"));
+		$copydb5 = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM s_service_report5 WHERE sr_id = '".$_GET['sr_id']."'"));
 		if($copydb5['sr_id'] != $_GET['sr_id']){
-			@mysql_query("INSERT INTO `s_service_report5` (`sr_id`, `sv_id`, `cus_id`, `sr_ctype`, `sr_ctype2`, `job_open`, `job_close`, `job_balance`, `sr_stime`, `loc_pro`, `loc_seal`, `loc_sn`, `loc_clean`, `loc_contact`, `loc_contact2`, `loc_contact3`, `cs_sell`, `loc_tels`, `cl_01`, `cl_02`, `cl_03`, `cl_04`, `cl_05`, `cl_06`, `cl_07`, `cl_08`, `ckl_list`, `ckw_list`, `ckf_list`, `detail_recom`, `detail_recom2`, `detail_calpr`, `approve`, `approve_return`, `st_setting`, `loc_date2`, `sell_date`, `loc_date3`, `create_by`, `create_date`, `update_by`, `update_date`, `delete_by`, `delete_date`) VALUES ('".$copydb['sr_id']."', '".$copydb['sv_id']."', '".$copydb['cus_id']."', '".$copydb['sr_ctype']."', '".$copydb['sr_ctype2']."', '".$copydb['job_open']."', '".$copydb['job_close']."', '".$copydb['job_balance']."', '".$copydb['sr_stime']."', '".$copydb['loc_pro']."', '".$copydb['loc_seal']."', '".$copydb['loc_sn']."', '".$copydb['loc_clean']."', '".$copydb['loc_contact']."', '".$copydb['loc_contact2']."', '".$copydb['loc_contact3']."', '".$copydb['cs_sell']."', '".$copydb['loc_tels']."', '".$copydb['cl_01']."', '".$copydb['cl_02']."', '".$copydb['cl_03']."', '".$copydb['cl_04']."', '".$copydb['cl_05']."', '".$copydb['cl_06']."', '".$copydb['cl_07']."', '".$copydb['cl_08']."', '".$copydb['ckl_list']."', '".$copydb['ckw_list']."', '".$copydb['ckf_list']."', '".$copydb['detail_recom']."', '".$copydb['detail_recom2']."', '".$copydb['detail_calpr']."', '".$copydb['approve']."', '".$copydb['approve_return']."', '".$copydb['st_setting']."', '".$copydb['loc_date2']."', '".$copydb['sell_date']."', '".$copydb['loc_date3']."', '".$copydb['create_by']."', '".$copydb['create_date']."', '".$copydb['update_by']."', '".$copydb['update_date']."', '".$copydb['delete_by']."', '".$copydb['delete_date']."');");		
+			@mysqli_query($conn,"INSERT INTO `s_service_report5` (`sr_id`, `sv_id`, `cus_id`, `sr_ctype`, `sr_ctype2`, `job_open`, `job_close`, `job_balance`, `sr_stime`, `loc_pro`, `loc_seal`, `loc_sn`, `loc_clean`, `loc_contact`, `loc_contact2`, `loc_contact3`, `cs_sell`, `loc_tels`, `cl_01`, `cl_02`, `cl_03`, `cl_04`, `cl_05`, `cl_06`, `cl_07`, `cl_08`, `ckl_list`, `ckw_list`, `ckf_list`, `detail_recom`, `detail_recom2`, `detail_calpr`, `approve`, `approve_return`, `st_setting`, `loc_date2`, `sell_date`, `loc_date3`, `create_by`, `create_date`, `update_by`, `update_date`, `delete_by`, `delete_date`) VALUES ('".$copydb['sr_id']."', '".$copydb['sv_id']."', '".$copydb['cus_id']."', '".$copydb['sr_ctype']."', '".$copydb['sr_ctype2']."', '".$copydb['job_open']."', '".$copydb['job_close']."', '".$copydb['job_balance']."', '".$copydb['sr_stime']."', '".$copydb['loc_pro']."', '".$copydb['loc_seal']."', '".$copydb['loc_sn']."', '".$copydb['loc_clean']."', '".$copydb['loc_contact']."', '".$copydb['loc_contact2']."', '".$copydb['loc_contact3']."', '".$copydb['cs_sell']."', '".$copydb['loc_tels']."', '".$copydb['cl_01']."', '".$copydb['cl_02']."', '".$copydb['cl_03']."', '".$copydb['cl_04']."', '".$copydb['cl_05']."', '".$copydb['cl_06']."', '".$copydb['cl_07']."', '".$copydb['cl_08']."', '".$copydb['ckl_list']."', '".$copydb['ckw_list']."', '".$copydb['ckf_list']."', '".$copydb['detail_recom']."', '".$copydb['detail_recom2']."', '".$copydb['detail_calpr']."', '".$copydb['approve']."', '".$copydb['approve_return']."', '".$copydb['st_setting']."', '".$copydb['loc_date2']."', '".$copydb['sell_date']."', '".$copydb['loc_date3']."', '".$copydb['create_by']."', '".$copydb['create_date']."', '".$copydb['update_by']."', '".$copydb['update_date']."', '".$copydb['delete_by']."', '".$copydb['delete_date']."');");		
 			
-			$copysubdb = @mysql_query("SELECT * FROM `s_service_report3sub` WHERE `sr_id` = '".$_GET['sr_id']."'");
-			while($rowsubdb = @mysql_fetch_array($copysubdb)){
-				@mysql_query("INSERT INTO `s_service_report5sub` (`r_id`, `sr_id`, `codes`, `lists`, `units`, `prices`, `amounts`, `opens`, `remains`) 
+			$copysubdb = @mysqli_query($conn,"SELECT * FROM `s_service_report3sub` WHERE `sr_id` = '".$_GET['sr_id']."'");
+			while($rowsubdb = @mysqli_fetch_array($copysubdb)){
+				@mysqli_query($conn,"INSERT INTO `s_service_report5sub` (`r_id`, `sr_id`, `codes`, `lists`, `units`, `prices`, `amounts`, `opens`, `remains`) 
 				VALUES ('".$rowsubdb['r_id']."', '".$rowsubdb['sr_id']."', '".$rowsubdb['codes']."', '".$rowsubdb['lists']."', '".$rowsubdb['units']."', '".$rowsubdb['prices']."', '".$rowsubdb['amounts']."', '".$rowsubdb['opens']."', '".$rowsubdb['remains']."');");
 			}
 		}
@@ -48,14 +48,14 @@
 	}
 	
 		//-------------------------------------------------------------------------------------
-	 if ($_GET[cc] <> "" and $_GET[tt] <> "") { 
-		if ($_GET[tt] == 0) $status = 1;
-		if ($_GET[tt] == 1) $status = 0;
-		Check_Permission ($check_module,$_SESSION[login_id],"update");
-		$sql_status = "update $tbl_name set supply = '$status' where $PK_field = '$_GET[cc]'";
-		@mysql_query ($sql_status);
-		/*$sql_fostatus = "update s_first_order set status = '$status' where fo_id = '$_GET[cus_id]'";
-		@mysql_query ($sql_fostatus);*/
+	 if ($_GET['cc'] <> "" and $_GET['tt'] <> "") { 
+		if ($_GET['tt'] == 0) $status = 1;
+		if ($_GET['tt'] == 1) $status = 0;
+		Check_Permission($conn,$check_module,$_SESSION['login_id'],"update");
+		$sql_status = "update $tbl_name set supply = ".$status." where $PK_field = ".$_GET['cc'];
+		@mysqli_query($conn,$sql_status);
+		/*$sql_fostatus = "update s_first_order set status = ".$status." where fo_id = '$_GET[cus_id]'";
+		@mysqli_query($conn,$sql_fostatus);*/
 		if($_GET['page'] != ""){$conpage = "page=".$_GET['page'];}
 		header ("location:?".$conpage); 
 	}
@@ -65,9 +65,9 @@
 <HEAD>
 <TITLE><?php  echo $s_title;?></TITLE>
 <META content="text/html; charset=utf-8" http-equiv=Content-Type>
-<LINK rel=stylesheet type=text/css href="../css/reset.css" media=screen>
-<LINK rel=stylesheet type=text/css href="../css/style.css" media=screen>
-<LINK rel=stylesheet type=text/css href="../css/invalid.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/reset.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/style.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/invalid.css" media=screen>
 <SCRIPT type=text/javascript src="../js/jquery-1.3.2.min.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/simpla.jquery.configuration.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/facebox.js"></SCRIPT>
@@ -219,20 +219,20 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 					include ("../include/page_init.php");
 					/*echo $sql;
 					break;*/
-					$query = @mysql_query ($sql);
-					if($_GET[page] == "") $_GET[page] = 1;
-					$counter = ($_GET[page]-1)*$pagesize;
+					$query = @mysqli_query($conn,$sql);
+					if($_GET['page'] == "") $_GET['page'] = 1;
+					$counter = ($_GET['page']-1)*$pagesize;
 					
-					while ($rec = @mysql_fetch_array ($query)) { 
+					while ($rec = @mysqli_fetch_array($query)) { 
 					$counter++;
 				   ?>
         <TR>
           <TD style="vertical-align:middle;"><INPUT type=checkbox name="del[]" value="<?php  echo $rec[$PK_field]; ?>" ></TD>
           <TD style="vertical-align:middle;"><span class="text"><?php  echo sprintf("%04d",$counter); ?></span></TD>
-          <TD style="vertical-align:middle;"><?php  $chaf = eregi_replace("/","-",$rec["sv_id"]); ?><div align="center"><span class="text"><a href="../../upload/service_report_open/<?php  echo $chaf;?>.pdf" target="_blank"><?php  echo $rec["sv_id"] ; ?></a></span></div></TD>
-          <TD style="vertical-align:middle;"><span class="text"><?php  echo get_customername($rec["cus_id"]); ?></span></TD>
-          <TD style="vertical-align:middle;"><span class="text"><?php  echo get_localsettingname($rec["cus_id"]); ?></span></TD>
-          <TD style="vertical-align:middle;"><?php  echo get_technician_name($rec["loc_contact"]);?></TD>
+          <TD style="vertical-align:middle;"><?php  $chaf = str_replace("/","-",$rec["sv_id"]); ?><div align="center"><span class="text"><a href="../../upload/service_report_open/<?php  echo $chaf;?>.pdf" target="_blank"><?php  echo $rec["sv_id"] ; ?></a></span></div></TD>
+          <TD style="vertical-align:middle;"><span class="text"><?php  echo get_customername($conn,$rec["cus_id"]); ?></span></TD>
+          <TD style="vertical-align:middle;"><span class="text"><?php  echo get_localsettingname($conn,$rec["cus_id"]); ?></span></TD>
+          <TD style="vertical-align:middle;"><?php  echo get_technician_name($conn,$rec["loc_contact"]);?></TD>
           <TD style="vertical-align:middle"><?php  if($rec["approve"] == 1){?>
             <IMG src="../images/icons/yes_approve.png" height="28" title="อนุมัติ">
             <?php  }else if($rec["approve"] == 2){?>

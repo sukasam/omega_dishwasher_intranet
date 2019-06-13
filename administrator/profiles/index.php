@@ -3,31 +3,31 @@
 	include ("../../include/connect.php");
 	include ("../../include/function.php");
 	include ("config.php");
-	Check_Permission ($check_module,$_SESSION[login_id],"read");
-	if ($_GET[page] == ""){$_REQUEST[page] = 1;	}
+	Check_Permission($conn,$check_module,$_SESSION['login_id'],"read");
+	if ($_GET['page'] == ""){$_REQUEST['page'] = 1;	}
 	$param = get_param($a_param,$a_not_exists);
 	//-------------------------------------------------------------------------------------
 	if($_REQUEST[action] == "delete"){
-		$code = Check_Permission ($check_module,$_SESSION["login_id"],"delete");		
+		$code = Check_Permission($conn,$check_module,$_SESSION["login_id"],"delete");		
 		if ($code == "1") {
 			$sql = "delete from $tbl_name  where $PK_field = '$_GET[$PK_field]'";
-			@mysql_query($sql);			
+			@mysqli_query($conn,$sql);			
 			
 			if(file_exists("../../upload/news/".$_GET[del_id]))
 			@unlink("../../upload/news/".$_GET[del_id]);		
 	
 			$sql = "update $tbl_name set image_name=' ' where $PK_field = '$_GET[$PK_field]' ";
-			@mysql_query($sql);
+			@mysqli_query($conn,$sql);
 			header ("location:index.php"); 
 		} 
 	}
 	//-------------------------------------------------------------------------------------
-	 if ($_GET[b] <> "" and $_GET[s] <> "") { 
-		if ($_GET[s] == 0) $status = 1;
-		if ($_GET[s] == 1) $status = 0;
-		Check_Permission ($check_module,$_SESSION[login_id],"update");
-		$sql_status = "update $tbl_name set status = '$status' where $PK_field = '$_GET[b]'";
-		@mysql_query ($sql_status);
+	 if ($_GET['b'] <> "" and $_GET['s'] <> "") { 
+		if ($_GET['s'] == 0) $status = 1;
+		if ($_GET['s'] == 1) $status = 0;
+		Check_Permission($conn,$check_module,$_SESSION['login_id'],"update");
+		$sql_status = "update $tbl_name set status = ".$status." where $PK_field = ".$_GET['b']."";
+		@mysqli_query($conn,$sql_status);
 		header ("location:?"); 
 	}
 	//-------------------------------------------------------------------------------------
@@ -39,9 +39,9 @@
 <HEAD>
 <TITLE><?php  echo $s_title;?></TITLE>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<LINK rel=stylesheet type=text/css href="../css/reset.css" media=screen>
-<LINK rel=stylesheet type=text/css href="../css/style.css" media=screen>
-<LINK rel=stylesheet type=text/css href="../css/invalid.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/reset.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/style.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/invalid.css" media=screen>
 <SCRIPT type=text/javascript src="../js/jquery-1.3.2.min.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/simpla.jquery.configuration.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/facebox.js"></SCRIPT>
@@ -149,11 +149,11 @@ function check_select(frm){
 					if ($sortby <> "") $sql .= " " . $sortby;
 					include ("../include/page_init.php");
 					//echo $sql;
-					$query = @mysql_query ($sql);
-					if($_GET[page] == "") $_GET[page] = 1;
-					$counter = ($_GET[page]-1)*$pagesize;
+					$query = @mysqli_query($conn,$sql);
+					if($_GET['page'] == "") $_GET['page'] = 1;
+					$counter = ($_GET['page']-1)*$pagesize;
 					
-					while ($rec = @mysql_fetch_array ($query)) { 
+					while ($rec = @mysqli_fetch_array($query)) { 
 					$counter++;
 				   ?>
         <TR>

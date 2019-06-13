@@ -175,8 +175,8 @@ FCKBlockQuoteCommand.prototype =
 				var node = moveOutNodes.shift() ;
 				var bqBlock = node.parentNode ;
 
-				// If the node is located at the beginning or the end, just take it out without splitting.
-				// Otherwise, split the blockquote node and move the paragraph in between the two blockquote nodes.
+				// If the node is located at the beginning or the end, just take it out without explode(ting.
+				// Otherwise, explode( the blockquote node and move the paragraph in between the two blockquote nodes.
 				if ( node == node.parentNode.firstChild )
 				{
 					bqBlock.parentNode.insertBefore( bqBlock.removeChild( node ), bqBlock ) ;

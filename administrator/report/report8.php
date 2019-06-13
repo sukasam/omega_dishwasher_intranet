@@ -3,8 +3,8 @@
 	include ("../../include/connect.php");
 	include ("../../include/function.php");
 	include ("config.php");
-	Check_Permission ($check_module,$_SESSION[login_id],"read");
-	if ($_GET[page] == ""){$_REQUEST[page] = 1;	}
+	Check_Permission($conn,$check_module,$_SESSION['login_id'],"read");
+	if ($_GET['page'] == ""){$_REQUEST['page'] = 1;	}
 	$param = get_param($a_param,$a_not_exists);
 	
 	$cs_company = $_REQUEST['cs_company'];
@@ -15,10 +15,10 @@
 	
 	if($_REQUEST['priod'] == 0){
 		$daterriod = " AND `date_forder`  between '".$date_fm."' and '".$date_to."'"; 
-		$dateshow = "เริ่มวันที่ : ".format_date($date_fm)."&nbsp;&nbsp;ถึงวันที่ : ".format_date($date_to); 
+		$dateshow = "เริ่มวันที่ : ".format_date($conn,$date_fm)."&nbsp;&nbsp;ถึงวันที่ : ".format_date($conn,$date_to); 
 	}
 	else{
-		$dateshow = "วันที่ค้นหา : ".format_date(date("Y-m-d")); 
+		$dateshow = "วันที่ค้นหา : ".format_date($conn,date("Y-m-d")); 
 	}
 	
 	
@@ -71,24 +71,24 @@
       </tr>
       <?php  
 		$sql = "SELECT * FROM s_first_order WHERE cs_company = '".$cs_company."'".$daterriod." ".$codi." ORDER BY date_forder ASC";
-	  	$qu_fr = @mysql_query($sql);
+	  	$qu_fr = @mysqli_query($conn,$sql);
 		$sum = 0;
-		while($row_fr = mysql_fetch_array($qu_fr)){
+		while($row_fr = mysqli_fetch_array($qu_fr)){
 			?>
 			<tr>
               <td><?php  echo $row_fr['cd_name'];?><br />
               <?php  echo $row_fr['cd_tel'];?></td>
               <td><?php  echo $row_fr['loc_name'];?><br />
               <?php  echo $row_fr['loc_address'];?></td>
-              <td><?php  echo province_name($row_fr['cd_province']);?></td>
-              <td><?php  echo custype_name($row_fr['ctype']);?></td>
+              <td><?php  echo province_name($conn,$row_fr['cd_province']);?></td>
+              <td><?php  echo custype_name($conn,$row_fr['ctype']);?></td>
               <td style="padding:0;">
               	<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbreport" style="margin-bottom:5px;">
                 <?php  
 					if($row_fr['cpro1'] != ""){
 						?>
 						<tr>
-                          <td style="border:0;padding-bottom:0;" width="37%"><?php  echo get_proname($row_fr['cpro1']);?></td>
+                          <td style="border:0;padding-bottom:0;" width="37%"><?php  echo get_proname($conn,$row_fr['cpro1']);?></td>
                           <td style="border:0;padding-bottom:0;" width="37%"><?php  echo $row_fr['pro_pod1']." / ".$row_fr['pro_sn1'];?></td>
                         </tr>
 						<?php 	
@@ -98,7 +98,7 @@
 					if($row_fr['cpro2'] != ""){
 						?>
 						<tr>
-                          <td style="border:0;padding-bottom:0;padding-top:0;" width="33%"><?php  echo get_proname($row_fr['cpro2']);?></td>
+                          <td style="border:0;padding-bottom:0;padding-top:0;" width="33%"><?php  echo get_proname($conn,$row_fr['cpro2']);?></td>
                           <td style="border:0;padding-bottom:0;padding-top:0;" width="33%"><?php  echo $row_fr['pro_pod2']." / ".$row_fr['pro_sn2'];?></td>
                         </tr>
 						<?php 	
@@ -108,7 +108,7 @@
 					if($row_fr['cpro3'] != ""){
 						?>
 						<tr>
-                          <td style="border:0;padding-bottom:0;padding-top:0;" width="33%"><?php  echo get_proname($row_fr['cpro3']);?></td>
+                          <td style="border:0;padding-bottom:0;padding-top:0;" width="33%"><?php  echo get_proname($conn,$row_fr['cpro3']);?></td>
                           <td style="border:0;padding-bottom:0;padding-top:0;" width="33%"><?php  echo $row_fr['pro_pod3']." / ".$row_fr['pro_sn3'];?></td>
                         </tr>
 						<?php 	
@@ -118,7 +118,7 @@
 					if($row_fr['cpro4'] != ""){
 						?>
 						<tr>
-                          <td style="border:0;padding-bottom:0;padding-top:0;" width="33%"><?php  echo get_proname($row_fr['cpro4']);?></td>
+                          <td style="border:0;padding-bottom:0;padding-top:0;" width="33%"><?php  echo get_proname($conn,$row_fr['cpro4']);?></td>
                           <td style="border:0;padding-bottom:0;padding-top:0;" width="33%"><?php  echo $row_fr['pro_pod4']." / ".$row_fr['pro_sn4'];?></td>
                         </tr>
 						<?php 	
@@ -128,7 +128,7 @@
 					if($row_fr['cpro5'] != ""){
 						?>
 						<tr>
-                          <td style="border:0;padding-bottom:0;padding-top:0;" width="33%"><?php  echo get_proname($row_fr['cpro5']);?></td>
+                          <td style="border:0;padding-bottom:0;padding-top:0;" width="33%"><?php  echo get_proname($conn,$row_fr['cpro5']);?></td>
                           <td style="border:0;padding-bottom:0;padding-top:0;" width="33%"><?php  echo $row_fr['pro_pod5']." / ".$row_fr['pro_sn5'];?></td>
                         </tr>
 						<?php 	
@@ -138,7 +138,7 @@
 					if($row_fr['cpro6'] != ""){
 						?>
 						<tr>
-                          <td style="border:0;padding-bottom:0;padding-top:0;" width="33%"><?php  echo get_proname($row_fr['cpro6']);?></td>
+                          <td style="border:0;padding-bottom:0;padding-top:0;" width="33%"><?php  echo get_proname($conn,$row_fr['cpro6']);?></td>
                           <td style="border:0;padding-bottom:0;padding-top:0;" width="33%"><?php  echo $row_fr['pro_pod6']." / ".$row_fr['pro_sn6'];?></td>
                         </tr>
 						<?php 	
@@ -148,15 +148,15 @@
 					if($row_fr['cpro7'] != ""){
 						?>
 						<tr>
-                          <td style="border:0;padding-bottom:0;padding-top:0;" width="33%"><?php  echo get_proname($row_fr['cpro7']);?></td>
+                          <td style="border:0;padding-bottom:0;padding-top:0;" width="33%"><?php  echo get_proname($conn,$row_fr['cpro7']);?></td>
                           <td style="border:0;padding-bottom:0;padding-top:0;" width="33%"><?php  echo $row_fr['pro_pod7']." / ".$row_fr['pro_sn7'];?></td>
                         </tr>
 						<?php 	
 					}
 				?>
               </table></td>
-              <td style="text-align:right;"><?php  echo format_date($row_fr['cs_setting']);?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-              <td><?php  echo get_sale_id($row_fr['cs_sell']);?></td>
+              <td style="text-align:right;"><?php  echo format_date($conn,$row_fr['cs_setting']);?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+              <td><?php  echo get_sale_id($conn,$row_fr['cs_sell']);?></td>
             </tr>
 			<?php 
 			$sum += 1;

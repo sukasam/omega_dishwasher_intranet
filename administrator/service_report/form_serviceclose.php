@@ -1,15 +1,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <?php 
 	
-	$finfos = get_firstorder($_POST['cus_id']);
+	$finfos = get_firstorder($conn,$_POST['cus_id']);
 	
-	$tecinfos = get_technician($_POST['loc_contact']);
+	$tecinfos = get_technician($conn,$_POST['loc_contact']);
 	
-	$spaimfo1 = get_sparpart($_POST['cpro1']);
-	$spaimfo2 = get_sparpart($_POST['cpro2']);
-	$spaimfo3 = get_sparpart($_POST['cpro3']);
-	$spaimfo4 = get_sparpart($_POST['cpro4']);
-	$spaimfo5 = get_sparpart($_POST['cpro5']);
+	$spaimfo1 = get_sparpart($conn,$_POST['cpro1']);
+	$spaimfo2 = get_sparpart($conn,$_POST['cpro2']);
+	$spaimfo3 = get_sparpart($conn,$_POST['cpro3']);
+	$spaimfo4 = get_sparpart($conn,$_POST['cpro4']);
+	$spaimfo5 = get_sparpart($conn,$_POST['cpro5']);
 	
 	
 	
@@ -18,7 +18,7 @@
 	foreach($chk as $vals){
 		$sfix .= '
 		  <tr>
-			<td ><img src="../images/aroow_ch.png" width="10" height="10" border="0" alt="" />&nbsp;'.get_fixname($vals).'</td>
+			<td ><img src="../images/aroow_ch.png" width="10" height="10" border="0" alt="" />&nbsp;'.get_fixname($conn,$vals).'</td>
 		  </tr>
 		';	
 	}
@@ -60,9 +60,9 @@
 	$totalprice = ($_POST['camount1'] * $_POST['cprice1']) + ($_POST['camount2'] * $_POST['cprice2']) + ($_POST['camount3'] * $_POST['cprice3']) + ($_POST['camount4'] * $_POST['cprice4']) + ($_POST['camount5'] * $_POST['cprice5']);
 	
 	$serviceID = substr($_POST['sv_id'],3);
-	$row_service2 = @mysql_fetch_array(@mysql_query("SELECT * FROM s_service_report2 WHERE srid = '".trim($serviceID)."'"));
+	$row_service2 = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM s_service_report2 WHERE srid = '".trim($serviceID)."'"));
 		
-	$qu_sr2 = @mysql_query("SELECT * FROM s_service_report2sub WHERE sr_id = '".$row_service2['sr_id']."' AND codes != ''");
+	$qu_sr2 = @mysqli_query($conn,"SELECT * FROM s_service_report2sub WHERE sr_id = '".$row_service2['sr_id']."' AND codes != ''");
 	$brf = 1;
 
 	$form = '<style>
@@ -159,16 +159,16 @@
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tb1">
           <tr>
             <td width="57%" valign="top"><strong>ชื่อลูกค้า :</strong> '.$finfos['cd_name'].' <br />              <strong><br />
-            ที่อยู่ :</strong> '.$finfos['cd_address'].'&nbsp;'.province_name($finfos['cd_province']).'<strong><br />
+            ที่อยู่ :</strong> '.$finfos['cd_address'].'&nbsp;'.province_name($conn,$finfos['cd_province']).'<strong><br />
             <br />
             โทรศัพท์ :</strong> '.$finfos['cd_tel'].'&nbsp;&nbsp;&nbsp;&nbsp;<strong>แฟกซ์ :</strong> '.$finfos['cd_fax'].'<br />
             <br />
             <strong>ชื่อผู้ติดต่อ :</strong> '.$finfos['c_contact'].' <strong>&nbsp;&nbsp;&nbsp;&nbsp;เบอร์โทร :</strong> '.$finfos['c_tel'].'</td>
-            <td width="43%"><strong>ประเภทบริการลูกค้า :</strong> '.get_servicename($_POST['sr_ctype']).'&nbsp;&nbsp;&nbsp;'.custype_name($_POST['sr_ctype2']).'<br />
+            <td width="43%"><strong>ประเภทบริการลูกค้า :</strong> '.get_servicename($conn,$_POST['sr_ctype']).'&nbsp;&nbsp;&nbsp;'.custype_name($conn,$_POST['sr_ctype2']).'<br />
               <br />
-            เลขที่สัญญา  :</strong> '.$finfos['fs_id'].'&nbsp;&nbsp;&nbsp;&nbsp;<strong>วันที่  :</strong> '.format_date($_POST['job_open']).' <strong>&nbsp;&nbsp;<br />
+            เลขที่สัญญา  :</strong> '.$finfos['fs_id'].'&nbsp;&nbsp;&nbsp;&nbsp;<strong>วันที่  :</strong> '.format_date($conn,$_POST['job_open']).' <strong>&nbsp;&nbsp;<br />
             <br />
-            วันครบกำหนดบริการ :</strong> '.format_date($_POST['job_balance']).'<br /><br /><strong>บริการครั้งก่อน : </strong>'.$_POST['job_last'].'&nbsp;&nbsp;<strong>บริการครั้งต่อไป  :</strong> '.format_date($_POST['sr_stime']).'</td>
+            วันครบกำหนดบริการ :</strong> '.format_date($conn,$_POST['job_balance']).'<br /><br /><strong>บริการครั้งก่อน : </strong>'.$_POST['job_last'].'&nbsp;&nbsp;<strong>บริการครั้งต่อไป  :</strong> '.format_date($conn,$_POST['sr_stime']).'</td>
           </tr>
     </table>
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tb2">
@@ -257,11 +257,11 @@
       <td width="15%" style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>ราคารวม (บาท)</strong></td>
     </tr>';
     
-    while($rowSRV = @mysql_fetch_array($qu_sr2)){
+    while($rowSRV = @mysqli_fetch_array($qu_sr2)){
 		$form.= '<tr>
       <td style="border:1px solid #000000;padding:5;">'.$brf.'</td>
       <td style="border:1px solid #000000;padding:5;">'.$rowSRV['codes'].'</td>
-      <td style="border:1px solid #000000;text-align:left;padding:5;">'.get_sparpart_name($rowSRV['lists']).'</td>
+      <td style="border:1px solid #000000;text-align:left;padding:5;">'.get_sparpart_name($conn,$rowSRV['lists']).'</td>
       <td style="border:1px solid #000000;padding:5;">'.$rowSRV['opens'].'</td>
       <td style="border:1px solid #000000;padding:5;">'.$rowSRV['prices'].'</td>
       <td style="border:1px solid #000000;padding:5;">'.($rowSRV['opens']*$rowSRV['prices']).'</td>

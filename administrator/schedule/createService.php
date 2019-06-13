@@ -5,8 +5,8 @@
 	include ("config.php");
     include_once("../mpdf54/mpdf.php");
 
-	Check_Permission ($check_module,$_SESSION[login_id],"read");
-	if ($_GET[page] == ""){$_REQUEST[page] = 1;	}
+	Check_Permission($conn,$check_module,$_SESSION['login_id'],"read");
+	if ($_GET['page'] == ""){$_REQUEST['page'] = 1;	}
 	$param = get_param($a_param,$a_not_exists);
 
 
@@ -19,8 +19,8 @@
 	$condition = "";
 	$getMonth = $_GET['month']-1;
 
-	$quGen = mysql_query("SELECT * FROM service_schedule WHERE month = '".$getMonth."' AND technician = '".$_GET['loccontact']."'");
-	$numCreated = mysql_num_rows($quGen);
+	$quGen = mysqli_query($conn,"SELECT * FROM service_schedule WHERE month = '".$getMonth."' AND technician = '".$_GET['loccontact']."'");
+	$numCreated = mysqli_num_rows($quGen);
 
 	
 	if($numCreated == 0){
@@ -42,12 +42,12 @@
 
 		$sqlSched = "SELECT * FROM `s_first_order` WHERE `technic_service` = ".$_GET['loccontact'].$condition." ORDER BY `cd_province` ,`loc_name` ASC;";
 
-		$quSched = mysql_query($sqlSched);
+		$quSched = mysqli_query($conn,$sqlSched);
 
 
 
 		$runRow = 1;
-		  while($rowSched = mysql_fetch_array($quSched)){
+		  while($rowSched = mysqli_fetch_array($quSched)){
 			  
 			  set_time_limit(0);
 			  
@@ -62,7 +62,7 @@
 								'sr_ctype' => urlencode($rowSched['type_service']),
 								'sr_ctype2' => urlencode($rowSched['ctype']),
 								'bbfpro' => urlencode("0"),
-								'loc_pro' => urlencode(get_proname($rowSched['cpro1'])),
+								'loc_pro' => urlencode(get_proname($conn,$rowSched['cpro1'])),
 								'loc_seal' => urlencode($rowSched['pro_pod1']),
 								'loc_sn' => urlencode($rowSched['pro_sn1']),
 								'loc_contact' => urlencode($rowSched['technic_service']),
@@ -99,7 +99,7 @@
 								'sr_ctype' => urlencode($rowSched['type_service']),
 								'sr_ctype2' => urlencode($rowSched['ctype']),
 								'bbfpro' => urlencode("0"),
-								'loc_pro' => urlencode(get_proname($rowSched['cpro1'])),
+								'loc_pro' => urlencode(get_proname($conn,$rowSched['cpro1'])),
 								'loc_seal' => urlencode($rowSched['pro_pod1']),
 								'loc_sn' => urlencode($rowSched['pro_sn1']),
 								'loc_contact' => urlencode($rowSched['technic_service']),
@@ -139,7 +139,7 @@
 								'sr_ctype' => urlencode($rowSched['type_service']),
 								'sr_ctype2' => urlencode($rowSched['ctype']),
 								'bbfpro' => urlencode("1"),
-								'loc_pro' => urlencode(get_proname($rowSched['cpro2'])),
+								'loc_pro' => urlencode(get_proname($conn,$rowSched['cpro2'])),
 								'loc_seal' => urlencode($rowSched['pro_pod2']),
 								'loc_sn' => urlencode($rowSched['pro_sn2']),
 								'loc_contact' => urlencode($rowSched['technic_service']),
@@ -176,7 +176,7 @@
 								'sr_ctype' => urlencode($rowSched['type_service']),
 								'sr_ctype2' => urlencode($rowSched['ctype']),
 								'bbfpro' => urlencode("1"),
-								'loc_pro' => urlencode(get_proname($rowSched['cpro2'])),
+								'loc_pro' => urlencode(get_proname($conn,$rowSched['cpro2'])),
 								'loc_seal' => urlencode($rowSched['pro_pod2']),
 								'loc_sn' => urlencode($rowSched['pro_sn2']),
 								'loc_contact' => urlencode($rowSched['technic_service']),
@@ -215,7 +215,7 @@
 								'sr_ctype' => urlencode($rowSched['type_service']),
 								'sr_ctype2' => urlencode($rowSched['ctype']),
 								'bbfpro' => urlencode("0"),
-								'loc_pro' => urlencode(get_proname($rowSched['cpro1'])),
+								'loc_pro' => urlencode(get_proname($conn,$rowSched['cpro1'])),
 								'loc_seal' => urlencode($rowSched['pro_pod1']),
 								'loc_sn' => urlencode($rowSched['pro_sn1']),
 								'loc_contact' => urlencode($rowSched['technic_service']),
@@ -293,14 +293,14 @@
 			}
 		}
 		
-		$quGen2 = mysql_query("SELECT * FROM service_schedule WHERE month = '".$getMonth."' AND technician = '".$loccontact."'");
-		 $numCreated2 = mysql_num_rows($quGen2);
+		$quGen2 = mysqli_query($conn,"SELECT * FROM service_schedule WHERE month = '".$getMonth."' AND technician = '".$loccontact."'");
+		 $numCreated2 = mysqli_num_rows($quGen2);
 
 
 			$newArray = array();
 
 			if($numCreated2 > 0){
-				 while($rowGen2 = mysql_fetch_array($quGen2)){
+				 while($rowGen2 = mysqli_fetch_array($quGen2)){
 					$newArray[] = "../../upload/service_report_open/".$rowGen2['pdf'];
 				 }
 				mergePDFFiles($newArray,"service_report_".date("Y-m")."_".$loccontact.".pdf");

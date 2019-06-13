@@ -3,8 +3,8 @@
 	include ("../../include/connect.php");
 	include ("../../include/function.php");
 	include ("config.php");
-	Check_Permission ($check_module,$_SESSION[login_id],"read");
-	if ($_GET[page] == ""){$_REQUEST[page] = 1;	}
+	Check_Permission($conn,$check_module,$_SESSION['login_id'],"read");
+	if ($_GET['page'] == ""){$_REQUEST['page'] = 1;	}
 	$param = get_param($a_param,$a_not_exists);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -66,8 +66,8 @@
 </table>
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tv_search" id="rscus">
 <?php  
-  	$qu_cus = mysql_query("SELECT cd_name,loc_name,cusid FROM s_first_order WHERE separate = 0 GROUP BY cusid ORDER BY cusid ASC");
-	while($row_cus = @mysql_fetch_array($qu_cus)){
+  	$qu_cus = mysqli_query($conn,"SELECT cd_name,loc_name,cusid FROM s_first_order WHERE separate = 0 GROUP BY cusid ORDER BY cusid ASC");
+	while($row_cus = @mysqli_fetch_array($qu_cus)){
 		?>
 		 <tr>
             <td><A href="javascript:void(0);" onclick="get_customer('<?php  echo $row_cus['cusid'];?>','<?php  echo $row_cus['cusid'];?>');"><?php  echo "<strong>".$row_cus['cusid']."</strong> ".$row_cus['cd_name'];?></A></td>

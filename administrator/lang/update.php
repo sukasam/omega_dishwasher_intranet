@@ -4,12 +4,12 @@
 	include ("../../include/function.php");
 	include ("config.php");
 
-	if ($_POST[mode] <> "") { 
+	if ($_POST['mode'] <> "") { 
 		$param = "";
 		$a_not_exists = array();
 		$param = get_param($a_param,$a_not_exists);
 
-		if ($_POST[mode] == "add") { 
+		if ($_POST['mode'] == "add") { 
 			
 			include "../include/m_add.php";
 			
@@ -31,14 +31,14 @@
 						uploadfile($path,$filename,$_FILES['fimages']['tmp_name'],$width, $quality);
 				} // end foreach				
 					$sql = "update $tbl_name set lang_images = '$filename' where $PK_field = '$id' ";
-					@mysql_query($sql);				
+					@mysqli_query($conn,$sql);				
 				} // end if ($_FILES[fimages][name] != "")	
 				
 			header ("location:index.php?" . $param); 
 			
 		}
 //-------------------------------------------------------------------------------------------------------------------------------------
-		if ($_POST[mode] == "update" ) { 	
+		if ($_POST['mode'] == "update" ) { 	
 			
 			include "../include/m_update.php";
 			$id=$_REQUEST['lang_id'];
@@ -60,7 +60,7 @@
 						uploadfile($path,$filename,$_FILES['fimages']['tmp_name'],$width, $quality);
 				} // end foreach		
 				$sql = "update $tbl_name set lang_images = '$filename' where $PK_field = '$id' ";
-				@mysql_query($sql);				
+				@mysqli_query($conn,$sql);				
 			} // end if ($_FILES[fimages][name] != "")
 			
 			header ("location:index.php?" . $param); 
@@ -68,15 +68,15 @@
 	}
 }
 //-------------------------------------------------------------------------------------------------------------------------------------
-	if ( ($_GET[mode] == "add") && (count($_POST) == 0)) { 
-		 Check_Permission ($check_module,$_SESSION[login_id],"add");
+	if ( ($_GET['mode'] == "add") && (count($_POST) == 0)) { 
+		 Check_Permission($conn,$check_module,$_SESSION['login_id'],"add");
 	}
 //-------------------------------------------------------------------------------------------------------------------------------------
-	if ( ($_GET[mode] == "update") && (count($_POST) == 0) ) { 
-		 Check_Permission ($check_module,$_SESSION[login_id],"update");
+	if ( ($_GET['mode'] == "update") && (count($_POST) == 0) ) { 
+		 Check_Permission($conn,$check_module,$_SESSION['login_id'],"update");
 		$sql = "select * from $tbl_name where $PK_field = '" . $_GET[$PK_field] ."'";
-		$query = @mysql_query ($sql);
-		while ($rec = @mysql_fetch_array ($query)) { 
+		$query = @mysqli_query($conn,$sql);
+		while ($rec = @mysqli_fetch_array($query)) { 
 			$$PK_field = $rec[$PK_field];
 			foreach ($fieldlist as $key => $value) { 
 				$$value = $rec[$value];
@@ -89,9 +89,9 @@
 <HEAD>
 <TITLE><?php  echo $s_title;?></TITLE>
 <META content="text/html; charset=utf-8" http-equiv=Content-Type>
-<LINK rel=stylesheet type=text/css href="../css/reset.css" media=screen>
-<LINK rel=stylesheet type=text/css href="../css/style.css" media=screen>
-<LINK rel=stylesheet type=text/css href="../css/invalid.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/reset.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/style.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/invalid.css" media=screen>
 <SCRIPT type=text/javascript src="../js/jquery-1.3.2.min.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/simpla.jquery.configuration.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/facebox.js"></SCRIPT>
@@ -169,7 +169,7 @@ function check(frm){
                   <?php  
 				  if($_GET['mode'] != 'add'){
 					  if(!empty($lang_images)){?>
-                  <img src="../../upload/lang/<?php  echo $lang_images?>" alt="" width="60">[ <a href="?mode=<?php  echo $_GET[mode]?>&<?php  echo $PK_field?>=<?php  echo $$PK_field;?>&<?php  echo $FR_field?>=<?php  echo $$FR_field;?>&del_id=<?php  echo $lang_images;?>&page=<?php  echo $page;?>">Delete</a>]
+                  <img src="../../upload/lang/<?php  echo $lang_images?>" alt="" width="60">[ <a href="?mode=<?php  echo $_GET['mode']?>&<?php  echo $PK_field?>=<?php  echo $$PK_field;?>&<?php  echo $FR_field?>=<?php  echo $$FR_field;?>&del_id=<?php  echo $lang_images;?>&page=<?php  echo $page;?>">Delete</a>]
                   <?php  }?>
                   <input name="lang_images" type="hidden" value="<?php  echo $lang_images; ?>">
                   <?php  }?></td>

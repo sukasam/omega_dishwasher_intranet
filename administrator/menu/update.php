@@ -4,34 +4,34 @@
 	include ("../../include/function.php");
 	include ("config.php");	
 	$mode=$_REQUEST['mode'];
-	if ($_POST[mode] <> "") { 
+	if ($_POST['mode'] <> "") { 
 		$param = "";
 		$a_not_exists = array();
 		$param = get_param($a_param,$a_not_exists);
 
-		if ($_POST[mode] == "add") { 
+		if ($_POST['mode'] == "add") { 
 				include "../include/m_add.php";
-				$id=mysql_insert_id();
+				$id=mysqli_insert_id($conn);
 				$sql="update $tbl_name set rank ='$id' where $PK_field='$id' ";
-				@mysql_query($sql);
+				@mysqli_query($conn,$sql);
 			header ("location:index.php?" . $param); 
 		}
 
-		if ($_POST[mode] == "update" ) { 
+		if ($_POST['mode'] == "update" ) { 
 			include ("../include/m_update.php");
 			header ("location:index.php?" . $param);
 		}
 	}
 
-	if ($_GET[mode] == "add") {
-		 Check_Permission ($check_module,$_SESSION[login_id],"add");
+	if ($_GET['mode'] == "add") {
+		 Check_Permission($conn,$check_module,$_SESSION['login_id'],"add");
 	}
 
-	if ($_GET[mode] == "update") { 
-		 Check_Permission ($check_module,$_SESSION[login_id],"update");
+	if ($_GET['mode'] == "update") { 
+		 Check_Permission($conn,$check_module,$_SESSION['login_id'],"update");
 		$sql = "select * from $tbl_name where $PK_field = '" . $_GET[$PK_field] ."'";
-		$query = @mysql_query ($sql);
-		while ($rec = @mysql_fetch_array ($query)) { 
+		$query = @mysqli_query($conn,$sql);
+		while ($rec = @mysqli_fetch_array($query)) { 
 			$$PK_field = $rec[$PK_field];
 			foreach ($fieldlist as $key => $value) { 
 				$$value = $rec[$value];
@@ -53,11 +53,11 @@
 
 <META content="text/html; charset=utf-8" http-equiv=Content-Type>
 
-<LINK rel=stylesheet type=text/css href="../css/reset.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/reset.css" media=screen>
 
-<LINK rel=stylesheet type=text/css href="../css/style.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/style.css" media=screen>
 
-<LINK rel=stylesheet type=text/css href="../css/invalid.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/invalid.css" media=screen>
 
 <SCRIPT type=text/javascript src="../js/jquery-1.3.2.min.js"></SCRIPT>
 
@@ -178,11 +178,11 @@ function check(frm){
 
               
 
-              <?php  if ($_GET[mode] == "add") { ?>
+              <?php  if ($_GET['mode'] == "add") { ?>
 
               <?php  } ?>
 
-              <?php  if ($_GET[mode] == "update") { ?>
+              <?php  if ($_GET['mode'] == "update") { ?>
 
               <?php  } ?>
 

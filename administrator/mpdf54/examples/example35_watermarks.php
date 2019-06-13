@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 $html = '
 <h1>mPDF</h1>

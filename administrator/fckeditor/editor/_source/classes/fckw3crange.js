@@ -196,7 +196,7 @@ FCKW3CRange.prototype =
 		return docFrag ;
 	},
 
-	// The selection may be lost when cloning (due to the splitText() call).
+	// The selection may be lost when cloning (due to the explode(Text() call).
 	cloneContents : function()
 	{
 		var docFrag = new FCKDocumentFragment( this._Document ) ;
@@ -223,7 +223,7 @@ FCKW3CRange.prototype =
 		// Start from the end, otherwise DOM mutations (splitText) made in the
 		// start boundary may interfere on the results here.
 
-		// For text containers, we must simply split the node and point to the
+		// For text containers, we must simply explode( the node and point to the
 		// second part. The removal will be handled by the rest of the code .
 		if ( endNode.nodeType == 3 )
 			endNode = endNode.splitText( endOffset ) ;
@@ -245,15 +245,15 @@ FCKW3CRange.prototype =
 			}
 		}
 
-		// For text containers, we must simply split the node. The removal will
+		// For text containers, we must simply explode( the node. The removal will
 		// be handled by the rest of the code .
 		if ( startNode.nodeType == 3 )
 		{
 			startNode.splitText( startOffset ) ;
 
 			// In cases the end node is the same as the start node, the above
-			// splitting will also split the end, so me must move the end to
-			// the second part of the split.
+			// explode(ting will also explode( the end, so me must move the end to
+			// the second part of the explode(.
 			if ( startNode == endNode )
 				endNode = startNode.nextSibling ;
 		}
@@ -398,7 +398,7 @@ FCKW3CRange.prototype =
 
 		if ( action == 2 )		// 2 = Clone.
 		{
-			// No changes in the DOM should be done, so fix the split text (if any).
+			// No changes in the DOM should be done, so fix the explode( text (if any).
 
 			var startTextNode = this.startContainer ;
 			if ( startTextNode.nodeType == 3 )

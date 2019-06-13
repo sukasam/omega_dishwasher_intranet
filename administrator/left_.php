@@ -46,17 +46,17 @@ class : li a:current is a now active
 
 	  $sqlmenu = "select * from tb_menu_cate order by rank asc";
 
-	  $query = @mysql_query($sqlmenu)or die(mysql_error());
+	  $query = @mysqli_query($conn,$sqlmenu)or die(mysql_error());
 
-	  while($rsmenu = @mysql_fetch_array($query)){
+	  while($rsmenu = @mysqli_fetch_array($query)){
 
 			
 
 			$sqlsubmenu ="select * from tb_menu_submenu where menucate_id=$rsmenu[menucate_id] order by tb_menu_submenu.rank asc";
 
-			$querysubmenu = @mysql_query($sqlsubmenu)or die(mysql_error());
+			$querysubmenu = @mysqli_query($conn,$sqlsubmenu)or die(mysql_error());
 
-			$count = @mysql_num_rows($querysubmenu);
+			$count = @mysqli_num_rows($querysubmenu);
 
 			//echo $sqlsubmenu;
 
@@ -72,7 +72,7 @@ class : li a:current is a now active
         </a>
           <?php   echo "<UL>";
 
-						while($rssubmenu=@mysql_fetch_array($querysubmenu)){ ?>
+						while($rssubmenu=@mysqli_fetch_array($querysubmenu)){ ?>
       </li>
       <li><a href="<?php =$rssubmenu['submenu_url_link']?>?smid=<?php =$rssubmenu['id']?>&amp;mid=<?php =$rsmenu['menucate_id']?>" <?php  if($subid==$rssubmenu['id']){echo "class='current'";}?>>
         <?php =$rssubmenu['submenu_name']?>

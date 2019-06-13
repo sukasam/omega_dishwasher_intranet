@@ -3,8 +3,8 @@
 	include ("../../include/connect.php");
 	include ("../../include/function.php");
 	include ("config.php");
-	Check_Permission ($check_module,$_SESSION[login_id],"read");
-	if ($_GET[page] == ""){$_REQUEST[page] = 1;	}
+	Check_Permission($conn,$check_module,$_SESSION['login_id'],"read");
+	if ($_GET['page'] == ""){$_REQUEST['page'] = 1;	}
 	$param = get_param($a_param,$a_not_exists);
 	
 	$cd_name = $_REQUEST['cd_name'];
@@ -18,10 +18,10 @@
 	
 	if($_REQUEST['priod'] == 0){
 		$daterriod = " AND `sr_stime`  between '".$date_fm."' and '".$date_to."'"; 
-		$dateshow = "เริ่มวันที่ : ".format_date($date_fm)."&nbsp;&nbsp;ถึงวันที่ : ".format_date($date_to); 
+		$dateshow = "เริ่มวันที่ : ".format_date($conn,$date_fm)."&nbsp;&nbsp;ถึงวันที่ : ".format_date($conn,$date_to); 
 	}
 	else{
-		$dateshow = "วันที่ค้นหา : ".format_date(date("Y-m-d")); 
+		$dateshow = "วันที่ค้นหา : ".format_date($conn,date("Y-m-d")); 
 	}
 	
 	if($cpro != ""){
@@ -45,7 +45,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>เลือกตามการใช้อะไหล่ ( <?php  if($cpro != ""){echo get_sparpart_name($cpro);}else{echo "ทั้งหมด";}?> )</title>
+<title>เลือกตามการใช้อะไหล่ ( <?php  if($cpro != ""){echo get_sparpart_name($conn,$cpro);}else{echo "ทั้งหมด";}?> )</title>
 <style type="text/css">
  .tbreport{
  	font-size:10px;
@@ -68,12 +68,12 @@
 	<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbreport">
 	  <tr>
 	    <th colspan="5" style="text-align:left;font-size:12px;">บริษัท โอเมก้า ดิชวอชเชอร์ (ประเทศไทย) จำกัด<br />
-        รายงานตามการใช้อะไหล่ ( <?php  if($cpro != ""){echo get_sparpart_name($cpro);}else{echo "ทั้งหมด";}?> )<br />
+        รายงานตามการใช้อะไหล่ ( <?php  if($cpro != ""){echo get_sparpart_name($conn,$cpro);}else{echo "ทั้งหมด";}?> )<br />
         ประเภทลูกค้า  :
-        <?php  if($_POST['ctype'] != ""){echo getcustom_type($_POST['ctype']);}else{echo "ทั้งหมด";}?>
+        <?php  if($_POST['ctype'] != ""){echo getcustom_type($conn,$_POST['ctype']);}else{echo "ทั้งหมด";}?>
         <br />
 ประเภทบริการ  :
-<?php  if($_POST['sr_ctype']){echo get_servicename($_POST['sr_ctype']);}else{echo "ทั้งหมด";}?>
+<?php  if($_POST['sr_ctype']){echo get_servicename($conn,$_POST['sr_ctype']);}else{echo "ทั้งหมด";}?>
 <br />        
         <br /></th>
 	    <th colspan="4" style="text-align:right;font-size:11px;"><?php  echo $dateshow;?></th>
@@ -101,17 +101,17 @@
       </tr>
       <?php  
 		$sql = "SELECT * FROM s_first_order as fr, s_service_report as sv WHERE sv.cus_id = fr.fo_id ".$condition." ".$daterriod." AND sv.cpro1 != '' ORDER BY fr.cd_name ASC";
-	  	$qu_fr = @mysql_query($sql);
+	  	$qu_fr = @mysqli_query($conn,$sql);
 		$sum = 0;
-		while($row_fr = @mysql_fetch_array($qu_fr)){
+		while($row_fr = @mysqli_fetch_array($qu_fr)){
 				
 			?>
 			<tr>
               <?php  if($_REQUEST['sh1'] == 1){?><td><?php  echo $row_fr['cd_name'];?><br />
               <?php  echo $row_fr['cd_tel'];?></td><?php  }?>
               <?php  if($_REQUEST['sh2'] == 1){?><td><?php  echo $row_fr['loc_name']."<br />".$row_fr['loc_address'];?></td><?php  }?>
-              <?php  if($_REQUEST['sh3'] == 1){?><td><?php  echo getcustom_type($row_fr['sr_ctype2']);?></td>    <?php  }?> 
-              <?php  if($_REQUEST['sh4'] == 1){?><td><?php  echo get_servicename($row_fr['sr_ctype']);?></td>  <?php  }?>   
+              <?php  if($_REQUEST['sh3'] == 1){?><td><?php  echo getcustom_type($conn,$row_fr['sr_ctype2']);?></td>    <?php  }?> 
+              <?php  if($_REQUEST['sh4'] == 1){?><td><?php  echo get_servicename($conn,$row_fr['sr_ctype']);?></td>  <?php  }?>   
               <?php  if($_REQUEST['sh5'] == 1 || $_REQUEST['sh6'] == 1){?><td><table width="99%" border="0" cellpadding="0" cellspacing="0" class="tbreport" style="margin-bottom:5px;">
                 <?php  
 					if($row_fr['pro_pod1'] != ""){
@@ -193,7 +193,7 @@
 						if($row_fr['cpro1'] != ""){
 							?>
 							<tr>
-							  <?php  if($_REQUEST['sh8'] == 1){?><td style="border:0;padding-bottom:0;" width="37%"><?php  echo get_sparpart_name($row_fr['cpro1']);?></td><?php  }?>
+							  <?php  if($_REQUEST['sh8'] == 1){?><td style="border:0;padding-bottom:0;" width="37%"><?php  echo get_sparpart_name($conn,$row_fr['cpro1']);?></td><?php  }?>
 							</tr>
 							<?php 	
 						}
@@ -202,7 +202,7 @@
 						if($row_fr['cpro2'] != ""){
 							?>
 							<tr>
-							  <?php  if($_REQUEST['sh8'] == 1){?><td style="border:0;padding-bottom:0;padding-top:0;" width="33%"><?php  echo get_sparpart_name($row_fr['cpro2']);?></td><?php  }?>
+							  <?php  if($_REQUEST['sh8'] == 1){?><td style="border:0;padding-bottom:0;padding-top:0;" width="33%"><?php  echo get_sparpart_name($conn,$row_fr['cpro2']);?></td><?php  }?>
 							</tr>
 							<?php 	
 						}
@@ -211,7 +211,7 @@
 						if($row_fr['cpro3'] != ""){
 							?>
 							<tr>
-							  <?php  if($_REQUEST['sh8'] == 1){?><td style="border:0;padding-bottom:0;padding-top:0;" width="33%"><?php  echo get_sparpart_name($row_fr['cpro3']);?></td><?php  }?>
+							  <?php  if($_REQUEST['sh8'] == 1){?><td style="border:0;padding-bottom:0;padding-top:0;" width="33%"><?php  echo get_sparpart_name($conn,$row_fr['cpro3']);?></td><?php  }?>
 							</tr>
 							<?php 	
 						}
@@ -220,7 +220,7 @@
 						if($row_fr['cpro4'] != ""){
 							?>
 							<tr>
-							  <?php  if($_REQUEST['sh8'] == 1){?><td style="border:0;padding-bottom:0;padding-top:0;" width="33%"><?php  echo get_sparpart_name($row_fr['cpro4']);?></td><?php  }?>
+							  <?php  if($_REQUEST['sh8'] == 1){?><td style="border:0;padding-bottom:0;padding-top:0;" width="33%"><?php  echo get_sparpart_name($conn,$row_fr['cpro4']);?></td><?php  }?>
 							</tr>
 							<?php 	
 						}
@@ -229,7 +229,7 @@
 						if($row_fr['cpro5'] != ""){
 							?>
 							<tr>
-							  <?php  if($_REQUEST['sh8'] == 1){?><td style="border:0;padding-bottom:0;padding-top:0;" width="33%"><?php  echo get_sparpart_name($row_fr['cpro5']);?></td><?php  }?>
+							  <?php  if($_REQUEST['sh8'] == 1){?><td style="border:0;padding-bottom:0;padding-top:0;" width="33%"><?php  echo get_sparpart_name($conn,$row_fr['cpro5']);?></td><?php  }?>
 							</tr>
 							<?php 	
 						}
@@ -239,7 +239,7 @@
 						if($row_fr['cpro1'] == $cpro){
 							?>
 							<tr>
-							  <?php  if($_REQUEST['sh8'] == 1){?><td style="border:0;padding-bottom:0;" width="37%"><?php  echo get_sparpart_name($row_fr['cpro1']);?></td><?php  }?>
+							  <?php  if($_REQUEST['sh8'] == 1){?><td style="border:0;padding-bottom:0;" width="37%"><?php  echo get_sparpart_name($conn,$row_fr['cpro1']);?></td><?php  }?>
 							</tr>
 							<?php 	
 						}
@@ -248,7 +248,7 @@
 						if($row_fr['cpro2'] == $cpro){
 							?>
 							<tr>
-							  <?php  if($_REQUEST['sh8'] == 1){?><td style="border:0;padding-bottom:0;padding-top:0;" width="33%"><?php  echo get_sparpart_name($row_fr['cpro2']);?></td><?php  }?>
+							  <?php  if($_REQUEST['sh8'] == 1){?><td style="border:0;padding-bottom:0;padding-top:0;" width="33%"><?php  echo get_sparpart_name($conn,$row_fr['cpro2']);?></td><?php  }?>
 							</tr>
 							<?php 	
 						}
@@ -257,7 +257,7 @@
 						if($row_fr['cpro3'] == $cpro){
 							?>
 							<tr>
-							  <?php  if($_REQUEST['sh8'] == 1){?><td style="border:0;padding-bottom:0;padding-top:0;" width="33%"><?php  echo get_sparpart_name($row_fr['cpro3']);?></td><?php  }?>
+							  <?php  if($_REQUEST['sh8'] == 1){?><td style="border:0;padding-bottom:0;padding-top:0;" width="33%"><?php  echo get_sparpart_name($conn,$row_fr['cpro3']);?></td><?php  }?>
 							</tr>
 							<?php 	
 						}
@@ -266,7 +266,7 @@
 						if($row_fr['cpro4'] == $cpro){
 							?>
 							<tr>
-							  <?php  if($_REQUEST['sh8'] == 1){?><td style="border:0;padding-bottom:0;padding-top:0;" width="33%"><?php  echo get_sparpart_name($row_fr['cpro4']);?></td><?php  }?>
+							  <?php  if($_REQUEST['sh8'] == 1){?><td style="border:0;padding-bottom:0;padding-top:0;" width="33%"><?php  echo get_sparpart_name($conn,$row_fr['cpro4']);?></td><?php  }?>
 							</tr>
 							<?php 	
 						}
@@ -275,7 +275,7 @@
 						if($row_fr['cpro5'] == $cpro){
 							?>
 							<tr>
-							  <?php  if($_REQUEST['sh8'] == 1){?><td style="border:0;padding-bottom:0;padding-top:0;" width="33%"><?php  echo get_sparpart_name($row_fr['cpro5']);?></td><?php  }?>
+							  <?php  if($_REQUEST['sh8'] == 1){?><td style="border:0;padding-bottom:0;padding-top:0;" width="33%"><?php  echo get_sparpart_name($conn,$row_fr['cpro5']);?></td><?php  }?>
 							</tr>
 							<?php 	
 						}
@@ -284,7 +284,7 @@
 				?>
               </table></td> <?php  }?>
               <?php  if($_REQUEST['sh9'] == 1){?><td><?php  echo $row_fr['detail_recom2'];?></td><?php  }?>
-              <?php  if($_REQUEST['sh10'] == 1){?><td><?php  echo get_technician_id($row_fr['loc_contact']);?></td><?php  }?>
+              <?php  if($_REQUEST['sh10'] == 1){?><td><?php  echo get_technician_id($conn,$row_fr['loc_contact']);?></td><?php  }?>
       </tr>
 			
 			<?php 

@@ -3,22 +3,22 @@
 Last Revised : 1 Dec, 2006
 /* ******************* 
 
-Check_Permission ($check_module,$user_id,$action)
+Check_Permission($conn,$check_module,$user_id,$action)
 Cal_Age($date)
-Show_Data ($tbl_name, $key, $value, $fieldname)
-Show_Full_Category ($value)
+Show_Data($conn,$tbl_name, $key, $value, $fieldname)
+Show_Full_Category($conn,$value)
 Update_Transaction_DateTime ($sql, $mode)
 date_format ($create_date) 
 CheckBox ($box_name, $value) 
-CmdDropDown ($sql, $box_name, $fieldkey, $value, $fieldshow) 
-CmdListBox ($sql, $box_name, $fieldkey, $value, $fieldshow) 
+CmdDropDown($conn,$sql, $box_name, $fieldkey, $value, $fieldshow) 
+CmdListBox($conn,$sql, $box_name, $fieldkey, $value, $fieldshow) 
 CheckData ($value) 
 Show_Sort ($orderby, $cn,  $field_select, $sortby,$page) 
 Show_Sort_bg ($field) 
 Msg_Error ("Login or password not found")
-function calculate_price($cart)
+function calculate_price($conn,$cart)
 function calculate_items($cart)
-function get_product_detail ($product_id) 
+function get_product_detail ($conn,$product_id) 
 function NumToThai($value) 
 function gen_random ($length)
 function show_check($str) 
@@ -32,15 +32,15 @@ function Show_Choice_month ($select_name, $list_array , $value) {
 function Cal_Age($date)
 function uploadfile($path,$filename,$file,$sizes,$rotate, $quality)
 function make_thumb($input_file_name, $input_file_path,$width,$quality)
-function Toggle ($value, $tbl_name, $field, $field_change) { 
-function get_product_details($product_id)
-function Show_Image ($ref_id, $gallery_group, $flag) { 
-function Get_Point($member_id){
+function Toggle ($conn,$value, $tbl_name, $field, $field_change) { 
+function get_product_details($conn,$product_id)
+function Show_Image ($conn,$ref_id, $gallery_group, $flag) { 
+function Get_Point($conn,$member_id){
 **********************/
-function Show_Image ($ref_id, $gallery_group, $flag, $size) { 
+function Show_Image ($conn,$ref_id, $gallery_group, $flag, $size) { 
 		  $sql = "select * from gallery where ref_id = '$ref_id' and gallery_group = '$gallery_group'";
-		  $query  = @mysql_query($sql);
- 		  while ($rec  = @mysql_fetch_array ($query)) { 
+		  $query  = @mysqli_query($conn,$sql);
+ 		  while ($rec  = @mysqli_fetch_array($query)) { 
 		  		$filename = "upload/" . $gallery_group . "/" . $rec["gallery_id"] . "_$size.jpg";
  			   if (file_exists ($filename)) {
 				$msg = '<img src="' . $filename . '" border="0">';
@@ -50,25 +50,25 @@ function Show_Image ($ref_id, $gallery_group, $flag, $size) {
 }
 
 
-function get_product_details($product_id)
+function get_product_details($conn,$product_id)
 {
   if (!$product_id || $product_id=="")
      return false;
    $query = "select * from product where product_id='$product_id'";
-    $result = @mysql_query($query);
+    $result = @mysqli_query($conn,$query);
    if (!$result)
      return false;
-   $result = @mysql_fetch_array($result);
+   $result = @mysqli_fetch_array($result);
    return $result;
 }	
 
-function Toggle ($value, $tbl_name, $field, $field_change) { 
+function Toggle ($conn,$value, $tbl_name, $field, $field_change) { 
 		$sql = "select * from " . $tbl_name . " where " . $field . " = '$value'";
-		$query = @mysql_query ($sql);
-		if ($rec = @mysql_fetch_array ($query)) {
+		$query = @mysqli_query($conn,$sql);
+		if ($rec = @mysqli_fetch_array($query)) {
 			if ($rec[$field_change] == "" || $rec[$field_change] == "0") {  $status = '1'; }  else { $status = ''; }
-			$sql = "update  " . $tbl_name . " set " . $field_change . "  = '$status'  where " . $field . " = '$value'";
-			@mysql_query ($sql);
+			$sql = "update  " . $tbl_name . " set " . $field_change . "  = ".$status."  where " . $field . " = '$value'";
+			@mysqli_query($conn,$sql);
 			//echo $sql;
  		}
 } 
@@ -138,9 +138,9 @@ function Show_Text ($label,$value) {
 	}
 }
 function format_date_en ($value,$type) { 
-	list ($s_date,$s_time)  = split (" ", $value);
-	list ($s_year, $s_month, $s_day) = split ("-", $s_date);
-	list ($s_hour, $s_minute, $s_second) = split (":", $s_time);
+	list ($s_date,$s_time)  = explode(" ", $value);
+	list ($s_year, $s_month, $s_day) = explode("-", $s_date);
+	list ($s_hour, $s_minute, $s_second) = explode(":", $s_time);
 	$s_month +=0;
 	$s_day += 0;
 	if ($s_day == "0") return "";
@@ -166,13 +166,13 @@ function format_date_en ($value,$type) {
 }
 function format_date_th ($value,$type) { 
 	if (strlen ($value) > 10) { 
-			list ($s_date,$s_time)  = split (" ", $value);
-			list ($s_year, $s_month, $s_day) = split ("-", $s_date);
-			list ($s_hour, $s_minute, $s_second) = split (":", $s_time);
+			list ($s_date,$s_time)  = explode(" ", $value);
+			list ($s_year, $s_month, $s_day) = explode("-", $s_date);
+			list ($s_hour, $s_minute, $s_second) = explode(":", $s_time);
 	}
 	else 
 	{
-			list ($s_year, $s_month, $s_day) = split ("-", $value);
+			list ($s_year, $s_month, $s_day) = explode("-", $value);
 	}
 	$s_month +=0;
 	$s_day += 0;
@@ -243,7 +243,7 @@ function NumToThai($value)
   $NumToThai = ""; 
   $Pos    = 0; 
 
- list ($Number, $Satang)  = split ("[.]", $value);
+ list ($Number, $Satang)  = explode("[.]", $value);
   // Process 
   while ($Number > 0 ) 
   { 
@@ -313,7 +313,7 @@ for($i=0;$i< $c_num;$i++){
 return $convert; 
 	} 
 	
-function calculate_price($cart)
+function calculate_price($conn,$cart)
 {
   $price = 0.0;
   if(is_array($cart))
@@ -322,7 +322,7 @@ function calculate_price($cart)
   foreach($cart as $product_id => $qty)
  {  
     $query = "select price from product where product_id ='$product_id'";
-     $result = @mysql_query($query);
+     $result = @mysqli_query($conn,$query);
      if ($result)
       {
         $item_price = mysql_result($result, 0, "price");
@@ -346,15 +346,15 @@ $items += $qty;
 return $items;
 }
 
-function get_product_detail ($product_id) 
+function get_product_detail ($conn,$product_id) 
 {
 	if (!$product_id || $product_id == "") return false;
 	$sql = "select * from product where product_id = '$product_id'";
-	$query = @mysql_query ($sql);
+	$query = @mysqli_query($conn,$sql);
 	
 	if (!$query)
 		return false;
-	$rec = @mysql_fetch_array ($query);
+	$rec = @mysqli_fetch_array($query);
 	return $rec;
 		
 }
@@ -372,7 +372,7 @@ $ret .=  '  </tr>';
 $ret .=  '</table>';
 return $ret;
 }
-function Check_Permission2 ($check_module,$user_id,$action)
+function Check_Permission2($conn,$check_module,$user_id,$action)
 {
 	$sql = "select * from s_user_p where user_id = '$user_id' and s_module like '$check_module' and ";
 	if ($action == "read") $sql .= " read_p like '1'";
@@ -380,9 +380,9 @@ function Check_Permission2 ($check_module,$user_id,$action)
 	if ($action == "update") $sql .= " update_p like '1'";
 	if ($action == "delete") $sql .= " delete_p like '1'";
 	//echo $sql;
-	$query = @mysql_query ($sql) or die ("Can not check permission");
+	$query = @mysqli_query($conn,$sql) or die ("Can not check permission");
 	$code = 0;  
-	if   ($rec = @mysql_fetch_array  ($query)) { 
+	if   ($rec = @mysqli_fetch_array  ($query)) { 
 		switch ($action) {
 			case "read" : $code = $rec["read_p"]; break;
 			case "add" : $code = $rec["add_p"]; break;
@@ -396,13 +396,13 @@ function Check_Permission2 ($check_module,$user_id,$action)
 		}
 }
 
-function Show_Data ($tbl_name, $key, $value, $fieldname)
+function Show_Data($conn,$tbl_name, $key, $value, $fieldname)
 {
 	$sql = "select * from $tbl_name where $key like '" . $value . "'";
-	$query = @mysql_query ($sql);
-	$fields = split (":", $fieldname);
+	$query = @mysqli_query($conn,$sql);
+	$fields = explode(":", $fieldname);
 	$msg = "";
-	if ($rec = @mysql_fetch_array ($query)) { 
+	if ($rec = @mysqli_fetch_array($query)) { 
 		foreach ($fields as $key => $value ) { 
 			$msg .= " : " . $rec[$value];
 		}
@@ -410,19 +410,19 @@ function Show_Data ($tbl_name, $key, $value, $fieldname)
 	} 
 	 return $msg;
 }
-function Show_Full_Category ($value)
+function Show_Full_Category($conn,$value)
 {
 	$stop = 0;
 	$sql = "select * from category where category_id  like '" . $value . "'";
-	$query = @mysql_query ($sql);
-	$rec = @mysql_fetch_array ($query) 	;
+	$query = @mysqli_query($conn,$sql);
+	$rec = @mysqli_fetch_array($query) 	;
 	$url = $rec["category_name"];
 	$parent_category_id = $rec["parent_category_id"];
 	while ($parent_category_id  <> '0' and !$stop ) { 
 		//echo "65555555";
 	$sql = "select * from category where category_id  like '" . $parent_category_id . "'";
-		$query = @mysql_query ($sql);
-		if ($rec = @mysql_fetch_array ($query) )  
+		$query = @mysqli_query($conn,$sql);
+		if ($rec = @mysqli_fetch_array($query) )  
 		{
 			$url = $rec["category_name"] . " > " . $url;
 			$parent_category_id = $rec["parent_category_id"];
@@ -435,18 +435,18 @@ function Show_Full_Category ($value)
 //	$url = "Home" . " > " . $url;
 	echo $url;
 }
-function Show_Full_Category_data ($value)
+function Show_Full_Category_data($conn,$value)
 {
 	$stop = 0;
 	$sql = "select * from category where category_id  like '" . $value . "'";
-	$query = @mysql_query ($sql);
-	$rec = @mysql_fetch_array ($query) 	;
+	$query = @mysqli_query($conn,$sql);
+	$rec = @mysqli_fetch_array($query) 	;
 	$url = $rec["category_name"];
 	$parent_category_id = $rec["parent_category_id"];
 	while ($parent_category_id  <> '0' and !$stop ) { 
 		$sql = "select * from category where category_id  like '" . $parent_category_id . "'";
-		$query = @mysql_query ($sql);
-		if ($rec = @mysql_fetch_array ($query) )  
+		$query = @mysqli_query($conn,$sql);
+		if ($rec = @mysqli_fetch_array($query) )  
 		{
 			$url = $rec["category_name"] . " > " . $url;
 			$parent_category_id = $rec["parent_category_id"];
@@ -459,18 +459,18 @@ function Show_Full_Category_data ($value)
 //	$url = "Home" . " > " . $url;
 	return $url;
 }
-function Show_Full_Category_nav ($value)
+function Show_Full_Category_nav($conn,$value)
 {
 	$stop = 0;
 	$sql = "select * from category where category_id  like '" . $value . "'";
-	$query = @mysql_query ($sql);
-	$rec = @mysql_fetch_array ($query) 	;
+	$query = @mysqli_query($conn,$sql);
+	$rec = @mysqli_fetch_array($query) 	;
 	$url = '<a href="list.php?category_id=' . $rec["category_id"] . '">' . $rec["category_name"] .  $url . '</a>';
 	$parent_category_id = $rec["parent_category_id"];
 	while ($parent_category_id  <> '1' and !$stop ) { 
 		$sql = "select * from category where category_id  like '" . $parent_category_id . "'";
-		$query = @mysql_query ($sql);
-		if ($rec = @mysql_fetch_array ($query) )  
+		$query = @mysqli_query($conn,$sql);
+		if ($rec = @mysqli_fetch_array($query) )  
 		{
 			$url = '<a href="' . $_SERVER['PHP_SELF'] . '?category_id=' . $rec["category_id"] . '">' . $rec["category_name"] . '</a> > ' .  $url ;
 			$parent_category_id = $rec["parent_category_id"];
@@ -498,69 +498,69 @@ function Update_Transaction_DateTime ($sql, $mode)
 	return $sql;
 }
 /* function date_format ($create_date) { 
-	list($year1, $month1, $day1, $hour1, $minute1, $second1 ) = split('[-.]', $create_date);
+	list($year1, $month1, $day1, $hour1, $minute1, $second1 ) = explode('[-.]', $create_date);
 	return mktime(0,0,0,$month1,$day1,$year1); 
 }  */
 function CheckBox ($box_name, $value) { 
 	if ($value) $value = " checked ";
 	echo '<input name="' . $box_name . '" type="checkbox" value="1" ' . $value . '>';
 }
-function CmdDropDown ($sql, $box_name, $fieldkey, $value, $fieldshow) { 
+function CmdDropDown($conn,$sql, $box_name, $fieldkey, $value, $fieldshow) { 
 	if ($value == "0" or $value == "") $select_none = " selected "; else $select_none = "";
 	echo '<select name="' . $box_name . '" >';
 	echo '<option value="" ' . $select_none . '>Select One</option>';
 	
-	$query = @mysql_query ($sql);
+	$query = @mysqli_query($conn,$sql);
 	
- 	while ($rec = @mysql_fetch_array ($query)) { 
+ 	while ($rec = @mysqli_fetch_array($query)) { 
 
 		if ($rec[$fieldkey] == $value) $selected = " selected "; else 		$selected= "";
 		echo '<option value="' . $rec[$fieldkey] . '" '.  $selected . '>' . $rec[$fieldshow] . '</option>';
 	} 
     echo '</select>';
 }
-function CmdDropDown2 ($sql, $box_name, $fieldkey, $value, $fieldshow,$fieldshow2) { 
+function CmdDropDown2($conn,$sql, $box_name, $fieldkey, $value, $fieldshow,$fieldshow2) { 
 	if ($value == "0" or $value == "") $select_none = " selected "; else $select_none = "";
 	echo '<select name="' . $box_name . '" >';
 	echo '<option value="" ' . $select_none . '>Select One</option>';
-	$query = @mysql_query ($sql);
-	while ($rec = @mysql_fetch_array ($query)) { 
+	$query = @mysqli_query($conn,$sql);
+	while ($rec = @mysqli_fetch_array($query)) { 
 
 		if ($rec[$fieldkey] == $value) $selected = " selected "; else 		$selected= "";
 		echo '<option value="' . $rec[$fieldkey] . '" '.  $selected . '>' . $rec[$fieldshow] . " ( " . $rec[$fieldshow2] . ' )</option>';
 	} 
     echo '</select>';
 }
-function CmdDropDown3 ($sql, $box_name, $fieldkey, $value, $fieldshow) { 
+function CmdDropDown3($conn,$sql, $box_name, $fieldkey, $value, $fieldshow) { 
 	if ($value == "0" or $value == "") $select_none = " selected "; else $select_none = "";
 	echo '<select name="' . $box_name . '" >';
 	echo '<option value="" ' . $select_none . '>Other</option>';
-	$query = @mysql_query ($sql);
-	while ($rec = @mysql_fetch_array ($query)) { 
+	$query = @mysqli_query($conn,$sql);
+	while ($rec = @mysqli_fetch_array($query)) { 
 
 		if ($rec[$fieldkey] == $value) $selected = " selected "; else 		$selected= "";
 		echo '<option value="' . $rec[$fieldkey] . '" '.  $selected . '>' . $rec[$fieldshow] . '</option>';
 	} 
     echo '</select>';
 }
-function CmdDropDown4 ($sql, $box_name, $fieldkey, $value, $fieldshow) { 
+function CmdDropDown4($conn,$sql, $box_name, $fieldkey, $value, $fieldshow) { 
 	if ($value == "0" or $value == "") $select_none = " selected "; else $select_none = "";
 	echo '<select name="' . $box_name . '" >';
 	echo '<option value="" ' . $select_none . '>Select One</option>';
 	echo '<option value="" ' . $select_none . '>????</option>';
-	$query = @mysql_query ($sql);
-	while ($rec = @mysql_fetch_array ($query)) { 
+	$query = @mysqli_query($conn,$sql);
+	while ($rec = @mysqli_fetch_array($query)) { 
 
 		if ($rec[$fieldkey] == $value) $selected = " selected "; else 		$selected= "";
 		echo '<option value="' . $rec[$fieldkey] . '" '.  $selected . '>' . $rec[$fieldshow] . '</option>';
 	} 
     echo '</select>';
 }
-function CmdListBox ($sql, $box_name, $fieldkey, $value, $fieldshow, $total_value) { 
+function CmdListBox($conn,$sql, $box_name, $fieldkey, $value, $fieldshow, $total_value) { 
 	echo '<select name="' . $box_name . '" size=15 multiple>';
 	echo '<option value=""  >Select One</option>';
-	$query = @mysql_query ($sql);
-	while ($rec = @mysql_fetch_array ($query)) { 
+	$query = @mysqli_query($conn,$sql);
+	while ($rec = @mysqli_fetch_array($query)) { 
 		$selected= "";
 		if (in_array ($rec[$fieldkey],$total_value)) $selected = " selected ";
 		echo '                    <option value="' . $rec[$fieldkey] . '" '.  $selected . '>' . $rec[$fieldshow] . '</option>';
@@ -589,7 +589,7 @@ function Show_Sort ($orderby, $cn,  $field_select, $sortby,$page) {
 	if ($sortby <> "") $param .= "&sortby=$sortby";
 	if ($keyword <> "") $param .= "&keyword=$keyword";
 
-	if ($page <> "") $param .= "&page=$_GET[page]";
+	if ($page <> "") $param .= "&page=".$_GET['page'];
 	$link_1 = "<a href ='" . $_SERVER['SCRIPT_NAME'] ."?" . $param ."'>";
 	$url =  $link_1 . $cn . "</a>" ;
 	if ($sortby <> "") $url .= $img;
@@ -732,10 +732,10 @@ $unit:
        } 
 	   
 } 
-function cal_point($member_id,$action_type,$point){
+function cal_point($conn,$member_id,$action_type,$point){
 				$sql = "select point from member where member_id = '$member_id'";
-				$query = @mysql_query($sql);
-				$rec = @mysql_fetch_array($query);
+				$query = @mysqli_query($conn,$sql);
+				$rec = @mysqli_fetch_array($query);
 				$mpoint =  $rec["point"]; 
 				if ($action_type == "+"){
 				//$mpoint = ???????????? query
@@ -817,20 +817,20 @@ function uploadfile($input_file_path, $input_file_name, $file, $sizes, $quality)
 	}
 }
 
-function Get_Point($member_id){
+function Get_Point($conn,$member_id){
 	$sql = "select * from transaction where customer_id = '$member_id' order by transaction_id desc";
-	$rec = @mysql_fetch_array(@mysql_query($sql));
+	$rec = @mysqli_fetch_array(@mysqli_query($conn,$sql));
 	$total_point = $rec["total_point"];
 	return $total_point;	
 }
 
-function Check_Permission ($check_module,$user_id,$action)
+function Check_Permission($conn,$check_module,$user_id,$action)
 {
 	$sql = "select * from s_user_group where user_id = '$user_id'";
-  	$query = @mysql_query ($sql) or die ("1");
+  	$query = @mysqli_query($conn,$sql) or die ("1");
 	$groups = "";
 
-	while ($rec = @mysql_fetch_array ($query)) {
+	while ($rec = @mysqli_fetch_array($query)) {
 		$groups .= "or group_id = '$rec[group_id]'";
   	}
   	if ($groups <> "") {
@@ -838,15 +838,15 @@ function Check_Permission ($check_module,$user_id,$action)
 		$groups = " and (" . $groups . ")";
 	}
 	$sql = "select * from s_module where module_name like '$check_module'";
-	$query = @mysql_query ($sql) or die ("2");
+	$query = @mysqli_query($conn,$sql) or die ("2");
 	$module_id = 0;
-	while ($rec = @mysql_fetch_array ($query)) {
+	while ($rec = @mysqli_fetch_array($query)) {
 		$module_id  = $rec["module_id"];
   	}		
 	$sql = "select * from s_user where user_id = '$user_id'";
-	$query = @mysql_query ($sql) or die ("3");
-	if ($rec = @mysql_fetch_array ($query)) {
-		if ($rec["admin_flag"] == '1' or $_SESSION[s_group_all] == "ALL") {
+	$query = @mysqli_query($conn,$sql) or die ("3");
+	if ($rec = @mysqli_fetch_array($query)) {
+		if ($rec["admin_flag"] == '1' or $_SESSION['s_group_all'] == "ALL") {
 				
 		}
 		else
@@ -860,10 +860,10 @@ if ($action == "delete") $sql .= " delete_p like '1'";
 
 		$sql = "select * from s_user_p where user_id = '$user_id'  and  module_id like '$module_id'";
 
-		$query = @mysql_query ($sql) or die ("4");
-		if (@mysql_num_rows ($query)) {
+		$query = @mysqli_query($conn,$sql) or die ("4");
+		if (@mysqli_num_rows ($query)) {
 
-			while ($rec = @mysql_fetch_array ($query)) {
+			while ($rec = @mysqli_fetch_array($query)) {
 				switch ($action) {
 					case "read" : $code = $rec["read_p"]; break;
 					case "add" :  $code = $rec["add_p"]; break;
@@ -881,9 +881,9 @@ if ($action == "delete") $sql .= " delete_p like '1'";
 			$code ="";
 			if($groups <> "") {
 				$sql = "select sum(read_p) as s_read,sum(add_p) as s_add,sum(update_p) as s_update,sum(delete_p) as s_delete,module_id,group_id from s_user_p group by module_id,group_id having module_id like '$module_id' ".$groups ;
-				$query = @mysql_query($sql) or die("5");
-				if (@mysql_num_rows ($query) == 0) $code = "";
-				if ($rec = @mysql_fetch_array  ($query)) {
+				$query = @mysqli_query($conn,$sql) or die("5");
+				if (@mysqli_num_rows ($query) == 0) $code = "";
+				if ($rec = @mysqli_fetch_array  ($query)) {
 					switch ($action) {
 						case "read" : $code = $rec["s_read"]; break;
 						case "add" : $code = $rec["s_add"]; break;
@@ -904,14 +904,14 @@ header ("location:../error/permission.php");
 }
 }	
 
-function Check_Permission_menu ($check_module,$user_id,$action)
+function Check_Permission_menu($conn,$check_module,$user_id,$action)
 {
 	$permission_denine = 0;
 	$sql = "select * from s_user_group where user_id = '$user_id'";
-  	$query = @mysql_query ($sql) or die ("1");
+  	$query = @mysqli_query($conn,$sql) or die ("1");
 	$groups = "";
 
-	while ($rec = @mysql_fetch_array ($query)) {
+	while ($rec = @mysqli_fetch_array($query)) {
 		$groups .= "or group_id = '$rec[group_id]'";
   	}
   	if ($groups <> "") {
@@ -919,15 +919,15 @@ function Check_Permission_menu ($check_module,$user_id,$action)
 		$groups = " and (" . $groups . ")";
 	}
 	$sql = "select * from s_module where module_name like '$check_module'";
-	$query = @mysql_query ($sql) or die ("2");
+	$query = @mysqli_query($conn,$sql) or die ("2");
 	$module_id = 0;
-	while ($rec = @mysql_fetch_array ($query)) {
+	while ($rec = @mysqli_fetch_array($query)) {
 		$module_id  = $rec["module_id"];
   	}		
 	$sql = "select * from s_user where user_id = '$user_id'";
-	$query = @mysql_query ($sql) or die ("3");
-	if ($rec = @mysql_fetch_array ($query)) {
-		if ($rec["admin_flag"] == '1' or $_SESSION[s_group_all] == "ALL") {
+	$query = @mysqli_query($conn,$sql) or die ("3");
+	if ($rec = @mysqli_fetch_array($query)) {
+		if ($rec["admin_flag"] == '1' or $_SESSION['s_group_all'] == "ALL") {
 				
 		}
 		else
@@ -941,10 +941,10 @@ if ($action == "delete") $sql .= " delete_p like '1'";
 
 		$sql = "select * from s_user_p where user_id = '$user_id'  and  module_id like '$module_id'";
 
-		$query = @mysql_query ($sql) or die ("4");
-		if (@mysql_num_rows ($query)) {
+		$query = @mysqli_query($conn,$sql) or die ("4");
+		if (@mysqli_num_rows ($query)) {
 
-			while ($rec = @mysql_fetch_array ($query)) {
+			while ($rec = @mysqli_fetch_array($query)) {
 				switch ($action) {
 					case "read" : $code = $rec["read_p"]; break;
 					case "add" :  $code = $rec["add_p"]; break;
@@ -963,10 +963,10 @@ if ($action == "delete") $sql .= " delete_p like '1'";
 			$code ="";
 			if($groups <> "") {
 				$sql = "select sum(read_p) as s_read,sum(add_p) as s_add,sum(update_p) as s_update,sum(delete_p) as s_delete,module_id,group_id from s_user_p group by module_id,group_id having module_id like '$module_id' ".$groups ;
-				$query = @mysql_query($sql) or die("5");
+				$query = @mysqli_query($conn,$sql) or die("5");
 				
-				if (@mysql_num_rows ($query) == 0) $code = "";
-				if ($rec = @mysql_fetch_array  ($query)) {
+				if (@mysqli_num_rows ($query) == 0) $code = "";
+				if ($rec = @mysqli_fetch_array  ($query)) {
 					switch ($action) {
 						case "read" : $code = $rec["s_read"]; break;
 						case "add" : $code = $rec["s_add"]; break;
@@ -990,19 +990,19 @@ $permission_denine = 1;
 return $permission_denine;
 }	
 
-function Show_Full_Category_spec ($value)
+function Show_Full_Category_spec($conn,$value)
 {
 	$stop = 0;
 	$sql = "select * from category_spec where category_spec_id  like '" . $value . "'";
-	$query = @mysql_query ($sql);
-	$rec = @mysql_fetch_array ($query) 	;
+	$query = @mysqli_query($conn,$sql);
+	$rec = @mysqli_fetch_array($query) 	;
 	$url = $rec["cat_name"];
 	$parent_category_id = $rec["parent_category_id"];
 	while ($parent_category_id  <> '0' and !$stop ) { 
 		//echo "65555555";
 	$sql = "select * from category_spec where category_spec_id  like '" . $parent_category_id . "'";
-		$query = @mysql_query ($sql);
-		if ($rec = @mysql_fetch_array ($query) )  
+		$query = @mysqli_query($conn,$sql);
+		if ($rec = @mysqli_fetch_array($query) )  
 		{
 			$url = $rec["cat_name"] . " > " . $url;
 			$parent_category_id = $rec["parent_category_id"];
@@ -1016,27 +1016,27 @@ function Show_Full_Category_spec ($value)
 	return $url;
 }
 
-function record_member($page_name){
+function record_member($conn,$page_name){
 	$now_date = date("Y-m-d");
-	$sql = "select * from member_log where user_id = '$_SESSION[login_id]' and create_date like '$now_date%' ";
-	$query = @mysql_query($sql);
-	if(@mysql_num_rows($query) == 0){
-		$sql = "insert into member_log (user_id,page_log,create_date) values ('$_SESSION[login_id]','$page_name','$now_date') ";
-		@mysql_query($sql);
+	$sql = "select * from member_log where user_id = '".$_SESSION['login_id']."' and create_date like '$now_date%' ";
+	$query = @mysqli_query($conn,$sql);
+	if(@mysqli_num_rows($query) == 0){
+		$sql = "insert into member_log (user_id,page_log,create_date) values ('".$_SESSION['login_id']."','$page_name','$now_date') ";
+		@mysqli_query($conn,$sql);
 	}else{
-		$rec = @mysql_fetch_array($query);
+		$rec = @mysqli_fetch_array($query);
 		@reset($a_page_log);
 		unset($a_page_log);
 		$a_page_log = @explode(",",$rec[page_log]);
 		if(!@in_array($page_name,$a_page_log)){
 			$page_log = $rec[page_log].",".$page_name;
 			$sql = "update member_log set page_log = '$page_log' where member_log_id = '$rec[member_log_id]' ";
-			@mysql_query($sql);
+			@mysqli_query($conn,$sql);
 		}
 	}
 }
 function check_azAZ09($text){
-	if(ereg("[^0-9A-Za-z]",$text)) return false;
+	if(preg_match("[^0-9A-Za-z]",$text)) return false;
 	else return true;
 }		
 function get_param($a_param,$a_not_exists){
@@ -1049,7 +1049,7 @@ function get_param($a_param,$a_not_exists){
 	}
 	if(count($_REQUEST) > 0){
 		foreach($_REQUEST as $key => $value){ 
-			if( ereg("pre_",$key) && ($value <> "") ) 
+			if( preg_match("pre_",$key) && ($value <> "") ) 
 				$param2 .= "&".$key."=".$value;
 		}
 	}
@@ -1066,7 +1066,7 @@ function post_param($a_param,$a_not_exists){
 	}
 	if(count($_REQUEST) > 0) {
 		foreach($_REQUEST as $key => $value){
-			if( ereg("pre_",$key) && ($value <> "") )
+			if( preg_match("pre_",$key) && ($value <> "") )
 					 echo "<input type=\"hidden\" name=\"$key\" value=\"$value\">";
 		}// end foreach
 	}
@@ -1086,19 +1086,19 @@ function get_return_param(){
 	$param = ""; 
 	if(count($_REQUEST) > 0) {
 		foreach($_REQUEST as $key => $value){
-			if( ereg("pre_",$key) && ($value <> "") )
+			if( preg_match("pre_",$key) && ($value <> "") )
 				$param .= "&".str_replace("pre_","",$key)."=".$value;
 		}
 		$param = substr($param,1);
 	}
 	return $param;
 }
-function check_username($name){
+function check_username($conn,$name){
 	$return_id = "";
 	$sql = "select * from person where name_th = '$name' or name_en = '$name' ";
-	$query = @mysql_query($sql);
-	if(@mysql_num_rows($query) > 0) {
-		$rec = @mysql_fetch_array($query);
+	$query = @mysqli_query($conn,$sql);
+	if(@mysqli_num_rows($query) > 0) {
+		$rec = @mysqli_fetch_array($query);
 		$return_id = $rec[person_id];
 	}else{
 		$username = gen_random(4);
@@ -1106,25 +1106,25 @@ function check_username($name){
 		$stop = 0;
 		while($stop != 0){
 			$sql = "select * from s_user where username = '$username' and password = '$password' ";
-			$query = @mysql_query($sql);
-			if(@mysql_num_rows($query) == 0)
+			$query = @mysqli_query($conn,$sql);
+			if(@mysqli_num_rows($query) == 0)
 				$stop = 1;
 			else
 				$uername = gen_random(4);
 		}
 		$sql = "insert into s_user (username , password , create_date , create_by) values ('$username','$password','".date("Y-m-d H:i:s")."' , '".$_SESSION[login_name]."')";
-		@mysql_query($sql);
-		$user_id = mysql_insert_id();
+		@mysqli_query($conn,$sql);
+		$user_id = mysqli_insert_id($conn);
 		
 		$sql = "insert into person (name_th , researcher , user_id , create_date , create_by) values ('$name' , '1' , '$user_id' , '".date("Y-m-d H:i:s")."' , '".$_SESSION[login_name]."')";
-		@mysql_query($sql);
-		$return_id = mysql_insert_id();
+		@mysqli_query($conn,$sql);
+		$return_id = mysqli_insert_id($conn);
 	}
 	return $return_id;
 }
 
 function show_menu($menu_id,$menu_name){
-	if(ereg(",".$menu_id.",",$_SESSION[s_menu_id].",")){
+	if(preg_match(",".$menu_id.",",$_SESSION[s_menu_id].",")){
 		if($menu_id == $_SESSION[s_now_menu])
 			echo "<font color=\"#FF0000\">$menu_name</font>"; 
 		else

@@ -54,11 +54,11 @@
 		$ctype = " AND sr_ctype = '".$_GET['sr_ctype']."'";
 	}
 	
-  	$qu_service = @mysql_query("SELECT * FROM s_service_report WHERE job_close = '".$con."'". $loc . $ctype);
+  	$qu_service = @mysqli_query($conn,"SELECT * FROM s_service_report WHERE job_close = '".$con."'". $loc . $ctype);
 	$romn = 1;
-	while($row_serv = @mysql_fetch_array($qu_service)){
-	$chaf = eregi_replace("/","-",$row_serv["sv_id"]);
-	$finfo = get_firstorder($row_serv['cus_id']);
+	while($row_serv = @mysqli_fetch_array($qu_service)){
+	$chaf = str_replace("/","-",$row_serv["sv_id"]);
+	$finfo = get_firstorder($conn,$row_serv['cus_id']);
 	
 	if($row_serv['st_setting'] == 0){
 		$scstatus = "<a href=\"../../upload/service_report_open/".$chaf.".pdf\" target=\"_blank\" style=\"text-decoration: none;\"><span style=\"color:green;\">".$row_serv['sv_id']."</span></a>";
@@ -72,7 +72,7 @@
     <td style="text-align:center;"><?php  echo $scstatus;?></td>
     <td style="padding-left:10px;padding-right:10px"><?php  echo $finfo['cd_name'];?></td>
     <td style="text-align:center;"><?php  echo $finfo['cd_tel'];?></td>
-    <td style="text-align:center;"><?php  $chaf = eregi_replace("/","-",$row_serv["sv_id"]);?><a href="../../upload/service_report_open/<?php  echo $chaf;?>.pdf" target="_blank"><img src="../images/icons/icon-48-category.png" width="25" height="25" title="ใบเปิดงาน"/></a><a href="../../upload/service_report_close/<?php  echo $chaf;?>.pdf" target="_blank"><img src="../images/icons/icon-48-section.png" width="25" height="25" title="ใบปิดงาน"/></a></td>
+    <td style="text-align:center;"><?php  $chaf = str_replace("/","-",$row_serv["sv_id"]);?><a href="../../upload/service_report_open/<?php  echo $chaf;?>.pdf" target="_blank"><img src="../images/icons/icon-48-category.png" width="25" height="25" title="ใบเปิดงาน"/></a><a href="../../upload/service_report_close/<?php  echo $chaf;?>.pdf" target="_blank"><img src="../images/icons/icon-48-section.png" width="25" height="25" title="ใบปิดงาน"/></a></td>
   </tr>
   <?php  $romn++;}?>
 </table>

@@ -3,15 +3,15 @@
 	include ("../../include/connect.php");
 	include ("../../include/function.php");
 	include ("config.php");
-	Check_Permission ($check_module,$_SESSION[login_id],"read");
-	if ($_GET[page] == ""){$_REQUEST[page] = 1;	}
+	Check_Permission($conn,$check_module,$_SESSION['login_id'],"read");
+	if ($_GET['page'] == ""){$_REQUEST['page'] = 1;	}
 	$param = get_param($a_param,$a_not_exists);
 	
-	if($_GET[action] == "delete"){
-		$code = Check_Permission ($check_module,$_SESSION["login_id"],"delete");		
+	if($_GET['action'] == "delete"){
+		$code = Check_Permission($conn,$check_module,$_SESSION["login_id"],"delete");		
 		if ($code == "1") {
 			$sql = "delete from $tbl_name  where $PK_field = '$_GET[$PK_field]'";
-			@mysql_query($sql);			
+			@mysqli_query($conn,$sql);			
 			header ("location:index.php");
 		} 
 	}
@@ -40,9 +40,9 @@
 <HEAD>
 <TITLE><?php  echo $s_title;?></TITLE>
 <META content="text/html; charset=utf-8" http-equiv=Content-Type>
-<LINK rel=stylesheet type=text/css href="../css/reset.css" media=screen>
-<LINK rel=stylesheet type=text/css href="../css/style.css" media=screen>
-<LINK rel=stylesheet type=text/css href="../css/invalid.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/reset.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/style.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/invalid.css" media=screen>
 <SCRIPT type=text/javascript src="../js/jquery-1.3.2.min.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/simpla.jquery.configuration.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/facebox.js"></SCRIPT>
@@ -247,8 +247,8 @@ function check9(frm){
                             <td width="90%">
                             <select name="cd_province" id="cd_province" class="inputselect">
 							<?php 
-                                $quprovince = @mysql_query("SELECT * FROM s_province ORDER BY province_id ASC");
-                                while($row_province = @@mysql_fetch_array($quprovince)){
+                                $quprovince = @mysqli_query($conn,"SELECT * FROM s_province ORDER BY province_id ASC");
+                                while($row_province = @@mysqli_fetch_array($quprovince)){
                                   ?>
                                     <option value="<?php  echo $row_province['province_id'];?>" <?php  if($cd_province == $row_province['province_id']){echo 'selected';}?>><?php  echo $row_province['province_name'];?></option>
                                   <?php 	
@@ -339,8 +339,8 @@ function check9(frm){
                             <td width="90%">
                             <select name="cg_type" id="cg_type" class="inputselect">
 								<?php 
-                                    $qucgtype = @mysql_query("SELECT * FROM s_group_type ORDER BY group_name ASC");
-                                    while($row_cgtype = @@mysql_fetch_array($qucgtype)){
+                                    $qucgtype = @mysqli_query($conn,"SELECT * FROM s_group_type ORDER BY group_name ASC");
+                                    while($row_cgtype = @@mysqli_fetch_array($qucgtype)){
                                       ?>
                                         <option value="<?php  echo $row_cgtype['group_id'];?>" <?php  if($cg_type == $row_cgtype['group_id']){echo 'selected';}?>><?php  echo $row_cgtype['group_name'];?></option>
                                       <?php 	
@@ -428,8 +428,8 @@ function check9(frm){
                             <td width="90%">
                             <select name="cpro" id="cpro" class="inputselect" style="width:50%;">
                                   <?php 
-                                      $qupro1 = @mysql_query("SELECT * FROM s_group_product ORDER BY group_name ASC");
-                                      while($row_qupro1 = @@mysql_fetch_array($qupro1)){
+                                      $qupro1 = @mysqli_query($conn,"SELECT * FROM s_group_product ORDER BY group_name ASC");
+                                      while($row_qupro1 = @@mysqli_fetch_array($qupro1)){
                                         ?>
                                           <option value="<?php  echo $row_qupro1['group_id'];?>" <?php  if($cpro1 == $row_qupro1['group_id']){echo 'selected';}?>><?php  echo $row_qupro1['group_name'];?></option>
                                         <?php 	
@@ -520,8 +520,8 @@ function check9(frm){
                             <td width="90%"><select name="pro_pod" id="pro_pod" class="inputselect" style="width:250px;">
                                         <option value="">กรุณาเลือกรายการ</option>
                                       <?php 
-                                          $qupros1 = @mysql_query("SELECT * FROM s_group_pod ORDER BY group_name ASC");
-                                          while($row_qupros1 = @@mysql_fetch_array($qupros1)){
+                                          $qupros1 = @mysqli_query($conn,"SELECT * FROM s_group_pod ORDER BY group_name ASC");
+                                          while($row_qupros1 = @@mysqli_fetch_array($qupros1)){
                                             ?>
                                               <option value="<?php  echo $row_qupros1['group_name'];?>"><?php  echo $row_qupros1['group_name'];?></option>
                                             <?php 	
@@ -609,8 +609,8 @@ function check9(frm){
                             <td width="90%">
                             <select name="ctype" id="ctype" class="inputselect">
 								<?php 
-                                    $quccustommer = @mysql_query("SELECT * FROM s_group_custommer ORDER BY group_name ASC");
-                                    while($row_cgcus = @@mysql_fetch_array($quccustommer)){
+                                    $quccustommer = @mysqli_query($conn,"SELECT * FROM s_group_custommer ORDER BY group_name ASC");
+                                    while($row_cgcus = @@mysqli_fetch_array($quccustommer)){
                                      if(substr($row_cgcus['group_name'],0,2) != "SR"){
 										?>
                                         <option value="<?php  echo $row_cgcus['group_id'];?>" <?php  if($ctype == $row_cgcus['group_id']){echo 'selected';}?>><?php  echo $row_cgcus['group_name'];?></option>
@@ -772,8 +772,8 @@ function check9(frm){
                             <td width="90%">
                             <select name="cs_sell" id="cs_sell" class="inputselect" style="width:250px;">
 							<?php 
-                                $qusaletype = @mysql_query("SELECT * FROM s_group_sale ORDER BY group_name ASC");
-                                while($row_saletype = @@mysql_fetch_array($qusaletype)){
+                                $qusaletype = @mysqli_query($conn,"SELECT * FROM s_group_sale ORDER BY group_name ASC");
+                                while($row_saletype = @@mysqli_fetch_array($qusaletype)){
                                   ?>
                                     <option value="<?php  echo $row_saletype['group_id'];?>"><?php  echo $row_saletype['group_name'];?></option>
                                   <?php 	
@@ -931,7 +931,7 @@ function check9(frm){
                         <td><table class="formFields" cellspacing="0" width="100%">
                           <tr>
                             <td width="10%" nowrap class="name">เริ่มวันที่
-                               <input type="text" name="date_fm" readonly value="<?php  if($_GET['df'] != ""){list ($s_year, $s_month, $s_day) = split ("-", $_GET['df']);echo $s_day."/".$s_month."/".$s_year;}else{echo date("d/m/Y");}?>" class="inpfoder"/><script language="JavaScript">new tcal ({'formname': 'form1','controlname': 'date_fm'});</script>
+                               <input type="text" name="date_fm" readonly value="<?php  if($_GET['df'] != ""){list ($s_year, $s_month, $s_day) = explode("-", $_GET['df']);echo $s_day."/".$s_month."/".$s_year;}else{echo date("d/m/Y");}?>" class="inpfoder"/><script language="JavaScript">new tcal ({'formname': 'form1','controlname': 'date_fm'});</script>
                                &nbsp;&nbsp; ถึงวันที่ 
                               <input type="text" name="date_to" readonly value="<?php  echo date("d/m/Y");?>" class="inpfoder"/><script language="JavaScript">new tcal ({'formname': 'form1','controlname': 'date_to'});</script></td>
                             <td width="90%"><span class="name">
@@ -958,9 +958,9 @@ function check9(frm){
                         <td>
                         <div align="right"><?php 
                         	if($_GET['poi'] == 0){
-								echo $dateshow = "เริ่มวันที่ : ".format_date($_GET['df'])."&nbsp;&nbsp;ถึงวันที่ : ".format_date($_GET['dt']); 
+								echo $dateshow = "เริ่มวันที่ : ".format_date($conn,$_GET['df'])."&nbsp;&nbsp;ถึงวันที่ : ".format_date($conn,$_GET['dt']); 
 							}else{
-								echo $dateshow = "วันที่ค้นหา : ".format_date(date("Y-m-d")); 	
+								echo $dateshow = "วันที่ค้นหา : ".format_date($conn,date("Y-m-d")); 	
 							}
 						?></div>
                         </td>
@@ -979,13 +979,13 @@ function check9(frm){
                         <?php  
 							if($_GET['poi'] == 0){
 										$daterriod4 = " AND `job_open`  between '".$_GET['df']."' and '".$_GET['dt']."'"; 
-										list ($s_year, $s_month, $s_day) = split ("-", $_GET['df']);
+										list ($s_year, $s_month, $s_day) = explode("-", $_GET['df']);
 										$datefm = $s_day."/".$s_month."/".$s_year;
-										list ($s_year, $s_month, $s_day) = split ("-", $_GET['dt']);
+										list ($s_year, $s_month, $s_day) = explode("-", $_GET['dt']);
 										$dateft = $s_day."/".$s_month."/".$s_year;
 									}
 									$sql1 = "SELECT * FROM s_first_order AS fr ORDER BY fr.cd_name ASC";
-	  						$qu_fr1 = @mysql_num_rows(@mysql_query($sql1));
+	  						$qu_fr1 = @mysqli_num_rows(@mysqli_query($conn,$sql1));
 								?>
                                 <a href="report1.php?date_fm=<?php  echo $datefm;?>&date_to=<?php  echo $dateft;?>&priod=<?php  echo $_GET['poi'];?>" target="_blank"><?php  echo number_format($qu_fr1);?></a>
                         </td>
@@ -998,8 +998,8 @@ function check9(frm){
                         <td><strong>รายการ</strong></td>
                       </tr>
                       <?php  
-					  	$typecus = @mysql_query("SELECT * FROM s_group_type ORDER BY group_name ASC");
-						while($roecus = @mysql_fetch_array($typecus)){
+					  	$typecus = @mysqli_query($conn,"SELECT * FROM s_group_type ORDER BY group_name ASC");
+						while($roecus = @mysqli_fetch_array($typecus)){
 							?>
 							  <tr>
                                 <td>&nbsp;&nbsp;&nbsp;- <?php  echo $roecus['group_name'];?></td>
@@ -1007,13 +1007,13 @@ function check9(frm){
                                 <?php  
 									if($_GET['poi'] == 0){
 										$daterriod4 = " AND `job_open`  between '".$_GET['df']."' and '".$_GET['dt']."'"; 
-										list ($s_year, $s_month, $s_day) = split ("-", $_GET['df']);
+										list ($s_year, $s_month, $s_day) = explode("-", $_GET['df']);
 										$datefm = $s_day."/".$s_month."/".$s_year;
-										list ($s_year, $s_month, $s_day) = split ("-", $_GET['dt']);
+										list ($s_year, $s_month, $s_day) = explode("-", $_GET['dt']);
 										$dateft = $s_day."/".$s_month."/".$s_year;
 									}
 									$sql1 = "SELECT * FROM s_first_order AS fr WHERE fr.cg_type = '".$roecus['group_id']."' ORDER BY fr.cd_name ASC";
-	  						$qu_fr1 = @mysql_num_rows(@mysql_query($sql1));
+	  						$qu_fr1 = @mysqli_num_rows(@mysqli_query($conn,$sql1));
 								?>
                                 <a href="report3.php?date_fm=<?php  echo $datefm;?>&date_to=<?php  echo $dateft;?>&priod=<?php  echo $_GET['poi'];?>&cg_type=<?php  echo $roecus['group_id'];?>" target="_blank"><?php  echo number_format($qu_fr1);?></a>
                                 </td>
@@ -1028,8 +1028,8 @@ function check9(frm){
                         <td><strong>รายการ</strong></td>
                       </tr>
                       <?php  
-					  	$typepro = @mysql_query("SELECT * FROM s_group_product ORDER BY group_name ASC");
-						while($roepro = @mysql_fetch_array($typepro)){
+					  	$typepro = @mysqli_query($conn,"SELECT * FROM s_group_product ORDER BY group_name ASC");
+						while($roepro = @mysqli_fetch_array($typepro)){
 							?>
 							  <tr>
                                 <td>&nbsp;&nbsp;&nbsp;- <?php  echo $roepro['group_name'];?></td>
@@ -1037,13 +1037,13 @@ function check9(frm){
                                 	<?php  
 									if($_GET['poi'] == 0){
 										$daterriod4 = " AND `job_open`  between '".$_GET['df']."' and '".$_GET['dt']."'"; 
-										list ($s_year, $s_month, $s_day) = split ("-", $_GET['df']);
+										list ($s_year, $s_month, $s_day) = explode("-", $_GET['df']);
 										$datefm = $s_day."/".$s_month."/".$s_year;
-										list ($s_year, $s_month, $s_day) = split ("-", $_GET['dt']);
+										list ($s_year, $s_month, $s_day) = explode("-", $_GET['dt']);
 										$dateft = $s_day."/".$s_month."/".$s_year;
 									}
 									$sql1 = "SELECT * FROM s_first_order AS fr WHERE fr.pro_type = '".$roepro['group_id']."' ORDER BY fr.cd_name ASC";
-	  						$qu_fr1 = @mysql_num_rows(@mysql_query($sql1));
+	  						$qu_fr1 = @mysqli_num_rows(@mysqli_query($conn,$sql1));
 								?>
                                 <a href="report4.php?date_fm=<?php  echo $datefm;?>&date_to=<?php  echo $dateft;?>&priod=<?php  echo $_GET['poi'];?>&cpro=<?php  echo $roepro['group_id'];?>" target="_blank"><?php  echo number_format($qu_fr1);?></a>
                                 </td>
@@ -1058,8 +1058,8 @@ function check9(frm){
                         <td><strong>รายการ</strong></td>
                       </tr>
                       <?php  
-					  	$typepod = @mysql_query("SELECT * FROM s_group_pod ORDER BY group_name ASC");
-						while($roepod = @mysql_fetch_array($typepod)){
+					  	$typepod = @mysqli_query($conn,"SELECT * FROM s_group_pod ORDER BY group_name ASC");
+						while($roepod = @mysqli_fetch_array($typepod)){
 							?>
 							  <tr>
                                 <td>&nbsp;&nbsp;&nbsp;- <?php  echo $roepod['group_name'];?></td>
@@ -1067,13 +1067,13 @@ function check9(frm){
                                 <?php  
 									if($_GET['poi'] == 0){
 										$daterriod4 = " AND `job_open`  between '".$_GET['df']."' and '".$_GET['dt']."'"; 
-										list ($s_year, $s_month, $s_day) = split ("-", $_GET['df']);
+										list ($s_year, $s_month, $s_day) = explode("-", $_GET['df']);
 										$datefm = $s_day."/".$s_month."/".$s_year;
-										list ($s_year, $s_month, $s_day) = split ("-", $_GET['dt']);
+										list ($s_year, $s_month, $s_day) = explode("-", $_GET['dt']);
 										$dateft = $s_day."/".$s_month."/".$s_year;
 									}
 									$sql1 = "SELECT * FROM s_first_order AS fr WHERE (fr.pro_pod1 LIKE '%".$roepod['group_name']."%' OR fr.pro_pod2 LIKE '%".$roepod['group_name']."%' OR fr.pro_pod3 LIKE '%".$roepod['group_name']."%' OR fr.pro_pod4 LIKE '%".$roepod['group_name']."%' OR fr.pro_pod5 LIKE '%".$roepod['group_name']."%' OR fr.pro_pod6 LIKE '%".$roepod['group_name']."%' OR fr.pro_pod7 LIKE '%".$roepod['group_name']."%') ORDER BY fr.cd_name ASC";
-	  						$qu_fr1 = @mysql_num_rows(@mysql_query($sql1));
+	  						$qu_fr1 = @mysqli_num_rows(@mysqli_query($conn,$sql1));
 								?>
                                 <a href="report5.php?date_fm=<?php  echo $datefm;?>&date_to=<?php  echo $dateft;?>&priod=<?php  echo $_GET['poi'];?>&pro_pod=<?php  echo $roepod['group_name'];?>" target="_blank"><?php  echo number_format($qu_fr1);?></a>
                                 </td>
@@ -1088,8 +1088,8 @@ function check9(frm){
                         <td><strong>รายการ</strong></td>
                       </tr>
                       <?php  
-					  	$typecus = @mysql_query("SELECT * FROM s_group_custommer ORDER BY group_name ASC");
-						while($roetypecus = @mysql_fetch_array($typecus)){
+					  	$typecus = @mysqli_query($conn,"SELECT * FROM s_group_custommer ORDER BY group_name ASC");
+						while($roetypecus = @mysqli_fetch_array($typecus)){
 							if(substr($roetypecus['group_name'],0,2) != "SR"){
 								?>
 							  <tr>
@@ -1097,13 +1097,13 @@ function check9(frm){
                                 <td><?php  
 									if($_GET['poi'] == 0){
 										$daterriod4 = " AND `job_open`  between '".$_GET['df']."' and '".$_GET['dt']."'"; 
-										list ($s_year, $s_month, $s_day) = split ("-", $_GET['df']);
+										list ($s_year, $s_month, $s_day) = explode("-", $_GET['df']);
 										$datefm = $s_day."/".$s_month."/".$s_year;
-										list ($s_year, $s_month, $s_day) = split ("-", $_GET['dt']);
+										list ($s_year, $s_month, $s_day) = explode("-", $_GET['dt']);
 										$dateft = $s_day."/".$s_month."/".$s_year;
 									}
 									$sql1 = "SELECT * FROM s_first_order AS fr WHERE fr.ctype = '".$roetypecus['group_id']."' ORDER BY fr.cd_name ASC";
-	  						$qu_fr1 = @mysql_num_rows(@mysql_query($sql1));
+	  						$qu_fr1 = @mysqli_num_rows(@mysqli_query($conn,$sql1));
 								?>
                                 <a href="report6.php?date_fm=<?php  echo $datefm;?>&date_to=<?php  echo $dateft;?>&priod=<?php  echo $_GET['poi'];?>&ctype=<?php  echo $roetypecus['group_id'];?>" target="_blank"><?php  echo number_format($qu_fr1);?></a>
                                 </td>
@@ -1119,21 +1119,21 @@ function check9(frm){
                         <td><strong>รายการ</strong></td>
                       </tr>
                       <?php  
-					  	$typesale = @mysql_query("SELECT * FROM s_group_sale ORDER BY group_name ASC");
-						while($roesale = @mysql_fetch_array($typesale)){
+					  	$typesale = @mysqli_query($conn,"SELECT * FROM s_group_sale ORDER BY group_name ASC");
+						while($roesale = @mysqli_fetch_array($typesale)){
 							?>
 							  <tr>
                                 <td>&nbsp;&nbsp;&nbsp;- <?php  echo $roesale['group_name'];?></td>
                                 <td><?php  
 									if($_GET['poi'] == 0){
 										$daterriod4 = " AND `job_open`  between '".$_GET['df']."' and '".$_GET['dt']."'"; 
-										list ($s_year, $s_month, $s_day) = split ("-", $_GET['df']);
+										list ($s_year, $s_month, $s_day) = explode("-", $_GET['df']);
 										$datefm = $s_day."/".$s_month."/".$s_year;
-										list ($s_year, $s_month, $s_day) = split ("-", $_GET['dt']);
+										list ($s_year, $s_month, $s_day) = explode("-", $_GET['dt']);
 										$dateft = $s_day."/".$s_month."/".$s_year;
 									}
 									$sql1 = "SELECT * FROM s_first_order AS fr WHERE fr.cs_sell = '".$roesale['group_id']."' ORDER BY fr.cd_name ASC";
-	  						$qu_fr1 = @mysql_num_rows(@mysql_query($sql1));
+	  						$qu_fr1 = @mysqli_num_rows(@mysqli_query($conn,$sql1));
 								?>
                                 <a href="report9.php?date_fm=<?php  echo $datefm;?>&date_to=<?php  echo $dateft;?>&priod=<?php  echo $_GET['poi'];?>&cs_sell=<?php  echo $roesale['group_id'];?>" target="_blank"><?php  echo number_format($qu_fr1);?></a>
                                 </td>

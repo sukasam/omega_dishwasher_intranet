@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 
 
@@ -188,8 +188,6 @@ if (isset($_REQUEST['source'])) {
 //==============================================================
 
 $mpdf=new mPDF('c'); 
-
-$mpdf->default_lineheight_correction = 1.2;
 
 // LOAD a stylesheet
 $stylesheet = file_get_contents('mpdfstyletables.css');
