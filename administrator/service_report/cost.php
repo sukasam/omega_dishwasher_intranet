@@ -4,6 +4,8 @@
 	include ("../../include/function.php");
 	include ("config.php");
 
+	$vowels = array(",");
+
 	if ($_POST['mode'] <> "") { 
 		$param = "";
 		$a_not_exists = array();
@@ -27,7 +29,7 @@
 			$jobID = $_POST['sr_id'];
 			$setup = $_POST['setup'];
 			$ot = $_POST['ot'];
-			$ot_1 = preg_replace(',', '', $_POST['ot_1']);
+			$ot_1 = str_replace($vowels, '', $_POST['ot_1']);
 			$pd = $_POST['pd'];
 			$ot_person = $_POST['ot_person'];
 			$ot_day = $_POST['ot_day'];
@@ -39,7 +41,7 @@
 			$detail3_1 = $_POST['detail3_1'];
 			$detail4 = $_POST['detail4'];
 			$detail5 = $_POST['detail5'];
-			$detail6 = preg_replace(',', '', $_POST['detail6']);
+			$detail6 = str_replace($vowels, '', $_POST['detail6']);
 			
 			$technician1 = $_POST['technician1'];
 			$technician2 = $_POST['technician2'];
@@ -49,19 +51,19 @@
 			$technician6 = $_POST['technician6'];
 			$technician7 = $_POST['technician7'];
 			$technician8 = $_POST['technician8'];
-			$cost_other1 = preg_replace(',', '', $_POST['cost_other1']);
-			$cost_other2 = preg_replace(',', '', $_POST['cost_other2']);
-			$cost_other3 = preg_replace(',', '', $_POST['cost_other3']);
-			$cost_other4 = preg_replace(',', '', $_POST['cost_other4']);
-			$cost_other5 = preg_replace(',', '', $_POST['cost_other5']);
-			$cost_other6 = preg_replace(',', '', $_POST['cost_other6']);
-			$cost_other7 = preg_replace(',', '', $_POST['cost_other7']);
-			$cost_other8 = preg_replace(',', '', $_POST['cost_other8']);
+			$cost_other1 = str_replace($vowels, '', $_POST['cost_other1']);
+			$cost_other2 = str_replace($vowels, '', $_POST['cost_other2']);
+			$cost_other3 = str_replace($vowels, '', $_POST['cost_other3']);
+			$cost_other4 = str_replace($vowels, '', $_POST['cost_other4']);
+			$cost_other5 = str_replace($vowels, '', $_POST['cost_other5']);
+			$cost_other6 = str_replace($vowels, '', $_POST['cost_other6']);
+			$cost_other7 = str_replace($vowels, '', $_POST['cost_other7']);
+			$cost_other8 = str_replace($vowels, '', $_POST['cost_other8']);
 			$cost_other9 = $_POST['cost_other9'];
-			$cost_other10 = preg_replace(',', '', $_POST['cost_other10']);
+			$cost_other10 = str_replace($vowels, '', $_POST['cost_other10']);
 			$cost_other11 = $_POST['cost_other11'];
-			$cost_other12 = preg_replace(',', '', $_POST['cost_other12']);
-			$cost_other13 = preg_replace(',', '', $_POST['cost_other13']);
+			$cost_other12 = str_replace($vowels, '', $_POST['cost_other12']);
+			$cost_other13 = str_replace($vowels, '', $_POST['cost_other13']);
 			$cost_other14 = $_POST['cost_other14'];
 			
 			$sumDetail7 = $cost_other1+$cost_other2+$cost_other3+$cost_other4+$cost_other5+$cost_other6+$cost_other7+$cost_other8+$cost_other10+$cost_other12+$cost_other13;
