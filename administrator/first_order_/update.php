@@ -2,9 +2,9 @@
 	include ("../../include/config.php");
 	include ("../../include/connect.php");
 	include ("../../include/function.php");
-  include ("config.php");
+  	include ("config.php");
   
-  $vowels = array(",");
+  	$vowels = array(",");
 
 	if ($_POST['mode'] <> "") { 
 		$param = "";

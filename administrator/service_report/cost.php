@@ -4,7 +4,7 @@
 	include ("../../include/function.php");
 	include ("config.php");
 
-	$vowels = array(",");
+	$vowels = array(",","-");
 
 	if ($_POST['mode'] <> "") { 
 		$param = "";
@@ -41,6 +41,7 @@
 			$detail3_1 = $_POST['detail3_1'];
 			$detail4 = $_POST['detail4'];
 			$detail5 = $_POST['detail5'];
+
 			$detail6 = str_replace($vowels, '', $_POST['detail6']);
 			
 			$technician1 = $_POST['technician1'];
@@ -51,6 +52,7 @@
 			$technician6 = $_POST['technician6'];
 			$technician7 = $_POST['technician7'];
 			$technician8 = $_POST['technician8'];
+
 			$cost_other1 = str_replace($vowels, '', $_POST['cost_other1']);
 			$cost_other2 = str_replace($vowels, '', $_POST['cost_other2']);
 			$cost_other3 = str_replace($vowels, '', $_POST['cost_other3']);
@@ -73,21 +75,20 @@
 			$sumDetail8 = $detail7 - $detail6;
 			
 			if($sumDetail8 <= 0){
-				$detail8 = preg_replace('-','',$sumDetail8);
+				$detail8 = str_replace($vowels,'',$sumDetail8);
 				$detail9 = "0.00";
 			}else{
-				$detail9 = preg_replace('-','',$sumDetail8);
+				$detail9 = str_replace($vowels,'',$sumDetail8);
 				$detail8 = "0.00";
 			}
 			
-			
+			//echo $sumDetail8."-".$detail8." MKUNG";
 			
 			$numCost = mysqli_num_rows(mysqli_query($conn,"SELECT * FROM s_service_cost WHERE job_id = '".$jobID."'"));
 			
 			if($numCost == 0){
 				$quCost = mysqli_query($conn,"INSERT INTO `s_service_cost` (`id`, `job_id`, `setup`, `ot`, `ot_1`, `pd`, `ot_person`, `ot_day`, `travel`, `distance`, `detail1`, `detail2`, `detail3`, `detail3_1`, `detail4`, `detail5`, `detail6`, `detail7`, `detail8`, `detail9`, `technician1`, `technician2`, `technician3`, `technician4`, `technician5`, `technician6`, `technician7`, `technician8`, `cost_other1`, `cost_other2`, `cost_other3`, `cost_other4`, `cost_other5`, `cost_other6`, `cost_other7`, `cost_other8`, `cost_other9`, `cost_other10`, `cost_other11`, `cost_other12`, `cost_other13`, `cost_other14`) VALUES (NULL, '".$jobID."', '".$setup."', '".$ot."', '".$ot_1."', '".$pd."', '".$ot_person."', '".$ot_day."', '".$travel."', '".$distance."', '".$detail1."', '".$detail2."', '".$detail3."', '".$detail3_1."', '".$detail4."', '".$detail5."', '".$detail6."', '".$detail7."', '".$detail8."', '".$detail9."', '".$technician1."', '".$technician2."', '".$technician3."', '".$technician4."', '".$technician5."', '".$technician6."', '".$technician7."', '".$technician8."', '".$cost_other1."', '".$cost_other2."', '".$cost_other3."', '".$cost_other4."', '".$cost_other5."', '".$cost_other6."', '".$cost_other7."', '".$cost_other8."', '".$cost_other9."', '".$cost_other10."', '".$cost_other11."', '".$cost_other12."', '".$cost_other13."', '".$cost_other14."');");
 			}else{
-				
 				$quCost = mysqli_query($conn,"UPDATE `s_service_cost` SET `setup` = '".$setup."', `ot` = '".$ot."', `ot_1` = '".$ot_1."', `pd` = '".$pd."', `ot_person` = '".$ot_person."', `ot_day` = '".$ot_day."', `travel` = '".$travel."', `distance` = '".$distance."', `detail1` = '".$detail1."', `detail2` = '".$detail2."', `detail3` = '".$detail3."', `detail3_1` = '".$detail3_1."', `detail4` = '".$detail4."', `detail5` = '".$detail5."', `detail6` = '".$detail6."', `detail7` = '".$detail7."', `detail8` = '".$detail8."', `detail9` = '".$detail9."', `technician1` = '".$technician1."', `technician2` = '".$technician2."', `technician3` = '".$technician3."', `technician4` = '".$technician4."', `technician5` = '".$technician5."', `technician6` = '".$technician6."', `technician7` = '".$technician7."', `technician8` = '".$technician8."', `cost_other1` = '".$cost_other1."', `cost_other2` = '".$cost_other2."', `cost_other3` = '".$cost_other3."', `cost_other4` = '".$cost_other4."', `cost_other5` = '".$cost_other5."', `cost_other6` = '".$cost_other6."', `cost_other7` = '".$cost_other7."', `cost_other8` = '".$cost_other8."', `cost_other9` = '".$cost_other9."', `cost_other10` = '".$cost_other10."', `cost_other11` = '".$cost_other11."', `cost_other12` = '".$cost_other12."', `cost_other13` = '".$cost_other13."', `cost_other14` = '".$cost_other14."' WHERE `job_id` = '".$jobID."';");
 			}
 			
