@@ -90,8 +90,6 @@
 			}
 			
 			$_POST['ckf_list'] = substr($checklist,0,-1);
-			
-			$_POST['ckf_list'];
 			 
 			include ("../include/m_update.php");
 			

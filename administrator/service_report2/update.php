@@ -204,9 +204,9 @@
 		$a_sdate=explode("-",$ref_date);
 		$ref_date=$a_sdate[2]."/".$a_sdate[1]."/".$a_sdate[0];
 		
-		
-		
 		$ckf_list = explode(',',$ckf_list);
+
+		//echo "FGG".$detail_recom;
 		
 	}
 	
@@ -442,7 +442,7 @@ function check(frm){
           <tr>
             <td><strong>ที่อยู่ :</strong> <span id="cusadd"><?php  echo $finfo['cd_address'];?></span></td>
             <td><strong>เลขที่บริการ</strong> :
-<input type="text" name="sv_id" value="<?php  if($sv_id == ""){echo check_serviceman("RP ".date("Y/m/"));}else{echo $sv_id;};?>" id="sv_id" class="inpfoder" style="border:0;">
+<input type="text" name="sv_id" value="<?php  if($sv_id == ""){echo check_serviceman($conn);}else{echo $sv_id;};?>" id="sv_id" class="inpfoder" style="border:0;">
 &nbsp;&nbsp;<strong>เลขที่ใบงาน</strong> : <!--<input type="text" name="sv_id" value="<?php  if($sv_id == ""){echo "SR";}else{echo $rowSR['sv_id'];};?>" id="sv_id" class="inpfoder" style="border:0;">&nbsp;&nbsp;เลขที่สัญญา  :</strong> <span id="contactid"><?php  echo $finfo['fs_id'];?></span>-->
 <span class="inpfoder"><?php  echo $rowSR['sv_id'];?></span>
 </td>
@@ -513,7 +513,7 @@ function check(frm){
                 </select></td>
                 
         <td width="50%"><center><strong>รายละเอียดการเปลี่ยนอะไหล่</strong></center><br><br>
-        <textarea name="detail_recom" class="inpfoder" id="detail_recom" style="width:50%;height:100px;background:#FFFFFF;"><?php  echo strip_tags($rowSR['detail_recom']);?></textarea></td>
+        <textarea name="detail_recom" class="inpfoder" id="detail_recom" style="width:50%;height:100px;background:#FFFFFF;"><?php  echo strip_tags($detail_recom);?></textarea></td>
       </tr>
     </table>
     

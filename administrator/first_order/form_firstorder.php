@@ -48,7 +48,7 @@ $form = '
 </table>
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border:1px solid #000000;">
           <tr>
-            <td width="57%" valign="top" style="font-size:10px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>ชื่อลูกค้า :</strong> '.$_POST["cd_name"].'<strong><br />
+            <td width="57%" valign="top" style="font-size:10px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>ชื่อลูกค้า :</strong> '.$_POST["cd_name"].' '.$_POST["cd_tax"].'<strong><br />
               <br />
             ที่อยู่ :</strong> '.$_POST["cd_address"].'<br />
             <br />

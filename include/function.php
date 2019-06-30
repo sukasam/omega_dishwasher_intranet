@@ -266,11 +266,14 @@ function format_date_th ($value,$type) {
 		case "4" :  // 4 ม.ค. 2548 14.11 น. 
 			$msg =  $s_day . " " .  $month_brief_th[$s_month]  . " " .  $s_year . "  " . $s_hour . "." . $s_minute . " น." ;
 			break;
-		case "5" :  // 4 ม.ค. 2548  
-			$msg =  $s_day . " " .  $month_brief_th[$s_month]   . " " .  $s_year  ;
+		case "5" :  // 04 ม.ค. 2548  
+			$msg =  sprintf("%02d",$s_day) . " " .  $month_brief_th[$s_month]   . " " .  $s_year  ;
 			break;
 		case "6" :  // 4 ก.พ. 51
 			$msg =  $s_day . " " .  $month_brief_th[$s_month]   . " " .  substr($s_year,-2)  ;
+			break;
+		case "7" :  //มกราคม
+			$msg =  $month_full_th[$s_month];
 			break;
 		}
 	return ($msg);
@@ -1411,6 +1414,56 @@ function check_quotation2($conn){
 	
 }
 
+function check_contract_number ($conn){
+	$thdate = substr(date("Y")+543,2);
+	$concheck = "R ".$thdate.date("/m/");
+	
+	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_contract WHERE con_id like '%".$concheck."%' ORDER BY con_id DESC");
+	$num_oder = @mysqli_num_rows($qu_forder);
+	$row_forder = @mysqli_fetch_array($qu_forder);
+	
+	if($row_forder['con_id'] == ""){
+		return "R ".$thdate.date("/m/")."001";
+	}else{
+		$num_odersum = $num_oder+1;
+		return "R ".$thdate.date("/m/").sprintf("%03d",$num_odersum);
+	}
+}
+
+function check_contract2_number ($conn){
+	$thdate = substr(date("Y")+543,2);
+	$concheck = "S ".$thdate.date("/m/");
+	
+	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_contract2 WHERE con_id like '%".$concheck."%' ORDER BY con_id DESC");
+	$num_oder = @mysqli_num_rows($qu_forder);
+	$row_forder = @mysqli_fetch_array($qu_forder);
+	
+	if($row_forder['con_id'] == ""){
+		return "S ".$thdate.date("/m/")."001";
+	}else{
+		$num_odersum = $num_oder+1;
+		return "S ".$thdate.date("/m/").sprintf("%03d",$num_odersum);
+	}
+}
+
+function check_contract3_number ($conn){
+	$thdate = substr(date("Y")+543,2);
+	$concheck = "ODT ".$thdate.date("/m/");
+	
+	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_contract3 WHERE con_id like '%".$concheck."%' ORDER BY con_id DESC");
+	$num_oder = @mysqli_num_rows($qu_forder);
+	$row_forder = @mysqli_fetch_array($qu_forder);
+	
+	if($row_forder['con_id'] == ""){
+		return "ODT ".$thdate.date("/m/")."001";
+	}else{
+		$num_odersum = $num_oder+1;
+		return "ODT ".$thdate.date("/m/").sprintf("%03d",$num_odersum);
+	}
+}
+
+
+
 function check_serviceorder($conn){
 	
 	$thdate = substr(date("Y")+543,2);
@@ -1533,10 +1586,16 @@ function check_serviceman2($conn){
 	}	
 }
 
-function format_date($conn,$value) {
+function format_date($value) {
 	list ($s_year, $s_month, $s_day) = explode("-", $value);
 	$year=$s_year+543;
 	return $s_day.'-'.$s_month.'-'.$year;
+}
+
+function format_date2($value) {
+	list ($s_year, $s_month, $s_day) = explode("-", $value);
+	$year=$s_year+543;
+	return $s_day.'/'.$s_month.'/'.$year;
 }
 
 function get_groupcusname($conn,$value) {
@@ -1567,6 +1626,11 @@ function getpod_name($conn,$value) {
 function get_proname($conn,$value) {
 	$row_protype = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM  s_group_typeproduct WHERE group_id = '".$value."'"));
 	return $row_protype['group_name'];
+}
+
+function get_pronamecall($conn,$value) {
+	$row_protype = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM  s_group_typeproduct WHERE group_id = '".$value."'"));
+	return $row_protype['group_namecall'];
 }
 
 function get_servicename($conn,$value) {
@@ -2190,10 +2254,104 @@ function getQaBNumber($conn,$id){
 	return $rowQA['fs_id'];
 }
 
+function checkNumContractRent($conn,$id){
+
+	$rowNum = @mysqli_num_rows(@mysqli_query($conn,"SELECT * FROM s_contract WHERE cus_id = '".$id."'"));
+	return $rowNum;
+}
+
+function checkContractRent($conn,$id){
+
+	$rowQA = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM s_contract WHERE cus_id = '".$id."' ORDER BY ct_id ASC"));
+	return $rowQA;
+}
+
 function getQaHNumber($conn,$id){
 
 	$rowQA = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM s_quotation2 WHERE qu_id = '".$id."'"));
 	return $rowQA['fs_id'];
+}
+
+function resize_crop_image($max_width, $max_height, $source_file, $dst_dir, $quality = 80){
+	$imgsize = getimagesize($source_file);
+	$width = $imgsize[0];
+	$height = $imgsize[1];
+	$mime = $imgsize['mime'];
+
+	switch($mime){
+			case 'image/gif':
+					$image_create = "imagecreatefromgif";
+					$image = "imagegif";
+					break;
+
+			case 'image/png':
+					$image_create = "imagecreatefrompng";
+					$image = "imagepng";
+					$quality = 7;
+					break;
+
+			case 'image/jpeg':
+					$image_create = "imagecreatefromjpeg";
+					$image = "imagejpeg";
+					$quality = 80;
+					break;
+
+			default:
+					return false;
+					break;
+	}
+	 
+	$dst_img = imagecreatetruecolor($max_width, $max_height);
+	$src_img = $image_create($source_file);
+	 
+	$width_new = $height * $max_width / $max_height;
+	$height_new = $width * $max_height / $max_width;
+	//if the new width is greater than the actual width of the image, then the height is too large and the rest cut off, or vice versa
+	if($width_new > $width){
+			//cut point by height
+			$h_point = (($height - $height_new) / 2);
+			//copy image
+			imagecopyresampled($dst_img, $src_img, 0, 0, 0, $h_point, $max_width, $max_height, $width, $height_new);
+	}else{
+			//cut point by width
+			$w_point = (($width - $width_new) / 2);
+			imagecopyresampled($dst_img, $src_img, 0, 0, $w_point, 0, $max_width, $max_height, $width_new, $height);
+	}
+	 
+	$image($dst_img, $dst_dir, $quality);
+
+	if($dst_img)imagedestroy($dst_img);
+	if($src_img)imagedestroy($src_img);
+}
+//usage example
+
+function resizeImage($filename, $max_width, $max_height)
+{
+    list($orig_width, $orig_height) = getimagesize($filename);
+
+    $width = $orig_width;
+    $height = $orig_height;
+
+    # taller
+    if ($height > $max_height) {
+        $width = ($max_height / $height) * $width;
+        $height = $max_height;
+    }
+
+    # wider
+    if ($width > $max_width) {
+        $height = ($max_width / $width) * $height;
+        $width = $max_width;
+    }
+
+    $image_p = imagecreatetruecolor($width, $height);
+
+    $image = imagecreatefromjpeg($filename);
+
+    imagecopyresampled($image_p, $image, 0, 0, 0, 0, 
+                                     $width, $height, $orig_width, $orig_height);
+
+    return $image_p;
 }
 
 ?>

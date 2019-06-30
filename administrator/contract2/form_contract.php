@@ -1,0 +1,167 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style>
+.bbcusinfo{
+	height:120px;
+	overflow:hidden;
+}
+</style>
+<?php 
+	
+	
+	$finfos = get_firstorder($conn,$_POST['cus_id']);
+	
+	if($_POST['con_spar'] == '1' || $_POST['con_spar'] == 1){
+	 $conSpar = 'แบบรวมอะไหล่';
+	}else{
+	 $conSpar = 'แบบไม่รวมอะไหล่';
+	}
+
+	$productList = '';
+    $productListImg = '';
+	$nameConpro = '';
+	foreach ($_POST['chkPro'] as $key => $value) {
+		$productList .= 'ประเภท'.get_proname($conn,$finfos['cpro'.$value]).' 
+		ยี่ห้อ	<strong>OMEGA</strong>
+		&nbsp;&nbsp;รุ่น	'.$finfos['pro_pod'.$value].'
+		&nbsp;&nbsp;หมายเลขเครื่อง '.$finfos['pro_sn'.$value].'<br>';
+		$productListImg .= get_proname($conn,$finfos['cpro'.$value]).' 
+		ยี่ห้อ	<strong>OMEGA</strong>
+		&nbsp;&nbsp;รุ่น	'.$finfos['pro_pod'.$value].'
+		&nbsp;&nbsp;หมายเลขเครื่อง '.$finfos['pro_sn'.$value].'<br><br>';
+		if($_POST['con_img'.$value] != ""){
+			$productListImg .='<img src="../../upload/contract2/img/'.$_POST['con_img'.$value].'" height="660"><br>';
+		}
+		
+		if($key >= 1){
+			$nameConpro .= "และ".get_proname($conn,$finfos['cpro'.$value]);
+		}else{
+			$nameConpro .= get_proname($conn,$finfos['cpro'.$value]);
+		}
+	}
+
+	$conPrice = $_POST['con_price'];
+    $conPriceVat = ($_POST['con_price'] * 7) / 100;
+	$conPriceTotal = $conPrice + $conPriceVat;
+
+	$form = '<style>
+	.hdTitle{
+	 	text-align: center;
+		font-size:18px;
+		margin-top:20px;
+		font-weight: bold;
+	}
+	.conID{
+	 	text-align: right;
+		font-size:15px;
+		font-weight: bold;
+	}
+	.textMedium{
+		font-size:16px;
+		line-height: 28px;
+	}
+	.textCenter{
+		text-align: center;
+	}
+	.colorRed{
+		color: red;
+	}
+	.signature{
+		line-height: 35px;
+	}
+	</style>
+	<p class="hdTitle">สัญญาบริการบำรุงรักษา'.$nameConpro.'</p>
+	<p class="conID">เลขที่สัญญา '.$_POST['con_id'].'</p>
+	<div class="textMedium">
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;สัญญาฉบับนี้ทำขึ้นที่	บริษัท โอเมก้า ดิชวอชเชอร์ (ประเทศไทย) จำกัด เมื่อ'.format_date_th($_POST['con_stime'],1).' ระหว่าง<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>บริษัท โอเมก้า ดิชวอชเชอร์ (ประเทศไทย)  จำกัด</strong>  โดย นายคณวัฒน์ อภิรักษ์โยธิน  กรรมการผู้มีอำนาจ ลงนาม สำนักงานตั้งอยู่เลขที่ 31  ซอยโชคชัย 4  ซอย 50 แยก 4  แขวงลาดพร้าว เขตลาดพร้าว  กรุงเทพมหานคร 10230 โทรศัพท์ 02-530-6357 , 02-936-7167  โทรสาร  02-539-6842  ซึ่งต่อไปนี้ในสัญญาเรียกว่า <strong>“ผู้ให้บริการ”</strong> ฝ่ายหนึ่ง กับ
+	<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>'.$finfos['cd_name'].'</strong> โดย '.$finfos['name_consign'].' ผู้มีอำนาจลงนามสัญญา	สำนักงานตั้งอยู่เลขที่ '.$finfos['cd_address'].' โทรศัพท์ '.$finfos['cd_tel'].' โทรสาร '.$finfos['cd_fax'].' ซึ่งต่อไปนี้ในสัญญาเรียกว่า <strong>“ผู้รับบริการ”</strong> อีกฝ่ายหนึ่ง 
+</p>
+	<p class="textCenter"><br>
+	โดยทั้งสองฝ่ายตกลงทำสัญญาบริการมีเงื่อนไขดังต่อไปนี้<br>
+	'.$productList.'
+โดย'.$nameConpro.'ดังกล่าว ตั้งอยู่ที่ '.$finfos['loc_name'].' เลขที่ '.$finfos['loc_address'].'<br>
+<strong>สัญญาบริการฉบับนี้ มีระยะเวลาการรับประกัน 12 เดือน (สิบสองเดือน)</strong><br>
+วันที่เริ่มสัญญาบริการ '.format_date_th($_POST['con_startdate'],1).'	วันสิ้นสุดสัญญาบริการ  '.format_date_th($_POST['con_enddate'],1).'
+
+	</p>
+	<p class="textCenter"><br>
+	<strong>** ราคาสัญญาบริการรายปี '.$conSpar.'  **</strong><br>
+	ราคาสัญญาบริการ'.$conSpar.'ต่อปี เป็นเงินจำนวน  '.number_format($conPrice).' บาท ( '.baht_text($conPrice).' )<br>
+	ภาษีมูลค่าเพิ่ม   7 %   เป็นเงินจำนวน  '.number_format($conPriceVat).' บาท ( '.baht_text($conPriceVat).' )<br>
+	<strong>รวมเป็นเงินทั้งสิ้น จำนวน '.number_format($conPriceTotal).' บาท ('.baht_text($conPriceTotal).')<br> 
+	การชำระเงินค่าสัญญาบริการดังกล่าว ณ วันที่ลงนามสัญญาบริการเรียบร้อยแล้ว</strong>
+
+	</p>
+	</div>
+	<div class="textMedium"><br><br><br><br>
+	<p class="textCenter"><strong>**เงื่อนไขและข้อตกลง ของสัญญาบริการรายปี'.$conSpar.'  **<strong></p>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>1.</strong>  ผู้รับบริการตกลงว่าจ้างผู้ให้บริการทำการบำรุงรักษา แก้ไขซ่อมแซม รวมถึงให้คำแนะนำเกี่ยวกับ '.$nameConpro.'ของผู้รับบริการ เป็นระยะเวลา 1 ปี<br>
+	
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>2.</strong>  ผู้ให้บริการสัญญาว่าจะทำการให้บริการโดยการตรวจเช็คทำความสะอาดเครื่อง ทั้งภายในและ ภายนอกเป็นประจำทุกเดือน เดือนละ 1 ครั้ง  ตลอดสัญญาบริการ  โดยผู้ให้บริการจะทำการแจ้งผลการตรวจเช็คสภาพ เครื่อง  ให้ผู้รับบริการทราบ ทุก ๆ ครั้งที่เข้าบริการ<br>
+	
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>3.</strong> ผู้ให้บริการให้สัญญาว่า จะจัดส่งพนักงานที่มีความรู้ ความชำนาญ ความสามารถ มาให้บริการในการ บำรุงรักษา แก้ไขซ่อมแซมเครื่อง รวมตลอดทั้งการให้คำปรึกษาแนะนำการใช้งานที่ถูกต้องของเครื่อง อีกทั้งดูแลรักษา เครื่องเพื่อป้องกันความเสียหายที่อาจเกิดขึ้นได้ในภายหน้า<br>
+	
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>4.</strong> ในกรณีเครื่องขัดข้องกะทันหัน เมื่อผู้รับบริการแจ้งให้ผู้ให้บริการทราบ ไม่ว่าจะเป็นการแจ้งด้วยวาจา หรือ ลายลักษณ์อักษรก็ตาม ผู้ให้บริการให้สัญญาว่า จะจัดส่งพนักงานไปดำเนินการแก้ไข ซ่อมแซม ให้แก่ผู้รับบริการ ภายใน 24 ชั่วโมง <strong>กรณีวันทำการปกติ</strong> หรือ ภายใน 48 ชั่วโมง <strong>กรณีวันหยุด</strong><br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ทั้งนี้ ผู้ให้บริการจะเปิดให้บริการในวันจันทร์ ถึง วันเสาร์ เวลา 08.30 - 17.30 น. หยุดวันอาทิตย์ และ วันหยุดนักขัตฤกษ์<br>
+	
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>5.</strong>  ในการให้บริการตามสัญญานี้ ไม่รวมถึงการเปลี่ยนอะไหล่ต่าง ๆ ที่ชำรุดจากการโยกย้ายสถานที่ตั้ง
+ของ'.$nameConpro.'โดยบุคคลอื่นที่มิใช่พนักงานของบริษัท โอเมก้าฯ<br>
+
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>6.</strong>  หากในการให้บริการ	พบเครื่องเสีย ขัดข้อง ต้องเปลี่ยนอะไหล่ หรืออุปกรณ์ส่วนหนึ่งส่วนใด ผู้ ให้บริการ จะทำการแจ้ง ให้ผู้รับบริการทราบ และ<strong>ทำการเปลี่ยนอะไหล่ หรือ อุปกรณ์นั้นทันที หรือกรณีที่จะต้องรอ อะไหล่ ก็จะแจ้งกำหนดการให้ทราบล่วงหน้า โดยผู้ให้บริการจะไม่คิดค่าใช้จ่ายใด ๆ ทั้งสิ้น</strong><br>
+	
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="colorRed"><strong>***(สัญญาบริการแบบไม่รวมอะไหล่)** 6.</strong> หากในการให้บริการ ผู้ให้บริการพบว่ามีความจำเป็นต้อง เปลี่ยนอะไหล่ หรืออุปกรณ์ส่วนหนึ่งส่วนใด ผู้ให้บริการจะทำการแจ้งให้ผู้รับบริการทราบ พร้อมทั้งเสนอรายการ รายละเอียด และราคา ให้ผู้รับบริการรับพิจารณาก่อนว่า	จะทำการเปลี่ยนอะไหล่ หรือ อุปกรณ์นั้น หรือไม่</span><br>
+	
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="colorRed"><strong>ในกรณีที่ผู้รับบริการตกลงเปลี่ยนอะไหล่ หรืออุปกรณ์จากผู้ให้บริการ ผู้ให้บริการตกลงลดราคา อะไหล่ให้ผู้รับบริการอีก 10 %  จากราคาปกติ โดยผู้ให้บริการตกลงว่าจะไม่คิดค่าจ้าง หรือค่าแรงในการ เปลี่ยนอะไหล่ หรืออุปกรณ์แต่ประการใด</strong></span><br>
+	
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>7.</strong>  ผู้ให้บริการจะไม่รับผิดชอบต่อความเสียหายที่เกิดกับเครื่อง อันเนื่องมาจาก อุบัติเหตุ ภัยธรรมชาติ สัตว์ หรือแมลง ความประมาทเลินเล่อ ของพนักงานผู้รับบริการ หรือการใช้เคม หรืออุปกรณ์ที่ไม่ได้คุณภาพ รวมไปถึงความเสียหายที่เกิดจากการซ่อมที่ไม่ใช่พนักงานของผู้ให้บริการ<br>
+	
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>8.</strong>  สัญญาบริการฉบับนี้กำหนดให้เครื่องล้างจาน หรือ เครื่องล้างแก้ว ที่ทำสัญญาบริการกับผู้ให้บริการ ต้องใช้น้ำยาทำความสะอาดภาชนะทุกชนิด ของ บริษัท โอเมก้า ดิชวอชเชอร์ (ประเทศไทย) จำกัด หรือ ตามที่ผู้ให้บริการ เป็นผู้กำหนดให้ เท่านั้น<br>
+	
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>9.</strong> ผู้ให้บริการมีสิทธิในการบอกยกเลิกสัญญาบริการ หากผู้รับบริการไม่ปฏิบัติตามข้อตกลงดังต่อไปนี้<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9.1 กรณีที่พบว่าผู้รับบริการไม่ได้ใช้น้ำยาของบริษัท โอเมก้า ดิชวอชเชอร์ (ประเทศไทย) จำกัด หรือ น้ำยา ที่บริษัท กำหนดให้ ผู้ให้บริการจะแจ้งเป็นลายลักษณ์อักษร ให้ผู้รับบริการทราบและให้เวลาผู้รับบริการแก้ไขตาม สมควรหรือไม่เกิน 30 วัน หากยังไม่แก้ไข ผู้ให้บริการมีสิทธิในการบอกเลิกสัญญาบริการดังกล่าวได้ทันที โดยให้ถือว่า สัญญาบริการดังกล่าวเป็นโมฆะทันที และให้ถือว่าผู้ให้บริการไม่ผิดเงื่อนไขและข้อตกลง<br>
+	
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>10.</strong> สัญญาฉบับนี้ จะสมบูรณ์ครบถ้วน ก็ต่อเมื่อ ผู้ว่าจ้าง ได้ชำระเงินค่าสัญญาบริการดังกล่าวนี้ ตาม จำนวนเงินที่ระบุไว้ข้างต้น ให้แก่ผู้ให้บริการเป็นที่เรียบร้อยแล้ว
+สัญญานี้จัดทำขึ้นเป็นสองฉบับ  โดยมีข้อความถูกต้องสมบูรณ์ตรงกันทุกประการ  คู่สัญญาทั้งสองฝ่ายได้อ่าน ข้อความในสัญญานี้โดยตลอดแล้ว จึงได้ลงลายมือชื่อ พร้อมประทับตรา ไว้ต่อหน้าพยานเป็นสำคัญ<br><br><br>
+	</div>
+	<div class="textMedium">
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" style="text-align:center;margin-top:5px;">
+      <tr>
+        <td width="50%" class="signature" style="vertical-align: top;line-height: 35px;">
+            ในนาม<br><br>
+			<strong>'.$finfos['cd_name'].'</strong><br><br><br>
+			ลงชื่อ………………………....……………ผู้รับบริการ<br><br>
+			( '.$finfos['name_consign'].' )<br>
+			ผู้มีอำนาจลงนามสัญญา<br><br><br>
+			ลงชื่อ…………………………………………..พยาน<br><br>
+			( ................................................ )<br><br><br><br>
+			ลงชื่อ…………………………………………..พยาน<br><br>
+			( ................................................ )
+        </td>
+        <td width="50%" class="signature" style="vertical-align: top;">
+        	ในนาม<br><br>
+			<strong>บริษัท โอเมก้า ดิชวอชเชอร์ (ประเทศไทย) จำกัด</strong><br><br><br>
+			ลงชื่อ………………………………………………ผู้ให้บริการ<br><br>
+			( นายคณวัฒน์ อภิรักษ์โยธิน )<br>
+			กรรมการผู้มีอำนาจลงนาม<br><br><br>
+			ลงชื่อ………………………………………………พยาน<br><br>
+			( นางวริษฐา อ่อนเลิศ )<br>
+			ผู้จัดการฝ่ายบัญชี<br><br><br>
+			ลงชื่อ………………………………………………พยาน<br><br>
+			( นายชัยวัฒน์ อ่อนเลิศ )<br>
+			ผู้จัดการฝ่ายช่างเทคนิค
+        </td>
+      </tr>
+    </table>
+	</div>
+	<div class="hdTitle">
+		รูป'.$nameConpro.' ตั้งอยู่ที่ '.$finfos['loc_name'].' <br>
+		เลขที่ '.$finfos['loc_address'].' <br><br>
+		'.$productListImg.'
+	</div>
+	';
+?>
+
+
+	
+
+	

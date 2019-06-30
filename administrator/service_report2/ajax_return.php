@@ -1,5 +1,7 @@
 <?php
-	include_once("../../include/aplication_top.php");
+	include_once ("../../include/config.php");
+	include_once ("../../include/connect.php");
+	include_once ("../../include/function.php");
 	header("Content-type: text/html; charset=utf8");
 	header("Cache-Control: no-cache, must-revalidate");
 	@mysqli_query($conn,"SET NAMES  UTF8");

@@ -90,7 +90,7 @@ function get_cus(pval){
    xmlHttp.send(null);
 }
 
-function get_sparpart($conn,pval,resdata){
+function get_sparpart(pval,resdata){
 	/*alert(pval);*/
 	var xmlHttp;
    xmlHttp=GetXmlHttpObject(); //Check Support Brownser

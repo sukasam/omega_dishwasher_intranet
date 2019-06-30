@@ -43,7 +43,8 @@
 	.tb2 tr td{
 		font-size:10px;
 		font-family:Verdana, Geneva, sans-serif;
-		padding:5px;		
+		padding:5px;	
+		border: 1px solid #00000;	
 	}
 	
 	.tb3 tr td{

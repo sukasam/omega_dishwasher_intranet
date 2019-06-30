@@ -82,7 +82,7 @@
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tv_search">
   <tr>
     <td colspan="2"><strong>ค้นหา&nbsp;&nbsp;:&nbsp;&nbsp;</strong>
-        <input type="text" name="textfield" id="textfield" style="width:85%;" onkeyup="get_sparpart($conn,this.value,'<?php  echo $_GET['resdata']?>');"/>
+        <input type="text" name="textfield" id="textfield" style="width:85%;" onkeyup="get_sparpart(this.value,'<?php  echo $_GET['resdata']?>');"/>
     </td>
   </tr>
 </table>

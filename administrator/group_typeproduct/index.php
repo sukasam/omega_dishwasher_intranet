@@ -94,17 +94,21 @@ function check_select(frm){
     <TABLE>
       <THEAD>
         <TR>
-          <TH width="13%"><INPUT class=check-all type=checkbox name="ca" value="true" onClick="chkAll(this.form, 'del[]', this.checked)"></TH>
-          <TH width="13%" <?php  Show_Sort_bg ("user_id", $orderby) ?>> <?php 
+          <TH width="5%"><INPUT class=check-all type=checkbox name="ca" value="true" onClick="chkAll(this.form, 'del[]', this.checked)"></TH>
+          <TH width="5%" <?php  Show_Sort_bg ("user_id", $orderby) ?>> <?php 
 		$a_not_exists = array('orderby','sortby');
 		$param2 = get_param($a_param,$a_not_exists);
 	?>
             <?php   Show_Sort_new ("user_id", "ลำดับ.", $orderby, $sortby,$page,$param2);?>
             &nbsp;</TH>
-          <TH width="19%" <?php  Show_Sort_bg ("group_name", $orderby) ?>>
+          <TH width="10%" <?php  Show_Sort_bg ("group_name", $orderby) ?>>
            <?php   Show_Sort_new ("group_name", "รหัสสินค้า", $orderby, $sortby,$page,$param2);?>
             &nbsp;</TH>
-          <TH width="41%" <?php  Show_Sort_bg ("group_name", $orderby) ?>> <?php   Show_Sort_new ("group_name", "รายการสินค้า", $orderby, $sortby,$page,$param2);?>
+          <TH width="30%" <?php  Show_Sort_bg ("group_name", $orderby) ?>> <?php   Show_Sort_new ("group_name", "รายการสินค้า", $orderby, $sortby,$page,$param2);?>
+            &nbsp;</TH>
+            <TH width="20%" <?php  Show_Sort_bg ("group_detail", $orderby) ?>> <?php   Show_Sort_new ("group_detail", "รายละเอียด", $orderby, $sortby,$page,$param2);?>
+            &nbsp;</TH>
+            <TH width="20%" <?php  Show_Sort_bg ("group_namecall", $orderby) ?>> <?php   Show_Sort_new ("group_namecall", "นาม", $orderby, $sortby,$page,$param2);?>
             &nbsp;</TH>
          <!-- <TH width="15%" <?php  Show_Sort_bg ("group_name", $orderby) ?>> <?php   Show_Sort_new ("group_name", "จำนวน", $orderby, $sortby,$page,$param2);?>
   &nbsp;</TH>-->
@@ -152,6 +156,8 @@ function check_select(frm){
           <TD><span class="text"><?php  echo sprintf("%04d",$counter); ?></span></TD>
           <TD><span class="text"><?php  echo $rec["group_spro_id"] ; ?></span></TD>
           <TD><span class="text"><?php  echo $rec["group_name"] ; ?></span></TD>
+          <TD><span class="text"><?php  echo $rec["group_detail"] ; ?></span></TD>
+          <TD><span class="text"><?php  echo $rec["group_namecall"] ; ?></span></TD>
           <!--<TD><span class="text"><?php  echo $rec["group_stock"] ; ?></span></TD>-->
           <!--<TD><span class="text"><?php  echo $rec["group_pro_pod"] ; ?></span></TD>
           <TD><span class="text"><?php  echo $rec["group_pro_sn"] ; ?></span></TD>-->

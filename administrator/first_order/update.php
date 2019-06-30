@@ -234,6 +234,7 @@ function chksign(vals){
 					}
 				?>
             </select>
+           	&nbsp;&nbsp;&nbsp;<strong>Tax/ID :</strong> <input type="text" name="cd_tax" value="<?php  echo $cd_tax;?>" id="cd_tax" class="inpfoder">
            	</td>
             <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>เลขที่ใบเสนอราคา / PO.NO. :</strong> <input type="text" name="po_id" value="<?php  echo $po_id;?>" id="po_id" class="inpfoder"></td>
           </tr>
@@ -248,7 +249,9 @@ function chksign(vals){
               <input type="text" name="c_contact" value="<?php  echo $c_contact;?>" id="c_contact" class="inpfoder">
               <strong>เบอร์โทร :</strong>
               <input type="text" name="c_tel" value="<?php  echo $c_tel;?>" id="c_tel" class="inpfoder"></td>
-            <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>รหัสลูกค้า<strong> :</strong><span style="font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;">
+            <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>ชื่อผู้มีอำนาจลงนามสัญญา<strong> :</strong><span style="font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;">
+              <input type="text" name="name_consign" value="<?php  echo $name_consign;?>" id="cusid" class="inpfoder">
+            </span></strong><strong>รหัสลูกค้า<strong> :</strong><span style="font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;">
               <input type="text" name="cusid" value="<?php  echo $cusid;?>" id="cusid" class="inpfoder">
             </span></strong></td>
           </tr>
@@ -350,7 +353,7 @@ Vat 7%</strong></td>
               $qupro1 = @mysqli_query($conn,"SELECT * FROM s_group_typeproduct ORDER BY group_name ASC");
               while($row_qupro1 = @mysqli_fetch_array($qupro1)){
                 ?>
-                  <option value="<?php  echo $row_qupro1['group_id'];?>" <?php  if($cpro1 == $row_qupro1['group_id']){echo 'selected';}?>><?php  echo $row_qupro1['group_name'];?></option>
+                  <option value="<?php  echo $row_qupro1['group_id'];?>" <?php  if($cpro1 == $row_qupro1['group_id']){echo 'selected';}?>><?php  echo $row_qupro1['group_name']." ".$row_qupro1['group_detail'];?></option>
                 <?php
               }
           ?>
@@ -389,7 +392,7 @@ Vat 7%</strong></td>
               $qupro1 = @mysqli_query($conn,"SELECT * FROM s_group_typeproduct ORDER BY group_name ASC");
               while($row_qupro2 = @mysqli_fetch_array($qupro1)){
                 ?>
-                  <option value="<?php  echo $row_qupro2['group_id'];?>" <?php  if($cpro2 == $row_qupro2['group_id']){echo 'selected';}?>><?php  echo $row_qupro2['group_name'];?></option>
+                  <option value="<?php  echo $row_qupro2['group_id'];?>" <?php  if($cpro2 == $row_qupro2['group_id']){echo 'selected';}?>><?php  echo $row_qupro2['group_name']." ".$row_qupro2['group_detail'];?></option>
                 <?php
               }
           ?>
@@ -426,7 +429,7 @@ Vat 7%</strong></td>
               $qupro3 = @mysqli_query($conn,"SELECT * FROM s_group_typeproduct ORDER BY group_name ASC");
               while($row_qupro3 = @mysqli_fetch_array($qupro3)){
                 ?>
-                  <option value="<?php  echo $row_qupro3['group_id'];?>" <?php  if($cpro3 == $row_qupro3['group_id']){echo 'selected';}?>><?php  echo $row_qupro3['group_name'];?></option>
+                  <option value="<?php  echo $row_qupro3['group_id'];?>" <?php  if($cpro3 == $row_qupro3['group_id']){echo 'selected';}?>><?php  echo $row_qupro3['group_name']." ".$row_qupro3['group_detail'];?></option>
                 <?php
               }
           ?>
@@ -462,7 +465,7 @@ Vat 7%</strong></td>
               $qupro4 = @mysqli_query($conn,"SELECT * FROM s_group_typeproduct ORDER BY group_name ASC");
               while($row_qupro4 = @mysqli_fetch_array($qupro4)){
                 ?>
-                  <option value="<?php  echo $row_qupro4['group_id'];?>" <?php  if($cpro4 == $row_qupro4['group_id']){echo 'selected';}?>><?php  echo $row_qupro4['group_name'];?></option>
+                  <option value="<?php  echo $row_qupro4['group_id'];?>" <?php  if($cpro4 == $row_qupro4['group_id']){echo 'selected';}?>><?php  echo $row_qupro4['group_name']." ".$row_qupro4['group_detail'];?></option>
                 <?php
               }
           ?>
@@ -498,7 +501,7 @@ Vat 7%</strong></td>
               $qupro5 = @mysqli_query($conn,"SELECT * FROM s_group_typeproduct ORDER BY group_name ASC");
               while($row_qupro5 = @mysqli_fetch_array($qupro5)){
                 ?>
-                  <option value="<?php  echo $row_qupro5['group_id'];?>" <?php  if($cpro5 == $row_qupro5['group_id']){echo 'selected';}?>><?php  echo $row_qupro5['group_name'];?></option>
+                  <option value="<?php  echo $row_qupro5['group_id'];?>" <?php  if($cpro5 == $row_qupro5['group_id']){echo 'selected';}?>><?php  echo $row_qupro5['group_name']." ".$row_qupro5['group_detail'];?></option>
                 <?php
               }
           ?>
@@ -534,7 +537,7 @@ Vat 7%</strong></td>
               $qupro6 = @mysqli_query($conn,"SELECT * FROM s_group_typeproduct ORDER BY group_name ASC");
               while($row_qupro6 = @mysqli_fetch_array($qupro6)){
                 ?>
-                  <option value="<?php  echo $row_qupro6['group_id'];?>" <?php  if($cpro6 == $row_qupro6['group_id']){echo 'selected';}?>><?php  echo $row_qupro6['group_name'];?></option>
+                  <option value="<?php  echo $row_qupro6['group_id'];?>" <?php  if($cpro6 == $row_qupro6['group_id']){echo 'selected';}?>><?php  echo $row_qupro6['group_name']." ".$row_qupro6['group_detail'];?></option>
                 <?php
               }
           ?>
@@ -570,7 +573,7 @@ Vat 7%</strong></td>
               $qupro7 = @mysqli_query($conn,"SELECT * FROM s_group_typeproduct ORDER BY group_name ASC");
               while($row_qupro7 = @mysqli_fetch_array($qupro7)){
                 ?>
-                  <option value="<?php  echo $row_qupro7['group_id'];?>" <?php  if($cpro7 == $row_qupro7['group_id']){echo 'selected';}?>><?php  echo $row_qupro7['group_name'];?></option>
+                  <option value="<?php  echo $row_qupro7['group_id'];?>" <?php  if($cpro7 == $row_qupro7['group_id']){echo 'selected';}?>><?php  echo $row_qupro7['group_name']." ".$row_qupro7['group_detail'];?></option>
                 <?php
               }
           ?>
