@@ -11,11 +11,10 @@
 		$_POST['job_close'] = date("Y-m-d");
 		$_POST['job_balance'] = date("Y-m-d");
 
-
 		if ($_POST['mode'] == "add") { 
 		
 			
-			$_POST['sv_id'] = check_servicereport("SR".date("Y/m/"));
+			$_POST['sv_id'] = check_servicereport($conn);
 			$_POST['job_last'] = get_lastservice_s($conn,$_POST['cus_id'],"");
 
 			/*echo "<pre>";
@@ -42,7 +41,6 @@
 			@mysqli_query($conn,"INSERT INTO `service_schedule` (`id`, `month`, `technician`, `sv_id`, `fo_id`, `pdf`, `created`) VALUES (NULL, '".date("m")."', '".$_POST['loc_contact']."', '".$_POST['sv_id']."', '".$_POST['fo_id']."', '".$chaf.".pdf', CURRENT_TIMESTAMP);");
 			
 			$pid = mysqli_insert_id($conn);
-			
 			
 			
 			//echo $pid;

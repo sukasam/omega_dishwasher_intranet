@@ -4,24 +4,34 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitc7627f1ad5c030e90a4de93a39cf4056
+class ComposerStaticInitc081c2ae4de88cd81099772ea1b466e3
 {
+    public static $prefixLengthsPsr4 = array (
+        's' => 
+        array (
+            'setasign\\Fpdi\\' => 14,
+        ),
+    );
+
+    public static $prefixDirsPsr4 = array (
+        'setasign\\Fpdi\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/setasign/fpdi/src',
+        ),
+    );
+
     public static $classMap = array (
         'FPDF' => __DIR__ . '/..' . '/setasign/fpdf/fpdf.php',
-        'FPDF_TPL' => __DIR__ . '/..' . '/setasign/fpdi/fpdf_tpl.php',
-        'FPDI' => __DIR__ . '/..' . '/setasign/fpdi/fpdi.php',
-        'FilterASCII85' => __DIR__ . '/..' . '/setasign/fpdi/filters/FilterASCII85.php',
-        'FilterASCIIHexDecode' => __DIR__ . '/..' . '/setasign/fpdi/filters/FilterASCIIHexDecode.php',
-        'FilterLZW' => __DIR__ . '/..' . '/setasign/fpdi/filters/FilterLZW.php',
-        'fpdi_bridge' => __DIR__ . '/..' . '/setasign/fpdi-fpdf/fpdi_bridge.php',
-        'fpdi_pdf_parser' => __DIR__ . '/..' . '/setasign/fpdi/fpdi_pdf_parser.php',
-        'pdf_context' => __DIR__ . '/..' . '/setasign/fpdi/pdf_context.php',
+        'Jurosh\\PDFMerge\\PDFMerger' => __DIR__ . '/..' . '/jurosh/pdf-merge/src/Jurosh/PDFMerge/PDFMerger.php',
+        'Jurosh\\PDFMerge\\PdfObject' => __DIR__ . '/..' . '/jurosh/pdf-merge/src/Jurosh/PDFMerge/PDFObject.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->classMap = ComposerStaticInitc7627f1ad5c030e90a4de93a39cf4056::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitc081c2ae4de88cd81099772ea1b466e3::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitc081c2ae4de88cd81099772ea1b466e3::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitc081c2ae4de88cd81099772ea1b466e3::$classMap;
 
         }, null, ClassLoader::class);
     }

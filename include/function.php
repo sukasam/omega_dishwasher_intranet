@@ -1586,9 +1586,9 @@ function check_serviceman2($conn){
 	}	
 }
 
-function format_date($value) {
-	list ($s_year, $s_month, $s_day) = explode("-", $value);
-	$year=$s_year+543;
+function format_date($conn,$value) {
+	list ($s_year, $s_month, $s_day) = explode("-",$value);
+	$year=intval($s_year)+543;
 	return $s_day.'-'.$s_month.'-'.$year;
 }
 
@@ -2352,6 +2352,11 @@ function resizeImage($filename, $max_width, $max_height)
                                      $width, $height, $orig_width, $orig_height);
 
     return $image_p;
+}
+
+function getScheduleFile($conn,$technician,$month,$fo_id){
+	$rowSchedule = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM `service_schedule` WHERE `month` = ".$month." AND `technician` = ".$technician." AND `fo_id` LIKE '".$fo_id."' ORDER BY `sv_id`"));
+	return $rowSchedule;
 }
 
 ?>

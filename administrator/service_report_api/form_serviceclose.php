@@ -11,8 +11,6 @@
 	$spaimfo4 = get_sparpart($conn,$_POST['cpro4']);
 	$spaimfo5 = get_sparpart($conn,$_POST['cpro5']);
 	
-	
-	
 	$chk = get_fixlist($_POST['ckf_list']);
 	
 	foreach($chk as $vals){

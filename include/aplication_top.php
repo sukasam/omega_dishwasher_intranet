@@ -1,5 +1,6 @@
 <?php
 error_reporting(0);
+//error_reporting (E_ALL ^ E_NOTICE);
 @ob_start();
 @session_start();
 include_once("config.php");
