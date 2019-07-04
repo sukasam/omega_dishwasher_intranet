@@ -278,11 +278,11 @@
 		$quGen2 = mysqli_query($conn,"SELECT * FROM service_schedule WHERE month = '".$getMonth."' AND technician = '".$loccontact."'");
 		 $numCreated2 = mysqli_num_rows($quGen2);
 			
-			if(file_exists("../../upload/schedule/service_report_".date("Y-m")."_".$loccontact.".pdf") == ""){
-				 while($rowGen2 = mysqli_fetch_array($quGen2)){
-					 set_time_limit(0);
-					$pdf->addPDF("../../upload/service_report_open/".$rowGen2['pdf'], 'all');
-				 }
+		
+		 while($rowGen2 = mysqli_fetch_array($quGen2)){
+			set_time_limit(0);
+			$pdf->addPDF("../../upload/service_report_open/".$rowGen2['pdf'], 'all');
+		 }
 
 				// call merge, output format `file`
 				$pdf->merge("file", "../../upload/schedule/service_report_".date("Y-m")."_".$loccontact.".pdf");
@@ -291,11 +291,24 @@
 				
 				header("Location:../../upload/schedule/service_report_".date("Y-m")."_".$loccontact.".pdf");
 
-			}else{
-				header("Location:../../upload/schedule/service_report_".date("Y-m")."_".$loccontact.".pdf");
-				//echo "HAVE";
-				//echo "<script>window.opener.location.reload();window.close();</script>";
-			}
+//			if(file_exists("../../upload/schedule/service_report_".date("Y-m")."_".$loccontact.".pdf") == ""){
+//				 while($rowGen2 = mysqli_fetch_array($quGen2)){
+//					 set_time_limit(0);
+//					$pdf->addPDF("../../upload/service_report_open/".$rowGen2['pdf'], 'all');
+//				 }
+//
+//				// call merge, output format `file`
+//				$pdf->merge("file", "../../upload/schedule/service_report_".date("Y-m")."_".$loccontact.".pdf");
+//
+//				//echo "<script>window.opener.location.reload();window.close();</script>";
+//				
+//				header("Location:../../upload/schedule/service_report_".date("Y-m")."_".$loccontact.".pdf");
+//
+//			}else{
+//				header("Location:../../upload/schedule/service_report_".date("Y-m")."_".$loccontact.".pdf");
+//				//echo "HAVE";
+//				//echo "<script>window.opener.location.reload();window.close();</script>";
+//			}
 	}
   
 
