@@ -126,6 +126,24 @@
 			$chaf = str_replace("/","-",$_POST['con_id']); 
 			$mpdf->Output('../../upload/contract/'.$chaf.'.pdf','F');
 			
+			include_once("form_contract2.php");
+			$mpdf=new mPDF('UTF-8','A4','','','15','15','50','40'); 
+			$mpdf->SetAutoFont();
+			$mpdf->SetHTMLHeader('<div><img src="../images/contract_header.jpg"/></div>');
+			$mpdf->SetHTMLFooter('<table width="100%" border="0" cellspacing="0" cellpadding="0" style="text-align:center;margin-top:5px;">
+      <tr>
+        <td width="50%" class="signature" style="vertical-align: top;line-height: 35px;">
+			(ลงชื่อ)………………………....……………ผู้เช่า<br><br>
+        </td>
+        <td width="50%" class="signature" style="vertical-align: top;">
+			(ลงชื่อ)………………………………………………ผู้ให้เช่า<br><br>
+        </td>
+      </tr>
+    </table><div><img src="../images/contract_footer.jpg"/></div>');
+			$mpdf->WriteHTML($form);
+			$chaf = str_replace("/","-",$_POST['con_id']); 
+			$mpdf->Output('../../upload/contract/'.$chaf.'-2.pdf','F');
+			
 			if($_POST['mode'] == "cadd"){
 				header ("location:update.php?mode=update&ct_id=".$id); 
 			}else{
@@ -197,6 +215,24 @@
 			$mpdf->WriteHTML($form);
 			$chaf = str_replace("/","-",$_POST['con_id']); 
 			$mpdf->Output('../../upload/contract/'.$chaf.'.pdf','F');
+			
+			include_once("form_contract2.php");
+			$mpdf=new mPDF('UTF-8','A4','','','15','15','50','40'); 
+			$mpdf->SetAutoFont();
+			$mpdf->SetHTMLHeader('<div><img src="../images/contract_header.jpg"/></div>');
+			$mpdf->SetHTMLFooter('<table width="100%" border="0" cellspacing="0" cellpadding="0" style="text-align:center;margin-top:5px;">
+      <tr>
+        <td width="50%" class="signature" style="vertical-align: top;line-height: 35px;">
+			(ลงชื่อ)………………………....……………ผู้เช่า<br><br>
+        </td>
+        <td width="50%" class="signature" style="vertical-align: top;">
+			(ลงชื่อ)………………………………………………ผู้ให้เช่า<br><br>
+        </td>
+      </tr>
+    </table><div><img src="../images/contract_footer.jpg"/></div>');
+			$mpdf->WriteHTML($form);
+			$chaf = str_replace("/","-",$_POST['con_id']); 
+			$mpdf->Output('../../upload/contract/'.$chaf.'-2.pdf','F');
 			
 			if($_POST['mode'] == "cupdate"){
 				header ("location:update.php?mode=update&ct_id=".$id); 

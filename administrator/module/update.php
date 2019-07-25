@@ -10,6 +10,7 @@
 		$param = get_param($a_param,$a_not_exists);
 
 		if ($_POST['mode'] == "add") { 
+			$_POST['group_id'] = 0;
 			include "../include/m_add.php";
 			header ("location:index.php?" . $param); 
 		}

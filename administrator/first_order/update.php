@@ -44,6 +44,7 @@
 
 				$_POST['fs_id'] = get_snfirstorders($conn,$_POST['fs_id']);
 				$_POST['status_use'] = 1;
+				$_POST['status'] = 0;
 				$_POST['loc_name'] = addslashes($_POST['loc_name']);
 
 				include "../include/m_add.php";
@@ -143,6 +144,17 @@ function check(frm){
 function chksign(vals){
 	//alert(vals);
 }
+	
+function checkVal(c){
+	//alert (c.value);
+	//document.form1.textgaruntree.innerHtmnl = c.value;
+	if(c.value == 2){
+		document.getElementById("textgaruntree").innerHTML = 'เงินค่าเช่าล่วงหน้า';
+	}else{
+		document.getElementById("textgaruntree").innerHTML = 'เงินประกัน';
+	}
+	
+}
 
 </script>
 </HEAD>
@@ -181,7 +193,7 @@ function chksign(vals){
 </table>
 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tb1">
           <tr>
-            <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>ชื่อลูกค้า :</strong> <input type="text" name="cd_name" value="<?php  echo $cd_name;?>" id="cd_name" class="inpfoder" style="width:70%;"></td>
+            <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>ชื่อบริษัท/ลูกค้า :</strong> <input type="text" name="cd_name" value="<?php  echo $cd_name;?>" id="cd_name" class="inpfoder" style="width:70%;"></td>
             <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>กลุ่มลูกค้า :</strong>
             <select name="cg_type" id="cg_type" class="inputselect">
                 <?php
@@ -273,7 +285,12 @@ function chksign(vals){
             <td style="font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;">&nbsp;</td>
           </tr>
           <tr>
-            <td style="font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>เงินค่าประกัน :
+            <td style="font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;">
+			  <input name="typegaruntree" type="radio" id="radio" value="1" <?php  if($typegaruntree == 1 || $typegaruntree == ""){echo 'checked';}?> onclick="checkVal(this)"> เงินค่าประกัน &nbsp;&nbsp;&nbsp; <input name="typegaruntree" type="radio" id="radio" value="2" <?php  if($typegaruntree == 2){echo 'checked';}?> onclick="checkVal(this)"> เงินค่าเช่าล่วงหน้า
+            </td>
+          </tr>
+          <tr>
+            <td style="font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong><span id="textgaruntree"><?php if($typegaruntree == 2){echo 'เงินค่าเช่าล่วงหน้า';}else{echo 'เงินประกัน';}?></span> :
                 <input type="text" name="money_garuntree" value="<?php  echo $money_garuntree;?>" id="money_garuntree" class="inpfoder" >
             <small style="color:#F00;">ไม่ต้องใส่ (,)</small>
             <input name="notvat1" type="radio" id="radio" value="1" <?php  if($notvat1 == 1 || $notvat1 == "0"){echo 'checked';}?>>
@@ -610,33 +627,39 @@ Vat 7%</strong></td>
             	<table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
                   <th width="10%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>ลำดับ</strong></th>
-                  <th width="75%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>รายการแถม</strong></th>
+                  <th width="60%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>รายการแถม</strong></th>
                   <th width="15%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>จำนวน</strong></th>
+                  <th width="15%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>นาม</strong></th>
               </tr>
               <tr>
                 <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;">1</td>
                 <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><input type="text" name="cs_pro1" value="<?php  echo $cs_pro1;?>" id="cs_pro1" class="inpfoder" style="width:90%;height:27px;"></td>
                 <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><input type="text" name="cs_amount1" value="<?php  echo $cs_amount1;?>" id="cs_amount1" class="inpfoder" style="width:90%;text-align:center;height:27px;"></td>
+                <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><input type="text" name="cs_namecall1" value="<?php  echo $cs_namecall1;?>" id="cs_namecall1" class="inpfoder" style="width:90%;text-align:center;height:27px;"></td>
               </tr>
               <tr>
                 <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;">2</td>
                 <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><input type="text" name="cs_pro2" value="<?php  echo $cs_pro2;?>" id="cs_pro2" class="inpfoder" style="width:90%;height:27px;"></td>
                 <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><input type="text" name="cs_amount2" value="<?php  echo $cs_amount2;?>" id="cs_amount2" class="inpfoder" style="width:90%;text-align:center;height:27px;"></td>
+                <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><input type="text" name="cs_namecall2" value="<?php  echo $cs_namecall2;?>" id="cs_namecall2" class="inpfoder" style="width:90%;text-align:center;height:27px;"></td>
               </tr>
               <tr>
                 <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;">3</td>
                 <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><input type="text" name="cs_pro3" value="<?php  echo $cs_pro3;?>" id="cs_pro3" class="inpfoder" style="width:90%;height:27px;"></td>
                 <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><input type="text" name="cs_amount3" value="<?php  echo $cs_amount3;?>" id="cs_amount3" class="inpfoder" style="width:90%;text-align:center;height:27px;"></td>
+                <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><input type="text" name="cs_namecall3" value="<?php  echo $cs_namecall3;?>" id="cs_namecall3" class="inpfoder" style="width:90%;text-align:center;height:27px;"></td>
               </tr>
               <tr>
                 <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;">4</td>
                 <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><input type="text" name="cs_pro4" value="<?php  echo $cs_pro4;?>" id="cs_pro4" class="inpfoder" style="width:90%;height:27px;"></td>
                 <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><input type="text" name="cs_amount4" value="<?php  echo $cs_amount4;?>" id="cs_amount4" class="inpfoder" style="width:90%;text-align:center;height:27px;"></td>
+                <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><input type="text" name="cs_namecall4" value="<?php  echo $cs_namecall4;?>" id="cs_namecall4" class="inpfoder" style="width:90%;text-align:center;height:27px;"></td>
               </tr>
               <tr>
                 <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;">5</td>
                 <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><input type="text" name="cs_pro5" value="<?php  echo $cs_pro5;?>" id="cs_pro5" class="inpfoder" style="width:90%;height:27px;"></td>
                 <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><input type="text" name="cs_amount5" value="<?php  echo $cs_amount5;?>" id="cs_amount5" class="inpfoder" style="width:90%;text-align:center;height:27px;"></td>
+                <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><input type="text" name="cs_namecall5" value="<?php  echo $cs_namecall5;?>" id="cs_namecall5" class="inpfoder" style="width:90%;text-align:center;height:27px;"></td>
               </tr>
             </table></td>
             <td style="border:0;padding:0;width:40%;vertical-align:top;padding-left:5px;font-size:12px;border:1px solid #000000;padding-top:10px;"><p><strong>
@@ -783,6 +806,7 @@ Vat 7%</strong></td>
 			post_param($a_param,$a_not_exists);
 			?>
       <input name="mode" type="hidden" id="mode" value="<?php  echo $_GET['mode'];?>">
+      <input name="status" type="hidden" id="status" value="<?php echo $status;?>">
       <input name="status_use" type="hidden" id="status_use" value="<?php  echo $status_use;?>">
       <input name="st_setting" type="hidden" id="st_setting" value="<?php  echo $st_setting;?>">
       <input name="<?php  echo $PK_field;?>" type="hidden" id="<?php  echo $PK_field;?>" value="<?php  echo $_GET[$PK_field];?>">

@@ -1535,6 +1535,25 @@ function check_servicereport($conn){
 	}	
 }
 
+function check_servicecard($conn){
+	
+	$thdate = substr(date("Y")+543,2);
+	$concheck = "SC ".$thdate.date("/m/");
+	
+	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_quotation_jobcard WHERE sv_id like '%".$concheck."%' ORDER BY sv_id DESC");
+	$num_oder = @mysqli_num_rows($qu_forder);
+	$row_forder = @mysqli_fetch_array($qu_forder);
+	
+	if($row_forder['sv_id'] == ""){
+		return "SC ".$thdate.date("/m/")."001";
+	}else{
+		$num_odersum = $num_oder+1;
+		return "SC ".$thdate.date("/m/").sprintf("%03d",$num_odersum);
+	}	
+}
+
+
+
 function check_servicereportinstall($conn){
 	
 	$thdate = substr(date("Y")+543,2);
@@ -2357,6 +2376,18 @@ function resizeImage($filename, $max_width, $max_height)
 function getScheduleFile($conn,$technician,$month,$fo_id){
 	$rowSchedule = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM `service_schedule` WHERE `month` = ".$month." AND `technician` = ".$technician." AND `fo_id` LIKE '".$fo_id."' ORDER BY `sv_id`"));
 	return $rowSchedule;
+}
+
+function get_quotation($conn,$cus_id,$tab) {
+	
+	if($tab == 2){
+		$table = "s_quotation2";
+	}else{
+		$table = "s_quotation";
+	}
+	
+	$row_quotation = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM  ".$table." WHERE qu_id = '".$cus_id."'"));
+	return $row_quotation;
 }
 
 ?>

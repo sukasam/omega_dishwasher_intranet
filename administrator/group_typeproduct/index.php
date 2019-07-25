@@ -130,12 +130,12 @@ function check_select(frm){
 				   	$sql = " select *,$tbl_name.create_date as c_date from $tbl_name  where 1 ";
 					if ($_GET[$PK_field] <> "") $sql .= " and ($PK_field  = '" . $_GET[$PK_field] . " ' ) ";					
 					if ($_GET[$FR_field] <> "") $sql .= " and ($FR_field  = '" . $_GET[$FR_field] . " ' ) ";					
- 					if ($_GET[keyword] <> "") { 
-						$sql .= "and ( " .  $PK_field  . " like '%$_GET[keyword]%' ";
+ 					if ($_GET['keyword'] <> "") { 
+						$sql .= "and ( " .  $PK_field  . " like '%".$_GET['keyword']."%' ";
 						if (count ($search_key) > 0) { 
 							$search_text = " and ( " ;
 							foreach ($search_key as $key=>$value) { 
-									$subtext .= "or " . $value  . " like '%" . $_GET[keyword] . "%'";
+									$subtext .= "or " . $value  . " like '%" . $_GET['keyword'] . "%'";
 							}	
 						}
 						$sql .=  $subtext . " ) ";

@@ -202,7 +202,7 @@
 	<p class="textMedium" style="text-align: center;">เงื่อนไข : '.getcustom_type($conn,$finfos['ctype']).'</p>
 	<div class="textMedium">
 	<div class="conID">
-	 ต้นฉบับ<br>
+	 คู่ฉบับ<br>
 	 สัญญาเลขที่ '.$_POST['con_id'].'<br><br>
 	</div>
 	 

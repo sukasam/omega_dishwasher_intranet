@@ -206,6 +206,7 @@ function check_select(frm){
           <TH width="35%">ชื่อลูกค้า</TH>
 <!--          <TH width="18%"><strong>สถานที่ติดตั้ง</strong></TH>-->
 <!--          <TH width="5%" nowrap ><div align="center"><img src="../icons/favorites_use.png" width="15" height="15"> ใช้งาน / <img src="../icons/favorites_stranby.png" width="15" height="15"> Standby / <img src="../icons/favorites_close.png" width="15" height="15"> ยกเลิก</div></TH>-->
+				<TH width="5%" nowrap ><div align="center"><a>ใบแจ้งงานบริการ</a></div></TH>
 					<TH width="5%" nowrap ><div align="center"><a>เปิดใบเสนอราคาซื้อ</a></div></TH>
           <TH width="5%" nowrap ><div align="center"><a>การอนุมัติ</a></div></TH>
           <TH width="5%" style="white-space: nowrap;"><div align="center"><a>ดาวโหลด</a></div></TH>
@@ -223,12 +224,12 @@ function check_select(frm){
 				   	$sql = " select *,$tbl_name.create_date as c_date from $tbl_name  where 1";
 					if ($_GET[$PK_field] <> "") $sql .= " and ($PK_field  = '" . $_GET[$PK_field] . " ' ) ";					
 					if ($_GET[$FR_field] <> "") $sql .= " and ($FR_field  = '" . $_GET[$FR_field] . " ' ) ";					
- 					if ($_GET[keyword] <> "") { 
-						$sql .= "and ( " .  $PK_field  . " like '%$_GET[keyword]%' ";
+ 					if ($_GET['keyword'] <> "") { 
+						$sql .= "and ( " .  $PK_field  . " like '%".$_GET['keyword']."%' ";
 						if (count ($search_key) > 0) { 
 							$search_text = " and ( " ;
 							foreach ($search_key as $key=>$value) { 
-									$subtext .= "or " . $value  . " like '%" . $_GET[keyword] . "%'";
+									$subtext .= "or " . $value  . " like '%" . $_GET['keyword'] . "%'";
 							}	
 						}
 						$sql .=  $subtext . " ) ";
@@ -249,6 +250,9 @@ function check_select(frm){
           <TD><span class="text"><?php  echo sprintf("%04d",$counter); ?></span></TD>
           <TD><?php  $chaf = str_replace("/","-",$rec["fs_id"]); ?><span class="text"><a href="../../upload/quotation/<?php  echo $chaf;?>.pdf" target="_blank"><?php  echo $rec["fs_id"] ; ?></a></span></TD>
           <TD><span class="text"><?php  echo $rec["cd_name"] ; ?></span></TD>
+          <td>
+			  	<center><a href="../quotation_jobcard/?tab=2&id=<?php  echo $rec[$PK_field]; ?>"><img src="../images/hammer_screwdriver.png" width="20" height="20"></a></center>
+			  </td>
 					<TD style="text-align: center;"><?php
 						if($rec["quotation"] != ""){
 							$chafQA = preg_replace("/","-",getQaBNumber($conn,$rec["quotation"]))

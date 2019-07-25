@@ -12,7 +12,7 @@
 		if ($code == "1") {
 			$sql = "delete from $tbl_name  where $PK_field = '$_GET[$PK_field]'";
 			@mysqli_query($conn,$sql);
-			header ("location:index.php");
+			header ("location:?tab=".$_GET['tab']."&id=".$_GET['id']);
 		}
 	}
 
@@ -25,22 +25,13 @@
 		@mysqli_query($conn,$sql_status);
 		/*$sql_fostatus = "update s_first_order set status = ".$status." where fo_id = '$_GET[cus_id]'";
 		@mysqli_query($conn,$sql_fostatus);*/
-		if($_GET['page'] != ""){$conpage = "page=".$_GET['page'];}
-		header ("location:?".$conpage);
+		if($_GET['page'] != ""){$conpage = "&page=".$_GET['page'];}
+		header ("location:?tab=".$_GET['tab']."&id=".$_GET['id'].$conpage);
 	}
 
-	//-------------------------------------------------------------------------------------
-	 if ($_GET['cc'] <> "" and $_GET['tt'] <> "") {
-		if ($_GET['tt'] == 0) $status = 1;
-		if ($_GET['tt'] == 1) $status = 0;
-		Check_Permission($conn,$check_module,$_SESSION['login_id'],"update");
-		$sql_status = "update $tbl_name set supply = ".$status." where $PK_field = ".$_GET['cc'];
-		@mysqli_query($conn,$sql_status);
-		/*$sql_fostatus = "update s_first_order set status = ".$status." where fo_id = '$_GET[cus_id]'";
-		@mysqli_query($conn,$sql_fostatus);*/
-		if($_GET['page'] != ""){$conpage = "page=".$_GET['page'];}
-		header ("location:?".$conpage);
-	}
+
+	$quinfo =get_quotation($conn,$_GET['id'],$_GET['tab']);
+
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML xmlns="http://www.w3.org/1999/xhtml">
@@ -87,16 +78,18 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 <P id=page-intro><?php  echo $page_name; ?></P>
 
 <UL class=shortcut-buttons-set>
-  <LI><A class=shortcut-button href="update.php?mode=add<?php  if ($param <> "") echo "&".$param; ?>"><SPAN><IMG  alt=icon src="../images/pencil_48.png"><BR>
+  <LI>
+   <?php
+	  if($_GET['tab'] == 2){
+		  $backLink = '../quotation2';
+	  }else{
+		  $backLink = '../quotation';
+	  }
+   ?>
+   <A class=shortcut-button href="<?php echo $backLink;?>"><SPAN><IMG  alt=icon src="../images/btn_back.png"><BR>
+    กลับ</SPAN></A></LI>
+  <LI><A class=shortcut-button href="update.php?mode=add&cus_id=<?php echo $_GET['id'];?>&tab=<?php echo $_GET['tab'];?>"><SPAN><IMG  alt=icon src="../images/pencil_48.png"><BR>
     เพิ่ม</SPAN></A></LI>
-    <LI><A class=shortcut-button href="../contract"><SPAN><IMG  alt=icon src="../images/icons/paper_content_pencil_48.png"><BR>
-    สัญญาเช่า</SPAN></A></LI>
-    <LI><A class=shortcut-button href="../contract2"><SPAN><IMG  alt=icon src="../images/icons/paper_content_pencil_48.png"><BR>
-    สัญญาบริการ</SPAN></A></LI>
-    <LI><A class=shortcut-button href="../contract3"><SPAN><IMG  alt=icon src="../images/icons/paper_content_pencil_48.png"><BR>
-    สัญญาซื้อ-ขาย</SPAN></A></LI>
-    
-    
     <?php
 	if ($FR_module <> "") {
 	$param2 = get_return_param();
@@ -105,6 +98,10 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
   กลับ</SPAN></A></LI>
   <?php  }?>
 </UL>
+<DIV class=clear></DIV><!-- End .clear -->
+<H3 align="left">ชื่อลูกค้า : <?php  echo $quinfo['cd_name']; ?></H3>
+<H3 align="left">ที่อยู่ : <?php  echo $quinfo['cd_address']; ?></H3>
+<H3 align="left">ใบเสนอราคา<?php if($_GET['tab'] == 2){echo 'เช่า';}else{echo 'ซื้อ';}?> : <?php  echo $quinfo['fs_id']; ?></H3><br>
 
   <!-- End .shortcut-buttons-set -->
 <DIV class=clear></DIV><!-- End .clear -->
@@ -128,6 +125,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 			?>
   </form>
 </div>
+
 <DIV class=clear>
 
 </DIV></DIV><!-- End .content-box-header -->
@@ -137,30 +135,23 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
     <TABLE>
       <THEAD>
         <TR>
-          
-          <TH width="5%" <?php  Show_Sort_bg ("user_id", $orderby) ?>> <?php
-		$a_not_exists = array('orderby','sortby');
-		$param2 = get_param($a_param,$a_not_exists);
-	?>
-            <?php   Show_Sort_new ("user_id", "ลำดับ.", $orderby, $sortby,$page,$param2);?>
-            &nbsp;</TH>
-          <TH width="15%"><div align="center"><a>เลขที่สัญญา</a></div></TH>
-          <TH width="25%"><a>ชื่อลูกค้า</a></TH>
-          <TH width="25%"><a>สถานที่ติดตั้ง</a></TH>
-          <TH width="10%"><div align="center"><a>ต้นฉบับ</a></div></TH>
-          <TH width="10%"><div align="center"><a>คู่ฉบับ</a></div></TH>
-          <TH width="5%"><div align="center"><a>แก้ไข</a></div></TH>
-          <TH width="5%"><div align="center"><a>ลบ</a></div></TH>
+          <TH width="10%"><div align="center"><a>ลำดับ.</a></div></TH>
+          <TH width="15%"><div align="center"><a>Service Card ID</a></div></TH>
+          <TH width="15%"><div align="center"><a>ผู้แจ้งงาน</a></div></TH>
+          <TH width="15%"><div align="center"><a>วันที่แจ้งงาน</a></div></TH>
+          <TH width="15%"><div align="center"><a>Open / Close</a></div></TH>
+          <TH width="15%"><div align="center"><a>แก้ไข</a></div></TH>
+          <TH width="15%"><div align="center"><a>ลบ</a></div></TH>
           </TR>
       </THEAD>
       <TFOOT>
         </TFOOT>
       <TBODY>
         <?php
-					if($orderby=="") $orderby = "ct.".$PK_field;
+					if($orderby=="") $orderby = "sc.".$PK_field;
 					if ($sortby =="") $sortby ="DESC";
 
-				   	$sql = "SELECT ct . * , fd.cd_name FROM $tbl_name AS ct, s_first_order AS fd WHERE ct.cus_id = fd.fo_id";
+				   	$sql = "SELECT * FROM $tbl_name AS sc WHERE qu_id =".$_GET['id'];
 					if ($_GET[$PK_field] <> "") $sql .= " and ($PK_field  = '" . $_GET[$PK_field] . " ' ) ";
 					if ($_GET[$FR_field] <> "") $sql .= " and ($FR_field  = '" . $_GET[$FR_field] . " ' ) ";
  					if ($_GET['keyword'] <> "") {
@@ -174,54 +165,56 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 						$sql .=  $subtext . " ) ";
 					}
 
-//					if ($_GET['app_id'] <> "") {
-//						$sql .= " and ( approve = '$_GET[app_id]' ";
-//						$sql .=  $subtext . " ) ";
-//					}else{
-//						$sql .= " and ( approve = '0' ";
-//						$sql .=  $subtext . " ) ";
-//					}
 
 					if ($orderby <> "") $sql .= " order by " . $orderby;
 					if ($sortby <> "") $sql .= " " . $sortby;
 					include ("../include/page_init.php");
-//					echo $sql;
-//					exit();
+					/*echo $sql;
+					break;*/
 					$query = @mysqli_query($conn,$sql);
 					if($_GET['page'] == "") $_GET['page'] = 1;
 					$counter = ($_GET['page']-1)*$pagesize;
 
 					while ($rec = @mysqli_fetch_array($query)) {
 					$counter++;
-						
-					$row_sr2 = mysqli_fetch_array(mysqli_query($conn,"SELECT * FROM s_service_report2 WHERE srid= '".$rec['ct_id']."'"));
-					//echo "MKUNG =".$row_sr2['ct_id'];
+//						$row_sr2 = mysqli_fetch_array(mysqli_query($conn,"SELECT * FROM s_quotation_jobcard2 WHERE srid= '".$rec['qc_id']."'"));
 
-					$row_sr3 = mysqli_fetch_array(mysqli_query($conn,"SELECT * FROM s_service_report3 WHERE srid= '".$rec['ct_id']."'"));
-						
-					/*$row_sr5 = mysqli_fetch_array(mysqli_query($conn,"SELECT * FROM s_service_report5 WHERE srid= '".$rec['ct_id']."'"));*/
 				   ?>
         <TR>
-          
-          <TD style="vertical-align:middle;"><span class="text"><?php  echo sprintf("%04d",$counter); ?></span></TD>
-          <TD style="vertical-align:middle;"><?php  $chaf = str_replace("/","-",$rec["con_id"]); ?><div align="center"><span class="text"><a href="../../upload/contract/<?php  echo $chaf;?>.pdf" target="_blank"><?php  echo $rec["con_id"] ; ?></a></span></div></TD>
-          <TD style="vertical-align:middle;"><span class="text"><?php  echo get_customername($conn,$rec["cus_id"]); ?></span></TD>
-          <TD style="vertical-align:middle;"><span class="text"><?php  echo get_localsettingname($conn,$rec["cus_id"]); ?></span></TD>
-          
-          <TD style="vertical-align:middle;"><div align="center"> <a href="../../upload/contract/<?php  echo $chaf;?>.pdf" target="_blank"><img src="../images/icon2/backup.png" alt="" width="25" height="25" style="margin-left:10px;" title="ดาวน์โหลด"></a></div></td>
-          
-          <TD style="vertical-align:middle;"><div align="center"> <a href="../../upload/contract/<?php  echo $chaf;?>-2.pdf" target="_blank"><img src="../images/icon2/backup.png" alt="" width="25" height="25" style="margin-left:10px;" title="ดาวน์โหลด"></a></div></td>
-          
-          <TD style="vertical-align:middle;"><div align="center"><!-- Icons -->
-            <A title=Edit href="update.php?mode=update&<?php  echo $PK_field; ?>=<?php  echo $rec["$PK_field"]; if($param <> "") {?>&<?php  echo $param; }?>"><IMG src="../images/icons/paper_content_pencil_48.png" alt=Edit width="25" height="25" title="แก้ไข"></A>&nbsp;</div></TD>
-          
-          <TD style="vertical-align:middle;"><div align="center"><A title=Delete  href="#"><IMG alt=Delete src="../images/cross.png" onClick="confirmDelete('?action=delete&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field];?>','Group  <?php  echo $rec[$PK_field];?> : <?php  echo $rec["group_name"];?>')"></A></div></TD>
+         
+          <TD style="vertical-align:middle;"><center><span class="text"><?php  echo sprintf("%04d",$counter); ?></span></center></TD>
+          <TD style="vertical-align:middle;"><?php  $chaf = str_replace("/","-",$rec["sv_id"]); ?><div align="center"><span class="text"><a href="../../upload/quotation_jobcard/<?php  echo $chaf;?>.pdf" target="_blank"><?php  echo $rec["sv_id"] ; ?></a></span></div></TD>
+          <TD style="vertical-align:middle;"><center><span class="text"><?php echo getsalename($conn,$rec["cs_sell"]);?></span></center></TD>
+           <TD style="vertical-align:middle;"><center><span class="text"><?php echo format_date_th($rec["job_open"],2);?></span></center></TD>
+          <TD style="vertical-align:middle"><div align="center">
+            <?php  if($rec["st_setting"]==0) {?>
+            <a href="../quotation_jobcard/?b=<?php  echo $rec[$PK_field]; ?>&s=<?php  echo $rec["st_setting"]; ?>&page=<?php  echo $_GET['page']; ?>&<?php  echo $FK_field; ?>=<?php  echo $_REQUEST["$FK_field"];?>&id=<?php  echo $rec["qu_id"];?>&tab=<?php echo $rec["qu_table"];?>"><img src="../icons/status_on.gif" width="10" height="10"></a>
+            <?php  } else{?>
+            <a href="../quotation_jobcard/?b=<?php  echo $rec[$PK_field]; ?>&s=<?php  echo $rec["st_setting"]; ?>&page=<?php  echo $_GET['page']; ?>&<?php  echo $FK_field; ?>=<?php  echo $_REQUEST["$FK_field"];?>&id=<?php  echo $rec["qu_id"];?>&tab=<?php echo $rec["qu_table"];?>"><img src="../icons/status_off.gif" width="10" height="10"></a>
+            <?php  }?>
+          </div></TD>
+          <TD style="vertical-align:middle;"><!-- Icons -->
+            <div align="center"><A title=Edit href="update.php?mode=update&cus_id=<?php echo $_GET['id'];?>&tab=<?php echo $_GET['tab'];?>&qc_id=<?php  echo $rec[$PK_field];?>"><IMG src="../images/icons/paper_content_pencil_48.png" alt=Edit width="25" height="25" title="แก้ไขใบแจ้งงานบริการ"></A><a href="../../upload/quotation_jobcard/<?php  echo $chaf;?>.pdf" target="_blank"><img src="../images/icon2/backup.png" width="25" height="25" title="ดาวน์โหลดใบแจ้งงานบริการ" style="margin-left:10px;"></a></div></TD>
+          <TD style="vertical-align:middle;"><div align="center"><A title=Delete  href="#"><IMG alt=Delete src="../images/cross.png" onClick="confirmDelete('?action=delete&id=<?php  echo $rec["qu_id"];?>&tab=<?php echo $rec["qu_table"];?>&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field];?>','Group  <?php  echo $rec[$PK_field];?> : <?php  echo $rec["sv_id"];?>')"></A></div></TD>
           </TR>
 		<?php  }?>
       </TBODY>
     </TABLE>
     <br><br>
-    <DIV class=pagination> <?php  include("../include/page_show.php");?> </DIV>
+    <DIV class="bulk-actions align-left">
+<!--
+            <SELECT name="choose_action" id="choose_action">
+              <OPTION selected value="">กรุณาเลือก...</OPTION>
+              <OPTION value="del">ลบ</OPTION>
+            </SELECT>
+
+           
+            <input class=button name="Action2" type="submit" id="Action2" value="ตกลง">--> 
+            <?php
+				$a_not_exists = array();
+				post_param($a_param,$a_not_exists);
+			?>
+          </DIV> <DIV class=pagination> <?php  include("../include/page_show.php");?> </DIV>
   </form>
 </DIV><!-- End #tab1 -->
 

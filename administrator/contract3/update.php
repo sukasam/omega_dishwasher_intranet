@@ -68,6 +68,15 @@
 			$chaf = str_replace("/","-",$_POST['con_id']); 
 			$mpdf->Output('../../upload/contract3/'.$chaf.'.pdf','F');
 			
+			include_once("form_contract2.php");
+			$mpdf=new mPDF('UTF-8','A4','','','15','15','50','30'); 
+			$mpdf->SetAutoFont();
+			$mpdf->SetHTMLHeader('<div><img src="../images/contract_header.jpg"/></div>');
+			$mpdf->SetHTMLFooter('<div><img src="../images/contract_footer.jpg"/></div>');
+			$mpdf->WriteHTML($form);
+			$chaf = str_replace("/","-",$_POST['con_id']); 
+			$mpdf->Output('../../upload/contract3/'.$chaf.'-2.pdf','F');
+			
 			if($_POST['mode'] == "cadd"){
 				header ("location:update.php?mode=update&ct_id=".$id); 
 			}else{
@@ -81,6 +90,7 @@
 			$id = $_POST[$PK_field];	
 
 			include_once("../mpdf54/mpdf.php");
+			
 			include_once("form_contract.php");
 			$mpdf=new mPDF('UTF-8','A4','','','15','15','50','30'); 
 			$mpdf->SetAutoFont();
@@ -89,6 +99,15 @@
 			$mpdf->WriteHTML($form);
 			$chaf = str_replace("/","-",$_POST['con_id']); 
 			$mpdf->Output('../../upload/contract3/'.$chaf.'.pdf','F');
+			
+			include_once("form_contract2.php");
+			$mpdf=new mPDF('UTF-8','A4','','','15','15','50','30'); 
+			$mpdf->SetAutoFont();
+			$mpdf->SetHTMLHeader('<div><img src="../images/contract_header.jpg"/></div>');
+			$mpdf->SetHTMLFooter('<div><img src="../images/contract_footer.jpg"/></div>');
+			$mpdf->WriteHTML($form);
+			$chaf = str_replace("/","-",$_POST['con_id']); 
+			$mpdf->Output('../../upload/contract3/'.$chaf.'-2.pdf','F');
 			
 			if($_POST['mode'] == "cupdate"){
 				header ("location:update.php?mode=update&ct_id=".$id); 
@@ -544,6 +563,7 @@ function check(frm){
 			$a_not_exists = array();
 			post_param($a_param,$a_not_exists); 
 			?>
+     
       <input name="mode" type="hidden" id="mode" value="<?php echo $_GET['mode'];?>">
       <input name="<?php echo $PK_field;?>" type="hidden" id="<?php  echo $PK_field;?>" value="<?php  echo $_GET[$PK_field];?>">
     </div>
