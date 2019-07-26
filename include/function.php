@@ -2382,11 +2382,16 @@ function get_quotation($conn,$cus_id,$tab) {
 	
 	if($tab == 2){
 		$table = "s_quotation2";
+		$sql = "SELECT * FROM  ".$table." WHERE qu_id = '".$cus_id."'";
+	}else if($tab == 3){
+		$table = "s_first_order";
+		$sql = "SELECT * FROM  ".$table." WHERE fo_id = '".$cus_id."'";
 	}else{
 		$table = "s_quotation";
+		$sql = "SELECT * FROM  ".$table." WHERE qu_id = '".$cus_id."'";
 	}
 	
-	$row_quotation = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM  ".$table." WHERE qu_id = '".$cus_id."'"));
+	$row_quotation = @mysqli_fetch_array(@mysqli_query($conn,$sql));
 	return $row_quotation;
 }
 

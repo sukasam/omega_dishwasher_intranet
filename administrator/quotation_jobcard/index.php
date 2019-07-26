@@ -82,6 +82,8 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
    <?php
 	  if($_GET['tab'] == 2){
 		  $backLink = '../quotation2';
+	  }else if($_GET['tab'] == 3){
+		  $backLink = '../first_order';
 	  }else{
 		  $backLink = '../quotation';
 	  }
@@ -101,7 +103,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 <DIV class=clear></DIV><!-- End .clear -->
 <H3 align="left">ชื่อลูกค้า : <?php  echo $quinfo['cd_name']; ?></H3>
 <H3 align="left">ที่อยู่ : <?php  echo $quinfo['cd_address']; ?></H3>
-<H3 align="left">ใบเสนอราคา<?php if($_GET['tab'] == 2){echo 'เช่า';}else{echo 'ซื้อ';}?> : <?php  echo $quinfo['fs_id']; ?></H3><br>
+<H3 align="left"><?php if($_GET['tab'] == 2){echo 'ใบเสนอราคาเช่า';}else if($_GET['tab'] == 3){echo 'เลขที่ First order';}else{echo 'ใบเสนอราคาซื้อ';}?> : <?php  echo $quinfo['fs_id']; ?></H3><br>
 
   <!-- End .shortcut-buttons-set -->
 <DIV class=clear></DIV><!-- End .clear -->
