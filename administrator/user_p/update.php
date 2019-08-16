@@ -74,7 +74,7 @@ function confirmDelete(delUrl,text) {
 <?php  include('../top.php');?>
 <P id=page-intro><?php  if ($mode == "add") { ?>Enter new information<?php  } else { ?>Update  details	[<?php  echo $page_name; ?>]<?php  } ?>	</P>
 <UL class=shortcut-buttons-set>
-  <LI><A class=shortcut-button href="javascript:history.back()"><SPAN><IMG  alt=icon src="../images/btn_back.gif"><BR>Back</SPAN></A></LI>
+  <LI><A class=shortcut-button href="../user/"><SPAN><IMG  alt=icon src="../images/btn_back.gif"><BR>Back</SPAN></A></LI>
 </UL>
 <!-- End .clear -->
 <DIV class=clear></DIV><!-- End .clear -->
