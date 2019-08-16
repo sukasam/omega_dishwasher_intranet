@@ -80,7 +80,7 @@ function check_select(frm){
 <UL class=shortcut-buttons-set>
   <LI><A class=shortcut-button href="update.php?mode=add<?php  if ($param <> "") echo "&".$param; ?>"><SPAN><IMG  alt=icon src="../images/pencil_48.png"><BR>
     เพิ่ม</SPAN></A></LI>
-  <LI><A class=shortcut-button href="../first_order2/index.php"><SPAN><IMG  alt=icon src="../images/icons/icon-48-category.png"><BR>
+  <LI><A class=shortcut-button href="../first_order/index.php"><SPAN><IMG  alt=icon src="../images/icons/icon-48-category.png"><BR>
     First Order</SPAN></A></LI>
     <?php  
 	if ($FR_module <> "") { 

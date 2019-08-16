@@ -199,11 +199,11 @@ function check_select(frm){
 			  </td>
            <TD nowrap style="vertical-align:middle"><div align="center">
             <?php  if($rec["status_use"]==0) {?>
-            <img src="../icons/favorites_use.png" width="15" height="15">
+            <img src="../icons/favorites_use.png" width="30" height="30">
             <?php  } elseif($rec["status_use"]==2) {?>
-            <img src="../icons/favorites_close.png" width="15" height="15">
+            <img src="../icons/favorites_close.png" width="30" height="30">
             <?php  } else{?>
-            <img src="../icons/favorites_stranby.png" width="15" height="15">
+            <img src="../icons/favorites_stranby.png" width="30" height="30">
             <?php  }?>
             <div align="center" style="padding-top:5px;">
             <a href="../first_order/?ff=<?php  echo $rec[$PK_field]; ?>&gg=0&page=<?php  echo $_GET['page']; ?>&<?php  echo $FK_field; ?>=<?php  echo $_REQUEST["$FK_field"];?>"><img src="../icons/favorites_use.png" width="15" height="15"> | </a>
