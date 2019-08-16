@@ -153,7 +153,7 @@ function check_select(frm){
           <TD><div align="center"><a href="../user_group/update.php?mode=update&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field]; ?>&<?php  echo $param2; ?>">Group</a></div></TD>
           <TD align="center"><div align="center"><a href="../user_p/update.php?mode=update&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field]; ?><?php  echo get_pre_param($a_param); ?>"><img src="../images/icons/hammer_screwdriver.png" width="16" height="16" border="0"></a></div></TD>
           <TD><!-- Icons -->
-            <A title=Edit href="update.php?mode=update&<?php  echo $PK_field; ?>=<?php  echo $rec["$PK_field"]; if($param <> "") {?>&<?php  echo $param; }?>"><IMG alt=Edit src="../images/pencil.png"></A> <A title=Delete  href="#"></A></TD>
+            <A title=Edit href="update.php?mode=update&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field]; if($param <> "") {?>&<?php  echo $param; }?>"><IMG alt=Edit src="../images/pencil.png"></A> <A title=Delete  href="#"></A></TD>
           <TD><A title=Delete  href="#"><IMG alt=Delete src="../images/cross.png" onClick="confirmDelete('?action=delete&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field];?>','User  <?php  echo $rec[$PK_field];?> : <?php  echo $rec["name"];?>')"></A></TD>
         </TR>  
 		<?php  }?>

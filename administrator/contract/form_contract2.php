@@ -175,7 +175,7 @@
 	}
 	.conID{
 	 	text-align: right;
-		font-size:15px;
+		font-size:16px;
 		font-weight: bold;
 	}
 	.textMedium{

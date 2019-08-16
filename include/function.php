@@ -1046,7 +1046,7 @@ function get_param($a_param,$a_not_exists){
 	}
 	if(count($_REQUEST) > 0){
 		foreach($_REQUEST as $key => $value){ 
-			if( preg_match("pre_",$key) && ($value <> "") ) 
+			if( preg_match("/pre_/",$key) && ($value <> "") ) 
 				$param2 .= "&".$key."=".$value;
 		}
 	}
@@ -1063,7 +1063,7 @@ function post_param($a_param,$a_not_exists){
 	}
 	if(count($_REQUEST) > 0) {
 		foreach($_REQUEST as $key => $value){
-			if( preg_match("pre_",$key) && ($value <> "") )
+			if( preg_match("/pre_/",$key) && ($value <> "") )
 					 echo "<input type=\"hidden\" name=\"$key\" value=\"$value\">";
 		}// end foreach
 	}
@@ -1073,7 +1073,7 @@ function get_pre_param($a_param){
 	if(count($a_param) > 0) {
 		foreach($a_param as $key => $value){ 
 			if( $_REQUEST[$value] <> "" )
-				$param .= "&pre_".$value."=".$_REQUEST[$value];
+				$param .= "&&pre_".$value."=".$_REQUEST[$value];
 		}
 		$param = substr($param,1);
 	}
@@ -1084,7 +1084,7 @@ function get_return_param(){
 	if(count($_REQUEST) > 0) {
 		foreach($_REQUEST as $key => $value){
 			if( preg_match("pre_",$key) && ($value <> "") )
-				$param .= "&".str_replace("pre_","",$key)."=".$value;
+				$param .= "&&".str_replace("pre_","",$key)."=".$value;
 		}
 		$param = substr($param,1);
 	}

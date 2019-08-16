@@ -51,7 +51,7 @@
 	}
 	.conID{
 	 	text-align: right;
-		font-size:15px;
+		font-size:16px;
 		font-weight: bold;
 	}
 	.textMedium{
@@ -90,7 +90,7 @@
 
 	
 	
-	$form .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>ข้อ 1.</strong>  คู่สัญญาทั้งสองฝ่ายตกลงให้ถือเอาเอกสารที่แนบท้ายสัญญานี้เป็นส่วนหนึ่งแห่งสัญญานี้ด้วย คือ
+	$form .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>ข้อ 1.</strong>  คู่สัญญาทั้งสองฝ่ายตกลงให้ถือเอาเอกสารที่แนบท้ายสัญญานี้เป็นส่วนหนึ่งแห่งสัญญานี้ด้วย คือ<br>
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.1 แบบฟอร์มใบเสนอราคาของผู้ขาย ลง'.format_date_th($_POST['con_qatime'],1).' จำนวน '.$_POST['con_qap'].' ฉบับ<br>
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.2 แบบฟอร์มใบสั่งซื้อของผู้ซื้อ ลง'.format_date_th($_POST['con_ortime'],1).' จำนวน '.$_POST['con_orp'].' ฉบับ<br><br>';
 	

@@ -161,13 +161,13 @@ function check(frm){
                 <td class="name">ชื่อเข้าใช้งาน <span class="required">*</span></td>
                 <td><input name="username" type="text" id="username"  value="<?php  echo $username; ?>"  style="width:200px;"></td>
               </tr>
-              <?php  if ($_REQUEST[mode] == "add") { ?>
+              <?php  if ($_REQUEST['mode'] == "add") { ?>
               <tr >
                 <td class="name">รหัสผ่าน <span class="required">*</span></td>
                 <td><input name="password" type="password" id="password" value="<?php  echo $password;?>"  style="width:200px;"></td>
               </tr>
               <?php  } ?>
-              <?php  if ($_REQUEST[mode] == "update") { ?>
+              <?php  if ($_REQUEST['mode'] == "update") { ?>
               <tr >
                 <td class="name">รหัสผ่านเดิม</td>
                 <td>*****
@@ -204,7 +204,7 @@ function check(frm){
 			$a_not_exists = array();
 			post_param($a_param,$a_not_exists); 
 			?>
-                  <input name="mode" type="hidden" id="mode" value="<?php  echo $_REQUEST[mode];?>">
+                  <input name="mode" type="hidden" id="mode" value="<?php  echo $_REQUEST['mode'];?>">
                   <input name="<?php  echo $PK_field;?>" type="hidden" id="<?php  echo $PK_field;?>" value="<?php  echo $_REQUEST[$PK_field];?>"></td>
               </tr>
             </table></td>

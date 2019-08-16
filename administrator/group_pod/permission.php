@@ -11,7 +11,7 @@
 			header ("location:index.php?" . $param); 
 		}
 
-	//if ($_REQUEST[mode] <> "") { 
+	//if ($_REQUEST['mode'] <> "") { 
 		$param = "";
 		$a_not_exists = array();
 		$param = get_param($a_param,$a_not_exists);
@@ -20,20 +20,20 @@
 			//include "../include/m_add.php";
 			// filedlist(group_id,module_id,read_p,add_p,update_p,delete_p)
 			$sql = "insert into s_user_p (group_id,module_id,read_p,add_p,update_p,delete_p) values ";
-			$sql.= "('$_POST[group_id]','$_POST[module_id]','$_POST[read_p]','$_POST[add_p]','$_POST[update_p]','$_POST[delete_p]')";
+			$sql.= "('".$_POST['group_id']."',".$_POST['module_id'].",".$_POST['read_p'].",".$_POST['add_p'].",".$_POST['update_p'].",".$_POST['delete_p'].")";
 			@mysqli_query($conn,$sql);
 			header ("location:?" . $param); 
 		}
 		if ($_REQUEST[option] == "Edit" ) { 
 			//include ("../include/m_update.php");
-			$sql = "update s_user_p  set group_id = '$_POST[group_id]',module_id = '$_POST[module_id]',read_p = '$_POST[read_p]',add_p = '$_POST[add_p]',update_p = '$_POST[update_p]',delete_p = '$_POST[delete_p]', update_date = '".date("Y-m-d H:i:s")."', update_by= '".$_SESSION['login_id']."' where user_p_id = '$_REQUEST[user_p_id]' ";
+			$sql = "update s_user_p  set group_id = '".$_POST['group_id']."',module_id = ".$_POST['module_id'].",read_p = ".$_POST['read_p'].",add_p = ".$_POST['add_p'].",update_p = ".$_POST['update_p'].",delete_p = ".$_POST['delete_p'].", update_date = '".date("Y-m-d H:i:s")."', update_by= '".$_SESSION['login_id']."' where user_p_id = ".$_REQUEST['user_p_id']." ";
 			@mysqli_query($conn,$sql);
 			header ("location:?" . $param); 
 		}
 //	}
 	
 	if($_GET['action'] == "delete"){
-		$sql = "delete from s_user_p where user_p_id = '$_GET[user_p_id]'";
+		$sql = "delete from s_user_p where user_p_id = ".$_GET['user_p_id']."";
 		@mysqli_query($conn,$sql);
 		header ("location:?" . $param); 
 	}
@@ -43,7 +43,7 @@
 	}
 	if ($_GET['mode'] == "update") { 
 		 Check_Permission($conn,$check_module,$_SESSION['login_id'],"update");
-		 $_SESSION[s_user_id] = $_GET[user_id];
+		 $_SESSION['s_user_id'] = $_GET['user_id'];
 		/*$sql = "select * from $tbl_name where $PK_field = '" . $_GET[$PK_field] ."'";
 		$query = @mysqli_query($conn,$sql);
 		while ($rec = @mysqli_fetch_array($query)) { 
@@ -111,7 +111,7 @@ function confirmDelete(delUrl,text) {
                     <?php  
 							$sql = "select * from $tbl_name where $PK_field = '$_GET[$PK_field]' ";
 							$rec = @mysqli_fetch_array(@mysqli_query($conn,$sql));
-							echo $rec[group_name];
+							echo $rec['group_name'];
 						?>
                 </td>
                 <td colspan="6">&nbsp;</td>
@@ -133,39 +133,39 @@ function confirmDelete(delUrl,text) {
 			$i++;
 	?>
               <tr <?php  if ($counter++%2) { ?>class="oddrowbg" <?php  } else { ?> class="evenrowbg"<?php  } ?>>
-                <td height="26" class="name">&nbsp;&nbsp; <?php  echo $rec[module_name];?></td>
+                <td height="26" class="name">&nbsp;&nbsp; <?php  echo $rec['module_name'];?></td>
                 <td><div align="center">
-                    <?php  if($rec[read_p] == 1) $image = 1; else $image = 0;?>
+                    <?php  if($rec['read_p'] == 1) $image = 1; else $image = 0;?>
                     <img src="../images/check<?php  echo $image?>.gif" border="0"> </div></td>
                 <td valign="middle"><div align="center">
-                    <?php  if($rec[add_p] == 1) $image = 1; else $image = 0;?>
+                    <?php  if($rec['add_p'] == 1) $image = 1; else $image = 0;?>
                     <img src="../images/check<?php  echo $image?>.gif" border="0"> </div></td>
                 <td valign="middle"><div align="center">
-                    <?php  if($rec[update_p] == 1) $image = 1; else $image = 0;?>
+                    <?php  if($rec['update_p'] == 1) $image = 1; else $image = 0;?>
                     <img src="../images/check<?php  echo $image?>.gif" border="0"> </div></td>
                 <td valign="middle"><div align="center">
-                    <?php  if($rec[delete_p] == 1) $image = 1; else $image = 0;?>
+                    <?php  if($rec['delete_p'] == 1) $image = 1; else $image = 0;?>
                     <img src="../images/check<?php  echo $image?>.gif" border="0"> </div></td>
-                <td><div align="center"><a href="?action=Edit&mode=<?php  echo $_GET['mode']?>&<?php  echo "$PK_field=".$rec[$PK_field];?>&user_p_id=<?php  echo $rec[user_p_id];?>&module_id=<?php  echo $rec[module_id];?>&<?php  echo $param;?>">Edit</a></div></td>
-                <td><div align="center"> <a href="permission.php?action=delete&mode=<?php  echo $_GET['mode']?>&<?php  echo "$PK_field=".$rec[$PK_field];?>&user_p_id=<?php  echo $rec[user_p_id];?>&module_id=<?php  echo $rec[module_id];?>&<?php  echo $param;?>" onClick="return confirm('คุณต้องการลบ module <?php  echo $rec[module_name]; ?>')">Delete</a></div></td>
+                <td><div align="center"><a href="?action=Edit&mode=<?php  echo $_GET['mode']?>&<?php  echo "$PK_field=".$rec[$PK_field];?>&user_p_id=<?php  echo $rec['user_p_id'];?>&module_id=<?php  echo $rec['module_id'];?>&<?php  echo $param;?>">Edit</a></div></td>
+                <td><div align="center"> <a href="permission.php?action=delete&mode=<?php  echo $_GET['mode']?>&<?php  echo "$PK_field=".$rec[$PK_field];?>&user_p_id=<?php  echo $rec['user_p_id'];?>&module_id=<?php  echo $rec['module_id'];?>&<?php  echo $param;?>" onClick="return confirm('คุณต้องการลบ module <?php  echo $rec['module_name']; ?>')">Delete</a></div></td>
               </tr>
               <?php  } // end while?>
               <tr >
                 <td height="26" class="name"><?php 
 					  	if($_GET['action'] == "Edit"){
-							$sql = "select * from s_user_p  where user_p_id = '$_GET[user_p_id]'  ";
+							$sql = "select * from s_user_p  where user_p_id = ".$_GET['user_p_id']."  ";
 							$query = @mysqli_query($conn,$sql);
 							$rec = @mysqli_fetch_array($query);
-							$module_id = $rec[module_id];
-							$read_p = $rec[read_p];
-							$add_p = $rec[add_p];
-							$update_p = $rec[update_p];
-							$delete_p = $rec[delete_p];
+							$module_id = $rec['module_id'];
+							$read_p = $rec['read_p'];
+							$add_p = $rec['add_p'];
+							$update_p = $rec['update_p'];
+							$delete_p = $rec['delete_p'];
 						}
 							
 							$sql = "select * from s_module ";
 							if($_GET['action'] == "Edit")
-								$sql .= "where module_id = '$_GET[module_id]' ";
+								$sql .= "where module_id = '".$_GET['module_id']."' ";
 							$sql .= "order by module_id desc";
 							$query = @mysqli_query($conn,$sql);
 					  ?>
@@ -175,7 +175,7 @@ function confirmDelete(delUrl,text) {
                       <?php  } 
 								while($rec = @mysqli_fetch_array($query)){
 							?>
-                      <option value="<?php  echo $rec[module_id];?>" <?php  if($module_id == $rec[module_id]) echo "selected";?>><?php  echo $rec[module_name];?></option>
+                      <option value="<?php  echo $rec['module_id'];?>" <?php  if($module_id == $rec['module_id']) echo "selected";?>><?php  echo $rec['module_name'];?></option>
                       <?php  } // end while ?>
                     </select>
                   <a href="javascript:;" onClick="select_all();">Select All</a></td>
@@ -208,7 +208,7 @@ function confirmDelete(delUrl,text) {
 			$a_not_exists = array();
 			post_param($a_param,$a_not_exists); 
 			?>
-      <input name="mode" type="hidden" id="mode" value="<?php  echo $_REQUEST[mode];?>">
+      <input name="mode" type="hidden" id="mode" value="<?php  echo $_REQUEST['mode'];?>">
       <input name="<?php  echo $PK_field;?>" type="hidden" id="<?php  echo $PK_field;?>" value="<?php  echo $_REQUEST[$PK_field];?>">
     </div>
   </form>

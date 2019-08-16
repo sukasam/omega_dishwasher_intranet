@@ -174,9 +174,9 @@ function check(frm){
                   <input name="lang_images" type="hidden" value="<?php  echo $lang_images; ?>">
                   <?php  }?></td>
               </tr>
-              <?php  if ($_REQUEST[mode] == "add") { ?>
+              <?php  if ($_REQUEST['mode'] == "add") { ?>
               <?php  } ?>
-              <?php  if ($_REQUEST[mode] == "update") { ?>
+              <?php  if ($_REQUEST['mode'] == "update") { ?>
               <?php  } ?>
               <!--
               <tr >
@@ -192,7 +192,7 @@ function check(frm){
 			$a_not_exists = array();
 			post_param($a_param,$a_not_exists); 
 			?>
-                  <input name="mode" type="hidden" id="mode" value="<?php  echo $_REQUEST[mode];?>">
+                  <input name="mode" type="hidden" id="mode" value="<?php  echo $_REQUEST['mode'];?>">
                   <input name="<?php  echo $PK_field;?>" type="hidden" id="<?php  echo $PK_field;?>" value="<?php  echo $_REQUEST[$PK_field];?>"></td>
               </tr>
             </table></td>

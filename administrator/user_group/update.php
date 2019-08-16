@@ -12,9 +12,9 @@
 		if ($_POST['mode'] == "update") { 
 			$param = get_return_param();
 		
-			$sql = "delete from $tbl_name where user_id = '$_POST[user_id]' ";
+			$sql = "delete from $tbl_name where user_id = '".$_POST['user_id']."' ";
 			@mysqli_query($conn,$sql);
-			$sql = "delete from s_user_p where user_id = '$_POST[user_id]' and module_id = '0' ";
+			$sql = "delete from s_user_p where user_id = '".$_POST['user_id']."' and module_id = '0' ";
 			@mysqli_query($conn,$sql);
 			
 			if(count($_POST[group_id]) > 0){
@@ -24,7 +24,7 @@
 					//echo $sql;
 					
 						$sql = "insert into s_user_p (user_id,group_id) values ";
-						$sql.= "('$_POST[user_id]','$_POST[group_id]')";
+						$sql.= "('".$_POST['user_id']."','".$_POST['group_id']."')";
 						@mysqli_query($conn,$sql);
 				} // end foreach
 			}// end if(count($_POST[group_id]) > 0)
@@ -36,9 +36,9 @@
 	
 	if ($_GET['mode'] == "update") { 
 		 Check_Permission($conn,$check_module,$_SESSION['login_id'],"update");
-		$sql = "select * from s_user where user_id = '$_GET[user_id]' ";
+		$sql = "select * from s_user where user_id = '".$_GET['user_id']."' ";
 		$rec = @mysqli_fetch_array(@mysqli_query($conn,$sql));
-		$user_name = $rec[username];
+		$user_name = $rec['username'];
 	}
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
@@ -105,7 +105,7 @@ function check(frm){
                 <td width="81%"><select name="group_id[]" size="10" multiple>
                     <?php 
 					  	unset($a_group_id);
-					  	$sql = "select * from s_user_group where user_id = '$_GET[user_id]' ";
+					  	$sql = "select * from s_user_group where user_id = '".$_GET['user_id']."' ";
 						$query = @mysqli_query($conn,$sql);
 						while($rec = @mysqli_fetch_array($query)){
 							$a_group_id[] = $rec[group_id]; 
@@ -115,7 +115,7 @@ function check(frm){
 						$query = @mysqli_query($conn,$sql);
 						while($rec = @mysqli_fetch_array($query)){
 					  ?>
-                    <option value="<?php  echo $rec[group_id];?>" <?php  if( @in_array($rec[group_id],$a_group_id) ) echo "selected";?>><?php  echo $rec[group_name];?></option>
+                    <option value="<?php  echo $rec[group_id];?>" <?php  if( @in_array($rec[group_id],$a_group_id) ) echo "selected";?>><?php  echo $rec['group_name'];?></option>
                     <?php  } ?>
                   </select>
                 </td>

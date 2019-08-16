@@ -278,7 +278,7 @@ function check(frm){
 
 			?>
 
-      <input name="mode" type="hidden" id="mode" value="<?php  echo $_REQUEST[mode];?>">
+      <input name="mode" type="hidden" id="mode" value="<?php  echo $_REQUEST['mode'];?>">
 
       <input name="<?php  echo $PK_field;?>" type="hidden" id="<?php  echo $PK_field;?>" value="<?php  echo $_GET[$PK_field];?>">
 

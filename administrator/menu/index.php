@@ -49,7 +49,7 @@
 
 				$pre_rank = $rec["rank"]; 
 
-				$pre_gallery_id = $rec["$PK_field"]; 
+				$pre_gallery_id = $rec[$PK_field]; 
 
 			}
 
@@ -345,11 +345,11 @@ function check_select(frm){
 
           <TD align="center" nowrap><a href="?m=0&id=<?php  echo $rec[$PK_field]; if($param <> "") {?>&<?php  echo $param; }?>&<?php  echo $FR_field; ?>=<?php  echo $_REQUEST["$FR_field"];?>&orderby=rank&sortby=asc">ขึ้น</a> | <a href="?m=1&id=<?php  echo $rec[$PK_field]; if($param <> "") {?>&<?php  echo $param; }?>&<?php  echo $FR_field; ?>=<?php  echo $_REQUEST["$FR_field"];?>&orderby=rank&sortby=asc">ลง</a></TD>
 
-          <TD align="center"><div align="center"><a href="../submenu/index.php?<?php  echo $PK_field; ?>=<?php  echo $rec["$PK_field"]; if($param <> "") {?>&<?php  echo $param; }?>"><img src="../images/icons/hammer_screwdriver.png" width="16" height="16" border="0"></a></div></TD>
+          <TD align="center"><div align="center"><a href="../submenu/index.php?<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field]; if($param <> "") {?>&<?php  echo $param; }?>"><img src="../images/icons/hammer_screwdriver.png" width="16" height="16" border="0"></a></div></TD>
 
           <TD><!-- Icons -->
 
-            <A title=Edit href="update.php?mode=update&<?php  echo $PK_field; ?>=<?php  echo $rec["$PK_field"]; if($param <> "") {?>&<?php  echo $param; }?>"><IMG alt=Edit src="../images/pencil.png"></A> <A title=Delete  href="#"></A></TD>
+            <A title=Edit href="update.php?mode=update&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field]; if($param <> "") {?>&<?php  echo $param; }?>"><IMG alt=Edit src="../images/pencil.png"></A> <A title=Delete  href="#"></A></TD>
 
           <TD><A title=Delete  href="#"><IMG alt=Delete src="../images/cross.png" onClick="confirmDelete('?action=delete&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field];?>','Menu  <?php  echo $rec[$PK_field];?> : <?php  echo $rec["menucate_name"];?>')"></A></TD>
 

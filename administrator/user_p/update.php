@@ -7,9 +7,9 @@
 	if ($_POST['mode'] <> "") {  
 		$param = "";
 		if ($_POST[$FR_field] <> "") { $param .=  "&" . $FR_field . "=" . $_POST[$FR_field]; } 
-		if ($_POST[page] <> "") { $param .=  "&" . page . "=" . $_POST[page]; } 
-		if ($_POST['mode'] <> "") { $param .=  "&" . mode . "=" . $_POST['mode']; } 
-		if ($_POST[user_id] <> "") { $param .=  "&" . user_id . "=" . $_POST[user_id]; } 
+		if ($_POST['page'] <> "") { $param .=  "&page=" . $_POST['page']; } 
+		if ($_POST['mode'] <> "") { $param .=  "&mode=" . $_POST['mode']; } 
+		if ($_POST['user_id'] <> "") { $param .=  "&user_id=" . $_POST['user_id']; } 
 		$param = substr ($param,1);
 
 		if ($_POST[option] == "Add") { 
@@ -32,7 +32,7 @@
 	}
 	if ($_GET['mode'] == "update") { 
 		// Check_Permission($conn,$check_module,$_SESSION['login_id'],"update");
-		 $_SESSION[s_user_id] = $_GET[user_id];
+		 $_SESSION['s_user_id'] = $_GET['user_id'];
 		/*$sql = "select * from $tbl_name where $PK_field = '" . $_GET[$PK_field] ."'";
 		$query = @mysqli_query($conn,$sql);
 		while ($rec = @mysqli_fetch_array($query)) { 
@@ -99,9 +99,9 @@ function confirmDelete(delUrl,text) {
    
                     User &gt;
                     <?php  
-							$sql = "select * from s_user where user_id = '$_GET[user_id]' ";
+							$sql = "select * from s_user where user_id = '".$_GET['user_id']."' ";
 							$rec = @mysqli_fetch_array(@mysqli_query($conn,$sql));
-							echo $rec[username];
+							echo $rec['username'];
 						?>
                         
                 </td>
@@ -118,26 +118,26 @@ function confirmDelete(delUrl,text) {
               </tr>
               <?php 
 	$counter = 0;
-	$sql = "select * from s_user_p,s_module where user_id = '$_SESSION[s_user_id]' and s_module.module_id = s_user_p.module_id  order by $PK_field desc ";
+	$sql = "select * from s_user_p,s_module where user_id = '".$_SESSION['s_user_id']."' and s_module.module_id = s_user_p.module_id  order by $PK_field desc ";
 		$query = @mysqli_query($conn,$sql);
 		while($rec = @mysqli_fetch_array($query)){
 ?>
               <tr <?php  if ($counter++%2) { ?>class="oddrowbg" <?php  } else { ?> class="evenrowbg"<?php  } ?>>
-                <td height="26" ><?php  echo $rec[module_name]; ?></td>
+                <td height="26" ><?php  echo $rec['module_name']; ?></td>
                 <td><div align="center">
-                    <input type="checkbox" name="checkbox" value="checkbox" <?php  if($rec[read_p] == 1) echo "checked"; ?>>
+                    <input type="checkbox" name="checkbox" value="checkbox" <?php  if($rec['read_p'] == 1) echo "checked"; ?>>
                 </div></td>
                 <td><div align="center">
-                    <input type="checkbox" name="checkbox2" value="checkbox" <?php  if($rec[add_p] == 1) echo "checked"; ?>>
+                    <input type="checkbox" name="checkbox2" value="checkbox" <?php  if($rec['add_p'] == 1) echo "checked"; ?>>
                 </div></td>
                 <td><div align="center">
-                    <input type="checkbox" name="checkbox3" value="checkbox" <?php  if($rec[update_p] == 1) echo "checked"; ?>>
+                    <input type="checkbox" name="checkbox3" value="checkbox" <?php  if($rec['update_p'] == 1) echo "checked"; ?>>
                 </div></td>
                 <td><div align="center">
-                    <input type="checkbox" name="checkbox4" value="checkbox" <?php  if($rec[delete_p] == 1) echo "checked"; ?>>
+                    <input type="checkbox" name="checkbox4" value="checkbox" <?php  if($rec['delete_p'] == 1) echo "checked"; ?>>
                 </div></td>
-                <td><div align="center"><a href="?action=Edit&user_id=<?php  echo $_GET[user_id];?>&mode=<?php  echo $_GET['mode']?>&<?php  echo "$PK_field=".$rec[$PK_field];?>">Edit</a></div></td>
-                <td><div align="center"><a href="javascript:confirmDelete('update.php?action=delete&user_id=<?php  echo $_GET[user_id];?>&mode=<?php  echo $_GET['mode']?>&<?php  echo "$PK_field=".$rec[$PK_field];?>','Module <?php  echo $rec[module_name];?>')">Delete</a></div></td>
+<!--                <td><div align="center"><a href="?action=Edit&user_id=<?php  echo $_GET['user_id'];?>&mode=<?php  echo $_GET['mode']?>&<?php  echo "$PK_field=".$rec[$PK_field];?>">Edit</a></div></td>-->
+                <td><div align="center"><a href="javascript:confirmDelete('update.php?action=delete&user_id=<?php  echo $_GET['user_id'];?>&mode=<?php  echo $_GET['mode']?>&<?php  echo "$PK_field=".$rec[$PK_field];?>','Module <?php  echo $rec['module_name'];?>')">Delete</a></div></td>
               </tr>
               <?php 
 			} // end while
@@ -148,11 +148,11 @@ function confirmDelete(delUrl,text) {
 							$sql = "select * from s_user_p  where $PK_field = '$_GET[$PK_field]' ";
 							$query = @mysqli_query($conn,$sql);
 							$rec = @mysqli_fetch_array($query);
-							$module_id = $rec[module_id];
-							$read_p = $rec[read_p];
-							$add_p = $rec[add_p];
-							$update_p = $rec[update_p];
-							$delete_p = $rec[delete_p];
+							$module_id = $rec['module_id'];
+							$read_p = $rec['read_p'];
+							$add_p = $rec['add_p'];
+							$update_p = $rec['update_p'];
+							$delete_p = $rec['delete_p'];
 						}
 					  ?>
                     <select name="module_id">
@@ -162,7 +162,7 @@ function confirmDelete(delUrl,text) {
 								$query = @mysqli_query($conn,$sql);
 								while($rec = @mysqli_fetch_array($query)){
 							?>
-                      <option value="<?php  echo $rec[module_id];?>" <?php  if($module_id == $rec[module_id]) echo "selected";?>><?php  echo $rec[module_name];?></option>
+                      <option value="<?php  echo $rec['module_id'];?>" <?php  if($module_id == $rec['module_id']) echo "selected";?>><?php  echo $rec['module_name'];?></option>
                       <?php  } ?>
                     </select>
                 </td>

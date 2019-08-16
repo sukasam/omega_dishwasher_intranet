@@ -142,6 +142,15 @@ $this->fontdata = array(
 		'I' => "Norasi-Oblique.ttf",
 		'BI' => "Norasi-BoldOblique.ttf",
 		),
+	"thsarabun" => array(
+		'R' => "THSarabunNew.ttf",
+		'B' => "THSarabunNew-Bold.ttf",
+		'I' => "THSarabunNew-Italic.ttf",
+		'BI' => "THSarabunNew-BoldItalic.ttf",
+		),
+	"angsa" => array(
+		'R' => "angsa.ttf",
+		),
 
 
 /* Indic fonts */

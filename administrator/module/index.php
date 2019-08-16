@@ -148,7 +148,7 @@ function check_select(frm){
           <TD><span class="text"><?php  echo $rec["module_name"] ; ?></span></TD>
           <TD nowrap><span class="text"><?php  echo $rec["c_date"] ; ?></span></TD>
           <TD><!-- Icons -->
-            <A title=Edit href="update.php?mode=update&<?php  echo $PK_field; ?>=<?php  echo $rec["$PK_field"]; if($param <> "") {?>&<?php  echo $param; }?>"><IMG alt=Edit src="../images/pencil.png"></A> <A title=Delete  href="#"></A></TD>
+            <A title=Edit href="update.php?mode=update&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field]; if($param <> "") {?>&<?php  echo $param; }?>"><IMG alt=Edit src="../images/pencil.png"></A> <A title=Delete  href="#"></A></TD>
           <TD><A title=Delete  href="#"><IMG alt=Delete src="../images/cross.png" onClick="confirmDelete('?action=delete&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field];?>','<?php  echo $title_del;?>  <?php  echo $rec[$PK_field];?> : <?php  echo $rec[$title_del_name];?>')"></A></TD>
         </TR>  
 		<?php  }?>

@@ -150,9 +150,9 @@ function check_select(frm){
             <img src="<?php  echo $part_img;?>" alt="" width="25"></TD>
           <TD><span class="text"><?php  echo $rec["lang_name"]; ?></span></TD>
           <TD><span class="text"><?php  echo $rec["lang_key"]; ?></span></TD>
-          <TD nowrap style="vertical-align:middle"><div align="center"><a href="file.php?mode=add&<?php  echo $PK_field; ?>=<?php  echo $rec["$PK_field"]; if($param <> "") {?>&<?php  echo $param; }?>&lang_key=<?php  echo $rec["lang_key"];?>"><img src="../images/icons/icon-48-install.png" alt="" width="35" border="0"></a></div></TD>
+          <TD nowrap style="vertical-align:middle"><div align="center"><a href="file.php?mode=add&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field]; if($param <> "") {?>&<?php  echo $param; }?>&lang_key=<?php  echo $rec["lang_key"];?>"><img src="../images/icons/icon-48-install.png" alt="" width="35" border="0"></a></div></TD>
           <TD><!-- Icons -->
-            <A title=Edit href="update.php?mode=update&<?php  echo $PK_field; ?>=<?php  echo $rec["$PK_field"]; if($param <> "") {?>&<?php  echo $param; }?>"><IMG alt=Edit src="../images/pencil.png"></A> <A title=Delete  href="#"></A></TD>
+            <A title=Edit href="update.php?mode=update&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field]; if($param <> "") {?>&<?php  echo $param; }?>"><IMG alt=Edit src="../images/pencil.png"></A> <A title=Delete  href="#"></A></TD>
           <TD><A title=Delete  href="#"><IMG alt=Delete src="../images/cross.png" onClick="confirmDelete('?action=delete&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field];?>','User  <?php  echo $rec[$PK_field];?> : <?php  echo $rec["name"];?>')"></A></TD>
         </TR>  
 		<?php  }?>
