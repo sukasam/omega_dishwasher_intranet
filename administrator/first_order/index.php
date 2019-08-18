@@ -135,7 +135,7 @@ function check_select(frm){
     <TABLE>
       <THEAD>
         <TR>
-          <TH width="5%"><INPUT class=check-all type=checkbox name="ca" value="true" onClick="chkAll(this.form, 'del[]', this.checked)"></TH>
+<!--          <TH width="5%"><INPUT class=check-all type=checkbox name="ca" value="true" onClick="chkAll(this.form, 'del[]', this.checked)"></TH>-->
           <TH width="5%" <?php  Show_Sort_bg ("user_id", $orderby) ?>> <?php 
 		$a_not_exists = array('orderby','sortby');
 		$param2 = get_param($a_param,$a_not_exists);
@@ -147,7 +147,7 @@ function check_select(frm){
           <TH width="18%"><strong>สถานที่ติดตั้ง</strong></TH>
           <TH width="5%" nowrap ><div align="center"><a>ใบแจ้งงานบริการ</a></div></TH>
           <TH width="5%" nowrap ><div align="center"><img src="../icons/favorites_use.png" width="15" height="15"> ใช้งาน / <img src="../icons/favorites_stranby.png" width="15" height="15"> Standby / <img src="../icons/favorites_close.png" width="15" height="15"> ยกเลิก</div></TH>
-          <TH width="5%" nowrap ><div align="center"><a> Open / </a><a> Close</a></div></TH>
+<!--          <TH width="5%" nowrap ><div align="center"><a> Open / </a><a> Close</a></div></TH>-->
           <TH width="5%" nowrap ><div align="center"><a>Setting</a></div></TH>
           <TH width="5%"><div align="center"><a>Download</a></div></TH>
           <TH width="5%"><a>แก้ไข</a></TH>
@@ -186,7 +186,7 @@ function check_select(frm){
 					$counter++;
 				   ?>
         <TR>
-          <TD><INPUT type=checkbox name="del[]" value="<?php  echo $rec[$PK_field]; ?>" ></TD>
+<!--          <TD><INPUT type=checkbox name="del[]" value="<?php  echo $rec[$PK_field]; ?>" ></TD>-->
           <TD><span class="text"><?php  echo sprintf("%04d",$counter); ?></span></TD>
           <TD><?php  
           $chaf = str_replace("/","-",$rec["fs_id"]); ?>
@@ -211,16 +211,11 @@ function check_select(frm){
             <a href="../first_order/?ff=<?php  echo $rec[$PK_field]; ?>&gg=2&page=<?php  echo $_GET['page']; ?>&<?php  echo $FK_field; ?>=<?php  echo $_REQUEST["$FK_field"];?>"><img src="../icons/favorites_close.png" width="15" height="15"></a>
             </div>
           </div></TD>
-          <TD nowrap style="vertical-align:middle"><!--<div align="center">
-            <?php  if($rec["status"]==0) {?>
-            <a href="../first_order/?bb=<?php  echo $rec[$PK_field]; ?>&ss=<?php  echo $rec["status"]; ?>&page=<?php  echo $_GET['page']; ?>&<?php  echo $FK_field; ?>=<?php  echo $_REQUEST["$FK_field"];?>&foid=<?php  echo $rec["fo_id"]; ?>"><img src="../icons/status_on.gif" width="10" height="10"></a>
-            <?php  } else{?>
-            <a href="../first_order/?bb=<?php  echo $rec[$PK_field]; ?>&ss=<?php  echo $rec["status"]; ?>&page=<?php  echo $_GET['page']; ?>&<?php  echo $FK_field; ?>=<?php  echo $_REQUEST["$FK_field"];?>&foid=<?php  echo $rec["fo_id"]; ?>"><img src="../icons/status_off.gif" width="10" height="10"></a>
-            <div align="center"><a href="../../upload/service_report_close/<?php  echo get_srreport($conn,$rec["fs_id"]);?>.pdf" target="_blank"><p style="background:#999;color:#FFFFFF;padding:2px;"><?php  echo get_srreport($conn,$rec["fo_id"]);?></p></a></div>
-            <?php  }?>
-          </div>-->
+<!--
+          <TD nowrap style="vertical-align:middle">
           <div align="center"><A href="service_close.php?fo_id=<?php  echo $rec["fo_id"];?>"><IMG  alt=icon src="../images/icons/icon-48-install.png"></A></div>
           </TD>
+-->
           <TD nowrap style="vertical-align:middle"><div align="center">
             <?php  if($rec["st_setting"]==0) {?>
             <a href="../first_order/?b=<?php  echo $rec[$PK_field]; ?>&s=<?php  echo $rec["st_setting"]; ?>&page=<?php  echo $_GET['page']; ?>&<?php  echo $FK_field; ?>=<?php  echo $_REQUEST["$FK_field"];?>"><img src="../icons/status_on.gif" width="10" height="10"></a>
@@ -238,15 +233,17 @@ function check_select(frm){
     </TABLE>
     <br><br>
     <DIV class="bulk-actions align-left">
+<!--
             <SELECT name="choose_action" id="choose_action">
               <OPTION selected value="">กรุณาเลือก...</OPTION>
               <OPTION value="del">ลบ</OPTION>
             </SELECT>            
+-->
             <?php 
 				$a_not_exists = array();
 				post_param($a_param,$a_not_exists); 
 			?>
-            <input class=button name="Action2" type="submit" id="Action2" value="ตกลง">
+<!--            <input class=button name="Action2" type="submit" id="Action2" value="ตกลง">-->
           </DIV> <DIV class=pagination> <?php  include("../include/page_show.php");?> </DIV>
   </form>  
 </DIV><!-- End #tab1 -->

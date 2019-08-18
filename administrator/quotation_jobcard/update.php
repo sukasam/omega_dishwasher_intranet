@@ -80,6 +80,13 @@
 			$_POST['date_appoint6']=$a_sdate[2]."-".$a_sdate[1]."-".$a_sdate[0];
 		}
 		
+		if($_POST['date_appoint7'] == ""){
+			$_POST['date_appoint7'] = date("Y-m-d");
+		}else{
+			$a_sdate=explode("/",$_POST['date_appoint7']);
+			$_POST['date_appoint7']=$a_sdate[2]."-".$a_sdate[1]."-".$a_sdate[0];
+		}
+		
 
 		if ($_POST['mode'] == "add") { 
 			
@@ -162,6 +169,8 @@
 		$date_appoint5=$a_sdate[2]."/".$a_sdate[1]."/".$a_sdate[0];
 		$a_sdate=explode("-",$date_appoint6);
 		$date_appoint6=$a_sdate[2]."/".$a_sdate[1]."/".$a_sdate[0];
+		$a_sdate=explode("-",$date_appoint7);
+		$date_appoint7=$a_sdate[2]."/".$a_sdate[1]."/".$a_sdate[0];
 	}
 
 $quinfo =get_quotation($conn,$_GET['cus_id'],$_GET['tab']);
@@ -389,6 +398,13 @@ function check(frm){
 				<td>&nbsp;&nbsp;&nbsp;รุ่น&nbsp;&nbsp;&nbsp;</td>
 				<td><input type="text" name="ser_sn1" value="<?php echo $ser_sn1;?>" style="width: 100%;"></td>
 				<td><strong>วันที่นัด </strong> <input type="text" name="date_appoint1" readonly value="<?php  if($date_appoint1==""){echo date("d/m/Y");}else{ echo $date_appoint1;}?>" class="inpfoder"/><script language="JavaScript">new tcal ({'formname': 'form1','controlname': 'date_appoint1'});</script></td>
+        	</tr>
+        	<tr>
+        		<td><input type="radio" name="type_service" value="7" <?php if($type_service == 7 || $type_service === ""){echo 'checked';}?>>&nbsp;&nbsp;&nbsp;ติดตั้งเครื่องล้างแก้ว</td>
+				<td><input type="text" name="ser_pro7" value="<?php echo $ser_pro7;?>" style="width: 100%;"></td>
+				<td>&nbsp;&nbsp;&nbsp;รุ่น&nbsp;&nbsp;&nbsp;</td>
+				<td><input type="text" name="ser_sn5" value="<?php echo $ser_sn5;?>" style="width: 100%;"></td>
+				<td><strong>วันที่นัด </strong> <input type="text" name="date_appoint7" readonly value="<?php  if($date_appoint7==""){echo date("d/m/Y");}else{ echo $date_appoint7;}?>" class="inpfoder"/><script language="JavaScript">new tcal ({'formname': 'form1','controlname': 'date_appoint7'});</script></td>
         	</tr>
         	<tr>
         		<td><input type="radio" name="type_service" value="6" <?php if($type_service == 6){echo 'checked';}?>>&nbsp;&nbsp;&nbsp;ติดตั้งเครื่องผลิตน้ำแข็ง</td>

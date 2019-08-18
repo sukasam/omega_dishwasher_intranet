@@ -10,6 +10,7 @@
 	$checkApp4 = "uncheck.png";
 	$checkApp5 = "uncheck.png";
 	$checkApp6 = "uncheck.png";
+	$checkApp7 = "uncheck.png";
 	
 	$dateApp1 = "";
 	$dateApp2 = "";
@@ -17,6 +18,7 @@
 	$dateApp4 = "";
 	$dateApp5 = "";
 	$dateApp6 = "";
+	$dateApp7 = "";
 
 	if($_POST['type_service'] == 1){
 		$checkApp1 = "check.png";
@@ -36,6 +38,9 @@
 	}else if($_POST['type_service'] == 6){
 		$checkApp6 = "check.png";
 		$dateApp6 = format_date_th($_POST['date_appoint6'],2);
+	}else if($_POST['type_service'] == 7){
+		$checkApp7 = "check.png";
+		$dateApp7 = format_date_th($_POST['date_appoint7'],2);
 	}
 
 	$form = '<style>
@@ -182,6 +187,20 @@
 				<td >
 					<table>
 					<tr>
+						<td style="border:0px solid #000000;padding:0px;"><img src="../images/'.$checkApp7.'" width="15" border="0"/></td>
+						<td style="border:0px solid #000000;padding:0px;">&nbsp;&nbsp;<strong>ติดตั้งเครื่องล้างแก้ว</strong></td>
+					</tr>
+					</table>
+				</td>
+				<td width="20%"><center>'.$_POST['ser_pro7'].'</center></td>
+				<td width="10%"><center>&nbsp;&nbsp;&nbsp;รุ่น&nbsp;&nbsp;&nbsp;</center></td>
+				<td width="20%"><center>'.$_POST['ser_sn5'].'</center></td>
+				<td width="24%"><strong>วันที่นัด </strong> '.$dateApp7.'</td>
+        	</tr>
+			<tr>
+				<td >
+					<table>
+					<tr>
 						<td style="border:0px solid #000000;padding:0px;"><img src="../images/'.$checkApp6.'" width="15" border="0"/></td>
 						<td style="border:0px solid #000000;padding:0px;">&nbsp;&nbsp;<strong>ติดตั้งเครื่องผลิตน้ำแข็ง</strong></td>
 					</tr>
@@ -254,7 +273,7 @@
 			<td style="text-align:center;background-color: #dddddd;border:1px solid #000000;"><strong>รายละเอียดงาน</strong></td>
 		</tr>
 		<tr>
-			<td style="font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:left;padding:20px;border:1px solid #000000;height: 250px;">
+			<td style="font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:left;padding:20px;border:1px solid #000000;height: 200px;">
 			'.$_POST['detail_recom'].'
 			</td>
 		</tr>

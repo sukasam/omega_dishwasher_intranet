@@ -306,6 +306,15 @@
 			$chaf = str_replace("/","-",$_POST['con_id']); 
 			$mpdf->Output('../../upload/contract2/'.$chaf.'.pdf','F');
 			
+			include_once("form_contract2.php");
+			$mpdf=new mPDF('UTF-8','A4','','','15','15','50','30'); 
+			$mpdf->SetAutoFont();
+			$mpdf->SetHTMLHeader('<div><img src="../images/contract_header.jpg"/></div>');
+			$mpdf->SetHTMLFooter('<div><img src="../images/contract_footer.jpg"/></div>');
+			$mpdf->WriteHTML($form);
+			$chaf = str_replace("/","-",$_POST['con_id']); 
+			$mpdf->Output('../../upload/contract2/'.$chaf.'-2.pdf','F');
+			
 			if($_POST['mode'] == "cadd"){
 				header ("location:update.php?mode=update&ct_id=".$id); 
 			}else{
@@ -569,6 +578,15 @@
 			$mpdf->WriteHTML($form);
 			$chaf = str_replace("/","-",$_POST['con_id']); 
 			$mpdf->Output('../../upload/contract2/'.$chaf.'.pdf','F');
+			
+			include_once("form_contract2.php");
+			$mpdf=new mPDF('UTF-8','A4','','','15','15','50','30'); 
+			$mpdf->SetAutoFont();
+			$mpdf->SetHTMLHeader('<div><img src="../images/contract_header.jpg"/></div>');
+			$mpdf->SetHTMLFooter('<div><img src="../images/contract_footer.jpg"/></div>');
+			$mpdf->WriteHTML($form);
+			$chaf = str_replace("/","-",$_POST['con_id']); 
+			$mpdf->Output('../../upload/contract2/'.$chaf.'-2.pdf','F');
 			
 			if($_POST['mode'] == "cupdate"){
 				header ("location:update.php?mode=update&ct_id=".$id); 

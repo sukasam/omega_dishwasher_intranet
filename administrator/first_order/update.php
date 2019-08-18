@@ -221,7 +221,9 @@ function checkVal(c){
           </tr>
           <tr>
             <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>ที่อยู่ :</strong> <input type="text" name="cd_address" value="<?php  echo $cd_address;?>" id="cd_address" class="inpfoder" style="width:80%;"></td>
-            <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>ประเภทสินค้า :</strong>
+            <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;">
+            <input name="cd_type" type="radio" id="cd_type1" value="1" <?php if($cd_type == '1' || $cd_type == ''){echo 'checked';}?>><strong>นิติบุคคล</strong> &nbsp;&nbsp;<input name="cd_type" type="radio" id="cd_type2" value="2" <?php if($cd_type == '2'){echo 'checked';}?>><strong>บุคคลธรรมดา</strong> &nbsp;&nbsp;&nbsp;
+            <strong>ประเภทสินค้า :</strong>
             <select name="pro_type" id="pro_type" class="inputselect">
                 <?php
                 	$quprotype = @mysqli_query($conn,"SELECT * FROM s_group_product ORDER BY group_name ASC");

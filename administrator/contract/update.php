@@ -329,6 +329,25 @@ function check(frm){
 	   }
 	}
 	
+	function checkFluency(id){
+		//console.log(id);
+		
+		if(id == 1){
+			document.getElementById("Fluency1").checked = true;
+			document.getElementById("Fluency2").checked = false;
+			document.getElementById("Fluency3").checked = false;
+		}else if(id == 2){
+			document.getElementById("Fluency1").checked = false;
+			document.getElementById("Fluency2").checked = true;
+			document.getElementById("Fluency3").checked = false;
+		}else{
+			document.getElementById("Fluency1").checked = false;
+			document.getElementById("Fluency2").checked = false;
+			document.getElementById("Fluency3").checked = true;
+		}
+	}
+
+	
 </script>
 </HEAD>
 <?php  include ("../../include/function_script.php"); ?>
@@ -440,9 +459,9 @@ function check(frm){
 	
 	<div>
 	    <strong>เลือกประเภทสัญญาเช่า</strong>
-		<input type="checkbox" name="chkTypePro[]" value="เครื่องล้างจาน" <?php if(@in_array( 'เครื่องล้างจาน' , $con_chktypepro )){echo 'checked="checked"';}?>> เครื่องล้างจาน
-        <input type="checkbox" name="chkTypePro[]" value="เครื่องล้างแก้ว" <?php if(@in_array( 'เครื่องล้างแก้ว' , $con_chktypepro )){echo 'checked="checked"';}?>> เครื่องล้างแก้ว
-        <input type="checkbox" name="chkTypePro[]" value="เครื่องผลิตน้ำแข็ง" <?php if(@in_array( 'เครื่องผลิตน้ำแข็ง' , $con_chktypepro )){echo 'checked="checked"';}?>> เครื่องผลิตน้ำแข็ง
+		<input type="checkbox" name="chkTypePro[]" id="Fluency1" value="เครื่องล้างจาน" <?php if(@in_array( 'เครื่องล้างจาน' , $con_chktypepro )){echo 'checked="checked"';}?> onclick="javascript:checkFluency(1);"> เครื่องล้างจาน
+        <input type="checkbox" name="chkTypePro[]" id="Fluency2" value="เครื่องล้างแก้ว" <?php if(@in_array( 'เครื่องล้างแก้ว' , $con_chktypepro )){echo 'checked="checked"';}?> onclick="javascript:checkFluency(2);"> เครื่องล้างแก้ว
+        <input type="checkbox" name="chkTypePro[]" id="Fluency3" value="เครื่องผลิตน้ำแข็ง" <?php if(@in_array( 'เครื่องผลิตน้ำแข็ง' , $con_chktypepro )){echo 'checked="checked"';}?> onclick="javascript:checkFluency(3);"> เครื่องผลิตน้ำแข็ง
 	</div><br>
 	
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tb1">

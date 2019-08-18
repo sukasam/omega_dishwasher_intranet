@@ -372,6 +372,7 @@ ul.content-box-tabs li a.current {
 #main-content table th {
                 padding: 10px;
                 line-height: 1.3em;
+	vertical-align: middle;
                 }        
 				
 #main-content table tfoot td .bulk-actions {
