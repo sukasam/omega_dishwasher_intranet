@@ -5,6 +5,9 @@
 	include ("config.php");
 
 	if ($_POST['mode'] <> "") { 
+		
+		
+		
 		$param = "";
 		$a_not_exists = array();
 		$param = get_param($a_param,$a_not_exists);

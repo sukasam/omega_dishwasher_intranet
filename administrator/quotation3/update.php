@@ -205,6 +205,8 @@ $sumtotals = $sumprice + $sumpricevat;
 
 				$_POST['fs_id'] = get_snfirstorders($conn,$_POST['fs_id']);
 				$_POST['status_use'] = 1;
+				$_POST['st_setting'] = 0;
+			
 				$_POST['loc_name'] = addslashes($_POST['loc_name']);
 
 				include_once "../include/m_add.php";
@@ -433,7 +435,7 @@ function chksign(vals){
 <?php  include('../top.php');?>
 <P id=page-intro><?php  if ($mode == "add") { ?>Enter new information<?php  } else { ?>แก้ไข	[<?php  echo $page_name; ?>]<?php  } ?>	</P>
 <UL class=shortcut-buttons-set>
-  <LI><A class=shortcut-button href="../quotation/"><SPAN><IMG  alt=icon src="../images/btn_back.gif"><BR>
+  <LI><A class=shortcut-button href="../quotation3/"><SPAN><IMG  alt=icon src="../images/btn_back.gif"><BR>
   กลับ</SPAN></A></LI>
 </UL>
 <!-- End .clear -->
@@ -453,37 +455,30 @@ function chksign(vals){
       <legend><?php  echo $page_name; ?> </legend>
         <table width="100%" cellspacing="0" cellpadding="0" border="0">
   <tr>
-    <td style="padding-bottom:5px;"><img src="../images/form/header-qab.png" width="100%" /></td>
+    <td style="padding-bottom:5px;"><img src="../images/form/header-qar.png" width="100%" /></td>
   </tr>
 </table>
-<table width="100%" cellspacing="0" cellpadding="0" class="tb1">
+  
+  <table width="100%" cellspacing="0" cellpadding="0" class="tb1">
           <tr>
-            <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>ชื่อลูกค้า :</strong> <input type="text" name="cd_name" value="<?php  echo $cd_name;?>" id="cd_name" class="inpfoder" style="width:70%;"></td>
+            <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>ชื่อลูกค้า :</strong> <input type="text" name="cd_name" value="<?php  echo $cd_name;?>" id="cd_name" class="inpfoder" style="width:70%;border: 0px;">
+            <span id="rsnameid"><input type="hidden" name="cus_id" value="<?php  echo $cus_id;?>"></span><a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search_c.php');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>
+            </td>
             <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;">
-            	<strong>ประเภทสินค้า :</strong>
-            <select name="pro_type" id="pro_type" class="inputselect">
-                <?php
-                	$quprotype = @mysqli_query($conn,"SELECT * FROM s_group_product ORDER BY group_name ASC");
-					while($row_protype = @mysqli_fetch_array($quprotype)){
-					  ?>
-					  	<option value="<?php  echo $row_protype['group_id'];?>" <?php  if($pro_type == $row_protype['group_id']){echo 'selected';}?>><?php  echo $row_protype['group_name'];?></option>
-					  <?php
-					}
-				?>
-            </select>
+            	<strong>เลขที่ใบเสนอราคาซ่อม:</strong> 
+            <input type="text" name="fs_id" value="<?php  if($fs_id == ""){echo check_quotation3($conn);}else{echo $fs_id;};?>" id="fs_id" class="inpfoder" style="border: 0px;"> 
             </td>
 
           </tr>
           <tr>
-            <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>ที่อยู่ :</strong> <input type="text" name="cd_address" value="<?php  echo $cd_address;?>" id="cd_address" class="inpfoder" style="width:80%;"></td>
+            <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>ที่อยู่ :</strong> <input type="text" name="cd_address" value="<?php  echo $cd_address;?>" id="cd_address" class="inpfoder" style="width:80%;border: 0px;"></td>
             <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;">
-            <strong>เลขที่ใบเสนอราคาซื้อ:</strong> 
-            <input type="text" name="fs_id" value="<?php  if($fs_id == ""){echo check_quotation($conn);}else{echo $fs_id;};?>" id="fs_id" class="inpfoder" > 
+            <strong> วันที่ :</strong> <input type="text" name="date_forder" readonly value="<?php  if($date_forder==""){echo date("d/m/Y");}else{ echo $date_forder;}?>" class="inpfoder"/><script language="JavaScript">new tcal ({'formname': 'form1','controlname': 'date_forder'});</script>
             </td>
           </tr>
           <tr>
             <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>จังหวัด :</strong>
-            <select name="cd_province" id="cd_province" class="inputselect">
+            <select name="cd_province" id="cd_province" class="inputselect" style="border: 0px;">
                 <?php
                 	$quprovince = @mysqli_query($conn,"SELECT * FROM s_province ORDER BY province_id ASC");
 					while($row_province = @mysqli_fetch_array($quprovince)){
@@ -495,18 +490,20 @@ function chksign(vals){
             </select>
            	</td>
             <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;">
-            	<strong> วันที่ :</strong> <input type="text" name="date_forder" readonly value="<?php  if($date_forder==""){echo date("d/m/Y");}else{ echo $date_forder;}?>" class="inpfoder"/><script language="JavaScript">new tcal ({'formname': 'form1','controlname': 'date_forder'});</script>
+            	<strong>ใบเสนอราคาซ่อม :</strong> <input type="radio" name="type_service" value="1" <?php if($type_service == '1' || $type_service == '0'){echo 'checked';}?>> เครื่องล้างจาน
+				&nbsp;&nbsp;<input type="radio" name="type_service" value="2" <?php if($type_service == '2'){echo 'checked';}?>> เครื่องล้างแก้ว
+				&nbsp;&nbsp;<input type="radio" name="type_service" value="3" <?php if($type_service == '3'){echo 'checked';}?>> เครื่องผลิตน้ำแข็ง
             </td>
           </tr>
           <tr>
-            <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>โทรศัพท์ :</strong> <input type="text" name="cd_tel" value="<?php  echo $cd_tel;?>" id="cd_tel" class="inpfoder">
-              <strong>อีเมล์ :</strong>
-              <input type="text" name="cd_fax" value="<?php  echo $cd_fax;?>" id="cd_fax" class="inpfoder"></td>
+            <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>โทรศัพท์ :</strong> <input type="text" name="cd_tel" value="<?php  echo $cd_tel;?>" id="cd_tel" class="inpfoder" style="border: 0px;">
+              <strong>แฟกซ์ :</strong>
+              <input type="text" name="cd_fax" value="<?php  echo $cd_fax;?>" id="cd_fax" class="inpfoder" style="border: 0px;"></td>
             <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;">
             	<strong>ชื่อผู้ติดต่อ :</strong>
-              <input type="text" name="c_contact" value="<?php  echo $c_contact;?>" id="c_contact" class="inpfoder">
+              <input type="text" name="c_contact" value="<?php  echo $c_contact;?>" id="c_contact" class="inpfoder" style="border: 0px;">
               <strong>เบอร์โทร :</strong>
-              <input type="text" name="c_tel" value="<?php  echo $c_tel;?>" id="c_tel" class="inpfoder">
+              <input type="text" name="c_tel" value="<?php  echo $c_tel;?>" id="c_tel" class="inpfoder" style="border: 0px;">
             </td>
           </tr>
 </table>
@@ -803,85 +800,16 @@ function chksign(vals){
       <td style="border:1px solid #003399;padding:9px 5px;text-align:right;"><?php echo number_format($sumtotals,2);?>&nbsp;&nbsp;</td>
     </tr>
     </table><br>
-	<table width="100%" cellspacing="0" cellpadding="0">
-          <tr>
-            <td style="border:0;padding:0;width:60%;vertical-align:top;">
-            	<table width="100%" cellspacing="0" cellpadding="0">
-              <tr>
-                  <th width="10%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>ลำดับ</strong></th>
-                  <th width="75%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>รายการแถม</strong></th>
-                  <th width="15%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>จำนวน</strong></th>
-              </tr>
-              <tr>
-                <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;">1</td>
-                <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><input type="text" name="cs_pro1" value="<?php  echo $cs_pro1;?>" id="cs_pro1" class="inpfoder" style="width:90%;height:27px;"></td>
-                <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><input type="text" name="cs_amount1" value="<?php  echo $cs_amount1;?>" id="cs_amount1" class="inpfoder" style="width:90%;text-align:center;height:27px;"></td>
-              </tr>
-              <tr>
-                <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;">2</td>
-                <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><input type="text" name="cs_pro2" value="<?php  echo $cs_pro2;?>" id="cs_pro2" class="inpfoder" style="width:90%;height:27px;"></td>
-                <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><input type="text" name="cs_amount2" value="<?php  echo $cs_amount2;?>" id="cs_amount2" class="inpfoder" style="width:90%;text-align:center;height:27px;"></td>
-              </tr>
-              <tr>
-                <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;">3</td>
-                <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><input type="text" name="cs_pro3" value="<?php  echo $cs_pro3;?>" id="cs_pro3" class="inpfoder" style="width:90%;height:27px;"></td>
-                <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><input type="text" name="cs_amount3" value="<?php  echo $cs_amount3;?>" id="cs_amount3" class="inpfoder" style="width:90%;text-align:center;height:27px;"></td>
-              </tr>
-              <tr>
-                <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;">4</td>
-                <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><input type="text" name="cs_pro4" value="<?php  echo $cs_pro4;?>" id="cs_pro4" class="inpfoder" style="width:90%;height:27px;"></td>
-                <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><input type="text" name="cs_amount4" value="<?php  echo $cs_amount4;?>" id="cs_amount4" class="inpfoder" style="width:90%;text-align:center;height:27px;"></td>
-              </tr>
-              <tr>
-                <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;">5</td>
-                <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><input type="text" name="cs_pro5" value="<?php  echo $cs_pro5;?>" id="cs_pro5" class="inpfoder" style="width:90%;height:27px;"></td>
-                <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><input type="text" name="cs_amount5" value="<?php  echo $cs_amount5;?>" id="cs_amount5" class="inpfoder" style="width:90%;text-align:center;height:27px;"></td>
-              </tr>
-            </table></td>
-          </tr>
-        </table>
-  <br>
+	
 	<table width="100%" cellspacing="0" cellpadding="0" style="text-align:center;">
       <tr>
         <td width="33%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:left;padding-top:10px;padding-bottom:10px;">
-        <p><strong>เงื่อนไขการชำระเงิน</strong></p> 
+        <p><strong>เงื่อนไขการขาย</strong></p> 
         <p>
-        	<input type="radio" name="payc" value="1" <?php if($payc == "1"){echo "checked";}?>> ชำระเงินสด
-       		<br>
-       		<span style="padding-left: 23px;">ชำระมัดจำสินค้า จำนวน</span> <input type="text" name="paym" value="<?php echo $paym;?>" style="text-align: center;width: 80px;"> บาท ณ วันอนุมัติสั่งซื้อสินค้า <br/>
-           <span style="padding-left: 23px;">ชำระส่วนที่เหลือ จำนวน</span> <?php echo number_format($paym2,2);?> บาท <span style="padding-left: 23px;">เครดิต</span> <input type="text" name="paym3" value="<?php echo $paym3;?>" style="text-align: center;width: 80px;"> วัน
-       		
-<!--       		<input type="text" name="pay_apv" readonly value="<?php  if($pay_apv==""){echo date("d/m/Y");}else{ echo $pay_apv;}?>" class="inpfoder" style="    width: 75px;"/><script language="JavaScript">new tcal ({'formname': 'form1','controlname': 'pay_apv'});</script>-->
-      	
-       	</p> 
-        <p>
-        	<input type="radio" name="payc" value="2" <?php if($payc == "2"){echo "checked";}?>> แบ่งชำระ <input type="text" name="pays" value="<?php echo $pays;?>" style="text-align: center;width: 50px;"> งวด<br>
-        	<span style="padding-left: 23px;width: 50px;">ชำระงวดละ</span> <?php echo number_format($paysa,2);?> บาท ทุกวันที่ <input type="text" name="paysad" value="<?php echo $paysad;?>" style="text-align: center;width: 50px;"> ของทุกเดือน <br/>
-          <br/><span>**ราคาดังกล่าวรวมภาษีมูลค่าเพิ่ม 7% เรียบร้อยแล้ว</span>
+        	 1. <strong><u>การชำระเงิน</u></strong> ชำระเงินสด นับจากวันที่ส่งมอบสินค้า<br/>
+        	 2. กำหนดยืนราคา <input type="text" name="giveprice" value="<?php echo $giveprice;?>" style="text-align: center;width: 50px;"> วัน<br>	
+          <br/><span>** รับประกันอะไหล่ <input type="text" name="guaran" value="<?php echo $guaran;?>" style="text-align: center;width: 50px;"> เดือน **</span>
         </p>    
-        <p><strong>เงื่อนไขการรับประกันและการส่งสินค้า</strong></p>
-        <p>
-			1. การรับประกันสินค้า รับประกันตัวเครื่อง อะไหล่และบริการฟรี <input type="text" name="guaran1" value="<?php echo $guaran1;?>" style="text-align: center;width: 70px;"> ปี หรือตามเงื่อนไขการขาย<br>			
-			2. บริษัทเข้าบริการตรวจเช็คทุกๆ <select name="type_service" id="type_service" class="inputselect">
-      		<option value="">กรุณาเลือกประเภทบริการ</option>
-		  <?php
-              $qusTec = @mysqli_query($conn,"SELECT * FROM  `s_group_service` WHERE  `group_ser_id` !=  '' ORDER BY `group_ser_id` ASC");
-              while($rowTec = @mysqli_fetch_array($qusTec)){
-                ?>
-                  <option value="<?php  echo $rowTec['group_id'];?>" <?php  if($type_service == $rowTec['group_id']){echo 'selected';}?>><?php  echo $rowTec['group_name'];?></option>
-                <?php
-              }
-          ?>
-      </select> ฟรี<br>	
-			3. จัดส่งสินค้าภายใน <input type="text" name="guaran2" value="<?php echo $guaran2;?>" style="text-align: center;width: 50px;"> วัน หลังจากชำระมัดจำสินค้า <input type="text" name="guaran3" value="<?php echo $guaran3;?>" style="text-align: center;width: 50px;">% จำนวน <?php echo number_format($guaran4,2);?> บาท<br>	
-			4. ลูกค้าเป็นผู้ตรียมระบบไฟฟ้า <select name="type_electric" id="type_electric" class="inputselect">
-      <option value="no" <?php  if($type_electric == "no"){echo 'selected';}?>>ไม่เลือก</option>
-      <option value="3 เฟส (380V.) เบรกเกอร์ 32A" <?php  if($type_electric == "3 เฟส (380V.) เบรกเกอร์ 32A"){echo 'selected';}?>>3 เฟส (380V.) เบรกเกอร์ 32A</option>
-      <option value="1 เฟส (220V.) เบรกเกอร์ 20A" <?php  if($type_electric == "1 เฟส (220V.) เบรกเกอร์ 20A"){echo 'selected';}?>>1 เฟส (220V.) เบรกเกอร์ 20A</option>
-      <option value="3 เฟส (380V.) เบรกเกอร์ 80A" <?php  if($type_electric == "3 เฟส (380V.) เบรกเกอร์ 80A"){echo 'selected';}?>>3 เฟส (380V.) เบรกเกอร์ 80A</option>
-      </select> ท่อน้ำดี ขนาด 6 หุน น้ำทิ้ง ขนาด 2 นิ้ว ระยะไม่เกิน 5 เมตร จากตำแหน่งติดตั้ง<br>	
-      5. กำหนดยืนราคา <input type="text" name="giveprice" value="<?php echo $giveprice;?>" style="text-align: center;width: 50px;"> วัน<br>	
-        </p>   
         </td>
       </tr>
     </table>
@@ -901,59 +829,46 @@ function chksign(vals){
         <td width="33%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
         	<table width="100%" cellspacing="0" cellpadding="0">
               <tr>
-                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong><!--<input type="text" name="cs_sell" value="<?php  echo $cs_sell;?>" id="cs_sell" class="inpfoder" style="width:50%;text-align:center;">-->
-                <select name="cs_sell" id="cs_sell" class="inputselect" style="width:50%;">
-                <?php
-                	$qusaletype = @mysqli_query($conn,"SELECT * FROM s_group_sale ORDER BY group_name ASC");
-					while($row_saletype = @mysqli_fetch_array($qusaletype)){
-					  ?>
-					  	<option value="<?php  echo $row_saletype['group_id'];?>" <?php  if($cs_sell == $row_saletype['group_id']){echo 'selected';}?>><?php  echo $row_saletype['group_name'];?></option>
-					  <?php
-					}
-				?>
-            </select></strong></td>
+                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><br></td>
               </tr>
               <tr>
-                <td style="padding-top:10px;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>พนักงานขาย</strong></td>
+                <td style="padding-top:10px;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>อนุมัติสั่งซื้อสินค้าตามรายการข้างต้น</strong></td>
               </tr>
               <tr>
                 <td style="font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;">
-                <strong>เบอร์โทร <input type="text" name="tel_sell" value="<?php echo $tel_sell;?>" style="text-align: center;width: 150px;"></strong>
-                <br><br>
-                <strong>วันที่ <input type="text" name="date_sell" style="text-align: center;" readonly value="<?php  if($date_sell==""){echo date("d/m/Y");}else{ echo $date_sell;}?>" class="inpfoder"/><script language="JavaScript">new tcal ({'formname': 'form1','controlname': 'date_sell'});</script></strong></td>
+                วันที่ ________________________
+                </td>
               </tr>
             </table>
         </td>
         <td width="33%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
-        	<table width="100%" cellspacing="0" cellpadding="0">
-              <tr>
-                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong ><input type="text" name="cs_hsell" value="<?php  echo $cs_hsell;?>" id="cs_hsell" class="inpfoder" style="width:50%;text-align:center;"></strong></td>
-              </tr>
-              <tr>
-                <td style="padding-top:10px;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>ผู้จัดการฝ่ายขาย</strong></td>
-              </tr>
-              <tr>
-              <td style="font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;">
-              <strong>เบอร์โทร <input type="text" name="tel_hsell" value="<?php echo $tel_hsell;?>" style="text-align: center;width: 150px;"></strong>
-                <br><br>
-              <strong>วันที่ <input type="text" name="date_hsell" style="text-align: center;" readonly value="<?php  if($date_hsell==""){echo date("d/m/Y");}else{ echo $date_hsell;}?>" class="inpfoder"/><script language="JavaScript">new tcal ({'formname': 'form1','controlname': 'date_hsell'});</script></strong></td>
-              </tr>
-            </table>
+        	
 
         </td>
         <td width="33%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
         	<table width="100%" cellspacing="0" cellpadding="0">
               <tr>
-                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong><input type="text" name="cs_account" value="<?php  echo $cs_account;?>" id="cs_account" class="inpfoder" style="width:50%;text-align:center;"></strong></td>
+                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>
+                <select name="cs_technic" id="cs_technic">
+                	<option value="">กรุณาเลือก</option>
+                	<?php  
+						$qu_custec = @mysqli_query($conn,"SELECT * FROM s_group_technician ORDER BY group_name ASC");
+						while($row_custec = @mysqli_fetch_array($qu_custec)){
+							if($row_custec['group_id'] == 11 || $row_custec['group_id'] == 33 || $row_custec['group_id'] == 34){
+							?>
+							<option value="<?php  echo $row_custec['group_id'];?>" <?php  if($row_custec['group_id'] == $cs_technic){echo 'selected';}?>><?php  echo $row_custec['group_name'];?></option>
+							<?php 
+							}
+						}
+					?>
+                </select></strong></td>
               </tr>
               <tr>
-                <td style="padding-top:10px;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>ผู้อนุมัติสั่งซื้อสินค้า</strong></td>
+                <td style="padding-top:10px;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>พนักงานฝ่ายช่าง</strong></td>
               </tr>
               <tr>
               <td style="font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;">
-              <strong>เบอร์โทร <input type="text" name="tel_account" value="<?php echo $tel_account;?>" style="text-align: center;width: 150px;"></strong>
-                <br><br>
-              <strong>วันที่ <input type="text" name="date_account" style="text-align: center;" readonly value="<?php  if($date_account==""){echo date("d/m/Y");}else{ echo $date_account;}?>" class="inpfoder"/><script language="JavaScript">new tcal ({'formname': 'form1','controlname': 'date_account'});</script></strong></td>
+             </td>
               </tr>
             </table>
         </td>

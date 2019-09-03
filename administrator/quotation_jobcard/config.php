@@ -2,7 +2,7 @@
 <?php 
 	$PK_field = "qc_id";
 	//$FR_field = "";
-	$check_module = "Service Job Card";
+	$check_module = "ใบแจ้งงานบริการ";
 	$page_name = "Service Job Card (ใบแจ้งงานบริการ)";
 	$tbl_name = "s_quotation_jobcard";
 	$field_confirm_showname= "cus_id";

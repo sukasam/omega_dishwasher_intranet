@@ -1414,6 +1414,26 @@ function check_quotation2($conn){
 	
 }
 
+function check_quotation3($conn){
+	
+	$thdate = substr(date("Y")+543,2);
+	$concheck = "QA-R ".$thdate.date("/m/");
+	
+	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_quotation3 WHERE fs_id like '%".$concheck."%' ORDER BY fs_id DESC");
+	$num_oder = @mysqli_num_rows($qu_forder);
+	$row_forder = @mysqli_fetch_array($qu_forder);
+	
+	if($row_forder['fs_id'] == ""){
+		return "QA-R ".$thdate.date("/m/")."001";
+	}else{
+		$runQAA = explode("/",$row_forder['fs_id']);
+		$runNum = number_format($runQAA[2]);
+		$num_odersum = $runNum+1;
+		return "QA-R ".$thdate.date("/m/").sprintf("%03d",$num_odersum);
+	}
+	
+}
+
 function check_contract_number ($conn){
 	$thdate = substr(date("Y")+543,2);
 	$concheck = "R ".$thdate.date("/m/");

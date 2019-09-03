@@ -1,9 +1,7 @@
 <?php 
 		$sql = "update  $tbl_name set  ";
-			 while(list(,$s_key) = each($fieldlist))
-		{
-				
-				$fieldname .=", " .  $s_key . " =  '" .$_POST[$s_key]  . "'" ;
+		while(list(,$s_key) = each($fieldlist)){
+			$fieldname .=", " .  $s_key . " =  '" .$_POST[$s_key]  . "'" ;
 		}
 		$fieldname = substr ($fieldname,1, strlen ($fieldname));
 		$valuename = substr ($valuename,1, strlen ($fieldname));

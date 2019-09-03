@@ -2,7 +2,7 @@
 <?php 
 	$PK_field = "ct_id";
 	//$FR_field = "";
-	$check_module = "Contract";
+	$check_module = "สัญญาบริการ";
 	$page_name = "Contract (สัญญาบริการ)";
 	$tbl_name = "s_contract2";
 	$field_confirm_showname= "cus_id";

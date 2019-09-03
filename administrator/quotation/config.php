@@ -2,7 +2,7 @@
 <?php 
 	$PK_field = "qu_id";
 	//$FR_field = "";
-	$check_module = "Quotation";
+	$check_module = "ใบเสนอราคา";
 	$page_name = "Quotation (ใบเสนอราคาซื้อ)";
 	$tbl_name = "s_quotation";
 	$field_confirm_showname= "group_name";

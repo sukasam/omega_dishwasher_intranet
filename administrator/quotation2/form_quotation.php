@@ -236,10 +236,16 @@ $form = '
   <p style="font-size:12px;"><strong><u>เงื่อนไขการรับประกันและการส่งสินค้า</u></strong></p>
   <p style="font-size:12px;">1. การรับประกันสินค้า รับประกันตัวเครื่อง อะไหล่และบริการหลังการขายตลอดอายุการใช้งาน ฟรี</p>
   <p style="font-size:12px;">2. บริษัทเข้าบริการตรวจเช็คทุกๆ '.$checkService.' เดือน/ครั้ง ฟรี</p>
-  <p style="font-size:12px;">3. จัดส่งสินค้าภายใน '.$_POST['guaran2'].' วัน หลังจากลูกค้าชำระ '.$_POST["spro2"].' และค่าบริการขนส่ง/ติดตั้ง</p>
-  <p style="font-size:12px;">4. ลูกค้าเป็นผู้เตรียมระบบไฟฟ้า '.$_POST['type_electric'].' ท่อน้ำดี ขนาด 6 หุน น้ำทิ้ง ขนาด 2 นิ้ว ระยะไม่เกิน 5 เมตร จากตำแหน่งติดตั้ง</p>
-  <p style="font-size:12px;">5. กำหนดยืนราคา '.$_POST['giveprice'].' วัน</p>
-  <br>
+  <p style="font-size:12px;">3. จัดส่งสินค้าภายใน '.$_POST['guaran2'].' วัน หลังจากลูกค้าชำระ '.$_POST["spro2"].' และค่าบริการขนส่ง/ติดตั้ง</p>';
+
+  if($_POST['type_electric'] != "no"){
+	  $form .='<p style="font-size:12px;">4. ลูกค้าเป็นผู้เตรียมระบบไฟฟ้า '.$_POST['type_electric'].' ท่อน้ำดี ขนาด 6 หุน น้ำทิ้ง ขนาด 2 นิ้ว ระยะไม่เกิน 5 เมตร จากตำแหน่งติดตั้ง</p>';
+	  $form .='<p style="font-size:12px;">5. กำหนดยืนราคา '.$_POST['giveprice'].' วัน</p>';
+  }else{
+	   $form .='<p style="font-size:12px;">4. กำหนดยืนราคา '.$_POST['giveprice'].' วัน</p>';
+  }
+	  
+  $form .='<br>
   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tb1" >
     <tr>
       <td style="border:1px solid #003399;font-size:11px;font-size:11px;font-family:Verdana, Geneva, sans-serif;padding:15px;"><strong>หมายเหตุ : </strong>'.$_POST["remark"].'</td>

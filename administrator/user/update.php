@@ -10,10 +10,12 @@
 		$param = get_param($a_param,$a_not_exists);
 
 		if ($_POST['mode'] == "add") { 
-			$sql = "select * from $tbl_name where username = '$_POST[username]' ";
+			$sql = "select * from $tbl_name where username = '".$_POST['username']."' ";
 			$query = @mysqli_query($conn,$sql);
 			
 			if(@mysqli_num_rows($query) == 0) {
+				
+				$_POST['admin_flag'] = 0;
 				
 				include "../include/m_add.php";
 				$id=@mysqli_insert_id($conn);
@@ -47,12 +49,14 @@
 		}
 //-------------------------------------------------------------------------------------------------------------------------------------
 		if ($_POST['mode'] == "update" ) { 	
-			$sql = "select * from s_user where username = '$_POST[username]' and user_id <> '$_POST[$PK_field]' ";
+			$sql = "select * from s_user where username = '".$_POST['username']."' and user_id <> '".$_POST[$PK_field]."' ";
 			$query = @mysqli_query($conn,$sql);
 			if (@mysqli_num_rows($query) == 0) { //====> Username Avalible 
 					$rec = @mysqli_fetch_array($query);		
 										
-					if($_POST[new_p]<>""){$_POST[password]=$_POST[new_p];}
+					if($_POST['new_p']<>""){$_POST['password']=$_POST['new_p'];}
+				
+					$_POST['admin_flag'] = 0;
 					
 					include "../include/m_update.php";
 					
@@ -217,7 +221,8 @@ function check(frm){
                   <br>
 					<?php 
 					  if($u_images != ""){?>
-                  <img src="../../upload/user/<?php  echo $u_images?>" width="155">[ <a href="?mode=<?php  echo $_GET['mode']?>&<?php  echo $PK_field?>=<?php  echo $$PK_field;?>&<?php  echo $FR_field?>=<?php  echo $$FR_field;?>&del_id=<?php  echo $u_images;?>&page=<?php  echo $page;?>">Delete</a>]
+                  <img src="../../upload/user/<?php  echo $u_images?>" width="155">
+<!--                  [ <a href="?mode=<?php  echo $_GET['mode']?>&<?php  echo $PK_field?>=<?php  echo $$PK_field;?>&<?php  echo $FR_field?>=<?php  echo $$FR_field;?>&del_id=<?php  echo $u_images;?>&page=<?php  echo $page;?>">Delete</a>]-->
                   <?php  }?>
                   <input name="u_images" type="hidden" value="<?php  echo $u_images; ?>">
                   </td>
@@ -228,6 +233,34 @@ function check(frm){
                 <td><input name="admin_flag" type="checkbox" id="admin_flag" value="1" <?php  if($admin_flag == 1) echo "checked";?>></td>
               </tr>
               -->
+              <?php 
+				if($_REQUEST['mode'] != 'add'){
+					?>
+				  <tr>
+					<td>
+						ลายเซ็นดิจิทัล
+					</td>
+					<td>
+						<?php 
+						if(file_exists('../../upload/user/signature/'.base64_encode($user_id).'.png')){
+							//echo "Have";
+							?>
+						<img src="../../upload/user/signature/<?php echo base64_encode($user_id).".png";?>" width="250" style="border: 1px solid;"><br><br>
+						<a href="signature.php" target="_blank">[เปลี่ยนลายเซ็น]</a>
+							<?php
+						}else{
+							//echo "Not Have";
+							?>
+							<a href="signature.php" target="_blank"><u>เพิ่มลายเซ็น</u></a>
+							<?php
+						}
+						?>
+
+					</td>
+				  </tr>
+					<?php
+				}
+			  ?>
               <tr >
                 <td class="name">&nbsp;</td>
                 <td><input type="submit" name="Submit" value="Submit" class=button>

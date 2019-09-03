@@ -2,7 +2,7 @@
 <?php 
 	$PK_field = "qu_id";
 	//$FR_field = "";
-	$check_module = "Quotation";
+	$check_module = "ใบเสนอราคา";
 	$page_name = "Quotation (ใบเสนอราคาเช่า)";
 	$tbl_name = "s_quotation2";
 	$field_confirm_showname= "group_name";

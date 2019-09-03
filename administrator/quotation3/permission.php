@@ -7,39 +7,29 @@
 	$a_param = array('page','orderby','sortby','keyword','pagesize','group_id');
 	$param = get_param($a_param,$a_not_exists);
 
-//	if($_POST['Submit'] == "Submit"){
-//		header ("location:index.php?" . $param); 
-//	}
+	if($_POST[Submit] == "Submit"){
+			header ("location:index.php?" . $param); 
+		}
 
-	//var_dump($_REQUEST);
 	//if ($_REQUEST['mode'] <> "") { 
 		$param = "";
 		$a_not_exists = array();
 		$param = get_param($a_param,$a_not_exists);
-
-	   //echo $_REQUEST['option'].'ss';
-		//exit();
 		
-	if ($_REQUEST['option'] == "Add") { 
-		//include "../include/m_add.php";
-		// filedlist(group_id,module_id,read_p,add_p,update_p,delete_p)
-		$sql = "insert into s_user_p (user_id,group_id,module_id,read_p,add_p,update_p,delete_p) values ";
-		$sql.= "('0','".$_POST['group_id']."',".$_POST['module_id'].",'".$_POST['read_p']."','".$_POST['add_p']."','".$_POST['update_p']."','".$_POST['delete_p']."')";
-		
-//		echo $sql;
-		@mysqli_query($conn,$sql);
-//		exit();
-		header ("location:permission.php?mode=update&group_id=".$_POST['group_id']); 
-	}
-	if ($_REQUEST['option'] == "Edit" ) { 
-		//include ("../include/m_update.php");
-		$sql = "update s_user_p  set user_id='0',group_id = '".$_POST['group_id']."',module_id = ".$_POST['module_id'].",read_p = '".$_POST['read_p']."',add_p = '".$_POST['add_p']."',update_p = '".$_POST['update_p']."',delete_p = '".$_POST['delete_p']."', update_date = '".date("Y-m-d H:i:s")."', update_by= '".$_SESSION['login_id']."' where user_p_id = ".$_REQUEST['user_p_id']." ";
-			//echo $sql;
-		@mysqli_query($conn,$sql);
-		//exit();
-		header ("location:?" . $param); 
-	}
-
+		if ($_REQUEST[option] == "Add") { 
+			//include "../include/m_add.php";
+			// filedlist(group_id,module_id,read_p,add_p,update_p,delete_p)
+			$sql = "insert into s_user_p (group_id,module_id,read_p,add_p,update_p,delete_p) values ";
+			$sql.= "('".$_POST['group_id']."',".$_POST['module_id'].",".$_POST['read_p'].",".$_POST['add_p'].",".$_POST['update_p'].",".$_POST['delete_p'].")";
+			@mysqli_query($conn,$sql);
+			header ("location:?" . $param); 
+		}
+		if ($_REQUEST[option] == "Edit" ) { 
+			//include ("../include/m_update.php");
+			$sql = "update s_user_p  set group_id = '".$_POST['group_id']."',module_id = ".$_POST['module_id'].",read_p = ".$_POST['read_p'].",add_p = ".$_POST['add_p'].",update_p = ".$_POST['update_p'].",delete_p = ".$_POST['delete_p'].", update_date = '".date("Y-m-d H:i:s")."', update_by= '".$_SESSION['login_id']."' where user_p_id = ".$_REQUEST['user_p_id']." ";
+			@mysqli_query($conn,$sql);
+			header ("location:?" . $param); 
+		}
 //	}
 	
 	if($_GET['action'] == "delete"){
@@ -94,17 +84,16 @@ function confirmDelete(delUrl,text) {
 <NOSCRIPT>
 </NOSCRIPT>
 <?php  include('../top.php');?>
-<P id=page-intro><?php  if ($mode == "add") { ?>Enter new information<?php  } else { ?>แก้ไข	[<?php  echo $page_name; ?>]<?php  } ?>	</P>
+<P id=page-intro><?php  if ($mode == "add") { ?>Enter new information<?php  } else { ?>Update  details	[<?php  echo $page_name; ?>]<?php  } ?>	</P>
 <UL class=shortcut-buttons-set>
-  <LI><A class=shortcut-button href="../group/"><SPAN><IMG  alt=icon src="../images/btn_back.gif"><BR>
-  กลับ</SPAN></A></LI>
+  <LI><A class=shortcut-button href="javascript:history.back()"><SPAN><IMG  alt=icon src="../images/btn_back.gif"><BR>Back</SPAN></A></LI>
 </UL>
 <!-- End .clear -->
 <DIV class=clear></DIV><!-- End .clear -->
 <DIV class=content-box><!-- Start Content Box -->
 <DIV class=content-box-header align="right">
 
-<H3 align="left"><?php  echo $check_module; ?></H3>
+<H3 align="left"><?php  echo ucfirst ($check_module); ?></H3>
 <DIV class=clear>
   
 </DIV></DIV><!-- End .content-box-header -->
@@ -113,7 +102,7 @@ function confirmDelete(delUrl,text) {
   <form action="" method="post" enctype="multipart/form-data" name="form1" id="form1"  >
     <div class="formArea">
       <fieldset>
-      <legend><?php  echo $page_name; ?> </legend>
+      <legend><?php  echo ucfirst ($page_name); ?> </legend>
         <table width="100%" cellspacing="0" cellpadding="0" border="0">
           <tr>
           <td height="54"><table width="100%" border="0" cellspacing="0" class="formFields">
@@ -128,11 +117,11 @@ function confirmDelete(delUrl,text) {
                 <td colspan="6">&nbsp;</td>
               </tr>
               <tr >
-                <td height="26" class="name">รายการโมดูล</td>
-                <td width="43"><div align="center">อ่าน</div></td>
-                <td width="35"><div align="center">เพิ่ม</div></td>
-                <td width="56"><div align="center">แก้ไข</div></td>
-                <td width="50"><div align="center">ลบ</div></td>
+                <td height="26" class="name">Module</td>
+                <td width="43"><div align="center">Read</div></td>
+                <td width="35"><div align="center">Add</div></td>
+                <td width="56"><div align="center">Update</div></td>
+                <td width="50"><div align="center">Delete</div></td>
                 <td width="82"><div align="center"></div></td>
                 <td width="131"><div align="center"></div></td>
               </tr>
@@ -182,14 +171,14 @@ function confirmDelete(delUrl,text) {
 					  ?>
                     <select name="module_id">
                       <?php  if($_GET['action'] <> "Edit") { ?>
-                      <option>เลือกรายการโมดูล</option>
+                      <option>Select One</option>
                       <?php  } 
 								while($rec = @mysqli_fetch_array($query)){
 							?>
                       <option value="<?php  echo $rec['module_id'];?>" <?php  if($module_id == $rec['module_id']) echo "selected";?>><?php  echo $rec['module_name'];?></option>
                       <?php  } // end while ?>
                     </select>
-                  <!--<a href="javascript:;" onClick="select_all();">Select All</a>--></td>
+                  <a href="javascript:;" onClick="select_all();">Select All</a></td>
                 <td><div align="center">
                     <input name="read_p" type="checkbox" id="read_p" value="1" <?php  if($read_p == "1") echo "checked"; ?>>
                 </div></td>

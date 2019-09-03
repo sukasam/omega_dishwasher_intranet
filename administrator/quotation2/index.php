@@ -25,7 +25,7 @@
 		$query = mysqli_query($conn,$sql);
 		$recQa = mysqli_fetch_array($query);
 
-		$fs_idQA = check_quotation("QA-B ".date("Y/m/"));
+		$fs_idQA = check_quotation($conn);
 		
 		@mysqli_query($conn,"INSERT INTO 
 									`s_quotation` (`cd_name`,`cd_address`,`cd_province`,`cd_tel`,`cd_fax`,`fs_id`,`date_forder`,`pro_type`,
@@ -157,6 +157,8 @@ function check_select(frm){
     ใบเสนอราคาซื้อ</SPAN></A></LI>
     <LI><A class=shortcut-button href="../quotation2/"><SPAN><IMG  alt=icon src="../images/paper_content_pencil_48.png"><BR>
     ใบเสนอราคาเช่า</SPAN></A></LI>
+    <LI><A class=shortcut-button href="../quotation3/"><SPAN><IMG  alt=icon src="../images/paper_content_pencil_48.png"><BR>
+    ใบเสนอราคาซ่อม</SPAN></A></LI>
     <?php  
 	if ($FR_module <> "") { 
 	$param2 = get_return_param();
