@@ -104,7 +104,22 @@ function check(frm){
                 <td nowrap class="name">เบอร์โทรศัพท์</td>
                 <td><input name="group_tel" type="text" id="group_tel"  value="<?php  echo $group_tel; ?>" size="60"></td>
               </tr>
-             
+             <tr >
+                <td nowrap class="name">ชื่อเข้าใช้ระบบ</td>
+                <td>
+			 	 	<select name="user_account" id="user_account" class="inputselect" style="width:50%;">
+			 	 	<option value="0">กรุณาเลือก ชื่อเข้าใช้ระบบ</option>
+					<?php
+						$quAccount = @mysqli_query($conn,"SELECT * FROM `s_user` ORDER BY `s_user`.`name` ASC");
+						while($rowAccount = @mysqli_fetch_array($quAccount)){
+						  ?>
+							<option value="<?php  echo $rowAccount['user_id'];?>" <?php  if($user_account == $rowAccount['user_id']){echo 'selected';}?>><?php  echo $rowAccount['name'].' ('.$rowAccount['username'].')';?></option>
+						  <?php
+						}
+					?>
+				</select>
+            	 </td>
+              </tr>
           </table></td>
           </tr>
         </table>

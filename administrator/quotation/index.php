@@ -3,6 +3,7 @@
 	include ("../../include/connect.php");
 	include ("../../include/function.php");
 	include ("config.php");
+
 	Check_Permission($conn,$check_module,$_SESSION['login_id'],"read");
 	if ($_GET['page'] == ""){$_REQUEST['page'] = 1;	}
 	$param = get_param($a_param,$a_not_exists);

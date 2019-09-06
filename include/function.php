@@ -2415,5 +2415,57 @@ function get_quotation($conn,$cus_id,$tab) {
 	return $row_quotation;
 }
 
+function get_technician_signature($conn,$technic_id) {
+	
+	$rowTechnic = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM `s_group_technician` WHERE group_id = '".$technic_id."'"));
+	
+	$rowAccount = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM `s_user` WHERE user_id = '".$rowTechnic['user_account']."'"));
+	
+	$signature = '';
+	
+	if($rowAccount['signature'] != ''){
+		$signature = $rowAccount['signature'];
+	}else{
+		$signature = 'none.png';
+	}
+	
+	return $signature;
+	
+}
+
+function get_sale_signature($conn,$sale_id) {
+	
+	$rowSale = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM `s_group_sale` WHERE group_id = '".$sale_id."'"));
+	
+	$rowAccount = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM `s_user` WHERE user_id = '".$rowSale['user_account']."'"));
+	
+	$signature = '';
+	
+	if($rowAccount['signature'] != ''){
+		$signature = $rowAccount['signature'];
+	}else{
+		$signature = 'none.png';
+	}
+	
+	return $signature;
+	
+}
+
+function get_user_signature($conn,$user_id) {
+	
+	$rowAccount = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM `s_user` WHERE user_id = '".$user_id."'"));
+	
+	$signature = '';
+	
+	if($rowAccount['signature'] != ''){
+		$signature = $rowAccount['signature'];
+	}else{
+		$signature = 'none.png';
+	}
+	
+	return $signature;
+	
+}
+
 ?>
 

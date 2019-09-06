@@ -965,8 +965,9 @@ function chksign(vals){
 			4. ลูกค้าเป็นผู้ตรียมระบบไฟฟ้า <select name="type_electric" id="type_electric" class="inputselect">
       <option value="no" <?php  if($type_electric == "no"){echo 'selected';}?>>ไม่เลือก</option>
       <option value="3 เฟส (380V.) เบรกเกอร์ 32A" <?php  if($type_electric == "3 เฟส (380V.) เบรกเกอร์ 32A"){echo 'selected';}?>>3 เฟส (380V.) เบรกเกอร์ 32A</option>
-      <option value="1 เฟส (220V.) เบรกเกอร์ 20A" <?php  if($type_electric == "1 เฟส (220V.) เบรกเกอร์ 20A"){echo 'selected';}?>>1 เฟส (220V.) เบรกเกอร์ 20A</option>
       <option value="3 เฟส (380V.) เบรกเกอร์ 80A" <?php  if($type_electric == "3 เฟส (380V.) เบรกเกอร์ 80A"){echo 'selected';}?>>3 เฟส (380V.) เบรกเกอร์ 80A</option>
+      <option value="1 เฟส (220V.) เบรกเกอร์ 20A" <?php  if($type_electric == "1 เฟส (220V.) เบรกเกอร์ 20A"){echo 'selected';}?>>1 เฟส (220V.) เบรกเกอร์ 20A</option>
+      <option value="1 เฟส (220V.) เบรกเกอร์ 30A" <?php  if($type_electric == "1 เฟส (220V.) เบรกเกอร์ 30A"){echo 'selected';}?>>1 เฟส (220V.) เบรกเกอร์ 30A</option>
       </select> ท่อน้ำดี ขนาด 6 หุน น้ำทิ้ง ขนาด 2 นิ้ว ระยะไม่เกิน 5 เมตร จากตำแหน่งติดตั้ง<br>	
       5. กำหนดยืนราคา <input type="text" name="giveprice" value="<?php echo $giveprice;?>" style="text-align: center;width: 50px;"> วัน
         </p>   

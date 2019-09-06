@@ -65,6 +65,7 @@
       <tr>
         <td colspan="4"><br /><br /></td>
       </tr>
+<!--
       <tr>
         <td colspan="4" style="text-align:left;">
         <script type="text/javascript" src="../js/clock.js"></script>
@@ -77,6 +78,7 @@
            </div>
         </td>
       </tr>
+-->
     </table>
 </div>
 

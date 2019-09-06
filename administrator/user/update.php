@@ -234,7 +234,7 @@ function check(frm){
               </tr>
               -->
               <?php 
-				if($_REQUEST['mode'] != 'add'){
+				if($_REQUEST['mode'] != 'add' && $_SESSION['login_id'] == $_GET['user_id']){
 					?>
 				  <tr>
 					<td>
