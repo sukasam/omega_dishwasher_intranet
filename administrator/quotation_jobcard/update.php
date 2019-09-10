@@ -107,6 +107,8 @@
 			include_once("form_servicecard.php");
 			$mpdf=new mPDF('UTF-8'); 
 			$mpdf->SetAutoFont();
+//			$mpdf->showWatermarkText = true;
+//			$mpdf->WriteHTML('<watermarktext content="NOT YET APPROVED" alpha="0.4" />');
 			$mpdf->WriteHTML($form);
 			$chaf = str_replace("/","-",$_POST['sv_id']); 
 			$mpdf->Output('../../upload/quotation_jobcard/'.$chaf.'.pdf','F');
@@ -120,11 +122,15 @@
 			include ("../include/m_update.php");
 			
 			$id = $_REQUEST[$PK_field];			
+			
+			mysqli_query($conn,"UPDATE `s_quotation_jobcard` SET `process` = '0' WHERE `s_quotation_jobcard`.`qc_id` = ".$id.";");
 				
 			include_once("../mpdf54/mpdf.php");
 			include_once("form_servicecard.php");
 			$mpdf=new mPDF('UTF-8'); 
 			$mpdf->SetAutoFont();
+//			$mpdf->showWatermarkText = true;
+//			$mpdf->WriteHTML('<watermarktext content="NOT YET APPROVED" alpha="0.4" />');
 			$mpdf->WriteHTML($form);
 			$chaf = str_replace("/","-",$_POST['sv_id']); 
 			$mpdf->Output('../../upload/quotation_jobcard/'.$chaf.'.pdf','F');
@@ -486,7 +492,16 @@ function check(frm){
         <td width="33%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
         	<table width="100%" cellspacing="0" cellpadding="0">
               <tr>
-                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong ><input type="text" name="cs_hsell" value="<?php  echo $cs_hsell;?>" id="cs_hsell" class="inpfoder" style="width:50%;text-align:center;"></strong></td>
+                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong >
+                <?php
+					$hsale = '';
+					if($cs_hsell != ""){
+						$hsale = $cs_hsell;
+					}else{
+						$hsale = getNameSaleApprove($conn);
+					}
+				?>
+                <input type="text" name="cs_hsell" value="<?php  echo $hsale;?>" id="cs_hsell" class="inpfoder" style="width:50%;text-align:center;border: none;"></strong></td>
               </tr>
               <tr>
                 <td style="padding-top:10px;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>หัวหน้าฝ่ายขาย</strong></td>
@@ -505,7 +520,21 @@ function check(frm){
         <td width="33%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
         	<table width="100%" cellspacing="0" cellpadding="0">
               <tr>
-                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong><input type="text" name="cs_providers" value="<?php  echo $cs_providers;?>" id="cs_providers" class="inpfoder" style="width:50%;text-align:center;"></strong></td>
+                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;">
+<!--                <strong><input type="text" name="cs_providers" value="<?php  echo $cs_providers;?>" id="cs_providers" class="inpfoder" style="width:50%;text-align:center;"></strong>-->
+               
+               <select name="cs_providers" id="cs_providers" class="inputselect" style="width:50%;">
+                <?php
+                	$qutectype = @mysqli_query($conn,"SELECT * FROM s_group_technician ORDER BY group_name ASC");
+					while($row_tectype = @mysqli_fetch_array($qutectype)){
+					  ?>
+					  	<option value="<?php  echo $row_tectype['group_id'];?>" <?php  if($cs_providers == $row_tectype['group_id']){echo 'selected';}?>><?php  echo $row_tectype['group_name'];?></option>
+					  <?php
+					}
+				?>
+            	</select>
+               
+                </td>
               </tr>
               <tr>
                 <td style="padding-top:10px;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>ผู้ให้บริการ</strong></td>
@@ -527,8 +556,10 @@ function check(frm){
         </fieldset>
     </div><br>
     <div class="formArea">
-      <input type="submit" name="Submit" value="Submit" class="button">
-      <input type="reset" name="Submit" value="Reset" class="button">
+      <div style="text-align: center;">
+      	<input type="submit" name="Submit" value=" บันทึก " class="button bt_save">
+      	<input type="button" name="Cancel" value=" ยกเลิก " class="button bt_cancel" onClick="history.back();">
+      </div>
       <?php  
 			$a_not_exists = array();
 			post_param($a_param,$a_not_exists); 

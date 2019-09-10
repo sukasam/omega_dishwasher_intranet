@@ -54,6 +54,8 @@
 				include_once("form_firstorder.php");
 				$mpdf=new mPDF('UTF-8');
 				$mpdf->SetAutoFont();
+//				$mpdf->showWatermarkText = true;
+//				$mpdf->WriteHTML('<watermarktext content="NOT YET APPROVED" alpha="0.4" />');
 				$mpdf->WriteHTML($form);
 				$chaf = str_replace("/","-",$_POST['fs_id']);
 				$mpdf->Output('../../upload/first_order/'.$chaf.'.pdf','F');
@@ -66,11 +68,15 @@
 				
 				include ("../include/m_update.php");
 				$id = $_REQUEST[$PK_field];
+			
+				@mysqli_query($conn,"UPDATE `s_first_order` SET `process` = '0' WHERE `s_first_order`.`fo_id` = ".$id.";");
 
 				include_once("../mpdf54/mpdf.php");
 				include_once("form_firstorder.php");
 				$mpdf=new mPDF('UTF-8');
 				$mpdf->SetAutoFont();
+//				$mpdf->showWatermarkText = true;
+//				$mpdf->WriteHTML('<watermarktext content="NOT YET APPROVED" alpha="0.4" />');
 				$mpdf->WriteHTML($form);
 				$chaf = str_replace("/","-",$_POST['fs_id']);
 				$mpdf->Output('../../upload/first_order/'.$chaf.'.pdf','F');
@@ -750,7 +756,16 @@ Vat 7%</strong></td>
         <td width="25%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
         	<table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong ><input type="text" name="cs_hsell" value="<?php  echo $cs_hsell;?>" id="cs_hsell" class="inpfoder" style="width:50%;text-align:center;"></strong></td>
+                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;">
+                <?php
+					$hsale = '';
+					if($cs_hsell != ""){
+						$hsale = $cs_hsell;
+					}else{
+						$hsale = getNameSaleApprove($conn);
+					}
+				?>
+                <strong ><input type="text" name="cs_hsell" value="<?php  echo $hsale;?>" id="cs_hsell" class="inpfoder" style="width:50%;text-align:center;border: none;"></strong></td>
               </tr>
               <tr>
                 <td style="padding-top:10px;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>ผู้อนุมัติการขาย</strong></td>
@@ -764,7 +779,16 @@ Vat 7%</strong></td>
         <td width="25%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
         	<table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong><input type="text" name="cs_account" value="<?php  echo $cs_account;?>" id="cs_account" class="inpfoder" style="width:50%;text-align:center;"></strong></td>
+                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;">
+                <?php
+					$haccount = '';
+					if($cs_account != ""){
+						$haccount = $cs_account;
+					}else{
+						$haccount = getNameAccountApprove($conn);
+					}
+				?>
+                <strong><input type="text" name="cs_account" value="<?php  echo $haccount;?>" id="cs_account" class="inpfoder" style="width:50%;text-align:center;border: none;"></strong></td>
               </tr>
               <tr>
                 <td style="padding-top:10px;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>ฝ่ายบัญชีการเงิน</strong></td>
@@ -777,7 +801,16 @@ Vat 7%</strong></td>
         <td width="25%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
         	<table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong><input type="text" name="cs_aceep" value="<?php  echo $cs_aceep;?>" id="cs_aceep" class="inpfoder" style="width:50%;text-align:center;"></strong></td>
+                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;">
+                <?php
+					$hBig = '';
+					if($cs_aceep != ""){
+						$hBig = $cs_aceep;
+					}else{
+						$hBig = getNameBigApprove($conn);
+					}
+				?>
+                <strong><input type="text" name="cs_aceep" value="<?php  echo $hBig;?>" id="cs_aceep" class="inpfoder" style="width:50%;text-align:center;border: none;"></strong></td>
               </tr>
               <tr>
                 <td style="padding-top:10px;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>ผู้มีอำนาจลงนาม</strong></td>
@@ -801,8 +834,11 @@ Vat 7%</strong></td>
         </fieldset>
     </div><br>
     <div class="formArea">
-      <input type="submit" name="Submit" value="Submit" class="button">
-      <input type="reset" name="Submit" value="Reset" class="button">
+      <div style="text-align: center;">
+      	<input type="submit" name="Submit" value=" บันทึก " class="button bt_save">
+      	<input type="button" name="Cancel" value=" ยกเลิก " class="button bt_cancel" onClick="window.location='index.php'">
+      </div>
+<!--      <input type="reset" name="Submit" value="Reset" class="button">-->
       <?php
 			$a_not_exists = array();
 			post_param($a_param,$a_not_exists);

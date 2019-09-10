@@ -929,3 +929,17 @@ div.validateresult{background:#FF9; padding:12px; margin:-20px -20px 20px -20px;
 .setting li label {
     cursor: pointer;
 }
+.bt_save{
+    background-color: #4CAF50 !important;
+    background: #4CAF50 !important;
+    border: 1px solid #4CAF50 !important;
+    width: 100px;
+    height: 30px;
+}
+.bt_cancel{
+	background-color: #F44336 !important;
+    background: #F44336 !important;
+    border: 1px solid #F44336 !important;
+    width: 100px;
+    height: 30px;
+}

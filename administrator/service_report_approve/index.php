@@ -191,7 +191,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 					} 
 					
 					if ($_GET['app_id'] <> "") { 
-						$sql .= " and ( approve = '$_GET[app_id]' ";
+						$sql .= " and ( approve = '".$_GET['app_id']."' ";
 						$sql .=  $subtext . " ) ";
 					}else{
 						$sql .= " and ( approve = '0' ";

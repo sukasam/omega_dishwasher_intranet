@@ -84,7 +84,7 @@
 			}
 		
 		if($status == 1){
-			$foid = check_firstorder("FO".date("Y/m/"));
+			$foid = check_firstorder($conn);
 			
 			@mysqli_query($conn,"INSERT INTO `s_first_order` (`fo_id`, `cd_name`, `cd_address`, `cd_province`, `cd_tel`, `cd_fax`, `fs_id`, `date_forder`, `cg_type`, `ctype`, `pro_type`, `po_id`, `pro_sn1`, `pro_sn2`, `pro_sn3`, `pro_sn4`, `pro_sn5`, `pro_sn6`, `pro_sn7`, `c_contact`, `c_tel`, `cpro1`, `cpro2`, `cpro3`, `cpro4`, `cpro5`, `cpro6`, `cpro7`, `camount1`, `camount2`, `camount3`, `camount4`, `camount5`, `camount6`, `camount7`, `cprice1`, `cprice2`, `cprice3`, `cprice4`, `cprice5`, `cprice6`, `cprice7`, `cs_pro1`, `cs_pro2`, `cs_pro3`, `cs_pro4`, `cs_pro5`, `cs_amount1`, `cs_amount2`, `cs_amount3`, `cs_amount4`, `cs_amount5`, `type_service`, `cs_sell`, `cs_ship`, `cs_setting`, `date_quf`, `date_qut`) VALUES (NULL, '".$cd_name."', '".$cd_address."', '".$cd_province."', '".$cd_tel."', '".$cd_fax."', '".$foid."','".$date_forder."','17','16', '".$pro_type."', '".$fs_id."', '".$pro_sn1."', '".$pro_sn2."', '".$pro_sn3."', '".$pro_sn4."', '".$pro_sn5."', '".$pro_sn6."', '".$pro_sn7."', '".$c_contact."', '".$c_tel."', '".$cpro1."', '".$cpro2."', '".$cpro3."', '".$cpro4."', '".$cpro5."', '".$cpro6."', '".$cpro7."', '".$camount1."', '".$camount2."', '".$camount3."', '".$camount4."', '".$camount5."', '".$camount6."', '".$camount7."', '".$cprice1."', '".$cprice2."', '".$cprice3."', '".$cprice4."', '".$cprice5."', '".$cprice6."', '".$cprice7."', '".$cs_pro1."', '".$cs_pro2."', '".$cs_pro3."', '".$cs_pro4."', '".$cs_pro5."', '".$cs_amount1."', '".$cs_amount2."', '".$cs_amount3."', '".$cs_amount4."', '".$cs_amount5."', '".$type_service."', '".$cs_sell."','".$date_forder."','".$date_forder."','".$date_forder."','".$date_forder."');");
 
@@ -119,10 +119,13 @@
 <LINK rel="stylesheet" type=text/css href="../css/reset.css" media=screen>
 <LINK rel="stylesheet" type=text/css href="../css/style.css" media=screen>
 <LINK rel="stylesheet" type=text/css href="../css/invalid.css" media=screen>
-<SCRIPT type=text/javascript src="../js/jquery-1.3.2.min.js"></SCRIPT>
+<SCRIPT type=text/javascript src="../js/jquery-1.9.1.min.js"></SCRIPT>
+<!--
 <SCRIPT type=text/javascript src="../js/simpla.jquery.configuration.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/facebox.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/jquery.wysiwyg.js"></SCRIPT>
+-->
+<SCRIPT type=text/javascript src="ajax.js"></SCRIPT>
 <META name=GENERATOR content="MSHTML 8.00.7600.16535">
 <script>
 function confirmDelete(delUrl,text) {
@@ -137,6 +140,40 @@ function check_select(frm){
 			frm.choose_action.focus(); return false;
 		}
 }	
+	
+function selectProcess(evt){
+	var process_val = document.getElementById('process_'+evt).value;
+	
+	if(process_val == 1){
+		document.getElementById('process_'+evt).style.backgroundColor ='#FFEB3B';
+	}else{
+		document.getElementById('process_'+evt).style.backgroundColor ='#FFFFFF';
+	}
+	
+	var xmlHttp;
+   xmlHttp=GetXmlHttpObject(); //Check Support Brownser
+   URL = pathLocal+'call_api.php?action=changeProcess&id='+evt+'&process='+process_val;
+   if (xmlHttp==null){
+      alert ("Browser does not support HTTP Request");
+      return;
+   }
+    xmlHttp.onreadystatechange=function (){
+        if (xmlHttp.readyState==4 || xmlHttp.readyState=="complete"){   
+			var ds = xmlHttp.responseText;
+			//console.log(ds);
+        } else{
+          //document.getElementById(ElementId).innerHTML="<div class='loading'> Loading..</div>" ;
+        }
+   };
+   xmlHttp.open("GET",URL,true);
+   xmlHttp.send(null);
+}
+	
+function MM_jumpMenu(targ,selObj,restore){ //v3.0
+  eval(targ+".location='"+selObj.options[selObj.selectedIndex].value+"'");
+  if (restore) selObj.selectedIndex=0;
+}
+	
 </script>
 </HEAD>
 <?php  include ("../../include/function_script.php"); ?>
@@ -174,7 +211,9 @@ function check_select(frm){
 <DIV class=content-box-header align="right" style="padding-right:15px;">
 
 <H3 align="left"><?php  echo $check_module; ?></H3>
-<br><form name="form1" method="get" action="index.php">
+<br>
+   <div style="float:right;">
+   <form name="form1" method="get" action="index.php">
     <input name="keyword" type="text" id="keyword" value="<?php  echo $keyword;?>">
     <input name="Action" type="submit" id="Action" value="ค้นหา">
     <?php 
@@ -187,6 +226,20 @@ function check_select(frm){
 			post_param($a_param,$a_not_exists);*/
 			?>
   </form>
+  </div>
+    <div style="float:right;margin-right:20px;">  
+	<label><strong>สถานะการอนุมัติ : </strong></label>
+    <select name="catalog_master" id="catalog_master" style="height:24px;" onChange="MM_jumpMenu('parent',this,0)">
+		 <option value="index.php?process=0" <?php  if($_GET['process'] == '0' || !isset($_GET['process'])){echo "selected";}?>>รอการแก้ไข</option>
+		 <option value="index.php?process=1" <?php  if($_GET['process'] == '1'){echo "selected";}?>>รอผู้อนุมัติฝ่ายขาย</option>
+<!--
+         <option value="index.php?process=2" <?php  if($_GET['process'] == '2'){echo "selected";}?>>รอผู้อนุมัติฝ่ายการเงิน</option>
+         <option value="index.php?process=3" <?php  if($_GET['process'] == '3'){echo "selected";}?>>รอผู้มีอำนาจลงนาม</option>
+-->
+<!--         <option value="index.php?process=4" <?php  if($_GET['process'] == '4'){echo "selected";}?>>รอผู้อนุมัติฝ่ายช่าง</option>-->
+         <option value="index.php?process=5" <?php  if($_GET['process'] == '5'){echo "selected";}?>>ผ่านการอนุมัติ</option>
+  	</select>
+    </div>
 <DIV class=clear>
 
 </DIV></DIV><!-- End .content-box-header -->
@@ -196,20 +249,15 @@ function check_select(frm){
     <TABLE>
       <THEAD>
         <TR>
-          <TH width="5%"><INPUT class=check-all type=checkbox name="ca" value="true" onClick="chkAll(this.form, 'del[]', this.checked)"></TH>
-          <TH width="5%" <?php  Show_Sort_bg ("user_id", $orderby) ?>> <?php 
-		$a_not_exists = array('orderby','sortby');
-		$param2 = get_param($a_param,$a_not_exists);
-	?>
-            <?php   Show_Sort_new ("user_id", "ลำดับ.", $orderby, $sortby,$page,$param2);?>
-            &nbsp;</TH>
-          <TH width="12%">Quotation ID</TH>
+<!--          <TH width="5%"><INPUT class=check-all type=checkbox name="ca" value="true" onClick="chkAll(this.form, 'del[]', this.checked)"></TH>-->
+          <TH width="5%"><center>การอนุมัติ</center></TH>
+          <TH width="12%"><center>QA ID</center></TH>
           <TH width="35%">ชื่อลูกค้า</TH>
 <!--          <TH width="18%"><strong>สถานที่ติดตั้ง</strong></TH>-->
 <!--          <TH width="5%" nowrap ><div align="center"><img src="../icons/favorites_use.png" width="15" height="15"> ใช้งาน / <img src="../icons/favorites_stranby.png" width="15" height="15"> Standby / <img src="../icons/favorites_close.png" width="15" height="15"> ยกเลิก</div></TH>-->
-		  <TH width="5%" nowrap ><div align="center"><a>ใบแจ้งงานบริการ</a></div></TH>
-          <TH width="5%" nowrap ><div align="center"><a>เปิดใบเสนอราคาเช่า</a></div></TH> 
-          <TH width="5%" nowrap ><div align="center"><a>การอนุมัติ</a></div></TH>
+		  <TH width="5%" nowrap ><div align="center"><a>ใบแจ้งงาน</a></div></TH>
+          <TH width="5%" nowrap ><div align="center"><a>เปิด QA เช่า</a></div></TH> 
+          <TH width="5%" nowrap ><div align="center"><a>สร้าง FO</a></div></TH>
           <TH width="5%" style="white-space: nowrap;"><div align="center"><a>ดาวโหลด</a></div></TH>
           <TH width="5%"><a>แก้ไข</a></TH>
           <TH width="5%"><a>ลบ</a></TH>
@@ -235,6 +283,15 @@ function check_select(frm){
 						}
 						$sql .=  $subtext . " ) ";
 					} 
+		  
+		  			if ($_GET['process'] <> "") { 
+						$sql .= " and ( process = '".$_GET['process']."' ";
+						$sql .=  $subtext . " ) ";
+					}else{
+						$sql .= " and ( process = '0' ";
+						$sql .=  $subtext . " ) ";
+					}
+		  
 					if ($orderby <> "") $sql .= " order by " . $orderby;
 					if ($sortby <> "") $sql .= " " . $sortby;
 					include ("../include/page_init.php");
@@ -247,9 +304,34 @@ function check_select(frm){
 					$counter++;
 				   ?>
         <TR>
-          <TD><INPUT type=checkbox name="del[]" value="<?php  echo $rec[$PK_field]; ?>" ></TD>
-          <TD><span class="text"><?php  echo sprintf("%04d",$counter); ?></span></TD>
-          <TD><?php  $chaf = str_replace("/","-",$rec["fs_id"]); ?><span class="text"><a href="../../upload/quotation/<?php  echo $chaf;?>.pdf" target="_blank"><?php  echo $rec["fs_id"] ; ?></a></span></TD>
+<!--          <TD><INPUT type=checkbox name="del[]" value="<?php  echo $rec[$PK_field]; ?>" ></TD>-->
+          <TD>
+          <center>
+			  <?php
+			  if($rec['process'] == '5'){
+				  ?>
+				  <select name="process_applove" style="background:#4CAF50;color:#000;">
+				  	<option value="5" selected>ผ่านการอนุมัติ</option>
+				  </select>
+				  <?php
+			  }else if($rec['process'] == '1'){
+				  ?>
+				  <select name="process_applove" style="background:#FFEB3B;color:#000;">
+				  	<option value="1" selected>รอผู้อนุมัติฝ่ายขาย</option>
+				  </select>
+				  <?php
+			  }else{
+				  ?>
+				  <select name="process_applove" style="background:#FFFFFF;color:#000;" onchange="selectProcess('<?php echo $rec['qu_id'];?>')" id="process_<?php echo $rec['qu_id'];?>">
+					  <option value="0" <?php if($rec['process'] == '0'){echo 'selected';}?>>รอแก้ไข QA</option>
+					  <option value="1">รอผู้อนุมัติฝ่ายขาย</option>
+				  </select>
+				  <?php
+			  }
+			  ?>
+		  </center>
+          </TD>
+          <TD><center><?php  $chaf = str_replace("/","-",$rec["fs_id"]); ?><span class="text"><a href="../../upload/quotation/<?php  echo $chaf;?>.pdf" target="_blank"><?php  echo $rec["fs_id"] ; ?></a></span></center></TD>
           <TD>          <span class="text"><?php  echo $rec["cd_name"] ; ?></span></TD>
 			  <td>
 			  	<center><a href="../quotation_jobcard/?tab=1&id=<?php  echo $rec[$PK_field]; ?>"><img src="../images/hammer_screwdriver.png" width="20" height="20"></a></center>
@@ -315,6 +397,7 @@ function check_select(frm){
     </TABLE>
     <br><br>
     <DIV class="bulk-actions align-left">
+<!--
             <SELECT name="choose_action" id="choose_action">
               <OPTION selected value="">กรุณาเลือก...</OPTION>
               <OPTION value="del">ลบ</OPTION>
@@ -324,6 +407,7 @@ function check_select(frm){
 				post_param($a_param,$a_not_exists); 
 			?>
             <input class=button name="Action2" type="submit" id="Action2" value="ตกลง">
+-->
           </DIV> <DIV class=pagination> <?php  include("../include/page_show.php");?> </DIV>
   </form>  
 </DIV><!-- End #tab1 -->

@@ -877,8 +877,10 @@ function chksign(vals){
     </fieldset>
     </div><br>
     <div class="formArea">
-      <input type="submit" name="Submit" value="Submit" class="button">
-      <input type="reset" name="Submit" value="Reset" class="button">
+      <div style="text-align: center;">
+      	<input type="submit" name="Submit" value=" บันทึก " class="button bt_save">
+      	<input type="button" name="Cancel" value=" ยกเลิก " class="button bt_cancel" onClick="window.location='index.php'">
+      </div>
       <?php
 			$a_not_exists = array();
 			post_param($a_param,$a_not_exists);

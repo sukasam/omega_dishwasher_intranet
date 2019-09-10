@@ -62,10 +62,14 @@
 <LINK rel="stylesheet" type=text/css href="../css/reset.css" media=screen>
 <LINK rel="stylesheet" type=text/css href="../css/style.css" media=screen>
 <LINK rel="stylesheet" type=text/css href="../css/invalid.css" media=screen>
-<SCRIPT type=text/javascript src="../js/jquery-1.3.2.min.js"></SCRIPT>
+<SCRIPT type=text/javascript src="../js/jquery-1.9.1.min.js"></SCRIPT>
+<!--
 <SCRIPT type=text/javascript src="../js/simpla.jquery.configuration.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/facebox.js"></SCRIPT>
-<SCRIPT type=text/javascript src="../js/jquery.wysiwyg.js"></SCRIPT>
+-->
+<!--<SCRIPT type=text/javascript src="../js/jquery.wysiwyg.js"></SCRIPT>-->
+<SCRIPT type=text/javascript src="ajax.js"></SCRIPT>
+
 <META name=GENERATOR content="MSHTML 8.00.7600.16535">
 <script>
 function confirmDelete(delUrl,text) {
@@ -80,6 +84,39 @@ function check_select(frm){
 			frm.choose_action.focus(); return false;
 		}
 }	
+	
+function selectProcess(evt){
+	var process_val = document.getElementById('process_'+evt).value;
+	
+	if(process_val == 1){
+		document.getElementById('process_'+evt).style.backgroundColor ='#FFEB3B';
+	}else{
+		document.getElementById('process_'+evt).style.backgroundColor ='#FFFFFF';
+	}
+	
+	var xmlHttp;
+   xmlHttp=GetXmlHttpObject(); //Check Support Brownser
+   URL = pathLocal+'call_api.php?action=changeProcess&id='+evt+'&process='+process_val;
+   if (xmlHttp==null){
+      alert ("Browser does not support HTTP Request");
+      return;
+   }
+    xmlHttp.onreadystatechange=function (){
+        if (xmlHttp.readyState==4 || xmlHttp.readyState=="complete"){   
+			var ds = xmlHttp.responseText;
+			//console.log(ds);
+        } else{
+          //document.getElementById(ElementId).innerHTML="<div class='loading'> Loading..</div>" ;
+        }
+   };
+   xmlHttp.open("GET",URL,true);
+   xmlHttp.send(null);
+}
+	
+function MM_jumpMenu(targ,selObj,restore){ //v3.0
+  eval(targ+".location='"+selObj.options[selObj.selectedIndex].value+"'");
+  if (restore) selObj.selectedIndex=0;
+}
 </script>
 </HEAD>
 <?php  include ("../../include/function_script.php"); ?>
@@ -106,14 +143,18 @@ function check_select(frm){
   <?php  }?>
 
 </UL>
-  
+ <DIV class=clear></DIV><!-- End .clear -->
+  <div><strong><img src="../icons/favorites_use.png" width="15" height="15"> ใช้งาน / <img src="../icons/favorites_stranby.png" width="15" height="15"> Standby / <img src="../icons/favorites_close.png" width="15" height="15"> ยกเลิก</strong></div><br><br>
   <!-- End .shortcut-buttons-set -->
 <DIV class=clear></DIV><!-- End .clear -->
+
 <DIV class=content-box><!-- Start Content Box -->
 <DIV class=content-box-header align="right" style="padding-right:15px;">
 
 <H3 align="left"><?php  echo $check_module; ?></H3>
-<br><form name="form1" method="get" action="index.php">
+<br>
+  <div style="float:right;">
+   <form name="form1" method="get" action="index.php">
     <input name="keyword" type="text" id="keyword" value="<?php  echo $keyword;?>">
     <input name="Action" type="submit" id="Action" value="ค้นหา">
     <?php 
@@ -126,6 +167,18 @@ function check_select(frm){
 			post_param($a_param,$a_not_exists);*/
 			?>
   </form>
+  </div>
+  <div style="float:right;margin-right:20px;">  
+	<label><strong>สถานะการอนุมัติ : </strong></label>
+    <select name="catalog_master" id="catalog_master" style="height:24px;" onChange="MM_jumpMenu('parent',this,0)">
+		 <option value="index.php?process=0" <?php  if($_GET['process'] == '0' || !isset($_GET['process'])){echo "selected";}?>>รอการแก้ไข</option>
+		 <option value="index.php?process=1" <?php  if($_GET['process'] == '1'){echo "selected";}?>>รอผู้อนุมัติฝ่ายขาย</option>
+         <option value="index.php?process=2" <?php  if($_GET['process'] == '2'){echo "selected";}?>>รอผู้อนุมัติฝ่ายการเงิน</option>
+         <option value="index.php?process=3" <?php  if($_GET['process'] == '3'){echo "selected";}?>>รอผู้มีอำนาจลงนาม</option>
+<!--         <option value="index.php?process=4" <?php  if($_GET['process'] == '4'){echo "selected";}?>>รอผู้อนุมัติฝ่ายช่าง</option>-->
+         <option value="index.php?process=5" <?php  if($_GET['process'] == '5'){echo "selected";}?>>ผ่านการอนุมัติ</option>
+  	</select>
+    </div>
 <DIV class=clear>
 
 </DIV></DIV><!-- End .content-box-header -->
@@ -136,20 +189,23 @@ function check_select(frm){
       <THEAD>
         <TR>
 <!--          <TH width="5%"><INPUT class=check-all type=checkbox name="ca" value="true" onClick="chkAll(this.form, 'del[]', this.checked)"></TH>-->
+<!--
           <TH width="5%" <?php  Show_Sort_bg ("user_id", $orderby) ?>> <?php 
 		$a_not_exists = array('orderby','sortby');
 		$param2 = get_param($a_param,$a_not_exists);
 	?>
             <?php   Show_Sort_new ("user_id", "ลำดับ.", $orderby, $sortby,$page,$param2);?>
             &nbsp;</TH>
-          <TH width="12%">First Order ID</TH>
+-->
+          <TH width="12%"><center>การอนุมัติ</center></TH>
+          <TH width="12%"><center>FO ID</center></TH>
           <TH width="35%">ชื่อลูกค้า</TH>
           <TH width="18%"><strong>สถานที่ติดตั้ง</strong></TH>
-          <TH width="5%" nowrap ><div align="center"><a>ใบแจ้งงานบริการ</a></div></TH>
-          <TH width="5%" nowrap ><div align="center"><img src="../icons/favorites_use.png" width="15" height="15"> ใช้งาน / <img src="../icons/favorites_stranby.png" width="15" height="15"> Standby / <img src="../icons/favorites_close.png" width="15" height="15"> ยกเลิก</div></TH>
+          <TH width="5%" nowrap ><div align="center"><a>แจ้งงาน</a></div></TH>
+          <TH width="10%" nowrap ><div align="center">สถานะ</TH>
 <!--          <TH width="5%" nowrap ><div align="center"><a> Open / </a><a> Close</a></div></TH>-->
-          <TH width="5%" nowrap ><div align="center"><a>Setting</a></div></TH>
-          <TH width="5%"><div align="center"><a>Download</a></div></TH>
+<!--          <TH width="5%" nowrap ><div align="center"><a>Setting</a></div></TH>-->
+<!--          <TH width="5%"><div align="center"><a>Download</a></div></TH>-->
           <TH width="5%"><a>แก้ไข</a></TH>
           <TH width="5%"><a>ลบ</a></TH>
         </TR>
@@ -174,6 +230,15 @@ function check_select(frm){
 						}
 						$sql .=  $subtext . " ) ";
 					} 
+		  
+		  			if ($_GET['process'] <> "") { 
+						$sql .= " and ( process = '".$_GET['process']."' ";
+						$sql .=  $subtext . " ) ";
+					}else{
+						$sql .= " and ( process = '0' ";
+						$sql .=  $subtext . " ) ";
+					}
+		  
 					if ($orderby <> "") $sql .= " order by " . $orderby;
 					if ($sortby <> "") $sql .= " " . $sortby;
 					include ("../include/page_init.php");
@@ -187,11 +252,53 @@ function check_select(frm){
 				   ?>
         <TR>
 <!--          <TD><INPUT type=checkbox name="del[]" value="<?php  echo $rec[$PK_field]; ?>" ></TD>-->
-          <TD><span class="text"><?php  echo sprintf("%04d",$counter); ?></span></TD>
-          <TD><?php  
+          <TD><center>
+			  <?php
+			  if($rec['process'] == '5'){
+				  ?>
+				  <select name="process_applove" style="background:#4CAF50;color:#000;">
+				  	<option value="5" selected>ผ่านการอนุมัติ</option>
+				  </select>
+				  <?php
+			  }else if($rec['process'] == '4'){
+				  ?>
+				  <select name="process_applove" style="background:#e7487e;color:#000;">
+				  	<option value="4" selected>รอผู้อนุมัติฝ่ายช่าง</option>
+				  </select>
+				  <?php
+			  }else if($rec['process'] == '3'){
+				  ?>
+				  <select name="process_applove" style="background:#03A9F4;color:#000;">
+				  	<option value="3" selected>รอผู้มีอำนาจลงนาม</option>
+				  </select>
+				  <?php
+			  }else if($rec['process'] == '2'){
+				  ?>
+				  <select name="process_applove" style="background:#FF9800;color:#000;">
+				  	<option value="2" selected>รอผู้อนุมัติฝ่ายบัญชี</option>
+				  </select>
+				  <?php
+			  }else if($rec['process'] == '1'){
+				  ?>
+				  <select name="process_applove" style="background:#FFEB3B;color:#000;">
+				  	<option value="1" selected>รอผู้อนุมัติฝ่ายขาย</option>
+				  </select>
+				  <?php
+			  }else{
+				  ?>
+				  <select name="process_applove" style="background:#FFFFFF;color:#000;" onchange="selectProcess('<?php echo $rec['fo_id'];?>')" id="process_<?php echo $rec['fo_id'];?>">
+					  <option value="0" <?php if($rec['process'] == '0'){echo 'selected';}?>>รอแก้ไข FO</option>
+					  <option value="1">รอผู้อนุมัติฝ่ายขาย</option>
+				  </select>
+				  <?php
+			  }
+			  ?>
+		  </center>
+          </TD>
+          <TD><center><?php  
           $chaf = str_replace("/","-",$rec["fs_id"]); ?>
           
-          <span class="text"><a href="../../upload/first_order/<?php  echo $chaf;?>.pdf" target="_blank"><?php  echo $rec["fs_id"] ; ?></a></span></TD>
+          <span class="text"><a href="../../upload/first_order/<?php  echo $chaf;?>.pdf" target="_blank"><?php  echo $rec["fs_id"] ; ?></a></span></center></TD>
           <TD>          <span class="text"><?php  echo $rec["cd_name"] ; ?></span></TD>
           <TD><span class="text"><?php  echo $rec["loc_name"] ; ?></span></TD>
           <td style="vertical-align: middle;">
@@ -216,6 +323,7 @@ function check_select(frm){
           <div align="center"><A href="service_close.php?fo_id=<?php  echo $rec["fo_id"];?>"><IMG  alt=icon src="../images/icons/icon-48-install.png"></A></div>
           </TD>
 -->
+<!--
           <TD nowrap style="vertical-align:middle"><div align="center">
             <?php  if($rec["st_setting"]==0) {?>
             <a href="../first_order/?b=<?php  echo $rec[$PK_field]; ?>&s=<?php  echo $rec["st_setting"]; ?>&page=<?php  echo $_GET['page']; ?>&<?php  echo $FK_field; ?>=<?php  echo $_REQUEST["$FK_field"];?>"><img src="../icons/status_on.gif" width="10" height="10"></a>
@@ -223,7 +331,8 @@ function check_select(frm){
             <a href="../first_order/?b=<?php  echo $rec[$PK_field]; ?>&s=<?php  echo $rec["st_setting"]; ?>&page=<?php  echo $_GET['page']; ?>&<?php  echo $FK_field; ?>=<?php  echo $_REQUEST["$FK_field"];?>"><img src="../icons/status_off.gif" width="10" height="10"></a>
             <?php  }?>
           </div></TD>
-          <TD><div align="center"><a href="../../upload/first_order/<?php  echo $chaf;?>.pdf" target="_blank"><img src="../images/icon2/download_f2.png" width="20" height="20" border="0" alt=""></a></div></TD>
+-->
+<!--          <TD><div align="center"><a href="../../upload/first_order/<?php  echo $chaf;?>.pdf" target="_blank"><img src="../images/icon2/download_f2.png" width="20" height="20" border="0" alt=""></a></div></TD>-->
           <TD><!-- Icons -->
             <A title=Edit href="update.php?mode=update&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field]; if($param <> "") {?>&<?php  echo $param; }?>"><IMG alt=Edit src="../images/pencil.png"></A> <A title=Delete  href="#"></A></TD>
           <TD><A title=Delete  href="#"><IMG alt=Delete src="../images/cross.png" onClick="confirmDelete('?action=delete&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field];?>','Group  <?php  echo $rec[$PK_field];?> : <?php  echo $rec["group_name"];?>')"></A></TD>

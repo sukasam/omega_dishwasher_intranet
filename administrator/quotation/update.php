@@ -216,6 +216,8 @@ $sumtotals = $sumprice + $sumpricevat;
 				include_once("form_quotation.php");
 				$mpdf=new mPDF('UTF-8');
 				$mpdf->SetAutoFont();
+//				$mpdf->showWatermarkText = true;
+//				$mpdf->WriteHTML('<watermarktext content="NOT YET APPROVED" alpha="0.4" />');
 				$mpdf->WriteHTML($form);
 				$chaf = str_replace("/","-",$_POST['fs_id']);
 				$mpdf->Output('../../upload/quotation/'.$chaf.'.pdf','F');
@@ -232,10 +234,14 @@ $sumtotals = $sumprice + $sumpricevat;
 			
 				//require_once("genpdf.php");
 			
+				@mysqli_query($conn,"UPDATE `s_quotation` SET `process` = '0' WHERE `s_quotation`.`qu_id` = ".$id.";");
+			
 				include_once("../mpdf54/mpdf.php");
 				include_once("form_quotation.php");
 				$mpdf=new mPDF('UTF-8');
 				$mpdf->SetAutoFont();
+//				$mpdf->showWatermarkText = true;
+//				$mpdf->WriteHTML('<watermarktext content="NOT YET APPROVED" alpha="0.4" />');
 				$mpdf->WriteHTML($form);
 				$chaf = str_replace("/","-",$_POST['fs_id']);
 				$mpdf->Output('../../upload/quotation/'.$chaf.'.pdf','F');
@@ -928,7 +934,16 @@ function chksign(vals){
         <td width="33%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
         	<table width="100%" cellspacing="0" cellpadding="0">
               <tr>
-                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong ><input type="text" name="cs_hsell" value="<?php  echo $cs_hsell;?>" id="cs_hsell" class="inpfoder" style="width:50%;text-align:center;"></strong></td>
+                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;">
+                <?php
+					$hsale = '';
+					if($cs_hsell != ""){
+						$hsale = $cs_hsell;
+					}else{
+						$hsale = getNameSaleApprove($conn);
+					}
+				?>
+                <strong ><input type="text" name="cs_hsell" value="<?php  echo $hsale;?>" id="cs_hsell" class="inpfoder" style="width:50%;text-align:center;border: none;"></strong></td>
               </tr>
               <tr>
                 <td style="padding-top:10px;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>ผู้จัดการฝ่ายขาย</strong></td>
@@ -963,8 +978,10 @@ function chksign(vals){
     </fieldset>
     </div><br>
     <div class="formArea">
-      <input type="submit" name="Submit" value="Submit" class="button">
-      <input type="reset" name="Submit" value="Reset" class="button">
+      <div style="text-align: center;">
+      	<input type="submit" name="Submit" value=" บันทึก " class="button bt_save">
+      	<input type="button" name="Cancel" value=" ยกเลิก " class="button bt_cancel" onClick="window.location='index.php'">
+      </div>
       <?php
 			$a_not_exists = array();
 			post_param($a_param,$a_not_exists);

@@ -41,10 +41,13 @@
 <LINK rel="stylesheet" type=text/css href="../css/reset.css" media=screen>
 <LINK rel="stylesheet" type=text/css href="../css/style.css" media=screen>
 <LINK rel="stylesheet" type=text/css href="../css/invalid.css" media=screen>
-<SCRIPT type=text/javascript src="../js/jquery-1.3.2.min.js"></SCRIPT>
+<SCRIPT type=text/javascript src="../js/jquery-1.9.1.min.js"></SCRIPT>
+<!--
 <SCRIPT type=text/javascript src="../js/simpla.jquery.configuration.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/facebox.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/jquery.wysiwyg.js"></SCRIPT>
+-->
+<SCRIPT type=text/javascript src="ajax.js"></SCRIPT>
 <META name=GENERATOR content="MSHTML 8.00.7600.16535">
 <script>
 function confirmDelete(delUrl,text) {
@@ -64,6 +67,36 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
   eval(targ+".location='"+selObj.options[selObj.selectedIndex].value+"'");
   if (restore) selObj.selectedIndex=0;
 }
+	
+
+function selectProcess(evt){
+	var process_val = document.getElementById('process_'+evt).value;
+	
+	if(process_val == 1){
+		document.getElementById('process_'+evt).style.backgroundColor ='#FFEB3B';
+	}else{
+		document.getElementById('process_'+evt).style.backgroundColor ='#FFFFFF';
+	}
+	
+	var xmlHttp;
+   xmlHttp=GetXmlHttpObject(); //Check Support Brownser
+   URL = pathLocal+'call_api.php?action=changeProcess&id='+evt+'&process='+process_val;
+   if (xmlHttp==null){
+      alert ("Browser does not support HTTP Request");
+      return;
+   }
+    xmlHttp.onreadystatechange=function (){
+        if (xmlHttp.readyState==4 || xmlHttp.readyState=="complete"){   
+			var ds = xmlHttp.responseText;
+			//console.log(ds);
+        } else{
+          //document.getElementById(ElementId).innerHTML="<div class='loading'> Loading..</div>" ;
+        }
+   };
+   xmlHttp.open("GET",URL,true);
+   xmlHttp.send(null);
+}
+</script>
 
 </script>
 </HEAD>
@@ -112,22 +145,36 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 
 <H3 align="left"><?php  echo $check_module; ?></H3>
 
-<div style="float:right;padding-top:5px;">
+<div style="float:right;padding-top:10px;">
 	<form name="form1" method="get" action="index.php">
     <input name="keyword" type="text" id="keyword" value="<?php  echo $keyword;?>">
+    <input name="tab" type="hidden" id="tab" value="<?php echo $_GET['tab'];?>">
+    <input name="id" type="hidden" id="id" value="<?php echo $_GET['id'];?>">
     <input name="Action" type="submit" id="Action" value="ค้นหา">
     <?php
 			$a_not_exists = array('keyword');
 			$param2 = get_param($a_param,$a_not_exists);
 			  ?>
-    <a href="index.php?<?php  echo $param2;?>">แสดงทั้งหมด</a>
+    <a href="index.php?tab=<?php echo $_GET['tab'];?>&id=<?php echo $_GET['id'];?>">แสดงทั้งหมด</a>
     <?php
 			/*$a_not_exists = array();
 			post_param($a_param,$a_not_exists);*/
 			?>
   </form>
-</div>
+ </div>
+    <div style="float:right;margin-right:20px;padding-top:10px;">  
+	<label><strong>สถานะการอนุมัติ : </strong></label>
+    <select name="catalog_master" id="catalog_master" style="height:24px;" onChange="MM_jumpMenu('parent',this,0)">
+		 <option value="index.php?process=0&tab=<?php echo $_GET['tab'];?>&id=<?php echo $_GET['id'];?>" <?php  if($_GET['process'] == '0' || !isset($_GET['process'])){echo "selected";}?>>รอการแก้ไข</option>
+		 <option value="index.php?process=1&tab=<?php echo $_GET['tab'];?>&id=<?php echo $_GET['id'];?>" <?php  if($_GET['process'] == '1'){echo "selected";}?>>รอผู้อนุมัติฝ่ายขาย</option>
+<!--
+         <option value="index.php?process=2&tab=<?php echo $_GET['tab'];?>&id=<?php echo $_GET['id'];?>" <?php  if($_GET['process'] == '2'){echo "selected";}?>>รอผู้อนุมัติฝ่ายการเงิน</option>-->
+         <option value="index.php?process=3&tab=<?php echo $_GET['tab'];?>&id=<?php echo $_GET['id'];?>" <?php  if($_GET['process'] == '3'){echo "selected";}?>>รอผู้มีอำนาจลงนาม</option>
 
+<!--         <option value="index.php?process=4&tab=<?php echo $_GET['tab'];?>&id=<?php echo $_GET['id'];?>" <?php  if($_GET['process'] == '4'){echo "selected";}?>>รอผู้อนุมัติฝ่ายช่าง</option>-->
+         <option value="index.php?process=5&tab=<?php echo $_GET['tab'];?>&id=<?php echo $_GET['id'];?>" <?php  if($_GET['process'] == '5'){echo "selected";}?>>ผ่านการอนุมัติ</option>
+  	</select>
+    </div>
 <DIV class=clear>
 
 </DIV></DIV><!-- End .content-box-header -->
@@ -137,7 +184,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
     <TABLE>
       <THEAD>
         <TR>
-          <TH width="10%"><div align="center"><a>ลำดับ.</a></div></TH>
+          <TH width="10%"><div align="center"><a>การอนุมัติ</a></div></TH>
           <TH width="15%"><div align="center"><a>Service Card ID</a></div></TH>
           <TH width="15%"><div align="center"><a>ผู้แจ้งงาน</a></div></TH>
           <TH width="15%"><div align="center"><a>วันที่แจ้งงาน</a></div></TH>
@@ -167,7 +214,14 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 						$sql .=  $subtext . " ) ";
 					}
 
-
+		  			if ($_GET['process'] <> "") { 
+						$sql .= " and ( process = '".$_GET['process']."' ";
+						$sql .=  $subtext . " ) ";
+					}else{
+						$sql .= " and ( process = '0' ";
+						$sql .=  $subtext . " ) ";
+					}
+		  
 					if ($orderby <> "") $sql .= " order by " . $orderby;
 					if ($sortby <> "") $sql .= " " . $sortby;
 					include ("../include/page_init.php");
@@ -184,7 +238,42 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 				   ?>
         <TR>
          
-          <TD style="vertical-align:middle;"><center><span class="text"><?php  echo sprintf("%04d",$counter); ?></span></center></TD>
+          <TD style="vertical-align:middle;"><center>
+          	<?php
+			  if($rec['process'] == '5'){
+				  ?>
+				  <select name="process_applove" style="background:#4CAF50;color:#000;">
+				  	<option value="5" selected>ผ่านการอนุมัติ</option>
+				  </select>
+				  <?php
+			  }else if($rec['process'] == '4'){
+				  ?>
+				  <select name="process_applove" style="background:#e7487e;color:#000;">
+				  	<option value="4" selected>รอผู้อนุมัติฝ่ายช่าง</option>
+				  </select>
+				  <?php
+			  }else if($rec['process'] == '3'){
+				  ?>
+				  <select name="process_applove" style="background:#03A9F4;color:#000;">
+				  	<option value="3" selected>รอผู้มีอำนาจลงนาม</option>
+				  </select>
+				  <?php
+			  }else if($rec['process'] == '1'){
+				  ?>
+				  <select name="process_applove" style="background:#FFEB3B;color:#000;">
+				  	<option value="1" selected>รอผู้อนุมัติฝ่ายขาย</option>
+				  </select>
+				  <?php
+			  }else{
+				  ?>
+				  <select name="process_applove" style="background:#FFFFFF;color:#000;" onchange="selectProcess('<?php echo $rec['qc_id'];?>')" id="process_<?php echo $rec['qc_id'];?>">
+					  <option value="0" <?php if($rec['process'] == '0'){echo 'selected';}?>>รอแก้ไขใบแจ้งงาน</option>
+					  <option value="1">รอผู้อนุมัติฝ่ายขาย</option>
+				  </select>
+				  <?php
+			  }
+			  ?>
+          </center></TD>
           <TD style="vertical-align:middle;"><?php  $chaf = str_replace("/","-",$rec["sv_id"]); ?><div align="center"><span class="text"><a href="../../upload/quotation_jobcard/<?php  echo $chaf;?>.pdf" target="_blank"><?php  echo $rec["sv_id"] ; ?></a></span></div></TD>
           <TD style="vertical-align:middle;"><center><span class="text"><?php echo getsalename($conn,$rec["cs_sell"]);?></span></center></TD>
            <TD style="vertical-align:middle;"><center><span class="text"><?php echo format_date_th($rec["job_open"],2);?></span></center></TD>
@@ -196,7 +285,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
             <?php  }?>
           </div></TD>
           <TD style="vertical-align:middle;"><!-- Icons -->
-            <div align="center"><A title=Edit href="update.php?mode=update&cus_id=<?php echo $_GET['id'];?>&tab=<?php echo $_GET['tab'];?>&qc_id=<?php  echo $rec[$PK_field];?>"><IMG src="../images/icons/paper_content_pencil_48.png" alt=Edit width="25" height="25" title="แก้ไขใบแจ้งงานบริการ"></A><a href="../../upload/quotation_jobcard/<?php  echo $chaf;?>.pdf" target="_blank"><img src="../images/icon2/backup.png" width="25" height="25" title="ดาวน์โหลดใบแจ้งงานบริการ" style="margin-left:10px;"></a></div></TD>
+            <div align="center"><A title=Edit href="update.php?mode=update&cus_id=<?php echo $_GET['id'];?>&tab=<?php echo $_GET['tab'];?>&qc_id=<?php  echo $rec[$PK_field];?>"><IMG src="../images/icons/paper_content_pencil_48.png" alt=Edit width="25" height="25" title="แก้ไขใบแจ้งงานบริการ"></A></div></TD>
           <TD style="vertical-align:middle;"><div align="center"><A title=Delete  href="#"><IMG alt=Delete src="../images/cross.png" onClick="confirmDelete('?action=delete&id=<?php  echo $rec["qu_id"];?>&tab=<?php echo $rec["qu_table"];?>&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field];?>','Group  <?php  echo $rec[$PK_field];?> : <?php  echo $rec["sv_id"];?>')"></A></div></TD>
           </TR>
 		<?php  }?>

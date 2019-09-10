@@ -2451,6 +2451,78 @@ function get_sale_signature($conn,$sale_id) {
 	
 }
 
+function get_hsale_signature($conn) {
+	
+	$rowSale = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM `s_group_approve` WHERE group_id = 1"));
+	
+	$rowAccount = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM `s_user` WHERE user_id = '".$rowSale['user_account']."'"));
+	
+	$signature = '';
+	
+	if($rowAccount['signature'] != ''){
+		$signature = $rowAccount['signature'];
+	}else{
+		$signature = 'none.png';
+	}
+	
+	return $signature;
+	
+}
+
+function get_haccount_signature($conn) {
+	
+	$rowSale = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM `s_group_approve` WHERE group_id = 2"));
+	
+	$rowAccount = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM `s_user` WHERE user_id = '".$rowSale['user_account']."'"));
+	
+	$signature = '';
+	
+	if($rowAccount['signature'] != ''){
+		$signature = $rowAccount['signature'];
+	}else{
+		$signature = 'none.png';
+	}
+	
+	return $signature;
+	
+}
+
+function get_hcompany_signature($conn) {
+	
+	$rowSale = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM `s_group_approve` WHERE group_id = 3"));
+	
+	$rowAccount = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM `s_user` WHERE user_id = '".$rowSale['user_account']."'"));
+	
+	$signature = '';
+	
+	if($rowAccount['signature'] != ''){
+		$signature = $rowAccount['signature'];
+	}else{
+		$signature = 'none.png';
+	}
+	
+	return $signature;
+	
+}
+
+function get_htecnic_signature($conn) {
+	
+	$rowSale = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM `s_group_approve` WHERE group_id = 4"));
+	
+	$rowAccount = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM `s_user` WHERE user_id = '".$rowSale['user_account']."'"));
+	
+	$signature = '';
+	
+	if($rowAccount['signature'] != ''){
+		$signature = $rowAccount['signature'];
+	}else{
+		$signature = 'none.png';
+	}
+	
+	return $signature;
+	
+}
+
 function get_user_signature($conn,$user_id) {
 	
 	$rowAccount = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM `s_user` WHERE user_id = '".$user_id."'"));
@@ -2466,6 +2538,43 @@ function get_user_signature($conn,$user_id) {
 	return $signature;
 	
 }
+
+function get_username($conn,$userid) {
+	$row_fix = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM  s_user WHERE user_id = '".$userid."'"));	
+	return $row_fix['name'];		
+}
+
+function get_useraccount($conn,$userid) {
+	$row_fix = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM  s_user WHERE user_id = '".$userid."'"));	
+	return $row_fix['username'];		
+}
+
+function getNameSaleApprove($conn){
+	$row_name = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM s_group_approve WHERE group_id = 1"));
+	$row_user = get_username($conn,$row_name['user_account']);	
+	return $row_user;
+}
+
+function getNameAccountApprove($conn){
+	$row_name = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM s_group_approve WHERE group_id = 2"));
+	$row_user = get_username($conn,$row_name['user_account']);	
+	return $row_user;
+}
+
+function getNameBigApprove($conn){
+	$row_name = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM s_group_approve WHERE group_id = 3"));
+	$row_user = get_username($conn,$row_name['user_account']);	
+	return $row_user;
+}
+
+function getNameTecApprove($conn){
+	$row_name = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM s_group_approve WHERE group_id = 4"));
+	$row_user = get_username($conn,$row_name['user_account']);	
+	return $row_user;
+}
+
+
+
 
 ?>
 
