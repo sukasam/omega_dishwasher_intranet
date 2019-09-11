@@ -46,6 +46,7 @@
 				$_POST['status_use'] = 1;
 				$_POST['status'] = 0;
 				$_POST['loc_name'] = addslashes($_POST['loc_name']);
+				$_POST['chkprocess'] = '0';
 
 				include "../include/m_add.php";
 				$id = mysqli_insert_id($conn);
@@ -54,8 +55,8 @@
 				include_once("form_firstorder.php");
 				$mpdf=new mPDF('UTF-8');
 				$mpdf->SetAutoFont();
-//				$mpdf->showWatermarkText = true;
-//				$mpdf->WriteHTML('<watermarktext content="NOT YET APPROVED" alpha="0.4" />');
+				$mpdf->showWatermarkText = true;
+				$mpdf->WriteHTML('<watermarktext content="NOT YET APPROVED" alpha="0.4" />');
 				$mpdf->WriteHTML($form);
 				$chaf = str_replace("/","-",$_POST['fs_id']);
 				$mpdf->Output('../../upload/first_order/'.$chaf.'.pdf','F');
@@ -68,15 +69,20 @@
 				
 				include ("../include/m_update.php");
 				$id = $_REQUEST[$PK_field];
-			
-				@mysqli_query($conn,"UPDATE `s_first_order` SET `process` = '0' WHERE `s_first_order`.`fo_id` = ".$id.";");
+				
+				if($_POST['chkprocess'] == '0'){
+					@mysqli_query($conn,"UPDATE `s_first_order` SET `process` = '0' WHERE `s_first_order`.`fo_id` = ".$id.";");
+				}
 
 				include_once("../mpdf54/mpdf.php");
 				include_once("form_firstorder.php");
 				$mpdf=new mPDF('UTF-8');
 				$mpdf->SetAutoFont();
-//				$mpdf->showWatermarkText = true;
-//				$mpdf->WriteHTML('<watermarktext content="NOT YET APPROVED" alpha="0.4" />');
+				if($_POST['chkprocess'] == '0'){
+					$mpdf->showWatermarkText = true;
+					$mpdf->WriteHTML('<watermarktext content="NOT YET APPROVED" alpha="0.4" />');
+				}
+				
 				$mpdf->WriteHTML($form);
 				$chaf = str_replace("/","-",$_POST['fs_id']);
 				$mpdf->Output('../../upload/first_order/'.$chaf.'.pdf','F');
@@ -847,6 +853,7 @@ Vat 7%</strong></td>
       <input name="status" type="hidden" id="status" value="<?php echo $status;?>">
       <input name="status_use" type="hidden" id="status_use" value="<?php  echo $status_use;?>">
       <input name="st_setting" type="hidden" id="st_setting" value="<?php  echo $st_setting;?>">
+      <input name="chkprocess" type="hidden" id="chkprocess" value="<?php  echo $chkprocess;?>">
       <input name="<?php  echo $PK_field;?>" type="hidden" id="<?php  echo $PK_field;?>" value="<?php  echo $_GET[$PK_field];?>">
     </div>
   </form>

@@ -2574,7 +2574,14 @@ function getNameTecApprove($conn){
 }
 
 
-
+function checkUserApproved($conn,$userID){
+	$row_name = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM s_group_approve WHERE user_account = '".$userID."'"));
+	if($row_name['group_id'] != ""){
+		return $row_name['group_id'];
+	}else{
+		return '99';
+	}
+}
 
 ?>
 

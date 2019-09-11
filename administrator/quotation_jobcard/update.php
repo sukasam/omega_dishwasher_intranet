@@ -107,8 +107,8 @@
 			include_once("form_servicecard.php");
 			$mpdf=new mPDF('UTF-8'); 
 			$mpdf->SetAutoFont();
-//			$mpdf->showWatermarkText = true;
-//			$mpdf->WriteHTML('<watermarktext content="NOT YET APPROVED" alpha="0.4" />');
+			$mpdf->showWatermarkText = true;
+			$mpdf->WriteHTML('<watermarktext content="NOT YET APPROVED" alpha="0.4" />');
 			$mpdf->WriteHTML($form);
 			$chaf = str_replace("/","-",$_POST['sv_id']); 
 			$mpdf->Output('../../upload/quotation_jobcard/'.$chaf.'.pdf','F');
@@ -129,8 +129,8 @@
 			include_once("form_servicecard.php");
 			$mpdf=new mPDF('UTF-8'); 
 			$mpdf->SetAutoFont();
-//			$mpdf->showWatermarkText = true;
-//			$mpdf->WriteHTML('<watermarktext content="NOT YET APPROVED" alpha="0.4" />');
+			$mpdf->showWatermarkText = true;
+			$mpdf->WriteHTML('<watermarktext content="NOT YET APPROVED" alpha="0.4" />');
 			$mpdf->WriteHTML($form);
 			$chaf = str_replace("/","-",$_POST['sv_id']); 
 			$mpdf->Output('../../upload/quotation_jobcard/'.$chaf.'.pdf','F');

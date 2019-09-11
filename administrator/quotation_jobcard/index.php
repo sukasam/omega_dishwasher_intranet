@@ -165,7 +165,8 @@ function selectProcess(evt){
     <div style="float:right;margin-right:20px;padding-top:10px;">  
 	<label><strong>สถานะการอนุมัติ : </strong></label>
     <select name="catalog_master" id="catalog_master" style="height:24px;" onChange="MM_jumpMenu('parent',this,0)">
-		 <option value="index.php?process=0&tab=<?php echo $_GET['tab'];?>&id=<?php echo $_GET['id'];?>" <?php  if($_GET['process'] == '0' || !isset($_GET['process'])){echo "selected";}?>>รอการแก้ไข</option>
+         <option value="index.php?tab=<?php echo $_GET['tab'];?>&id=<?php echo $_GET['id'];?>" <?php  if(!isset($_GET['process'])){echo "selected";}?>>กรุณาเลือก</option>
+		 <option value="index.php?process=0&tab=<?php echo $_GET['tab'];?>&id=<?php echo $_GET['id'];?>" <?php  if($_GET['process'] == '0'){echo "selected";}?>>รอการแก้ไข</option>
 		 <option value="index.php?process=1&tab=<?php echo $_GET['tab'];?>&id=<?php echo $_GET['id'];?>" <?php  if($_GET['process'] == '1'){echo "selected";}?>>รอผู้อนุมัติฝ่ายขาย</option>
 <!--
          <option value="index.php?process=2&tab=<?php echo $_GET['tab'];?>&id=<?php echo $_GET['id'];?>" <?php  if($_GET['process'] == '2'){echo "selected";}?>>รอผู้อนุมัติฝ่ายการเงิน</option>-->
@@ -216,9 +217,6 @@ function selectProcess(evt){
 
 		  			if ($_GET['process'] <> "") { 
 						$sql .= " and ( process = '".$_GET['process']."' ";
-						$sql .=  $subtext . " ) ";
-					}else{
-						$sql .= " and ( process = '0' ";
 						$sql .=  $subtext . " ) ";
 					}
 		  

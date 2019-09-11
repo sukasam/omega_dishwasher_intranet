@@ -7,6 +7,7 @@
             <li style="padding-top:20px;"><a href="../report/?mid=16"><img src="../images/menu/report.png" width="88" height="125" border="0" alt=""></a></li>
             <li style="padding-top:20px;"><a href="../quotation"><img src="../images/menu/quotation.png" width="129" border="0" alt=""></a></li>
             <li style="padding-top:20px;"><a href="../contract"><img src="../images/menu/contract.png" width="129" border="0" alt=""></a></li>
+            <li style="padding-top:20px;"><a href="../approved1"><img src="../images/menu/approved.png" width="129" border="0" alt=""></a></li>
             <li style="padding-top:20px;"><a href="../setting"><img src="../images/menu/setting.png" width="75" height="105" border="0" alt=""></a></li>
             <li style="padding-top:20px;padding-bottom:20px;"><a href="../logout.php"><img src="../images/menu/logout.png" width="70" height="97" border="0" /></a></li>
         </ul>

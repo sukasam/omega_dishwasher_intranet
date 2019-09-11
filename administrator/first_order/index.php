@@ -171,11 +171,12 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
   <div style="float:right;margin-right:20px;">  
 	<label><strong>สถานะการอนุมัติ : </strong></label>
     <select name="catalog_master" id="catalog_master" style="height:24px;" onChange="MM_jumpMenu('parent',this,0)">
-		 <option value="index.php?process=0" <?php  if($_GET['process'] == '0' || !isset($_GET['process'])){echo "selected";}?>>รอการแก้ไข</option>
+         <option value="index.php" <?php  if(!isset($_GET['process'])){echo "selected";}?>>กรุณาเลือก</option>
+		 <option value="index.php?process=0" <?php  if($_GET['process'] == '0'){echo "selected";}?>>รอการแก้ไข</option>
 		 <option value="index.php?process=1" <?php  if($_GET['process'] == '1'){echo "selected";}?>>รอผู้อนุมัติฝ่ายขาย</option>
          <option value="index.php?process=2" <?php  if($_GET['process'] == '2'){echo "selected";}?>>รอผู้อนุมัติฝ่ายการเงิน</option>
          <option value="index.php?process=3" <?php  if($_GET['process'] == '3'){echo "selected";}?>>รอผู้มีอำนาจลงนาม</option>
-<!--         <option value="index.php?process=4" <?php  if($_GET['process'] == '4'){echo "selected";}?>>รอผู้อนุมัติฝ่ายช่าง</option>-->
+         <option value="index.php?process=4" <?php  if($_GET['process'] == '4'){echo "selected";}?>>รอผู้อนุมัติฝ่ายช่าง</option>
          <option value="index.php?process=5" <?php  if($_GET['process'] == '5'){echo "selected";}?>>ผ่านการอนุมัติ</option>
   	</select>
     </div>
@@ -233,9 +234,6 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 		  
 		  			if ($_GET['process'] <> "") { 
 						$sql .= " and ( process = '".$_GET['process']."' ";
-						$sql .=  $subtext . " ) ";
-					}else{
-						$sql .= " and ( process = '0' ";
 						$sql .=  $subtext . " ) ";
 					}
 		  
