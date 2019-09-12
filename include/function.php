@@ -2583,5 +2583,35 @@ function checkUserApproved($conn,$userID){
 	}
 }
 
+function getNumApproveFO($conn,$process){
+	$quApprove = mysqli_query($conn,"SELECT * FROM s_first_order WHERE process = '".$process."';");
+ 	$numApprove = mysqli_num_rows($quApprove);
+	return $numApprove;
+}
+
+function getNumApproveSVJ($conn,$process){
+	$quApprove = mysqli_query($conn,"SELECT * FROM s_quotation_jobcard WHERE process = '".$process."';");
+ 	$numApprove = mysqli_num_rows($quApprove);
+	return $numApprove;
+}
+
+function getNumApproveMEMO($conn,$process){
+	$quApprove = mysqli_query($conn,"SELECT * FROM s_quotation_jobcard WHERE process = '".$process."';");
+ 	$numApprove = mysqli_num_rows($quApprove);
+	return $numApprove;
+}
+
+function getNumApproveQAB($conn,$process){
+	$quApprove = mysqli_query($conn,"SELECT * FROM s_quotation WHERE process = '".$process."';");
+ 	$numApprove = mysqli_num_rows($quApprove);
+	return $numApprove;
+}
+
+function getNumApproveQAH($conn,$process){
+	$quApprove = mysqli_query($conn,"SELECT * FROM s_quotation2 WHERE process = '".$process."';");
+ 	$numApprove = mysqli_num_rows($quApprove);
+	return $numApprove;
+}
+
 ?>
 
