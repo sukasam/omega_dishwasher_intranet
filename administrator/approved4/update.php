@@ -222,10 +222,10 @@ $sumtotals = $sumprice + $sumpricevat;
 				include_once("form_quotation.php");
 				$mpdf=new mPDF('UTF-8');
 				$mpdf->SetAutoFont();
-				if($_POST['process'] != '5'){
-					$mpdf->showWatermarkText = true;
-					$mpdf->WriteHTML('<watermarktext content="NOT YET APPROVED" alpha="0.4" />');
-				}
+//				if($_POST['process'] != '5'){
+//					$mpdf->showWatermarkText = true;
+//					$mpdf->WriteHTML('<watermarktext content="NOT YET APPROVED" alpha="0.4" />');
+//				}
 				$mpdf->WriteHTML($form);
 				$chaf = str_replace("/","-",$_POST['fs_id']);
 				$mpdf->Output('../../upload/quotation/'.$chaf.'.pdf','F');
