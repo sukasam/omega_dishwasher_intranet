@@ -254,8 +254,8 @@ function format_date_th ($value,$type) {
 	$month_brief_th = array ('','ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.');
 	$day_of_week = array("อาทิตย์","จันทร์","อังคาร","พุธ","พฤหัสบดี","ศุกร์","เสาร์"); 
 	switch ($type) { 
-		case "1" : // วันที่ 4 มกราคม 2548
-			$msg = "วันที่ ". $s_day . " " .  $month_full_th[$s_month]  . " " .  $s_year ;
+		case "1" : // 4 มกราคม 2548
+			$msg = $s_day . " " .  $month_full_th[$s_month]  . " " .  $s_year ;
 			break;
 		case "2" :  // 4 ม.ค. 2548
 			$msg =  $s_day . " " .  $month_brief_th[$s_month]  . " " .  $s_year ;
@@ -1572,6 +1572,22 @@ function check_servicecard($conn){
 	}	
 }
 
+function check_memo($conn){
+	
+	$thdate = substr(date("Y")+543,2);
+	$concheck = "MO ".$thdate.date("/m/");
+	
+	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_memo WHERE mo_id like '%".$concheck."%' ORDER BY mo_id DESC");
+	$num_oder = @mysqli_num_rows($qu_forder);
+	$row_forder = @mysqli_fetch_array($qu_forder);
+	
+	if($row_forder['mo_id'] == ""){
+		return "MO ".$thdate.date("/m/")."001";
+	}else{
+		$num_odersum = $num_oder+1;
+		return "MO ".$thdate.date("/m/").sprintf("%03d",$num_odersum);
+	}	
+}
 
 
 function check_servicereportinstall($conn){
@@ -2596,7 +2612,7 @@ function getNumApproveSVJ($conn,$process){
 }
 
 function getNumApproveMEMO($conn,$process){
-	$quApprove = mysqli_query($conn,"SELECT * FROM s_quotation_jobcard WHERE process = '".$process."';");
+	$quApprove = mysqli_query($conn,"SELECT * FROM s_memo WHERE process = '".$process."';");
  	$numApprove = mysqli_num_rows($quApprove);
 	return $numApprove;
 }
@@ -2610,6 +2626,40 @@ function getNumApproveQAB($conn,$process){
 function getNumApproveQAH($conn,$process){
 	$quApprove = mysqli_query($conn,"SELECT * FROM s_quotation2 WHERE process = '".$process."';");
  	$numApprove = mysqli_num_rows($quApprove);
+	return $numApprove;
+}
+
+function checkSaleMustApprove($conn,$sale_id){
+	$rowSale = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM s_group_sale WHERE group_id = '".$sale_id."';"));
+	return $rowSale['approve'];
+}
+
+function checkProcess($conn,$tag_db,$PK_field,$id){
+	$rowProcess = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM ".$tag_db." WHERE ".$PK_field." = '".$id."';"));
+	return $rowProcess['process'];
+}
+
+function checkHSaleApplove($conn,$tag_db,$t_id){
+	$quApprove = @mysqli_query($conn,"SELECT * FROM s_approve WHERE tag_db = '".$tag_db."' AND t_id = '".$t_id."' AND process_1 = '1';");
+	$numApprove = mysqli_num_rows($quApprove);
+	return $numApprove;
+}
+
+function checkHAccountApplove($conn,$tag_db,$t_id){
+	$quApprove = @mysqli_query($conn,"SELECT * FROM s_approve WHERE tag_db = '".$tag_db."' AND t_id = '".$t_id."' AND process_2 = '1';");
+	$numApprove = mysqli_num_rows($quApprove);
+	return $numApprove;
+}
+
+function checkHCompanyApplove($conn,$tag_db,$t_id){
+	$quApprove = @mysqli_query($conn,"SELECT * FROM s_approve WHERE tag_db = '".$tag_db."' AND t_id = '".$t_id."' AND process_3 = '1';");
+	$numApprove = mysqli_num_rows($quApprove);
+	return $numApprove;
+}
+
+function checkHTecnicalApplove($conn,$tag_db,$t_id){
+	$quApprove = @mysqli_query($conn,"SELECT * FROM s_approve WHERE tag_db = '".$tag_db."' AND t_id = '".$t_id."' AND process_2 = '1';");
+	$numApprove = mysqli_num_rows($quApprove);
 	return $numApprove;
 }
 

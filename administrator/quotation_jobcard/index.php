@@ -189,7 +189,7 @@ function selectProcess(evt){
           <TH width="15%"><div align="center"><a>Service Card ID</a></div></TH>
           <TH width="15%"><div align="center"><a>ผู้แจ้งงาน</a></div></TH>
           <TH width="15%"><div align="center"><a>วันที่แจ้งงาน</a></div></TH>
-          <TH width="15%"><div align="center"><a>Open / Close</a></div></TH>
+          <TH width="15%"><div align="center"><a>Open <img src="../icons/status_on.gif" width="10" height="10"> / Close <img src="../icons/status_off.gif" width="10" height="10"></a></div></TH>
           <TH width="15%"><div align="center"><a>แก้ไข</a></div></TH>
           <TH width="15%"><div align="center"><a>ลบ</a></div></TH>
           </TR>

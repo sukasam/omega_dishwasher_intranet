@@ -203,6 +203,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
           <TH width="35%">ชื่อลูกค้า</TH>
           <TH width="18%"><strong>สถานที่ติดตั้ง</strong></TH>
           <TH width="5%" nowrap ><div align="center"><a>แจ้งงาน</a></div></TH>
+          <TH width="5%" nowrap ><div align="center"><a>Memo</a></div></TH>
           <TH width="10%" nowrap ><div align="center">สถานะ</TH>
 <!--          <TH width="5%" nowrap ><div align="center"><a> Open / </a><a> Close</a></div></TH>-->
 <!--          <TH width="5%" nowrap ><div align="center"><a>Setting</a></div></TH>-->
@@ -286,7 +287,27 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 				  ?>
 				  <select name="process_applove" style="background:#FFFFFF;color:#000;" onchange="selectProcess('<?php echo $rec['fo_id'];?>')" id="process_<?php echo $rec['fo_id'];?>">
 					  <option value="0" <?php if($rec['process'] == '0'){echo 'selected';}?>>รอแก้ไข FO</option>
-					  <option value="1">รอผู้อนุมัติฝ่ายขาย</option>
+					  <?php 
+					  $chkSale = checkSaleMustApprove($conn,$rec['cs_sell']);
+						  if($chkSale == 2){
+					  		?>
+							  <option value="2">รอผู้อนุมัติฝ่ายบัญชี</option>
+							  <?php
+						  }else if($chkSale == 3){
+					  		?>
+							  <option value="3">รอผู้มีอำนาจลงนาม</option>
+							  <?php
+						  }else if($chkSale == 4){
+					  		?>
+							  <option value="4">รอผู้อนุมัติฝ่ายช่าง</option>
+							  <?php
+						  }else{
+							  ?>
+							  <option value="1">รอผู้อนุมัติฝ่ายขาย</option>
+							  <?php
+						  }
+					  ?>
+					  
 				  </select>
 				  <?php
 			  }
@@ -301,6 +322,9 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
           <TD><span class="text"><?php  echo $rec["loc_name"] ; ?></span></TD>
           <td style="vertical-align: middle;">
 			  <center><a href="../quotation_jobcard/?tab=3&id=<?php  echo $rec[$PK_field]; ?>"><img src="../images/hammer_screwdriver.png" width="20" height="20"></a></center>
+			  </td>
+         	<td style="vertical-align: middle;">
+			  <center><a href="../memo/?cus_id=<?php  echo $rec[$PK_field];?>"><img src="../images/meno.png" height="30"></a></center>
 			  </td>
            <TD nowrap style="vertical-align:middle"><div align="center">
             <?php  if($rec["status_use"]==0) {?>

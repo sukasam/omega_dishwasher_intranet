@@ -10,11 +10,11 @@
 		$param = get_param($a_param,$a_not_exists);
 		
 		
-		if($_POST['job_open'] == ""){
-			$_POST['job_open'] = date("Y-m-d");
+		if($_POST['memo_open'] == ""){
+			$_POST['memo_open'] = date("Y-m-d");
 		}else{
-			$a_sdate=explode("/",$_POST['job_open']);
-			$_POST['job_open']=$a_sdate[2]."-".$a_sdate[1]."-".$a_sdate[0];
+			$a_sdate=explode("/",$_POST['memo_open']);
+			$_POST['memo_open']=$a_sdate[2]."-".$a_sdate[1]."-".$a_sdate[0];
 		}
 		
 		if($_POST['date_sell'] == ""){
@@ -31,94 +31,86 @@
 			$_POST['date_hsell']=$a_sdate[2]."-".$a_sdate[1]."-".$a_sdate[0];
 		}
 		
-		if($_POST['date_providers'] == ""){
-			$_POST['date_providers'] = date("Y-m-d");
+		if($_POST['date_accep'] == ""){
+			$_POST['date_accep'] = date("Y-m-d");
 		}else{
-			$a_sdate=explode("/",$_POST['date_providers']);
-			$_POST['date_providers']=$a_sdate[2]."-".$a_sdate[1]."-".$a_sdate[0];
+			$a_sdate=explode("/",$_POST['date_accep']);
+			$_POST['date_accep']=$a_sdate[2]."-".$a_sdate[1]."-".$a_sdate[0];
 		}
 		
-		if($_POST['date_appoint1'] == ""){
-			$_POST['date_appoint1'] = date("Y-m-d");
-		}else{
-			$a_sdate=explode("/",$_POST['date_appoint1']);
-			$_POST['date_appoint1']=$a_sdate[2]."-".$a_sdate[1]."-".$a_sdate[0];
+		$checklist = '';
+		
+		foreach ($_POST['chkPro'] as $value) {
+			$checklist .= $value.',';
 		}
 		
-		if($_POST['date_appoint2'] == ""){
-			$_POST['date_appoint2'] = date("Y-m-d");
-		}else{
-			$a_sdate=explode("/",$_POST['date_appoint2']);
-			$_POST['date_appoint2']=$a_sdate[2]."-".$a_sdate[1]."-".$a_sdate[0];
+		$checkProFree = '';
+		
+		foreach ($_POST['chkProfree'] as $value) {
+			$checkProFree .= $value.',';
 		}
 		
-		if($_POST['date_appoint3'] == ""){
-			$_POST['date_appoint3'] = date("Y-m-d");
-		}else{
-			$a_sdate=explode("/",$_POST['date_appoint3']);
-			$_POST['date_appoint3']=$a_sdate[2]."-".$a_sdate[1]."-".$a_sdate[0];
-		}
-		
-		if($_POST['date_appoint4'] == ""){
-			$_POST['date_appoint4'] = date("Y-m-d");
-		}else{
-			$a_sdate=explode("/",$_POST['date_appoint4']);
-			$_POST['date_appoint4']=$a_sdate[2]."-".$a_sdate[1]."-".$a_sdate[0];
-		}
-		
-		if($_POST['date_appoint5'] == ""){
-			$_POST['date_appoint5'] = date("Y-m-d");
-		}else{
-			$a_sdate=explode("/",$_POST['date_appoint5']);
-			$_POST['date_appoint5']=$a_sdate[2]."-".$a_sdate[1]."-".$a_sdate[0];
-		}
-		
-		if($_POST['date_appoint6'] == ""){
-			$_POST['date_appoint6'] = date("Y-m-d");
-		}else{
-			$a_sdate=explode("/",$_POST['date_appoint6']);
-			$_POST['date_appoint6']=$a_sdate[2]."-".$a_sdate[1]."-".$a_sdate[0];
-		}
-		
-		if($_POST['date_appoint7'] == ""){
-			$_POST['date_appoint7'] = date("Y-m-d");
-		}else{
-			$a_sdate=explode("/",$_POST['date_appoint7']);
-			$_POST['date_appoint7']=$a_sdate[2]."-".$a_sdate[1]."-".$a_sdate[0];
-		}
-		
+		$_POST['con_chkpro'] = substr($checklist,0,-1);
+		$_POST['con_chkprofree'] = substr($checkProFree,0,-1);
 
+		
 		if ($_POST['mode'] == "update" ) {
 			
-			$_POST['detail_recom'] = nl2br($_POST['detail_recom']);
+			$_POST['remark1'] = nl2br($_POST['remark1']);
+			$_POST['remark2'] = nl2br($_POST['remark2']);
+			$_POST['remark3'] = nl2br($_POST['remark3']);
+			$_POST['remark4'] = nl2br($_POST['remark4']);
 			
-			$_POST['process'] = '0';
+			$numApp = mysqli_num_rows(mysqli_query($conn,"SELECT * FROM s_approve WHERE tag_db = '".$tbl_name."' AND t_id = '".$_REQUEST[$PK_field]."'"));
 			
-			 @mysqli_query($conn,"DELETE FROM `s_approve` WHERE tag_db = '".$tbl_name."' AND t_id = '".$_REQUEST[$PK_field]."'");
+			if($numApp >= 1){
+				if($_POST['process'] == '2'){
+					@mysqli_query($conn,"UPDATE `s_approve` SET `process_2` = '1' WHERE tag_db = '".$tbl_name."' AND t_id = '".$_REQUEST[$PK_field]."';");
+				}
+				if($_POST['process'] == '3'){
+					@mysqli_query($conn,"UPDATE `s_approve` SET `process_3` = '1' WHERE tag_db = '".$tbl_name."' AND t_id = '".$_REQUEST[$PK_field]."';");
+				}
+				if($_POST['process'] == '4'){
+					@mysqli_query($conn,"UPDATE `s_approve` SET `process_4` = '1' WHERE tag_db = '".$tbl_name."' AND t_id = '".$_REQUEST[$PK_field]."';");
+				}
+			}else{
+				@mysqli_query($conn,"INSERT INTO `s_approve` (`id`, `tag_db`, `t_id`, `process_1`, `process_2`, `process_3`, `process_4`) VALUES (NULL, '".$tbl_name."', '".$_REQUEST[$PK_field]."', '1', '0', '0', '0');");
+			}
+			
+			if($_POST['process'] == '3'){
+				$_POST['process'] = '5';
+			}else{
+				$_POST['process'] = '3';
+			}
 
 			include ("../include/m_update.php");
 			
 			$id = $_REQUEST[$PK_field];			
 			
-//			mysqli_query($conn,"UPDATE `s_quotation_jobcard` SET `process` = '0' WHERE `s_quotation_jobcard`.`qc_id` = ".$id.";");
+//			mysqli_query($conn,"UPDATE `s_memo` SET `process` = '0' WHERE `s_memo`.`id` = ".$id.";");
 				
 			include_once("../mpdf54/mpdf.php");
-			include_once("form_servicecard.php");
+			include_once("form_memo.php");
 			$mpdf=new mPDF('UTF-8'); 
 			$mpdf->SetAutoFont();
-//			if($_POST['process'] != '5'){
-//				$mpdf->showWatermarkText = true;
-//				$mpdf->WriteHTML('<watermarktext content="NOT YET APPROVED" alpha="0.4" />');
-//			}
+			$mpdf->SetHTMLHeader('<div><img src="../images/contract_header.jpg"/></div>');
+			$mpdf->SetHTMLFooter('<div><img src="../images/contract_footer.jpg"/></div>');
+			if($_POST['process'] != '5'){
+				$mpdf->showWatermarkText = true;
+				$mpdf->WriteHTML('<watermarktext content="NOT YET APPROVED" alpha="0.4" />');
+			}
 			$mpdf->WriteHTML($form);
-			$chaf = str_replace("/","-",$_POST['sv_id']); 
-			$mpdf->Output('../../upload/quotation_jobcard/'.$chaf.'.pdf','F');
+			$chaf = str_replace("/","-",$_POST['mo_id']); 
+			$mpdf->Output('../../upload/memo/'.$chaf.'.pdf','F');
 			
-			header ("location:index.php"); 
+			header ("location:index.php");  
 		}
 		
 	}
-
+	if ($_GET['mode'] == "add") { 
+		 Check_Permission($conn,$check_module,$_SESSION['login_id'],"add");
+		
+	}
 	if ($_GET['mode'] == "update") { 
 		
 		 Check_Permission($conn,$check_module,$_SESSION['login_id'],"update");
@@ -131,14 +123,14 @@
 			}
 		}
 		
-		$a_sdate=explode("-",$job_open);
-		$job_open=$a_sdate[2]."/".$a_sdate[1]."/".$a_sdate[0];
+		$a_sdate=explode("-",$memo_open);
+		$memo_open=$a_sdate[2]."/".$a_sdate[1]."/".$a_sdate[0];
 		$a_sdate=explode("-",$date_sell);
 		$date_sell=$a_sdate[2]."/".$a_sdate[1]."/".$a_sdate[0];
 		$a_sdate=explode("-",$date_hsell);
 		$date_hsell=$a_sdate[2]."/".$a_sdate[1]."/".$a_sdate[0];
-		$a_sdate=explode("-",$date_providers);
-		$date_providers=$a_sdate[2]."/".$a_sdate[1]."/".$a_sdate[0];
+		$a_sdate=explode("-",$date_accep);
+		$date_accep=$a_sdate[2]."/".$a_sdate[1]."/".$a_sdate[0];
 		$a_sdate=explode("-",$date_appoint1);
 		$date_appoint1=$a_sdate[2]."/".$a_sdate[1]."/".$a_sdate[0];
 		$a_sdate=explode("-",$date_appoint2);
@@ -153,9 +145,12 @@
 		$date_appoint6=$a_sdate[2]."/".$a_sdate[1]."/".$a_sdate[0];
 		$a_sdate=explode("-",$date_appoint7);
 		$date_appoint7=$a_sdate[2]."/".$a_sdate[1]."/".$a_sdate[0];
+		
+		$con_chkpro = explode(',',$con_chkpro);
+		$con_chkprofree = explode(',',$con_chkprofree);
 	}
 
-	$quinfo =get_quotation($conn,$qu_id,$qu_table);
+	$quinfo =get_quotation($conn,$_GET['cus_id'],3);
 	
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
@@ -223,13 +218,11 @@ function check(frm){
 <NOSCRIPT>
 </NOSCRIPT>
 <?php  include('../top.php');?>
-<P id=page-intro><?php  if ($mode == "add") { ?>Enter new information<?php  } else { ?><?php  echo $page_name; ?><?php  } ?>	</P>
-<!--
+<P id=page-intro><?php  if ($mode == "add") { ?>Enter new information<?php  } else { ?>แก้ไข	[<?php  echo $page_name; ?>]<?php  } ?>	</P>
 <UL class=shortcut-buttons-set>
   <LI><A class=shortcut-button href="javascript:history.back()"><SPAN><IMG  alt=icon src="../images/btn_back.gif"><BR>
   กลับ</SPAN></A></LI>
 </UL>
--->
 <!-- End .clear -->
 <DIV class=clear></DIV><!-- End .clear -->
 <DIV class=content-box><!-- Start Content Box -->
@@ -242,7 +235,7 @@ function check(frm){
 <div><center><img src="../images/waiting.gif" width="450"></center></div>
 <DIV class=content-box-content style="display: none;">
 <DIV id=tab1 class="tab-content default-tab">
-  <form action="reject.php" method="post" enctype="multipart/form-data" name="form1" id="form1"  onSubmit="return check(this)">
+  <form action="update.php" method="post" enctype="multipart/form-data" name="form1" id="form1"  onSubmit="return check(this)">
     <div class="formArea">
       <fieldset>
       <legend><?php  echo $page_name; ?> </legend>
@@ -349,8 +342,8 @@ function check(frm){
           <tr>
             <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>ที่อยู่ :</strong> <?php  echo $quinfo['cd_address'];?></td>
             <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;">
-            <strong>เลขที่ใบเสนอราคา<?php if($_GET['tab'] == 1){echo 'ซื้อ';}else{echo 'เช่า';}?>:</strong> 
-            <?php  echo $quinfo['fs_id'];?>&nbsp;&nbsp;<strong>เลขที่ใบแจ้งงานบริการ : <input type="text" name="sv_id" value="<?php  if($sv_id == ""){echo check_servicecard($conn);}else{echo $sv_id;};?>" id="sv_id" class="inpfoder" style="border:0;">
+            <strong>เลขที่:</strong> 
+            <?php  echo $quinfo['fs_id'];?>&nbsp;&nbsp;<strong>เลขที่ Memo : <input type="text" name="mo_id" value="<?php  if($mo_id == ""){echo check_memo($conn);}else{echo $mo_id;};?>" id="mo_id" class="inpfoder" style="border:0;">
             </td>
           </tr>
           <tr>
@@ -358,7 +351,7 @@ function check(frm){
             <?php  echo province_name($conn,$quinfo['cd_province']);?>
            	</td>
             <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;">
-            	<strong> วันที่ :</strong> <input type="text" name="job_open" readonly value="<?php  if($job_open==""){echo date("d/m/Y");}else{ echo $job_open;}?>" class="inpfoder"/><script language="JavaScript">new tcal ({'formname': 'form1','controlname': 'job_open'});</script>
+            	<strong> วันที่ :</strong> <input type="text" name="memo_open" readonly value="<?php  if($memo_open==""){echo date("d/m/Y");}else{ echo $memo_open;}?>" class="inpfoder"/><script language="JavaScript">new tcal ({'formname': 'form1','controlname': 'memo_open'});</script>
             </td>
           </tr>
           <tr>
@@ -373,68 +366,121 @@ function check(frm){
             </td>
           </tr>
 </table>
-
-	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tb3">
-	  <tr>
-	    <td width="50%"><strong>รายละเอียดงาน</strong><br />
-        <table>
-        	<tr>
-        		<td><input type="radio" name="type_service" value="1" <?php if($type_service == 1 || $type_service === ""){echo 'checked';}?>>&nbsp;&nbsp;&nbsp;ติดตั้งเครื่องล้างจาน</td>
-				<td><input type="text" name="ser_pro1" value="<?php echo $ser_pro1;?>" style="width: 100%;"></td>
-				<td>&nbsp;&nbsp;&nbsp;รุ่น&nbsp;&nbsp;&nbsp;</td>
-				<td><input type="text" name="ser_sn1" value="<?php echo $ser_sn1;?>" style="width: 100%;"></td>
-				<td><strong>วันที่นัด </strong> <input type="text" name="date_appoint1" readonly value="<?php  if($date_appoint1==""){echo date("d/m/Y");}else{ echo $date_appoint1;}?>" class="inpfoder"/><script language="JavaScript">new tcal ({'formname': 'form1','controlname': 'date_appoint1'});</script></td>
-        	</tr>
-        	<tr>
-        		<td><input type="radio" name="type_service" value="7" <?php if($type_service == 7 || $type_service === ""){echo 'checked';}?>>&nbsp;&nbsp;&nbsp;ติดตั้งเครื่องล้างแก้ว</td>
-				<td><input type="text" name="ser_pro7" value="<?php echo $ser_pro7;?>" style="width: 100%;"></td>
-				<td>&nbsp;&nbsp;&nbsp;รุ่น&nbsp;&nbsp;&nbsp;</td>
-				<td><input type="text" name="ser_sn5" value="<?php echo $ser_sn5;?>" style="width: 100%;"></td>
-				<td><strong>วันที่นัด </strong> <input type="text" name="date_appoint7" readonly value="<?php  if($date_appoint7==""){echo date("d/m/Y");}else{ echo $date_appoint7;}?>" class="inpfoder"/><script language="JavaScript">new tcal ({'formname': 'form1','controlname': 'date_appoint7'});</script></td>
-        	</tr>
-        	<tr>
-        		<td><input type="radio" name="type_service" value="6" <?php if($type_service == 6){echo 'checked';}?>>&nbsp;&nbsp;&nbsp;ติดตั้งเครื่องผลิตน้ำแข็ง</td>
-				<td><input type="text" name="ser_pro6" value="<?php echo $ser_pro6;?>" style="width: 100%;"></td>
-				<td>&nbsp;&nbsp;&nbsp;รุ่น&nbsp;&nbsp;&nbsp;</td>
-				<td><input type="text" name="ser_sn4" value="<?php echo $ser_sn4;?>" style="width: 100%;"></td>
-				<td><strong>วันที่นัด </strong> <input type="text" name="date_appoint6" readonly value="<?php  if($date_appoint6 ==""){echo date("d/m/Y");}else{ echo $date_appoint6;}?>" class="inpfoder"/><script language="JavaScript">new tcal ({'formname': 'form1','controlname': 'date_appoint6'});</script></td>
-        	</tr>
-        	<tr>
-        		<td><input type="radio" name="type_service" value="2" <?php if($type_service == 2){echo 'checked';}?></inpu>&nbsp;&nbsp;&nbsp;ติดตั้งเครื่องจ่ายน้ำยา</td>
-				<td><input type="text" name="ser_pro2" value="<?php echo $ser_pro2;?>" style="width: 100%;"></td>
-				<td>&nbsp;&nbsp;&nbsp;รุ่น&nbsp;&nbsp;&nbsp;</td>
-				<td><input type="text" name="ser_sn2" value="<?php echo $ser_sn2;?>" style="width: 100%;"></td>
-				<td><strong>วันที่นัด </strong> <input type="text" name="date_appoint2" readonly value="<?php  if($date_appoint2==""){echo date("d/m/Y");}else{ echo $date_appoint2;}?>" class="inpfoder"/><script language="JavaScript">new tcal ({'formname': 'form1','controlname': 'date_appoint2'});</script></td>
-        	</tr>
-        	<tr>
-        		<td><input type="radio" name="type_service" value="3" <?php if($type_service == 3){echo 'checked';}?>>&nbsp;&nbsp;&nbsp;ตรวจเช็คเพื่อซ่อม</td>
-				<td><input type="text" name="ser_pro3" value="<?php echo $ser_pro3;?>" style="width: 100%;"></td>
-				<td>&nbsp;&nbsp;&nbsp;รุ่น&nbsp;&nbsp;&nbsp;</td>
-				<td><input type="text" name="ser_sn3" value="<?php echo $ser_sn3;?>" style="width: 100%;"></td>
-				<td><strong>วันที่นัด </strong> <input type="text" name="date_appoint3" readonly value="<?php  if($date_appoint3==""){echo date("d/m/Y");}else{ echo $date_appoint3;}?>" class="inpfoder"/><script language="JavaScript">new tcal ({'formname': 'form1','controlname': 'date_appoint3'});</script></td>
-        	</tr>
-
-        	<tr>
-        		<td><input type="radio" name="type_service" value="4" <?php if($type_service == 4){echo 'checked';}?>>&nbsp;&nbsp;&nbsp;ดูพื้นที่</td>
-				<td colspan="3"><input type="text" name="ser_pro4" value="<?php echo $ser_pro4;?>" style="width: 100%;"></td>
-				<td><strong>วันที่นัด </strong> <input type="text" name="date_appoint4" readonly value="<?php  if($date_appoint4==""){echo date("d/m/Y");}else{ echo $date_appoint4;}?>" class="inpfoder"/><script language="JavaScript">new tcal ({'formname': 'form1','controlname': 'date_appoint4'});</script></td>
-        	</tr>
-        	<tr>
-        		<td><input type="radio" name="type_service" value="5" <?php if($type_service == 5){echo 'checked';}?>>&nbsp;&nbsp;&nbsp;อื่นๆ</td>
-				<td colspan="3"><input type="text" name="ser_pro5" value="<?php echo $ser_pro5;?>" style="width: 100%;"></td>
-				<td><strong>วันที่นัด </strong> <input type="text" name="date_appoint5" readonly value="<?php  if($date_appoint5==""){echo date("d/m/Y");}else{ echo $date_appoint5;}?>" class="inpfoder"/><script language="JavaScript">new tcal ({'formname': 'form1','controlname': 'date_appoint5'});</script></td>
-        	</tr>
-        </table>
-        </td>
-      </tr>
-    </table>
 	
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tb3">
+  	  <tr>
+	    <td width="50%"><strong>เรื่อง :</strong> <input type="text" name="subject" value="<?php echo $subject;?>" id="subject" class="inpfoder" style="width:50%;">
+        </td>
+      </tr>
+      <tr>
+	    <td width="50%"><strong>เรียน :</strong> <input type="text" name="dear" value="<?php if($dear != ''){echo $dear;}else{echo 'ผู้เกี่ยวข้อง';}?>" id="dear" class="inpfoder" style="width:50%;">
+       
+      
+        </td>
+      </tr>
+      <tr>
+	    <td width="50%"><strong>รายละเอียด :</strong><br><br />
+        <span style="font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;">
+        <textarea name="remark1" class="inpfoder" id="remark1" style="width:50%;height:150px;"><?php if($remark1 != ""){echo strip_tags($remark1);}else{echo strip_tags($quinfo['cd_name']." ได้ทำการ".custype_name($conn,$quinfo['ctype']).protype_name($conn,$quinfo['pro_type'])." ของบริษัท โอเมก้า ดิชวอชเชอร์ (ประเทศไทย) จำกัด สถานที่ติดตั้ง ".$quinfo['loc_name']." ".$quinfo['loc_address']." สัญญาเริ่มวันที่ ".format_date_th($quinfo["date_quf"],1)." – ".format_date_th($quinfo["date_qut"],1)." (สัญญา 1 ปี) <br><br>
+
+โดยลูกค้าได้แจ้งความประสงค์ขอถอด".protype_name($conn,$quinfo['pro_type'])."เนื่องจากทางลูกค้าได้ทำการเซ้งร้านให้กับเจ้าของคนใหม่ และทางเจ้าของร้านคนใหม่แจ้งว่าขอดูยอดขายของร้านก่อน หากต้องการติด".protype_name($conn,$quinfo['pro_type'])."ใหม่จะแจ้งให้ทราบอีกครั้ง<br><br>
+
+จึงขอแจ้งแผนกช่าง เข้าไปดำเนินการถอด".protype_name($conn,$quinfo['pro_type'])." พร้อมอุปกรณ์ต่างๆ ตามรายละเอียด ดังนี้");}?></textarea>
+        </span><br /></td>
+      </tr>
+      <tr>
+      	<td>
+      		<br>
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" style="font-size:12px;text-align:center;" id="productConlist">
+    <tr>
+     <td width="3%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>เลือก</strong></td>
+      <td width="43%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>รายการ</strong></td>
+      <td width="21%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>รุ่น</strong></td>
+      <td width="11%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>S/N</strong></td>
+      <td width="11%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>จำนวน</strong></td>
+
+
+    </tr>
+    <?php 
+		for($i=1;$i<=7;$i++){
+			if($quinfo['cpro'.$i]){
+				?>
+			<tr>
+		  	  <td style="border:1px solid #000000;padding:5;text-align:center;">
+				<input type="checkbox" name="chkPro[]" value="<?php echo $i;?>" <?php if(@in_array( $i , $con_chkpro)){echo 'checked="checked"';}?>><br>
+			  </td>
+			  <td style="border:1px solid #000000;text-align:left;padding:5;">
+			  <?php echo get_proname($conn,$quinfo['cpro'.$i]);?>
+			  </td>
+			  <td style="border:1px solid #000000;padding:5;text-align:center;" >
+			  <?php echo $quinfo['pro_pod'.$i];?>
+			 </td>
+			  <td style="border:1px solid #000000;padding:5;text-align:center;" >
+			  <?php echo $quinfo['pro_sn'.$i];?>
+			  </td>
+			  <td style="border:1px solid #000000;padding:5;text-align:center;">
+			  <?php echo $quinfo['camount'.$i];?>
+			  </td>
+			</tr>
+			<?php
+			}
+		}
+	?>
+   
+    </table><br>
+    
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+<!--                  <th width="3%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>เลือก</strong></th>-->
+                 <th width="3%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>ลำดับ</strong></th>
+                  <th width="85%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>รายการแถม</strong></th>
+                  <th width="12%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>จำนวน</strong></th>
+              </tr>
+              <?php 
+				
+				for($i=1;$i<=5;$i++){
+					if($quinfo['cs_pro'.$i]){
+						?>
+						<tr>
+
+							<td style="border:1px solid #000000;padding:5;text-align:center;">
+							<input type="checkbox" name="chkProfree[]" value="<?php echo $i;?>" <?php if(@in_array($i , $con_chkprofree)){echo 'checked="checked"';}?>>
+						  </td>
+							<td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><?php echo $quinfo['cs_pro'.$i];?></td>
+							<td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><?php echo $quinfo['cs_amount'.$i];?></td>
+						  </tr>
+					<?php
+					}
+					
+				}
+			  ?>
+              
+              
+            </table>
+       
+        </fieldset>
+    </div><br>
+      	</td>
+      </tr>
+<!--
+      <tr>
+	    <td width="50%">
+        <span style="font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;">
+        <textarea name="remark2" class="inpfoder" id="remark2" style="width:50%;height:150px;"><?php  echo strip_tags($remark2);?></textarea>
+        </span><br /></td>
+      </tr>
+      <tr>
+	    <td width="50%">
+        <span style="font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;">
+        <textarea name="remark3" class="inpfoder" id="remark3" style="width:50%;height:150px;"><?php  echo strip_tags($remark3);?></textarea>
+        </span><br /></td>
+      </tr>
+-->
 	  <tr>
-	    <td width="50%"><strong>รายละเอียดงาน</strong><br />
+	    <td width="50%"><strong>หมายเหตุ</strong><br />
         <br />
         <span style="font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;">
-        <textarea name="detail_recom" class="inpfoder" id="detail_recom" style="width:50%;height:250px;"><?php  echo strip_tags($detail_recom);?></textarea>
+        <textarea name="remark4" class="inpfoder" id="remark4" style="width:50%;height:50px;"><?php  echo strip_tags($remark4);?></textarea>
         </span><br /></td>
       </tr>
     </table>
@@ -457,7 +503,7 @@ function check(frm){
             </select></strong></td>
               </tr>
               <tr>
-                <td style="padding-top:10px;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>ผู้แจ้งงาน</strong></td>
+                <td style="padding-top:10px;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>พนักงานฝ่ายขาย</strong></td>
               </tr>
               <tr>
                 <td style="font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;">
@@ -501,23 +547,19 @@ function check(frm){
         	<table width="100%" cellspacing="0" cellpadding="0">
               <tr>
                 <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;">
-<!--                <strong><input type="text" name="cs_providers" value="<?php  echo $cs_providers;?>" id="cs_providers" class="inpfoder" style="width:50%;text-align:center;"></strong>-->
-               
-               <select name="cs_providers" id="cs_providers" class="inputselect" style="width:50%;">
-                <?php
-                	$qutectype = @mysqli_query($conn,"SELECT * FROM s_group_technician ORDER BY group_name ASC");
-					while($row_tectype = @mysqli_fetch_array($qutectype)){
-					  ?>
-					  	<option value="<?php  echo $row_tectype['group_id'];?>" <?php  if($cs_providers == $row_tectype['group_id']){echo 'selected';}?>><?php  echo $row_tectype['group_name'];?></option>
-					  <?php
+               	 <?php
+					$hBig = '';
+					if($cs_aceep != ""){
+						$hBig = $cs_aceep;
+					}else{
+						$hBig = getNameBigApprove($conn);
 					}
 				?>
-            	</select>
-               
+                <strong><input type="text" name="cs_aceep" value="<?php  echo $hBig;?>" id="cs_aceep" class="inpfoder" style="width:50%;text-align:center;border: none;"></strong></td>
                 </td>
               </tr>
               <tr>
-                <td style="padding-top:10px;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>ผู้ให้บริการ</strong></td>
+                <td style="padding-top:10px;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>ผู้มีอำนาจลงนาม</strong></td>
               </tr>
               <tr>
               <td style="font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;">
@@ -525,7 +567,7 @@ function check(frm){
               <strong>เบอร์โทร <input type="text" name="tel_providers" value="<?php echo $tel_providers;?>" style="text-align: center;width: 150px;"></strong>
                 <br><br>
 -->
-              <strong>วันที่ <input type="text" name="date_providers" style="text-align: center;" readonly value="<?php  if($date_providers==""){echo date("d/m/Y");}else{ echo $date_providers;}?>" class="inpfoder"/><script language="JavaScript">new tcal ({'formname': 'form1','controlname': 'date_providers'});</script></strong></td>
+              <strong>วันที่ <input type="text" name="date_accep" style="text-align: center;" readonly value="<?php  if($date_accep==""){echo date("d/m/Y");}else{ echo $date_accep;}?>" class="inpfoder"/><script language="JavaScript">new tcal ({'formname': 'form1','controlname': 'date_accep'});</script></strong></td>
               </tr>
             </table>
         </td>
@@ -545,8 +587,7 @@ function check(frm){
 			post_param($a_param,$a_not_exists); 
 			?>
       <input name="mode" type="hidden" id="mode" value="<?php  echo $_GET['mode'];?>">
-      <input name="qu_id" type="hidden" id="qu_id" value="<?php  echo $qu_id;?>"> 
-      <input name="qu_table" type="hidden" id="qu_table" value="<?php  echo $qu_table;?>"> 
+      <input name="fo_id" type="hidden" id="fo_id" value="<?php  echo $fo_id;?>">
       <input name="process" type="hidden" id="process" value="<?php  echo $process;?>">
       <input name="st_setting" type="hidden" id="st_setting" value="<?php  echo $st_setting;?>"> 
       <input name="<?php  echo $PK_field;?>" type="hidden" id="<?php  echo $PK_field;?>" value="<?php  echo $_GET[$PK_field];?>">

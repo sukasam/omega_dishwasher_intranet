@@ -65,6 +65,32 @@ if($_POST['paym3'] != "" && $_POST['paym3'] != "0"){
   $paym3g = '';
 }
 
+$chkProcess = checkProcess($conn,$tbl_name,$PK_field,$id);
+
+$saleSignature = '<img src="../../upload/user/signature/'.get_sale_signature($conn,$_POST['cs_sell']).'" height="50" border="0" />';
+
+if($chkProcess == '5'){
+	
+	$hSaleSignature = '<img src="../../upload/user/signature/'.get_hsale_signature($conn).'" height="50" border="0" />';
+	
+}else{
+	
+	if($chkProcess == '0'){
+		$hSaleSignature = '<img src="../../upload/user/signature/none.png" height="50" border="0" />';
+	}else{
+		
+		$chkHSaleAP = checkHSaleApplove($conn,$tbl_name,$id);
+		
+		if($chkHSaleAP == 1){
+			$hSaleSignature = '<img src="../../upload/user/signature/'.get_hsale_signature($conn).'" height="50" border="0" />';
+		}else{
+			$hSaleSignature = '<img src="../../upload/user/signature/none.png" height="50" border="0" />';
+		}
+		
+	}
+
+}
+
 $form = '
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
@@ -257,7 +283,7 @@ $form = '
         <td width="33%" style="border:1px solid #003399;font-size:11px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
         	<table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td style="border-bottom:1px solid #003399;padding-bottom:10px;font-size:11px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><img src="../../upload/user/signature/'.get_sale_signature($conn,$_POST['cs_sell']).'" width="100" border="0" /></td>
+                <td style="border-bottom:1px solid #003399;padding-bottom:10px;font-size:11px;font-family:Verdana, Geneva, sans-serif;text-align:center;">'.$saleSignature.'</td>
               </tr>
               <tr>
                 <td style="padding-top:10px;padding-bottom:10px;font-size:11px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong >( '.getsalename($conn,$_POST["cs_sell"]).' )</strong><br><br><strong>พนักงานขาย</strong></td>
@@ -273,7 +299,7 @@ $form = '
         <td width="33%" style="border:1px solid #003399;font-size:11px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
         	<table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td style="border-bottom:1px solid #003399;padding-bottom:10px;font-size:11px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><img src="../../upload/user/signature/'.get_hsale_signature($conn).'" width="100" border="0" /></td>
+                <td style="border-bottom:1px solid #003399;padding-bottom:10px;font-size:11px;font-family:Verdana, Geneva, sans-serif;text-align:center;">'.$hSaleSignature.'</td>
               </tr>
               <tr>
                 <td style="padding-top:10px;padding-bottom:10px;font-size:11px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>( '.$_POST["cs_hsell"].' )</strong><br><br><strong>ผู้จัดการฝ่ายขาย</strong></td>
@@ -289,7 +315,7 @@ $form = '
         <td width="33%" style="border:1px solid #003399;font-size:11px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
         	<table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td style="border-bottom:1px solid #003399;padding-bottom:10px;font-size:11px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><img src="../../upload/user/signature/none.png" width="100" border="0" /></td>
+                <td style="border-bottom:1px solid #003399;padding-bottom:10px;font-size:11px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><img src="../../upload/user/signature/none.png" height="50" border="0" /></td>
               </tr>
               <tr>
                 <td style="padding-top:10px;padding-bottom:10px;font-size:11px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>( '.$_POST["cs_account"].' )</strong><br><br><strong>ผู้อนุมัติสั่งซื้อสินค้า</strong></td>

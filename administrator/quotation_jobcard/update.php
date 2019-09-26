@@ -107,8 +107,8 @@
 			include_once("form_servicecard.php");
 			$mpdf=new mPDF('UTF-8'); 
 			$mpdf->SetAutoFont();
-			$mpdf->showWatermarkText = true;
-			$mpdf->WriteHTML('<watermarktext content="NOT YET APPROVED" alpha="0.4" />');
+			//$mpdf->showWatermarkText = true;
+			//$mpdf->WriteHTML('<watermarktext content="NOT YET APPROVED" alpha="0.4" />');
 			$mpdf->WriteHTML($form);
 			$chaf = str_replace("/","-",$_POST['sv_id']); 
 			$mpdf->Output('../../upload/quotation_jobcard/'.$chaf.'.pdf','F');
@@ -124,13 +124,15 @@
 			$id = $_REQUEST[$PK_field];			
 			
 			mysqli_query($conn,"UPDATE `s_quotation_jobcard` SET `process` = '0' WHERE `s_quotation_jobcard`.`qc_id` = ".$id.";");
+			
+			@mysqli_query($conn,"DELETE FROM `s_approve` WHERE tag_db = '".$tbl_name."' AND t_id = '".$id."'");
 				
 			include_once("../mpdf54/mpdf.php");
 			include_once("form_servicecard.php");
 			$mpdf=new mPDF('UTF-8'); 
 			$mpdf->SetAutoFont();
-			$mpdf->showWatermarkText = true;
-			$mpdf->WriteHTML('<watermarktext content="NOT YET APPROVED" alpha="0.4" />');
+			//$mpdf->showWatermarkText = true;
+			//$mpdf->WriteHTML('<watermarktext content="NOT YET APPROVED" alpha="0.4" />');
 			$mpdf->WriteHTML($form);
 			$chaf = str_replace("/","-",$_POST['sv_id']); 
 			$mpdf->Output('../../upload/quotation_jobcard/'.$chaf.'.pdf','F');

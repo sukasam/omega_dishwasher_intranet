@@ -127,12 +127,14 @@ function check(frm){
     </div><br>
     <div class="formArea">
       <input type="submit" name="Submit" value="Submit" class="button">
+      
       <input type="reset" name="Submit" value="Reset" class="button">
       <?php  
 			$a_not_exists = array();
 			post_param($a_param,$a_not_exists); 
 			?>
       <input name="mode" type="hidden" id="mode" value="<?php  echo $_GET['mode'];?>">
+      <input name="approve" type="hidden" id="approve" value="<?php  echo $approve;?>">
       <input name="<?php  echo $PK_field;?>" type="hidden" id="<?php  echo $PK_field;?>" value="<?php  echo $_GET[$PK_field];?>">
     </div>
   </form>

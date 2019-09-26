@@ -49,6 +49,22 @@
 //				}else{
 //					$_POST['process'] = $_POST['process']+1;
 //				}
+			
+				$numApp = mysqli_num_rows(mysqli_query($conn,"SELECT * FROM s_approve WHERE tag_db = '".$tbl_name."' AND t_id = '".$_REQUEST[$PK_field]."'"));
+			
+				if($numApp >= 1){
+					if($_POST['process'] == '2'){
+						@mysqli_query($conn,"UPDATE `s_approve` SET `process_2` = '1' WHERE tag_db = '".$tbl_name."' AND t_id = '".$_REQUEST[$PK_field]."';");
+					}
+					if($_POST['process'] == '3'){
+						@mysqli_query($conn,"UPDATE `s_approve` SET `process_3` = '1' WHERE tag_db = '".$tbl_name."' AND t_id = '".$_REQUEST[$PK_field]."';");
+					}
+					if($_POST['process'] == '4'){
+						@mysqli_query($conn,"UPDATE `s_approve` SET `process_4` = '1' WHERE tag_db = '".$tbl_name."' AND t_id = '".$_REQUEST[$PK_field]."';");
+					}
+				}else{			
+					@mysqli_query($conn,"INSERT INTO `s_approve` (`id`, `tag_db`, `t_id`, `process_1`, `process_2`, `process_3`, `process_4`) VALUES (NULL, '".$tbl_name."', '".$_REQUEST[$PK_field]."', '1', '0', '0', '0');");
+				}
 				
 				$_POST['process'] = $_POST['process']+1;
 			

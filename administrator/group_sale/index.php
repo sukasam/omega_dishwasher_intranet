@@ -15,6 +15,27 @@
 			header ("location:index.php");
 		} 
 	}
+
+	//-------------------------------------------------------------------------------------
+//	 if ($_GET['b'] <> "" and $_GET['s'] <> "") {
+//		if ($_GET['s'] == 0) $status = 1;
+//		if ($_GET['s'] == 1) $status = 0;
+//		Check_Permission($conn,$check_module,$_SESSION['login_id'],"update");
+//		$sql_status = "update $tbl_name set approve = '".$status."' where group_id = ".$_GET['b']."";
+//		@mysqli_query($conn,$sql_status);
+//		if($_GET['page'] != ""){$conpage = "&page=".$_GET['page'];}
+//		header ("location:index.php");
+//	}
+
+ 	if ($_GET['id'] <> "" and $_GET['id'] <> "") {
+		Check_Permission($conn,$check_module,$_SESSION['login_id'],"update");
+		$sql_status = "update $tbl_name set approve = '".$_GET['process']."' where group_id = ".$_GET['id']."";
+		@mysqli_query($conn,$sql_status);
+		if($_GET['page'] != ""){$conpage = "&page=".$_GET['page'];}
+		header ("location:index.php");
+	}
+
+
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML xmlns="http://www.w3.org/1999/xhtml">
@@ -42,6 +63,10 @@ function check_select(frm){
 			frm.choose_action.focus(); return false;
 		}
 }	
+function MM_jumpMenu(targ,selObj,restore){ //v3.0
+  eval(targ+".location='"+selObj.options[selObj.selectedIndex].value+"'");
+  if (restore) selObj.selectedIndex=0;
+}
 </script>
 </HEAD>
 <?php  include ("../../include/function_script.php"); ?>
@@ -107,6 +132,7 @@ function check_select(frm){
             &nbsp;</TH>
           <TH width="17%"> <?php   Show_Sort_new ("group_tel", "เบอร์โทรศัพท์", $orderby, $sortby,$page,$param2);?>
   &nbsp;</TH>
+         <TH width="15%"><div align="center"><a>สถานะการอนุมัติ</a></div></TH>
           <TH width="8%"><a>แก้ไข</a></TH>
           <TH width="6%"><a>ลบ</a></TH>
         </TR>
@@ -148,6 +174,23 @@ function check_select(frm){
           <TD><span class="text"><?php  echo $rec["group_cus_id"] ; ?></span></TD>
           <TD><span class="text"><?php  echo $rec["group_name"] ; ?></span></TD>
           <TD><span class="text"><?php  echo $rec["group_tel"] ; ?></span></TD>
+          <TD style="vertical-align:middle"><div align="center">
+<!--
+            <?php  if($rec["approve"]==0) {?>
+            <a href="../group_sale/?b=<?php  echo $rec[$PK_field]; ?>&s=<?php  echo $rec["approve"]; ?>&page=<?php  echo $_GET['page']; ?>&<?php  echo $FK_field; ?>=<?php  echo $_REQUEST["$FK_field"];?>&id=<?php  echo $rec["group_id"];?>"><img src="../icons/status_on.gif" width="10" height="10"></a>
+            <?php  } else{?>
+            <a href="../group_sale/?b=<?php  echo $rec[$PK_field]; ?>&s=<?php  echo $rec["approve"]; ?>&page=<?php  echo $_GET['page']; ?>&<?php  echo $FK_field; ?>=<?php  echo $_REQUEST["$FK_field"];?>&id=<?php  echo $rec["group_id"];?>"><img src="../icons/status_off.gif" width="10" height="10"></a>
+            <?php  }?>
+-->
+         	<select name="catalog_master" id="catalog_master" style="height:24px;" onChange="MM_jumpMenu('parent',this,0)">
+			 <option value="index.php?process=0&id=<?php  echo $rec["group_id"];?>" <?php  if(!isset($rec["approve"])){echo "selected";}?>>กรุณาเลือก</option>
+			 <option value="index.php?process=1&id=<?php  echo $rec["group_id"];?>" <?php  if($rec["approve"] == '1'){echo "selected";}?>>รอผู้อนุมัติฝ่ายขาย</option>
+			 <option value="index.php?process=2&id=<?php  echo $rec["group_id"];?>" <?php  if($rec["approve"] == '2'){echo "selected";}?>>รอผู้อนุมัติฝ่ายการเงิน</option>
+			 <option value="index.php?process=3&id=<?php  echo $rec["group_id"];?>" <?php  if($rec["approve"] == '3'){echo "selected";}?>>รอผู้มีอำนาจลงนาม</option>
+			 <option value="index.php?process=4&id=<?php  echo $rec["group_id"];?>" <?php  if($rec["approve"] == '4'){echo "selected";}?>>รอผู้อนุมัติฝ่ายช่าง</option>
+			 <option value="index.php?process=5&id=<?php  echo $rec["group_id"];?>" <?php  if($rec["approve"] == '5'){echo "selected";}?>>ผ่านการอนุมัติ</option>
+		</select>
+          </div></TD>
           <TD><!-- Icons -->
             <A title=Edit href="update.php?mode=update&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field]; if($param <> "") {?>&<?php  echo $param; }?>"><IMG alt=Edit src="../images/pencil.png"></A> <A title=Delete  href="#"></A></TD>
           <TD><A title=Delete  href="#"><IMG alt=Delete src="../images/cross.png" onClick="confirmDelete('?action=delete&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field];?>','Group  <?php  echo $rec[$PK_field];?> : <?php  echo $rec["group_name"];?>')"></A></TD>

@@ -215,6 +215,8 @@ $sumtotalsSet = $sumpriceSet + $sumpricevatSet;
 			
 				$_POST['process'] = '0';
 			
+				@mysqli_query($conn,"DELETE FROM `s_approve` WHERE tag_db = '".$tbl_name."' AND t_id = '".$_REQUEST[$PK_field]."'");
+			
 				include_once ("../include/m_update.php");
 				$id = $_REQUEST[$PK_field];
 			
@@ -225,10 +227,10 @@ $sumtotalsSet = $sumpriceSet + $sumpricevatSet;
 				include_once("form_quotation.php");
 				$mpdf=new mPDF('UTF-8');
 				$mpdf->SetAutoFont();
-				if($_POST['process'] != '5'){
-					$mpdf->showWatermarkText = true;
-					$mpdf->WriteHTML('<watermarktext content="NOT YET APPROVED" alpha="0.4" />');
-				}
+//				if($_POST['process'] != '5'){
+//					$mpdf->showWatermarkText = true;
+//					$mpdf->WriteHTML('<watermarktext content="NOT YET APPROVED" alpha="0.4" />');
+//				}
 				$mpdf->WriteHTML($form);
 				$chaf = str_replace("/","-",$_POST['fs_id']);
 				$mpdf->Output('../../upload/quotation/'.$chaf.'.pdf','F');

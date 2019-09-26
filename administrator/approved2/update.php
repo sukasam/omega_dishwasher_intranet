@@ -92,6 +92,22 @@
 			
 			$_POST['detail_recom'] = nl2br($_POST['detail_recom']);
 			
+			$numApp = mysqli_num_rows(mysqli_query($conn,"SELECT * FROM s_approve WHERE tag_db = '".$tbl_name."' AND t_id = '".$_REQUEST[$PK_field]."'"));
+			
+			if($numApp >= 1){
+				if($_POST['process'] == '2'){
+					@mysqli_query($conn,"UPDATE `s_approve` SET `process_2` = '1' WHERE tag_db = '".$tbl_name."' AND t_id = '".$_REQUEST[$PK_field]."';");
+				}
+				if($_POST['process'] == '3'){
+					@mysqli_query($conn,"UPDATE `s_approve` SET `process_3` = '1' WHERE tag_db = '".$tbl_name."' AND t_id = '".$_REQUEST[$PK_field]."';");
+				}
+				if($_POST['process'] == '4'){
+					@mysqli_query($conn,"UPDATE `s_approve` SET `process_4` = '1' WHERE tag_db = '".$tbl_name."' AND t_id = '".$_REQUEST[$PK_field]."';");
+				}
+			}else{
+				@mysqli_query($conn,"INSERT INTO `s_approve` (`id`, `tag_db`, `t_id`, `process_1`, `process_2`, `process_3`, `process_4`) VALUES (NULL, '".$tbl_name."', '".$_REQUEST[$PK_field]."', '1', '0', '0', '0');");
+			}
+			
 			if($_POST['process'] == '3'){
 				$_POST['process'] = '4';
 			}else if($_POST['process'] == '4'){
@@ -110,10 +126,10 @@
 			include_once("form_servicecard.php");
 			$mpdf=new mPDF('UTF-8'); 
 			$mpdf->SetAutoFont();
-			if($_POST['process'] != '5'){
-				$mpdf->showWatermarkText = true;
-				$mpdf->WriteHTML('<watermarktext content="NOT YET APPROVED" alpha="0.4" />');
-			}
+//			if($_POST['process'] != '5'){
+//				$mpdf->showWatermarkText = true;
+//				$mpdf->WriteHTML('<watermarktext content="NOT YET APPROVED" alpha="0.4" />');
+//			}
 			$mpdf->WriteHTML($form);
 			$chaf = str_replace("/","-",$_POST['sv_id']); 
 			$mpdf->Output('../../upload/quotation_jobcard/'.$chaf.'.pdf','F');

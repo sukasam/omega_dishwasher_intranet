@@ -241,6 +241,7 @@ $sumtotalsSet = $sumpriceSet + $sumpricevatSet;
 			
 				//require_once("genpdf.php");
 			@mysqli_query($conn,"UPDATE `s_quotation2` SET `process` = '0' WHERE `s_quotation2`.`qu_id` = ".$id.";");
+			@mysqli_query($conn,"DELETE FROM `s_approve` WHERE tag_db = '".$tbl_name."' AND t_id = '".$id."'");
 			
         include_once("../mpdf54/mpdf.php");
 				include_once("form_quotation.php");

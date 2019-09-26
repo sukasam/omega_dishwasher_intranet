@@ -51,7 +51,8 @@
 //				}
 			
 				$_POST['process'] = '0';
-
+			    @mysqli_query($conn,"DELETE FROM `s_approve` WHERE tag_db = '".$tbl_name."' AND t_id = '".$_REQUEST[$PK_field]."'");
+			
 				include ("../include/m_update.php");
 				$id = $_REQUEST[$PK_field];
 

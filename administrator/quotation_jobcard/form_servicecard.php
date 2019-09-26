@@ -43,6 +43,33 @@
 		$dateApp7 = format_date_th($_POST['date_appoint7'],2);
 	}
 
+$chkProcess = checkProcess($conn,"s_quotation_jobcard",$PK_field,$id);
+
+$saleSignature = '<img src="../../upload/user/signature/'.get_sale_signature($conn,$_POST['cs_sell']).'" height="50" border="0" />';
+$techniSignature = '<img src="../../upload/user/signature/'.get_technician_signature($conn,$_POST['cs_providers']).'" height="50" border="0" />';
+
+if($chkProcess == '5' || $chkProcess == '4'){
+	
+	$hSaleSignature = '<img src="../../upload/user/signature/'.get_hsale_signature($conn).'" height="50" border="0" />';
+	
+}else{
+	
+	if($chkProcess == '0'){
+		$hSaleSignature = '<img src="../../upload/user/signature/none.png" height="50" border="0" />';
+	}else{
+		
+		$chkHSaleAP = checkHSaleApplove($conn,$tbl_name,$id);
+		
+		if($chkHSaleAP == 1){
+			$hSaleSignature = '<img src="../../upload/user/signature/'.get_hsale_signature($conn).'" height="50" border="0" />';
+		}else{
+			$hSaleSignature = '<img src="../../upload/user/signature/none.png" height="50" border="0" />';
+		}
+		
+	}
+
+}
+
 	$form = '<style>
 	.bgheader{
 		font-size:10px;
@@ -284,7 +311,7 @@
         <td width="33%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
         	<table width="100%" cellspacing="0" cellpadding="0">
               <tr>
-                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><img src="../../upload/user/signature/'.get_sale_signature($conn,$_POST['cs_sell']).'" width="100" border="0" /></td>
+                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;">'.$saleSignature.'</td>
               </tr>
               <tr>
                 <td style="padding-top:6px;padding-bottom:6px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>( '.getsalename($conn,$_POST['cs_sell']).' )</strong><br><br><strong>ผู้แจ้งงาน</strong></td>
@@ -298,7 +325,7 @@
         <td width="33%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
         	<table width="100%" cellspacing="0" cellpadding="0">
               <tr>
-                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><img src="../../upload/user/signature/'.get_hsale_signature($conn).'" width="100" border="0" /></td>
+                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;">'.$hSaleSignature.'</td>
               </tr>
               <tr>
                 <td style="padding-top:10px;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong >( '.$_POST['cs_hsell'].' )</strong><br><br><strong>หัวหน้าฝ่ายขาย</strong></td>
@@ -313,7 +340,7 @@
         <td width="33%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
         	<table width="100%" cellspacing="0" cellpadding="0">
               <tr>
-                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><img src="../../upload/user/signature/'.get_technician_signature($conn,$_POST['cs_providers']).'" width="100" border="0" /></td>
+                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;">'.$techniSignature.'</td>
               </tr>
               <tr>
                 <td style="padding-top:10px;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>( '.get_technician_name($conn,$_POST['cs_providers']).' )</strong><br><br><strong>ผู้ให้บริการ</strong></td>

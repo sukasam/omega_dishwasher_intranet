@@ -85,7 +85,7 @@
             เลขที่ '.$_POST['con_id'].'
         </td>
         <td width="50%" class="signature" style="vertical-align: top;text-align: right;">
-        	ต้นฉบับ
+        	คู่ฉบับ
         </td>
       </tr>
     </table>

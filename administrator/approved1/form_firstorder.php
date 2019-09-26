@@ -39,6 +39,48 @@ if($_POST["warter05"] != ""){$warter05 = number_format($_POST["warter05"]);}else
 if($_POST["warter06"] != ""){$warter06 = number_format($_POST["warter06"]);}else{$warter06 = " - ";}
 if($_POST["warter07"] != ""){$warter07 = number_format($_POST["warter07"]);}else{$warter07 = " - ";}
 
+$chkProcess = checkProcess($conn,"s_first_order",$PK_field,$id);
+
+$saleSignature = '<img src="../../upload/user/signature/'.get_sale_signature($conn,$_POST['cs_sell']).'" height="50" border="0" />';
+
+if($chkProcess == '5'){
+	
+	$hSaleSignature = '<img src="../../upload/user/signature/'.get_hsale_signature($conn).'" height="50" border="0" />';
+	$hAccountSignature = '<img src="../../upload/user/signature/'.get_haccount_signature($conn).'" height="50" border="0" />';
+	$hCompanySignature = '<img src="../../upload/user/signature/'.get_hcompany_signature($conn).'" height="50" border="0" />';
+	
+}else{
+	
+	if($chkProcess == '0'){
+		$hSaleSignature = '<img src="../../upload/user/signature/none.png" height="50" border="0" />';
+		$hAccountSignature = '<img src="../../upload/user/signature/none.png" height="50" border="0" />';
+		$hCompanySignature = '<img src="../../upload/user/signature/none.png" height="50" border="0" />';
+	}else{
+		
+		$chkHSaleAP = checkHSaleApplove($conn,$tbl_name,$id);
+		$chkHAccountAP = checkHAccountApplove($conn,$tbl_name,$id);
+		$chkHCompanyAP = checkHCompanyApplove($conn,$tbl_name,$id);
+		
+		if($chkHSaleAP == 1){
+			$hSaleSignature = '<img src="../../upload/user/signature/'.get_hsale_signature($conn).'" height="50" border="0" />';
+		}else{
+			$hSaleSignature = '<img src="../../upload/user/signature/none.png" height="50" border="0" />';
+		}
+		
+		if($chkHAccountAP == 1){
+			$hAccountSignature = '<img src="../../upload/user/signature/'.get_haccount_signature($conn).'" height="50" border="0" />';
+		}else{
+			$hAccountSignature = '<img src="../../upload/user/signature/none.png" height="50" border="0" />';
+		}
+		
+		if($chkHCompanyAP == 1){
+			$hCompanySignature = '<img src="../../upload/user/signature/'.get_hcompany_signature($conn).'" height="50" border="0" />';
+		}else{
+			$hCompanySignature = '<img src="../../upload/user/signature/none.png" height="50" border="0" />';
+		}
+	}
+
+}
 
 $form = '
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -264,7 +306,7 @@ $form = '
         <td width="25%" style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
         	<table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><img src="../../upload/user/signature/'.get_sale_signature($conn,$_POST['cs_sell']).'" width="100" border="0" /></td>
+                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;">'.$saleSignature.'</td>
               </tr>
               <tr>
                 <td style="padding-top:10px;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong >( '.getsalename($conn,$_POST["cs_sell"]).' )</strong><br><br><strong>พนักงานขาย</strong></td>
@@ -278,7 +320,7 @@ $form = '
         <td width="25%" style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
         	<table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><img src="../../upload/user/signature/'.get_hsale_signature($conn).'" width="100" border="0" /></td>
+                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;">'.$hSaleSignature.'</td>
               </tr>
               <tr>
                 <td style="padding-top:10px;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>( '.$_POST["cs_hsell"].' )</strong><br><br><strong>ผู้อนุมัติการขาย</strong></td>
@@ -291,7 +333,7 @@ $form = '
         <td width="25%" style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
         	<table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><img src="../../upload/user/signature/'.get_haccount_signature($conn).'" width="100" border="0" /></td>
+                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;">'.$hAccountSignature.'</td>
               </tr>
               <tr>
                 <td style="padding-top:10px;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>( '.$_POST["cs_account"].' )</strong><br><br><strong>ฝ่ายบัญชีการเงิน</strong></td>
@@ -306,7 +348,7 @@ $form = '
         <td width="25%" style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
         	<table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><img src="../../upload/user/signature/'.get_hcompany_signature($conn).'" width="100" border="0" /></td>
+                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;">'.$hCompanySignature.'</td>
               </tr>
               <tr>
                 <td style="padding-top:10px;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>( '.$_POST["cs_aceep"].' )</strong><br><br><strong>ผู้มีอำนาจลงนาม</strong></td>
