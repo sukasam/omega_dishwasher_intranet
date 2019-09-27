@@ -1688,6 +1688,11 @@ function get_pronamecall($conn,$value) {
 	return $row_protype['group_namecall'];
 }
 
+function get_prodetail($conn,$value) {
+	$row_protype = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM  s_group_typeproduct WHERE group_id = '".$value."'"));
+	return $row_protype['group_detail'];
+}
+
 function get_servicename($conn,$value) {
 	$row_servtype = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM  s_group_service WHERE group_id = '".$value."'"));
 	return $row_servtype['group_name'];
