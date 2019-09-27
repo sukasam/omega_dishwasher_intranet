@@ -228,6 +228,20 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
   </form>
   </div>
     <div style="float:right;margin-right:20px;">  
+	<label><strong>แยกตามชื่อพนักงานขาย : </strong></label>
+    <select name="catalog_sale" id="catalog_sale" style="height:24px;" onChange="MM_jumpMenu('parent',this,0)">
+    <option value="index.php" <?php  if(!isset($_GET['sale_id'])){echo "selected";}?>>กรุณาเลือก</option>
+	<?php
+		$qusaletype = @mysqli_query($conn,"SELECT * FROM s_group_sale ORDER BY group_name ASC");
+		while($row_saletype = @mysqli_fetch_array($qusaletype)){
+		  ?>
+			<option value="index.php?sale_id=<?php  echo $row_saletype['group_id'];?>" <?php  if($_GET['sale_id'] == $row_saletype['group_id']){echo 'selected';}?>><?php  echo $row_saletype['group_name'];?></option>
+		  <?php
+		}
+	?>
+  	</select>
+    </div>
+    <div style="float:right;margin-right:20px;">  
 	<label><strong>สถานะการอนุมัติ : </strong></label>
     <select name="catalog_master" id="catalog_master" style="height:24px;" onChange="MM_jumpMenu('parent',this,0)">
 		 <option value="index.php" <?php  if(!isset($_GET['process'])){echo "selected";}?>>กรุณาเลือก</option>
@@ -287,6 +301,11 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 		  
 		  			if ($_GET['process'] <> "") { 
 						$sql .= " and ( process = '".$_GET['process']."' ";
+						$sql .=  $subtext . " ) ";
+					}
+		  
+		  			if ($_GET['sale_id'] <> "") { 
+						$sql .= " and ( cs_sell = '".$_GET['sale_id']."' ";
 						$sql .=  $subtext . " ) ";
 					}
 		  
