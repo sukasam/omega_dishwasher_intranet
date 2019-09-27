@@ -287,7 +287,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 					if($orderby=="") $orderby = $tbl_name.".".$PK_field;
 					if ($sortby =="") $sortby ="DESC";
 					
-				   	$sql = " select *,$tbl_name.create_date as c_date from $tbl_name  where 1";
+				   	$sql = " select *,$tbl_name.create_date as c_date from $tbl_name  where 1 ";
 					if ($_GET[$PK_field] <> "") $sql .= " and ($PK_field  = '" . $_GET[$PK_field] . " ' ) ";					
 					if ($_GET[$FR_field] <> "") $sql .= " and ($FR_field  = '" . $_GET[$FR_field] . " ' ) ";					
  					if ($_GET['keyword'] <> "") { 
