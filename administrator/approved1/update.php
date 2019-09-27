@@ -79,7 +79,7 @@
 				include_once("form_firstorder.php");
 				$mpdf=new mPDF('UTF-8');
 				$mpdf->SetAutoFont();
-				if($_POST['process'] != '5'){
+				if($_POST['process'] != '5' && $_POST['process'] != '4'){
 					$mpdf->showWatermarkText = true;
 					$mpdf->WriteHTML('<watermarktext content="NOT YET APPROVED" alpha="0.4" />');
 				}
