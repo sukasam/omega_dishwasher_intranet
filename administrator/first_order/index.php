@@ -204,6 +204,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
           <TH width="18%"><strong>สถานที่ติดตั้ง</strong></TH>
           <TH width="5%" nowrap ><div align="center"><a>แจ้งงาน</a></div></TH>
           <TH width="5%" nowrap ><div align="center"><a>Memo</a></div></TH>
+          <TH width="5%" nowrap ><div align="center"><a>เอกสาร</a></div></TH>
           <TH width="10%" nowrap ><div align="center">สถานะ</TH>
 <!--          <TH width="5%" nowrap ><div align="center"><a> Open / </a><a> Close</a></div></TH>-->
 <!--          <TH width="5%" nowrap ><div align="center"><a>Setting</a></div></TH>-->
@@ -325,6 +326,9 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 			  </td>
          	<td style="vertical-align: middle;">
 			  <center><a href="../memo/?cus_id=<?php  echo $rec[$PK_field];?>"><img src="../images/meno.png" height="30"></a></center>
+			  </td>
+          <td style="vertical-align: middle;">
+			  <center><a href="../document/?fo_id=<?php  echo $rec[$PK_field];?>"><img src="../images/document.png" height="30"></a></center>
 			  </td>
            <TD nowrap style="vertical-align:middle"><div align="center">
             <?php  if($rec["status_use"]==0) {?>
