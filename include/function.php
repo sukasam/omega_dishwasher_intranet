@@ -1763,6 +1763,7 @@ function get_firstorder($conn,$fo_id) {
 
 function get_servicereport($conn,$sv_id) {
 	$row_service_report = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM  s_service_report WHERE sv_id = '".$sv_id."'"));
+	var_dump($sv_id);
 	return $row_service_report;
 }
 

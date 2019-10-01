@@ -199,6 +199,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
             &nbsp;</TH>
 -->
           <TH width="12%"><center>การอนุมัติ</center></TH>
+          <TH width="12%"><center>QR Code</center></TH>
           <TH width="12%"><center>FO ID</center></TH>
           <TH width="35%">ชื่อลูกค้า</TH>
           <TH width="18%"><strong>สถานที่ติดตั้ง</strong></TH>
@@ -315,9 +316,9 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 			  ?>
 		  </center>
           </TD>
+          <TD><center><img src="../../qrcode_gen/qrcode.php?val=<?php echo $rec["fo_id"];?>|s_first_order|FO" width="80"></center></TD>
           <TD><center><?php  
           $chaf = str_replace("/","-",$rec["fs_id"]); ?>
-          
           <span class="text"><a href="../../upload/first_order/<?php  echo $chaf;?>.pdf" target="_blank"><?php  echo $rec["fs_id"] ; ?></a></span></center></TD>
           <TD>          <span class="text"><?php  echo $rec["cd_name"] ; ?></span></TD>
           <TD><span class="text"><?php  echo $rec["loc_name"] ; ?></span></TD>

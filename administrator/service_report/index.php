@@ -155,18 +155,19 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 		$param2 = get_param($a_param,$a_not_exists);
 	?>
             <?php   Show_Sort_new ("user_id", "ลำดับ.", $orderby, $sortby,$page,$param2);?>
-            &nbsp;</TH>
+            </TH>
           <TH width="9%"><div align="center"><a>Serive ID</a></div></TH>
-          <TH width="22%"><a>ชื่อลูกค้า</a></TH>
-          <TH width="22%"><a>สถานที่ติดตั้ง</a></TH>
-          <TH width="8%"><div align="center"><a>การยืนยัน</a></div></TH>
+          <TH width="10%"><a><center>QR Code</center></a></TH>
+          <TH width="22%"><a>ชื่อลูกค้า (สถานที่ติดตั้ง)</a></TH>
+          
+<!--          <TH width="8%"><div align="center"><a>การยืนยัน</a></div></TH>-->
           <TH width="8%"><div align="center"><a>จ่ายอะไหล่</a></div></TH>
           <TH width="8%"><div align="center"><a>Open / Close</a></div></TH>
           <TH width="9%"><div align="center"><a>แก้ไข (Open)</a></div></TH>
           <TH width="10%"><div align="center"><a>แก้ไข (Close)</a></div></TH>
-          <TH width="10%"><div align="center"><a>เบิกอะไหล่</a></div></TH>
-          <TH width="10%"><div align="center"><a>ยืมอะไหล่</a></div></TH>
-          <TH width="10%"><div align="center"><a>คืนอะไหล่</a></div></TH>
+          <TH width="10%"><div align="center"><a>เบิก</a></div></TH>
+          <TH width="10%"><div align="center"><a>ยืม</a></div></TH>
+          <TH width="10%"><div align="center"><a>คืน</a></div></TH>
           <TH width="10%"><div align="center" style="white-space: nowrap;"><a>ค่าใช่จ่าย</a></div></TH>
           <TH width="5%"><div align="center"><a>ลบ</a></div></TH>
           </TR>
@@ -223,8 +224,10 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
           <TD style="vertical-align:middle;"><INPUT type=checkbox name="del[]" value="<?php  echo $rec[$PK_field]; ?>" ></TD>
           <TD style="vertical-align:middle;"><span class="text"><?php  echo sprintf("%04d",$counter); ?></span></TD>
           <TD style="vertical-align:middle;"><?php  $chaf = str_replace("/","-",$rec["sv_id"]); ?><div align="center"><span class="text"><a href="../../upload/service_report_open/<?php  echo $chaf;?>.pdf" target="_blank"><?php  echo $rec["sv_id"] ; ?></a></span></div></TD>
-          <TD style="vertical-align:middle;"><span class="text"><?php  echo get_customername($conn,$rec["cus_id"]); ?></span></TD>
-          <TD style="vertical-align:middle;"><span class="text"><?php  echo get_localsettingname($conn,$rec["cus_id"]); ?></span></TD>
+          <TD style="vertical-align:middle;"><center><img src="../../qrcode_gen/qrcode.php?val=<?php echo $rec["sr_id"];?>|s_service_report|SV" width="80"></center></TD>
+          <TD style="vertical-align:middle;"><span class="text"><strong><?php  echo get_customername($conn,$rec["cus_id"]);?></strong><br>(<?php  echo get_localsettingname($conn,$rec["cus_id"]); ?>)</span></TD>
+          
+<!--
           <TD style="vertical-align:middle"><?php  if($rec["approve"] == 1){?>
             <IMG src="../images/icons/yes_approve.png" height="28" title="อนุมัติ">
             <?php  }else if($rec["approve"] == 2){?>
@@ -232,6 +235,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
             <?php  }else{?>
             <IMG src="../images/icons/wait_approve.png" height="28" title="รออนุมัติ">
             <?php  }?></TD>
+-->
           <TD style="vertical-align:middle"><div align="center">
             <?php  if($rec["supply"]==0) {?>
             <a href="../service_report/?cc=<?php  echo $rec[$PK_field]; ?>&tt=<?php  echo $rec["supply"]; ?>&page=<?php  echo $_GET['page']; ?>&<?php  echo $FK_field; ?>=<?php  echo $_REQUEST["$FK_field"];?>&cus_id=<?php  echo $rec["cus_id"];?>"><img src="../images/icons/check0.gif" width="15" height="15"></a>

@@ -25,7 +25,7 @@ if(chkBrowser("Opera")==1){
             	<table width="100%" border="0" cellspacing="0" cellpadding="0" style="border-collapse:inherit;">
               <tr style="background:#f0f0f0;">
                 <td style="vertical-align:top;border:none;">
-                	<p style="font-family:MyriadProBold;font-size:25px;color:#d47000;padding-right:10px;line-height:25px;text-align:right;">Welcome to OMEGA Intranet</p>
+                	<p style="font-family:MyriadProBold;font-size:25px;color:#d47000;padding-right:10px;line-height:25px;text-align:right;">OMEGA Intranet</p>
                     <p style="padding-right:10px;font-size:25px;font-family:Tahoma, Geneva, sans-serif;color:#000000;line-height:25px;text-align:right;padding-top:10px;"><a href="../profiles/?mid=15"><?php  echo $_SESSION["fullname"];?></a></p>
                 </td>
                 <td style="vertical-align:top;border:none;">
