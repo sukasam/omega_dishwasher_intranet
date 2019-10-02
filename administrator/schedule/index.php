@@ -448,8 +448,12 @@ if($_GET['month'] == 2){
 <input type="image" src="icon_print.png" alt="Submit" width="48" style="background-color: #dddddd;padding: 10px 40px;border-radius: 5px;" onclick="window.open('<?php echo $linkPrint;?>');">
 <?php
 	$getMonth = $_GET['month']-1;
-	$quGen = mysqli_query($conn,"SELECT * FROM service_schedule WHERE month = '".$getMonth."' AND technician = '".$_GET['loccontact']."'");
+	$getYear = $_GET['year'];
+		
+	$quGen = mysqli_query($conn,"SELECT * FROM service_schedule WHERE month = '".$getMonth."' AND technician = '".$_GET['loccontact']."' AND year= '".$getYear."'");
+		
 	$numCreated = mysqli_num_rows($quGen);
+	//echo $numCreated;
 	if($numCreated == 0){
 		$linkGenPDF = "createService.php?month=".$_GET['month']."&year=".$_GET['year']."&loccontact=".$_GET['loccontact'];
 		?>

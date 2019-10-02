@@ -15,16 +15,19 @@
     $domain = str_replace("schedule","service_report_api",$domain);
     $domain = str_replace("createService","update",$domain);
 	$url = $domain;
+
+//	echo $url;
+//	exit();
 	
 
 	$condition = "";
 	$getMonth = $_GET['month']-1;
+	$getYear = $_GET['year'];
 
 	
 
-	$quGen = mysqli_query($conn,"SELECT * FROM service_schedule WHERE month = '".$getMonth."' AND technician = '".$_GET['loccontact']."'");
+	$quGen = mysqli_query($conn,"SELECT * FROM service_schedule WHERE month = '".$getMonth."' AND technician = '".$_GET['loccontact']."' AND year = '".$getYear."'");
 	$numCreated = mysqli_num_rows($quGen);
-	
 	
 	if($numCreated == 0){
 		
@@ -47,8 +50,9 @@
 		$quSched = mysqli_query($conn,$sqlSched);
 
 		$runRow = 1;
+		
 		  while($rowSched = mysqli_fetch_array($quSched)){
-			  
+
 			  set_time_limit(0);
 			  
 			  //echo $runRow++." => ".$rowSched['cpro2']."<br>";
@@ -212,6 +216,7 @@
 
 
 			  }else{
+
 				
 							$fields = array(
 								'cd_names' => urlencode($rowSched['cd_name']),
@@ -235,7 +240,7 @@
 							rtrim($fields_string, '&');
 				  			
 //				  	 
-
+				  			
 							//open connection
 							$ch = curl_init();
 
@@ -245,12 +250,17 @@
 							curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
 
 							//execute post
+				  		
 							echo $result = curl_exec($ch);
 
 							//close connection
 							curl_close($ch); 
-				  	//echo $url;
-     				//exit();
+				  
+				  
+//				  	echo $url;
+//     				exit();
+				  
+				
 
 			 }
 
@@ -259,23 +269,23 @@
 		  //sleep(3);
 		  //genFile($getMonth,$_GET['loccontact']);
 		
-		echo "<script>window.opener.location.reload();window.close();</script>";
+			echo "<script>window.opener.location.reload();window.close();</script>";
 		 
 
 		}else{
 			
-			genFile($conn,$getMonth,$_GET['loccontact']);
+			genFile($conn,$getMonth,$_GET['loccontact'],$getYear);
 			
 		}
 	
 	
-	function genFile($conn,$getMonth,$loccontact){
+	function genFile($conn,$getMonth,$loccontact,$getYear){
 		
 		// and now we can use library
 		$pdf = new \Jurosh\PDFMerge\PDFMerger;
 
 		
-		$quGen2 = mysqli_query($conn,"SELECT * FROM service_schedule WHERE month = '".$getMonth."' AND technician = '".$loccontact."'");
+		$quGen2 = mysqli_query($conn,"SELECT * FROM service_schedule WHERE month = '".$getMonth."' AND technician = '".$loccontact."' AND year = '".$getYear."'");
 		 $numCreated2 = mysqli_num_rows($quGen2);
 			
 		

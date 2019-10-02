@@ -3,7 +3,8 @@
 	include ("../../include/connect.php");
 	include ("../../include/function.php");
 	include ("config.php");
-
+	
+	
 	if ($_POST['mode'] <> "") { 
 		
 		$_POST['sr_stime'] = date("Y-m-d");
@@ -12,11 +13,13 @@
 		$_POST['job_balance'] = date("Y-m-d");
 
 		if ($_POST['mode'] == "add") { 
-		
-			
+
 			$_POST['sv_id'] = check_servicereport($conn);
 			$_POST['job_last'] = get_lastservice_s($conn,$_POST['cus_id'],"");
-
+			$_POST['approve'] = 0;
+			$_POST['supply'] = 0;
+			$_POST['st_setting'] = 0;
+			
 			/*echo "<pre>";
 			echo print_r($_POST);
 			echo "</pre>";
@@ -38,7 +41,7 @@
 			
 			//echo $_POST['sv_id'];
 			
-			@mysqli_query($conn,"INSERT INTO `service_schedule` (`id`, `month`, `technician`, `sv_id`, `fo_id`, `pdf`, `created`) VALUES (NULL, '".date("m")."', '".$_POST['loc_contact']."', '".$_POST['sv_id']."', '".$_POST['fo_id']."', '".$chaf.".pdf', CURRENT_TIMESTAMP);");
+			@mysqli_query($conn,"INSERT INTO `service_schedule` (`id`, `month`, `year`, `technician`, `sv_id`, `fo_id`, `pdf`, `created`) VALUES (NULL, '".date("m")."', '".date("Y")."', '".$_POST['loc_contact']."', '".$_POST['sv_id']."', '".$_POST['fo_id']."', '".$chaf.".pdf', CURRENT_TIMESTAMP);");
 			
 			$pid = mysqli_insert_id($conn);
 			
