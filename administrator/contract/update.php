@@ -108,11 +108,9 @@
 				
 			include_once("../mpdf54/mpdf.php");
 			
-			include_once("form_contract.php");
-			$mpdf=new mPDF('UTF-8','A4','','','15','15','50','40'); 
-			$mpdf->SetAutoFont();
-			$mpdf->SetHTMLHeader('<div><img src="../images/contract_header.jpg"/></div>');
-			$mpdf->SetHTMLFooter('<table width="100%" border="0" cellspacing="0" cellpadding="0" style="text-align:center;margin-top:5px;">
+			$txtcsign = '';
+			if($_POST['csign'] == '0'){
+				$txtcsign = '<table width="100%" border="0" cellspacing="0" cellpadding="0" style="text-align:center;margin-top:5px;">
       <tr>
         <td width="50%" class="signature" style="vertical-align: top;line-height: 35px;">
 			(ลงชื่อ)………………………....……………ผู้เช่า<br><br>
@@ -121,7 +119,17 @@
 			(ลงชื่อ)………………………………………………ผู้ให้เช่า<br><br>
         </td>
       </tr>
-    </table><div><img src="../images/contract_footer.jpg"/></div>');
+    </table>';
+			}else{
+				$txtcsign = '';
+			}
+			
+			include_once("form_contract.php");
+			$mpdf=new mPDF('UTF-8','A4','','','15','15','50','40'); 
+			$mpdf->SetAutoFont();
+			$mpdf->SetHTMLHeader('<div><img src="../images/contract_header.jpg"/></div>');
+
+			$mpdf->SetHTMLFooter($txtcsign.'<div><img src="../images/contract_footer.jpg"/></div>');
 			$mpdf->WriteHTML($form);
 			$chaf = str_replace("/","-",$_POST['con_id']); 
 			$mpdf->Output('../../upload/contract/'.$chaf.'.pdf','F');
@@ -130,16 +138,7 @@
 			$mpdf=new mPDF('UTF-8','A4','','','15','15','50','40'); 
 			$mpdf->SetAutoFont();
 			$mpdf->SetHTMLHeader('<div><img src="../images/contract_header.jpg"/></div>');
-			$mpdf->SetHTMLFooter('<table width="100%" border="0" cellspacing="0" cellpadding="0" style="text-align:center;margin-top:5px;">
-      <tr>
-        <td width="50%" class="signature" style="vertical-align: top;line-height: 35px;">
-			(ลงชื่อ)………………………....……………ผู้เช่า<br><br>
-        </td>
-        <td width="50%" class="signature" style="vertical-align: top;">
-			(ลงชื่อ)………………………………………………ผู้ให้เช่า<br><br>
-        </td>
-      </tr>
-    </table><div><img src="../images/contract_footer.jpg"/></div>');
+			$mpdf->SetHTMLFooter($txtcsign.'<div><img src="../images/contract_footer.jpg"/></div>');
 			$mpdf->WriteHTML($form);
 			$chaf = str_replace("/","-",$_POST['con_id']); 
 			$mpdf->Output('../../upload/contract/'.$chaf.'-2.pdf','F');
@@ -198,11 +197,10 @@
 			}
 	
 			include_once("../mpdf54/mpdf.php");
-			include_once("form_contract.php");
-			$mpdf=new mPDF('UTF-8','A4','','','15','15','50','40'); 
-			$mpdf->SetAutoFont();
-			$mpdf->SetHTMLHeader('<div><img src="../images/contract_header.jpg"/></div>');
-			$mpdf->SetHTMLFooter('<table width="100%" border="0" cellspacing="0" cellpadding="0" style="text-align:center;margin-top:5px;">
+			
+			$txtcsign = '';
+			if($_POST['csign'] == '0'){
+				$txtcsign = '<table width="100%" border="0" cellspacing="0" cellpadding="0" style="text-align:center;margin-top:5px;">
       <tr>
         <td width="50%" class="signature" style="vertical-align: top;line-height: 35px;">
 			(ลงชื่อ)………………………....……………ผู้เช่า<br><br>
@@ -211,25 +209,25 @@
 			(ลงชื่อ)………………………………………………ผู้ให้เช่า<br><br>
         </td>
       </tr>
-    </table><div><img src="../images/contract_footer.jpg"/></div>');
+    </table>';
+			}else{
+				$txtcsign = '';
+			}
+			
+			include_once("form_contract.php");
+			$mpdf=new mPDF('UTF-8','A4','','','15','15','50','40'); 
+			$mpdf->SetAutoFont();
+			$mpdf->SetHTMLHeader('<div><img src="../images/contract_header.jpg"/></div>');
+			$mpdf->SetHTMLFooter($txtcsign.'<div><img src="../images/contract_footer.jpg"/></div>');
 			$mpdf->WriteHTML($form);
 			$chaf = str_replace("/","-",$_POST['con_id']); 
 			$mpdf->Output('../../upload/contract/'.$chaf.'.pdf','F');
 			
 			include_once("form_contract2.php");
-			$mpdf=new mPDF('UTF-8','A4','','','15','15','50','40'); 
+			$mpdf=new mPDF('UTF-8','A4','','','40','15','50','40'); 
 			$mpdf->SetAutoFont();
 			$mpdf->SetHTMLHeader('<div><img src="../images/contract_header.jpg"/></div>');
-			$mpdf->SetHTMLFooter('<table width="100%" border="0" cellspacing="0" cellpadding="0" style="text-align:center;margin-top:5px;">
-      <tr>
-        <td width="50%" class="signature" style="vertical-align: top;line-height: 35px;">
-			(ลงชื่อ)………………………....……………ผู้เช่า<br><br>
-        </td>
-        <td width="50%" class="signature" style="vertical-align: top;">
-			(ลงชื่อ)………………………………………………ผู้ให้เช่า<br><br>
-        </td>
-      </tr>
-    </table><div><img src="../images/contract_footer.jpg"/></div>');
+			$mpdf->SetHTMLFooter($txtcsign.'<div><img src="../images/contract_footer.jpg"/></div>');
 			$mpdf->WriteHTML($form);
 			$chaf = str_replace("/","-",$_POST['con_id']); 
 			$mpdf->Output('../../upload/contract/'.$chaf.'-2.pdf','F');
@@ -490,6 +488,7 @@ function check(frm){
             <td><strong>ที่อยู่ :</strong> <span id="cusadd"><?php  echo $finfo['cd_address'];?></span></td>
             <td>
             	<strong>วันทำสัญญา  :</strong><span style="font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><input type="text" name="con_stime" readonly value="<?php  if($con_stime==""){echo date("d/m/Y");}else{ echo $con_stime;}?>" class="inpfoder"/><script language="JavaScript">new tcal ({'formname': 'form1','controlname': 'con_stime'});</script></span>
+            	<span style="padding-left: 20px;"> <strong>ลายเซ็นลูกค้า : </strong> </span><span style="padding-right: 5px;"><input type="radio" name="csign" value="0" <?php if($csign == "0" || $csign == ""){echo 'checked';}?>> ทุกหน้า </span><span style="padding-right: 5px;"><input type="radio" name="csign" value="1" <?php if($csign == "1"){echo 'checked';}?>> เฉพาะหน้าสุดท้าย </span>
             </td>
           </tr>
           <tr>

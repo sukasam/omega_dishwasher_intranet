@@ -185,11 +185,11 @@
 	}
 	.conID{
 	 	text-align: right;
-		font-size:16px;
+		font-size:15px;
 		font-weight: bold;
 	}
 	.textMedium{
-		font-size:16px;
+		font-size:15px;
 		line-height: 28px;
 	}
 	.textCenter{
@@ -208,8 +208,10 @@
 		font-style: italic;
 	}
 	</style>
+	<div style="margin-left:35px;">
 	<p class="hdTitle">สัญญาเช่า'.$nameConpro.'</p>
 	<p class="textMedium" style="text-align: center;">เงื่อนไข : '.getcustom_type($conn,$finfos['ctype']).'</p>
+	<div></div>
 	<div class="textMedium">
 	<div class="conID">
 	 คู่ฉบับ<br>
@@ -239,13 +241,13 @@
 	$form .= 'หมายเหตุ : อุปกรณ์เสริมที่ทางผู้ให้เช่าให้ผู้เช่ายืม (หากอุปกรณ์ที่ยืมมีความเสียหายใด ๆ หรือมีการสูญหาย เกิดขึ้นทางผู้เช่าจะเป็นผู้รับผิดชอบทั้งหมดทุกกรณีโดยไม่มีเงื่อนไข'.$txt2.')	<br><br>
 	
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>ข้อ 3. ระยะเวลาการเช่า</strong><br>
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;สัญญานี้ มีผลบังคับตั้งแต่วันที่ลงนามในสัญญาเช่า'.$nameConpro.'นี้ ให้มีกำหนด<strong>ระยะเวลาการเช่า 12 เดือน</strong> เริ่มตั้งแต่วันที่ '.format_date_th($_POST['con_startdate'],1).' ถึงวันที่ '.format_date_th($_POST['con_enddate'],1).' ถัดจากวันที่ผู้เช่ารับมอบ'.$nameConpro.'เรียบร้อยแล้ว <br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;สัญญานี้ มีผลบังคับตั้งแต่วันที่ลงนามในสัญญาเช่า'.$nameConpro.'นี้ ให้มีกำหนด <strong>ระยะเวลาการเช่า 12 เดือน</strong> เริ่มตั้งแต่วันที่ '.format_date_th($_POST['con_startdate'],1).' ถึงวันที่ '.format_date_th($_POST['con_enddate'],1).' ถัดจากวันที่ผู้เช่ารับมอบ '.$nameConpro.'เรียบร้อยแล้ว <br>
 	<strong class="colorbBlue">(สัญญาเล่มนี้เป็นสัญญาปีที่ '.$numContract.' (ปีแรก ปี '.$contractFY.' เดือน '.$contractFM.') ตามเลขที่สัญญาเล่มแรก '.$contractFN.')</strong><br>
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>ตลอดระยะเวลาการเช่าและหลังครบกำหนดระยะเวลาการเช่า ผู้ให้เช่าเป็นผู้ครอบครองและเป็นเจ้าของ กรรมสิทธิ์ในเครื่องล้างจานและอุปกรณ์ประกอบต่าง ๆ ตามสัญญาข้อ 1. และ ข้อ 2. โดยผู้เช่าไม่มีสิทธิ์ โต้แย้งใด ๆ ทั้งสิ้น</strong>
 	<br><br>
 	
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>ข้อ 4. การชำระค่าเช่าและค่าติดตั้งเครื่อง</strong> <br>
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;การเช่า'.$nameConpro.'ตามสัญญานี้ เป็นการเช่าแบบมีกำหนดระยะเวลา โดยผู้เช่าตกลงชำระค่าเช่าเป็นรายเดือนทุกเดือนในอัตราที่ผู้ให้เช่ากำหนด<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;การเช่า'.$nameConpro.'ตามสัญญานี้ เป็นการเช่าแบบมีกำหนดระยะเวลา โดยผู้เช่าตกลงชำระค่าเช่า เป็นรายเดือนทุกเดือนในอัตราที่ผู้ให้เช่ากำหนด<br>
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$rentPro.' และภาษีมูลค่าเพิ่ม 7% เป็นเงิน '.number_format($totalRentProVat).' บาท ('.baht_text($totalRentProVat).') <strong>รวมเป็นเงิน '.number_format($sumTotal).' บาท ('.baht_text($sumTotal).')</strong> <strong class="colorRed">โดยชำระก่อนทุกวันที่ '.$_POST['con_paymonth'].' ของทุกเดือน เริ่มงวดแรก คือ เดือน '.format_date_th($_POST['con_startdate'],7).' เป็นต้นไป จนกว่าจะครบกำหนดตามสัญญา</strong><br><br>
 
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>ค่าติดตั้งและค่าขนส่ง'.$nameConpro.'</strong>ผู้เช่าตกลงชำระค่าติดตั้งทรัพย์สินที่เช่าเป็นจำนวนเงิน '.number_format($setUpPrice).' บาท ('.baht_text($setUpPrice).') และภาษีมูลค่าเพิ่ม 7% เป็นเงิน '.number_format($setUpVat).' บาท ('.baht_text($setUpVat).') <strong>รวมเป็นเงิน '.number_format($setupTotal).' บาท ('.baht_text($setupTotal).')</strong><br><br>
@@ -353,6 +355,7 @@
 	<p class="hdTitle2">
 	'.$finfos['loc_name'].'<br>
 	</p>
+	</div>
 	</div>
 	';
 ?>

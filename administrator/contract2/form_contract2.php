@@ -62,11 +62,11 @@
 	}
 	.conID{
 	 	text-align: right;
-		font-size:16px;
+		font-size:15px;
 		font-weight: bold;
 	}
 	.textMedium{
-		font-size:16px;
+		font-size:15px;
 		line-height: 28px;
 	}
 	.textCenter{
@@ -79,6 +79,7 @@
 		line-height: 35px;
 	}
 	</style>
+	<div style="margin-left:35px;">
 	<p class="hdTitle">สัญญาบริการบำรุงรักษา'.$nameConpro.'</p>
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" style="text-align:center;margin-top:5px;">
       <tr>
@@ -86,7 +87,7 @@
            เลขที่สัญญา '.$_POST['con_id'].'
         </td>
         <td width="50%" class="signature conID" style="vertical-align: top;text-align: right;">
-        	คู่ฉบับ
+        	 คู่ฉบับ
         </td>
       </tr>
     </table><br>
@@ -176,6 +177,7 @@
 		รูป'.$nameConpro.' ตั้งอยู่ที่ '.$finfos['loc_name'].' <br>
 		เลขที่ '.$finfos['loc_address'].' <br><br>
 		'.$productListImg.'
+	</div>
 	</div>
 	';
 ?>

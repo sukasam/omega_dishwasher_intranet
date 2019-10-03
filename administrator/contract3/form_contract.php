@@ -79,6 +79,7 @@
 		line-height: 35px;
 	}
 	</style>
+	<div style="margin-left:35px;">
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" style="text-align:center;margin-top:5px;">
       <tr>
         <td width="50%" class="signature" style="vertical-align: top;text-align: left;">
@@ -146,10 +147,6 @@
       </tr>
     </table>
 	</div>
+	</div>
 	';
 ?>
-
-
-	
-
-	
