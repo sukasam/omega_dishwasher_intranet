@@ -3,6 +3,8 @@ error_reporting(0);
 //error_reporting (E_ALL ^ E_NOTICE);
 @ob_start();
 @session_start();
+date_default_timezone_set("Asia/Bangkok");
+
 include_once("config.php");
 include_once("connect.php");
 include_once("function.php");

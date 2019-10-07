@@ -905,20 +905,29 @@ div.validateresult{background:#FF9; padding:12px; margin:-20px -20px 20px -20px;
     letter-spacing: -1px;
     padding: 2px 2px 0 0;
     position: relative;
-    width: 178px;
+    width: 100%;
 }
 
 .setting .sc_wrap {
-    height: 178px;
+    height: 420px;
     overflow: auto;
     width: 100%;
 }
+.sc_wrap ul {
+    padding: 1px 0 0 7px !important;
+}
+.sc_wrap li {
+    color: #1D1D1D;
+	float: left;
+    width: 100% !important;
+	overflow: hidden;
+}
+
 .setting ul {
     padding: 1px 0 0 7px;
 }
 .setting li {
     color: #1D1D1D;
-    height: 21px;
 }
 .setting li input {
     cursor: pointer;
@@ -963,4 +972,7 @@ div.validateresult{background:#FF9; padding:12px; margin:-20px -20px 20px -20px;
     padding: 10px;
     font-weight: bold;
     font-size: 15px;
+}
+.tblistChk tr td{
+	white-space: nowrap;
 }

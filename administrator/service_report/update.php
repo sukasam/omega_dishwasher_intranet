@@ -473,7 +473,7 @@ function check(frm){
           <tr>
             <td>
             <div class="setting" id="slapp">
-  				<div class="sc_wrap">
+  				<div class="sc_wrap" style="height: 200px;">
                     <ul>
                      <?php  
 					 	$qu_fix = @mysqli_query($conn,"SELECT * FROM s_group_fix ORDER BY group_name ASC");
@@ -608,6 +608,9 @@ function check(frm){
       <input name="ckl_list" type="hidden" id="ckl_list" value="<?php  echo $ckl_list;?>">
       <input name="ckw_list" type="hidden" id="ckw_list" value="<?php  echo $ckw_list;?>">
       <input name="detail_recom2" type="hidden" id="detail_recom2" value="<?php  echo strip_tags($detail_recom2);?>">
+      
+      
+      <input name="supply" type="hidden" id="supply" value="<?php  echo $supply;?>">
       
       <input name="cpro1" type="hidden" id="cpro1" value="<?php  echo $cpro1;?>">
       <input name="cpro2" type="hidden" id="cpro2" value="<?php  echo $cpro2;?>">

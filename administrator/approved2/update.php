@@ -96,16 +96,16 @@
 			
 			if($numApp >= 1){
 				if($_POST['process'] == '2'){
-					@mysqli_query($conn,"UPDATE `s_approve` SET `process_2` = '1' WHERE tag_db = '".$tbl_name."' AND t_id = '".$_REQUEST[$PK_field]."';");
+					@mysqli_query($conn,"UPDATE `s_approve` SET `process_2` = '1', `process_2_date` = '".date("Y-m-d H:i:s")."'  WHERE tag_db = '".$tbl_name."' AND t_id = '".$_REQUEST[$PK_field]."';");
 				}
 				if($_POST['process'] == '3'){
-					@mysqli_query($conn,"UPDATE `s_approve` SET `process_3` = '1' WHERE tag_db = '".$tbl_name."' AND t_id = '".$_REQUEST[$PK_field]."';");
+					@mysqli_query($conn,"UPDATE `s_approve` SET `process_3` = '1', `process_3_date` = '".date("Y-m-d H:i:s")."' WHERE tag_db = '".$tbl_name."' AND t_id = '".$_REQUEST[$PK_field]."';");
 				}
 				if($_POST['process'] == '4'){
-					@mysqli_query($conn,"UPDATE `s_approve` SET `process_4` = '1' WHERE tag_db = '".$tbl_name."' AND t_id = '".$_REQUEST[$PK_field]."';");
+					@mysqli_query($conn,"UPDATE `s_approve` SET `process_4` = '1', `process_4_date` = '".date("Y-m-d H:i:s")."' WHERE tag_db = '".$tbl_name."' AND t_id = '".$_REQUEST[$PK_field]."';");
 				}
 			}else{
-				@mysqli_query($conn,"INSERT INTO `s_approve` (`id`, `tag_db`, `t_id`, `process_1`, `process_2`, `process_3`, `process_4`) VALUES (NULL, '".$tbl_name."', '".$_REQUEST[$PK_field]."', '1', '0', '0', '0');");
+				@mysqli_query($conn,"INSERT INTO `s_approve` (`id`, `tag_db`, `t_id`, `process_1`, `process_2`, `process_3`, `process_4`, `process_1_date`) VALUES (NULL, '".$tbl_name."', '".$_REQUEST[$PK_field]."', '1', '0', '0', '0','".date("Y-m-d H:i:s")."');");
 			}
 			
 			if($_POST['process'] == '3'){

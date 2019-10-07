@@ -16,11 +16,14 @@
 	$chk = get_fixlist($_POST['ckf_list']);
 	
 	foreach($chk as $vals){
-		$sfix .= '
+		if(get_fixname($conn,$vals) != ""){
+			$sfix .= '
 		  <tr>
 			<td ><img src="../images/aroow_ch.png" width="10" height="10" border="0" alt="" />&nbsp;'.get_fixname($conn,$vals).'</td>
 		  </tr>
 		';	
+		}
+		
 	}
 	
 	$chl = $_POST['ckl_list'];
@@ -64,6 +67,31 @@
 		
 	$qu_sr2 = @mysqli_query($conn,"SELECT * FROM s_service_report2sub WHERE sr_id = '".$row_service2['sr_id']."' AND codes != ''");
 	$brf = 1;
+
+	$chkProcess = checkProcess($conn,"s_service_report",$PK_field,$id);
+
+	$techniSignature = '<img src="../../upload/user/signature/'.get_technician_signature($conn,$_POST['loc_contact']).'" height="50" border="0" />';
+
+	$chkHTecAP = checkHTecnicalApplove($conn,$tbl_name,$id);
+		
+	$hTecSignature = '';
+
+	if($chkHTecAP == 1){
+		$hTecSignature = '<img src="../../upload/user/signature/'.get_htecnic_signature($conn).'" height="50" border="0" />';
+	}else{
+		$hTecSignature = '<img src="../../upload/user/signature/none.png" height="50" border="0" />';
+	}
+
+
+	$chkHCustomerAP = checkHCustomerApplove($conn,$id);
+		
+	$hCustomerSignature = '';
+
+	if($chkHCustomerAP !== '' && $chkHCustomerAP != NULL){
+		$hCustomerSignature = '<img src="../../upload/customer/signature/'.$chkHCustomerAP.'" height="50" border="0" />';
+	}else{
+		$hCustomerSignature = '<img src="../../upload/customer/signature/none.png" height="50" border="0" />';
+	}
 
 	$form = '<style>
 	.bgheader{
@@ -284,11 +312,10 @@
         <td width="33%" style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
         	<table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong ><br />
-                </strong></td>
+                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong >'.$techniSignature.'</strong></td>
               </tr>
               <tr>
-                <td style="padding-top:10px;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>ช่างบริการ</strong></td>
+                <td style="padding-top:10px;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>( '.get_technician_name($conn,$_POST['loc_contact']).' )<br>ช่างบริการ</strong></td>
               </tr>
               <tr>
                 <td style="font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>วันที่............./.............../..............<br />
@@ -302,7 +329,7 @@
         <td width="33%" style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
         	<table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;">&nbsp;</td>
+                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;">'.$hCustomerSignature.'</td>
               </tr>
               <tr>
                 <td style="padding-top:10px;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>ผู้รับบริการ</strong></td>
@@ -317,10 +344,10 @@
         <td width="33%" style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
         	<table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;">&nbsp;</td>
+                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;">'.$hTecSignature.'</td>
               </tr>
               <tr>
-                <td style="padding-top:10px;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>ผู้ตรวจสอบ</strong></td>
+                <td style="padding-top:10px;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>( '.getNameTecApprove($conn).' )<br>ผู้ตรวจสอบ</strong></td>
               </tr>
               <tr>
                 <td style="font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>วันที่............./.............../..............<br />

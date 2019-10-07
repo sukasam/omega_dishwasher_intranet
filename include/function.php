@@ -235,6 +235,11 @@ function format_month_th ($value) {
 
 }
 
+function format_year_th ($value) {
+	$value += 543;
+	$year = substr( $value, -2);
+	return ($year);
+}
 
 function format_date_th ($value,$type) { 
 	if (strlen ($value) > 10) { 
@@ -1763,7 +1768,13 @@ function get_firstorder($conn,$fo_id) {
 
 function get_servicereport($conn,$sv_id) {
 	$row_service_report = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM  s_service_report WHERE sv_id = '".$sv_id."'"));
-	var_dump($sv_id);
+	//var_dump($sv_id);
+	return $row_service_report;
+}
+
+function get_servicereport2($conn,$sr_id) {
+	$row_service_report = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM  s_service_report WHERE sr_id = '".$sr_id."'"));
+	//var_dump($sv_id);
 	return $row_service_report;
 }
 
@@ -2635,6 +2646,12 @@ function getNumApproveQAH($conn,$process){
 	return $numApprove;
 }
 
+function getNumApproveSV($conn,$process){
+	$quApprove = mysqli_query($conn,"SELECT * FROM s_service_report WHERE process = '".$process."';");
+ 	$numApprove = mysqli_num_rows($quApprove);
+	return $numApprove;
+}
+
 function checkSaleMustApprove($conn,$sale_id){
 	$rowSale = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM s_group_sale WHERE group_id = '".$sale_id."';"));
 	return $rowSale['approve'];
@@ -2664,9 +2681,21 @@ function checkHCompanyApplove($conn,$tag_db,$t_id){
 }
 
 function checkHTecnicalApplove($conn,$tag_db,$t_id){
-	$quApprove = @mysqli_query($conn,"SELECT * FROM s_approve WHERE tag_db = '".$tag_db."' AND t_id = '".$t_id."' AND process_2 = '1';");
+	$quApprove = @mysqli_query($conn,"SELECT * FROM s_approve WHERE tag_db = '".$tag_db."' AND t_id = '".$t_id."' AND process_4 = '1';");
 	$numApprove = mysqli_num_rows($quApprove);
 	return $numApprove;
+}
+
+function checkHCustomerApplove($conn,$id){
+	$quApprove = @mysqli_query($conn,"SELECT * FROM s_service_report WHERE sr_id = '".$id."'");
+	$numApprove = mysqli_fetch_array($quApprove);
+	return $numApprove['signature'];
+}
+
+function getServiceImg($conn,$id){
+	$quImg = @mysqli_query($conn,"SELECT * FROM s_service_report WHERE sr_id = '".$id."'");
+	$numImg = mysqli_fetch_array($quImg);
+	return $numImg['service_image'];
 }
 
 ?>

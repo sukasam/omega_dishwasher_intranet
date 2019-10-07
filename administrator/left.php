@@ -9,8 +9,9 @@
 	$numApp3 = getNumApproveMEMO($conn,$UserProcess);
 	$numApp4 = getNumApproveQAB($conn,$UserProcess);
 	$numApp5 = getNumApproveQAH($conn,$UserProcess);
+	$numApp6 = getNumApproveSV($conn,$UserProcess);
 
-	$sumApp = $numApp1+$numApp2+$numApp3+$numApp4+$numApp5;
+	$sumApp = $numApp1+$numApp2+$numApp3+$numApp4+$numApp5+$numApp6;
 	
 ?>
 <DIV id=sidebar>

@@ -304,6 +304,7 @@ if($_GET['month'] == 2){
       <th>จังหวัด</th>
       <th>ชนิดลูกค้า</th>
       <th>ระยะเวลา</th>
+      <th>FOID</th>
 <!--      <th>ดาวโหลด</th>-->
     </tr>
     <?php 
@@ -326,7 +327,9 @@ if($_GET['month'] == 2){
 				  <td><?php echo province_name($conn,$rowSched['cd_province']);?></td>
 				  <td><?php echo custype_name($conn,$rowSched['ctype']);?></td>
 				  <td><?php if($rowSched['cpro1'] == 147){echo "งานบริการประจำ 3 เดือน/ครั้ง";}else{echo get_servicename($conn,$rowSched['type_service']);}?></td>
-<!--
+				  <td><?php echo $rowSched['fs_id'];?></td>
+				  
+<!--		
 				  <td>
 					<?php
 					if(file_exists("../../upload/service_report_open/".$getFileSH['pdf'])){
@@ -349,6 +352,7 @@ if($_GET['month'] == 2){
 				  <td><?php echo province_name($conn,$rowSched['cd_province']);?></td>
 				  <td><?php echo custype_name($conn,$rowSched['ctype']);?></td>
 				  <td><?php if($rowSched['cpro1'] == 147){echo "งานบริการประจำ 3 เดือน/ครั้ง";}else{echo get_servicename($conn,$rowSched['type_service']);}?></td>
+				  <td><?php echo $rowSched['fs_id'];?></td>
 <!--
 				  <td>
 				  	<?php
@@ -374,6 +378,7 @@ if($_GET['month'] == 2){
 					  <td><?php echo province_name($conn,$rowSched['cd_province']);?></td>
 					  <td><?php echo custype_name($conn,$rowSched['ctype']);?></td>
 					  <td><?php if($rowSched['cpro2'] == 147){echo "งานบริการประจำ 3 เดือน/ครั้ง";}else{echo get_servicename($conn,$rowSched['type_service']);}?></td>
+					  <td><?php echo $rowSched['fs_id'];?></td>
 <!--
 					  <td>
 					   <?php
@@ -397,6 +402,7 @@ if($_GET['month'] == 2){
 				  <td><?php echo province_name($conn,$rowSched['cd_province']);?></td>
 				  <td><?php echo custype_name($conn,$rowSched['ctype']);?></td>
 				  <td><?php if($rowSched['cpro2'] == 147){echo "งานบริการประจำ 3 เดือน/ครั้ง";}else{echo get_servicename($conn,$rowSched['type_service']);}?></td>
+				  <td><?php echo $rowSched['fs_id'];?></td>
 <!--
 				  <td>
 				   <?php
@@ -422,6 +428,7 @@ if($_GET['month'] == 2){
 				  <td><?php echo province_name($conn,$rowSched['cd_province']);?></td>
 				  <td><?php echo custype_name($conn,$rowSched['ctype']);?></td>
 				  <td><?php echo get_servicename($conn,$rowSched['type_service']);?></td>
+				  <td><?php echo $rowSched['fs_id'];?></td>
 <!--
 				  <td>
 				  <?php

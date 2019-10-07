@@ -132,7 +132,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 			?>
   </form>
 </div>
-<div style="float:right;margin-right:20px;padding-top:5px;">
+<div style="float:right;margin-right:20px;padding-top:5px;display: none;">
 	<label><strong>สถานะการยืนยัน : </strong></label>
     <select name="catalog_master" id="catalog_master" style="height:24px;" onChange="MM_jumpMenu('parent',this,0)">
 		<option value="index.php?app_id=0" <?php  if($_GET['app_id'] == 0){echo "selected";}?>>รอการอนุมัติ</option>
@@ -157,14 +157,14 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
             <?php   Show_Sort_new ("user_id", "ลำดับ.", $orderby, $sortby,$page,$param2);?>
             </TH>
           <TH width="9%"><div align="center"><a>Serive ID</a></div></TH>
-          <TH width="10%"><a><center>QR Code</center></a></TH>
+<!--          <TH width="10%"><a><center>QR Code</center></a></TH>-->
           <TH width="22%"><a>ชื่อลูกค้า (สถานที่ติดตั้ง)</a></TH>
           
 <!--          <TH width="8%"><div align="center"><a>การยืนยัน</a></div></TH>-->
           <TH width="8%"><div align="center"><a>จ่ายอะไหล่</a></div></TH>
           <TH width="8%"><div align="center"><a>Open / Close</a></div></TH>
-          <TH width="9%"><div align="center"><a>แก้ไข (Open)</a></div></TH>
-          <TH width="10%"><div align="center"><a>แก้ไข (Close)</a></div></TH>
+<!--          <TH width="9%"><div align="center"><a>แก้ไข (Open)</a></div></TH>-->
+          <TH width="10%"><div align="center"><a>แก้ไข</a></div></TH>
           <TH width="10%"><div align="center"><a>เบิก</a></div></TH>
           <TH width="10%"><div align="center"><a>ยืม</a></div></TH>
           <TH width="10%"><div align="center"><a>คืน</a></div></TH>
@@ -193,13 +193,13 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 						$sql .=  $subtext . " ) ";
 					}
 
-					if ($_GET['app_id'] <> "") {
-						$sql .= " and ( approve = '$_GET[app_id]' ";
-						$sql .=  $subtext . " ) ";
-					}else{
-						$sql .= " and ( approve = '0' ";
-						$sql .=  $subtext . " ) ";
-					}
+//					if ($_GET['app_id'] <> "") {
+//						$sql .= " and ( approve = '$_GET[app_id]' ";
+//						$sql .=  $subtext . " ) ";
+//					}else{
+//						$sql .= " and ( approve = '0' ";
+//						$sql .=  $subtext . " ) ";
+//					}
 
 					if ($orderby <> "") $sql .= " order by " . $orderby;
 					if ($sortby <> "") $sql .= " " . $sortby;
@@ -224,7 +224,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
           <TD style="vertical-align:middle;"><INPUT type=checkbox name="del[]" value="<?php  echo $rec[$PK_field]; ?>" ></TD>
           <TD style="vertical-align:middle;"><span class="text"><?php  echo sprintf("%04d",$counter); ?></span></TD>
           <TD style="vertical-align:middle;"><?php  $chaf = str_replace("/","-",$rec["sv_id"]); ?><div align="center"><span class="text"><a href="../../upload/service_report_open/<?php  echo $chaf;?>.pdf" target="_blank"><?php  echo $rec["sv_id"] ; ?></a></span></div></TD>
-          <TD style="vertical-align:middle;"><center><img src="../../qrcode_gen/qrcode.php?val=<?php echo $rec["sr_id"];?>|s_service_report|SV" width="80"></center></TD>
+<!--          <TD style="vertical-align:middle;"><center><img src="../../qrcode_gen/qrcode.php?val=<?php echo $rec["sr_id"];?>|s_service_report|SV" width="80"></center></TD>-->
           <TD style="vertical-align:middle;"><span class="text"><strong><?php  echo get_customername($conn,$rec["cus_id"]);?></strong><br>(<?php  echo get_localsettingname($conn,$rec["cus_id"]); ?>)</span></TD>
           
 <!--
@@ -250,8 +250,10 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
             <a href="../service_report/?b=<?php  echo $rec[$PK_field]; ?>&s=<?php  echo $rec["st_setting"]; ?>&page=<?php  echo $_GET['page']; ?>&<?php  echo $FK_field; ?>=<?php  echo $_REQUEST["$FK_field"];?>&cus_id=<?php  echo $rec["cus_id"];?>"><img src="../icons/status_off.gif" width="10" height="10"></a>
             <?php  }?>
           </div></TD>
-          <TD style="vertical-align:middle;"><div align="center"><!-- Icons -->
+<!--
+          <TD style="vertical-align:middle;"><div align="center"> Icons 
             <A title=Edit href="update.php?mode=update&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field]; if($param <> "") {?>&<?php  echo $param; }?>"><IMG src="../images/icons/paper_content_pencil_48.png" alt=Edit width="25" height="25" title="แก้ไขรายงานแจ้งซ่อม"></A>&nbsp;<a href="../../upload/service_report_open/<?php  echo $chaf;?>.pdf" target="_blank"><img src="../images/icon2/backup.png" alt="" width="25" height="25" style="margin-left:10px;" title="ดาวน์โหลดรายงานช่างซ่ิอม"></a></div></TD>
+-->
           <TD style="vertical-align:middle;"><!-- Icons -->
             <div align="center"><A title=Edit href="update2.php?mode=update&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field]; if($param <> "") {?>&<?php  echo $param; }?>"><IMG src="../images/icons/paper_content_pencil_48.png" alt=Edit width="25" height="25" title="แก้ไขรายงานแจ้งซ่อม"></A><a href="../../upload/service_report_close/<?php  echo $chaf;?>.pdf" target="_blank"><img src="../images/icon2/backup.png" width="25" height="25" title="ดาวน์โหลดรายงานช่างซ่ิอม" style="margin-left:10px;"></a></div></TD>
           <TD style="vertical-align:middle;"><div align="center"><a href="../service_report2/update.php?mode=<?php if($row_sr2['sr_id'] == ""){echo "add&srid=".$rec['sr_id'];}else{echo "update&srid=".$rec['sr_id']."&sr_id=".$row_sr2['sr_id'];}?>"><img src="../images/icons/icon-48-section.png" width="30"></a><?php if($row_sr2['sr_id'] != ""){?><a href="../../upload/service_report_open/<?php echo str_replace("/","-",$row_sr2['sv_id']);?>.pdf" target="_blank"><img src="../images/icon2/backup.png" width="25" height="25" title="ดาวน์โหลดรายงานช่างซ่ิอม" style="margin-left:10px;"></a><?php }?></div></TD>
