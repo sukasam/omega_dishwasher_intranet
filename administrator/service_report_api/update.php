@@ -11,6 +11,13 @@
 		$_POST['job_open'] = date("Y-m-d");
 		$_POST['job_close'] = date("Y-m-d");
 		$_POST['job_balance'] = date("Y-m-d");
+		
+		$_POST['cd_names'] = urldecode($_POST['cd_names']);
+		$_POST['loc_pro'] = urldecode($_POST['loc_pro']);
+		$_POST['loc_seal'] = urldecode($_POST['loc_seal']);
+		$_POST['loc_sn'] = urldecode($_POST['loc_sn']);
+		$_POST['technic_service'] = urldecode($_POST['technic_service']);
+		$_POST['fo_id'] = urldecode($_POST['fo_id']);
 
 		if ($_POST['mode'] == "add") { 
 
@@ -20,12 +27,7 @@
 			$_POST['supply'] = 0;
 			$_POST['st_setting'] = 0;
 			
-			/*echo "<pre>";
-			echo print_r($_POST);
-			echo "</pre>";
-			break;
-			*/
-			
+		
 			include "../include/m_add.php";
 			
 			$id = mysqli_insert_id($conn);
@@ -45,40 +47,8 @@
 			
 			$pid = mysqli_insert_id($conn);
 			
-			
-			//echo $pid;
-			
-			//header ("location:index.php?" . $param); 
 		}
-		/*if ($_POST['mode'] == "update" ) {
-			
-			$_POST['detail_recom'] = nl2br($_POST['detail_recom']);
-			$_POST['detail_calpr'] = nl2br($_POST['detail_calpr']);
-			
-			$_POST['job_last'] = get_lastservice_f($conn,$_POST['cus_id'],$_POST['sv_id']);
-			
-			foreach ($_POST['ckf_list2'] as $value) {
-				$checklist .= $value.',';
-			}
-			
-			$_POST['ckf_list'] = substr($checklist,0,-1);
-			
-			$_POST['ckf_list'];
-			 
-			include ("../include/m_update.php");
-			
-			$id = $_REQUEST[$PK_field];			
-				
-			include_once("../mpdf54/mpdf.php");
-			include_once("form_serviceopen.php");
-			$mpdf=new mPDF('UTF-8'); 
-			$mpdf->SetAutoFont();
-			$mpdf->WriteHTML($form);
-			$chaf = str_replace("/","-",$_POST['sv_id']); 
-			$mpdf->Output('../../upload/service_report_open/'.$chaf.'.pdf','F');
-			
-			//header ("location:index.php?" . $param); 
-		}*/
+		
 		
 	}
 	;
