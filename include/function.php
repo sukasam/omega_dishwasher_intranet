@@ -1439,6 +1439,26 @@ function check_quotation3($conn){
 	
 }
 
+function check_quotation4($conn){
+	
+	$thdate = substr(date("Y")+543,2);
+	$concheck = "QA-RC ".$thdate.date("/m/");
+	
+	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_quotation4 WHERE fs_id like '%".$concheck."%' ORDER BY fs_id DESC");
+	$num_oder = @mysqli_num_rows($qu_forder);
+	$row_forder = @mysqli_fetch_array($qu_forder);
+	
+	if($row_forder['fs_id'] == ""){
+		return "QA-RC ".$thdate.date("/m/")."001";
+	}else{
+		$runQAA = explode("/",$row_forder['fs_id']);
+		$runNum = number_format($runQAA[2]);
+		$num_odersum = $runNum+1;
+		return "QA-RC ".$thdate.date("/m/").sprintf("%03d",$num_odersum);
+	}
+	
+}
+
 function check_contract_number ($conn){
 	$thdate = substr(date("Y")+543,2);
 	$concheck = "R ".$thdate.date("/m/");
@@ -2696,6 +2716,40 @@ function getServiceImg($conn,$id){
 	$quImg = @mysqli_query($conn,"SELECT * FROM s_service_report WHERE sr_id = '".$id."'");
 	$numImg = mysqli_fetch_array($quImg);
 	return $numImg['service_image'];
+}
+
+function getTypeService($id){
+
+	switch ($id) {
+		case "2":
+			return "เครื่องล้างแก้ว";
+			break;
+		case "3":
+			return "เครื่องผลิตน้ำแข็ง";
+			break;
+		default:
+			return "เครื่องล้างจาน";
+	}
+}
+
+function getTypeServiceDesc($id,$word){
+
+	switch ($id) {
+		case "2":
+			$new_str = str_replace('เครื่องผลิตน้ำแข็ง', 'เครื่องล้างแก้ว', $word);
+			$new_str = str_replace('เครื่องล้างจาน', 'เครื่องล้างแก้ว', $new_str);
+			return $new_str;
+			break;
+		case "3":
+			$new_str = str_replace('เครื่องล้างแก้ว', 'เครื่องผลิตน้ำแข็ง', $word);
+			$new_str = str_replace('เครื่องล้างจาน', 'เครื่องผลิตน้ำแข็ง', $new_str);
+			return $new_str;
+			break;
+		default:
+			$new_str = str_replace('เครื่องล้างแก้ว', 'เครื่องล้างจาน', $word);
+			$new_str = str_replace('เครื่องผลิตน้ำแข็ง', 'เครื่องล้างจาน', $new_str);
+			return $new_str;
+	}
 }
 
 ?>
