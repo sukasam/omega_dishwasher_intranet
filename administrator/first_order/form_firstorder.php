@@ -364,30 +364,32 @@ $form = '
     </table>
   ';
 
+//<table width="100%" border="0" cellspacing="0" cellpadding="0">
+//	  <tr>
+//		<td style="padding-bottom:5px;"><img src="../images/form/header-first-order.png" width="100%" border="0" /></td>
+//	  </tr>
+//	</table>
+//
+//<table width="100%" border="0" cellspacing="0" cellpadding="0" style="border:1px solid #000000;">
+//          <tr>
+//            <td width="57%" valign="top" style="font-size:10px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>ชื่อลูกค้า :</strong> '.$_POST["cd_name"].'<strong><br />
+//              <br />
+//            ที่อยู่ :</strong> '.$_POST["cd_address"].'&nbsp;'.province_name($conn,$_POST["cd_province"]).'<br />
+//            <br />
+//            <strong>โทรศัพท์ :</strong> '.$_POST["cd_tel"].'<strong>&nbsp;&nbsp;&nbsp;แฟกซ์ :</strong> '.$_POST["cd_fax"].'<br /><br />
+//            <strong>ชื่อผู้ติดต่อ : </strong>'.$_POST["c_contact"].'<strong>&nbsp;&nbsp;&nbsp;เบอร์โทร :</strong> '.$_POST["c_tel"].' </td>
+//            <td width="43%" valign="top" style="font-size:10px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>กลุ่มลูกค้า : </strong> '.get_groupcusname($conn,$_POST['cg_type']).'&nbsp;&nbsp;&nbsp;&nbsp;<strong>ประเภทลูกค้า : </strong>'.custype_name($conn,$_POST["ctype"]).'<strong><br />
+//              <br />
+//            สินค้า :</strong> '.protype_name($conn,$_POST["pro_type"]).'<br />
+//            <br />
+//            <strong>เลขที่ใบเสนอราคา / PO.NO. : </strong>'.$_POST["po_id"].'<br />
+//            <br />            <strong>เลขที่ First order :</strong><strong> </strong>'.$_POST["fs_id"].'<strong>&nbsp;&nbsp;&nbsp;&nbsp;วันที่ :</strong> '.format_date($conn,$_POST["date_forder"]).'<strong></td>
+//          </tr>
+//</table>
+
+
 	if($_POST['remark'] != ""){
-		$form .= '<table width="100%" border="0" cellspacing="0" cellpadding="0">
-	  <tr>
-		<td style="padding-bottom:5px;"><img src="../images/form/header-first-order.png" width="100%" border="0" /></td>
-	  </tr>
-	</table>
-
-<table width="100%" border="0" cellspacing="0" cellpadding="0" style="border:1px solid #000000;">
-          <tr>
-            <td width="57%" valign="top" style="font-size:10px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>ชื่อลูกค้า :</strong> '.$_POST["cd_name"].'<strong><br />
-              <br />
-            ที่อยู่ :</strong> '.$_POST["cd_address"].'&nbsp;'.province_name($conn,$_POST["cd_province"]).'<br />
-            <br />
-            <strong>โทรศัพท์ :</strong> '.$_POST["cd_tel"].'<strong>&nbsp;&nbsp;&nbsp;แฟกซ์ :</strong> '.$_POST["cd_fax"].'<br /><br />
-            <strong>ชื่อผู้ติดต่อ : </strong>'.$_POST["c_contact"].'<strong>&nbsp;&nbsp;&nbsp;เบอร์โทร :</strong> '.$_POST["c_tel"].' </td>
-            <td width="43%" valign="top" style="font-size:10px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>กลุ่มลูกค้า : </strong> '.get_groupcusname($conn,$_POST['cg_type']).'&nbsp;&nbsp;&nbsp;&nbsp;<strong>ประเภทลูกค้า : </strong>'.custype_name($conn,$_POST["ctype"]).'<strong><br />
-              <br />
-            สินค้า :</strong> '.protype_name($conn,$_POST["pro_type"]).'<br />
-            <br />
-            <strong>เลขที่ใบเสนอราคา / PO.NO. : </strong>'.$_POST["po_id"].'<br />
-            <br />            <strong>เลขที่ First order :</strong><strong> </strong>'.$_POST["fs_id"].'<strong>&nbsp;&nbsp;&nbsp;&nbsp;วันที่ :</strong> '.format_date($conn,$_POST["date_forder"]).'<strong></td>
-          </tr>
-</table>
-
+		$form .= '
 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tb1">
           <tr>
             <td style="font-size:10px;font-family:Verdana, Geneva, sans-serif;padding:15px;"><strong>หมายเหตุอื่นๆ : </strong>'.$_POST["remark"].'</td>

@@ -1038,7 +1038,7 @@ function record_member($conn,$page_name){
 	}
 }
 function check_azAZ09($text){
-	if(preg_match("[^0-9A-Za-z]",$text)) return false;
+	if(preg_match("/[^0-9A-Za-z]/",$text)) return false;
 	else return true;
 }		
 function get_param($a_param,$a_not_exists){
@@ -1088,7 +1088,7 @@ function get_return_param(){
 	$param = ""; 
 	if(count($_REQUEST) > 0) {
 		foreach($_REQUEST as $key => $value){
-			if( preg_match("pre_",$key) && ($value <> "") )
+			if( preg_match("/pre_/",$key) && ($value <> "") )
 				$param .= "&&".str_replace("pre_","",$key)."=".$value;
 		}
 		$param = substr($param,1);
@@ -1126,8 +1126,8 @@ function check_username($conn,$name){
 }
 
 function show_menu($menu_id,$menu_name){
-	if(preg_match(",".$menu_id.",",$_SESSION[s_menu_id].",")){
-		if($menu_id == $_SESSION[s_now_menu])
+	if(preg_match("/,".$menu_id.",/",$_SESSION['s_menu_id'].",")){
+		if($menu_id == $_SESSION['s_now_menu'])
 			echo "<font color=\"#FF0000\">$menu_name</font>"; 
 		else
 			echo "<font color=\"#CC6600\">$menu_name</font>"; 
