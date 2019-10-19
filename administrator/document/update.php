@@ -87,7 +87,7 @@
 				// Check if image file is a actual image or fake image
 				$check = getimagesize($_FILES["fimages"]["tmp_name"]);
 				
-				if($check !== false) {
+//				if($check !== false) {
 					//echo "File is an image - " . $check["mime"] . ".";
 					//$uploadOk = 1;
 
@@ -97,11 +97,11 @@
 
 					//resize_crop_image(800, 533, $target_file, $target_file);
 					
-				} else {
-					//echo "File is not an image.";
-					$uploadOk = 0;
-				}
-							
+//				} else {
+//					//echo "File is not an image.";
+//					$uploadOk = 0;
+//				}
+//							
 			} // end if ($_FILES[fimages][name] != "")
 
 			
@@ -247,8 +247,8 @@ function check(frm){
                   <br>
                   <?php  
 				  if($_GET['mode'] != 'add'){
-					  if(file_exists("../../upload/document/".$images)){?>
-                  <img src="../../upload/document/<?php  echo $images?>" width="150">
+					  if($images != ""){?><br>
+					[<a href="../../upload/document/<?php  echo $images;?>" target="_blank">เปิดเอกสาร</a>]
                   <?php  }?>
                   <input name="images" type="hidden" value="<?php echo  $images; ?>">
                   <?php }?></td>
