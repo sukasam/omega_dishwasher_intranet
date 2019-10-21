@@ -10,7 +10,7 @@
 	if($_GET['action'] == "delete"){
 		$code = Check_Permission($conn,$check_module,$_SESSION["login_id"],"delete");		
 		if ($code == "1") {
-			$sql = "delete from $tbl_name  where $PK_field = '$_GET[$PK_field]'";
+			$sql = "delete from $tbl_name  where $PK_field = '".$_GET[$PK_field]."'";
 			@mysqli_query($conn,$sql);			
 			header ("location:index.php");
 		} 
@@ -28,25 +28,33 @@
 	}
 	
 	//-------------------------------------------------------------------------------------
-	 if ($_GET[bb] <> "" and $_GET[ss] <> "") { 
-		if ($_GET[ss] == 0) $status = 1;
-		if ($_GET[ss] == 1) $status = 0;
+	 if ($_GET['bb'] <> "" and $_GET['ss'] <> "") { 
+		if ($_GET['ss'] == 0) $status = 1;
+		if ($_GET['ss'] == 1) $status = 0;
 		Check_Permission($conn,$check_module,$_SESSION['login_id'],"update");
-		$sql_status = "update $tbl_name set status = ".$status." where $PK_field = '$_GET[bb]'";
+		$sql_status = "update $tbl_name set status = ".$status." where $PK_field = '".$_GET['bb']."'";
 		@mysqli_query($conn,$sql_status);
-		$sql_svstatus = "update s_service_report set st_setting = ".$status." where cus_id = '$_GET[foid]'";
+		$sql_svstatus = "update s_service_report set st_setting = ".$status." where cus_id = '".$_GET['foid']."'";
 		@mysqli_query($conn,$sql_svstatus);
 		if($_GET['page'] != ""){$conpage = "page=".$_GET['page'];}
 		header ("location:?".$conpage); 
 	}
 	
 	//-------------------------------------------------------------------------------------
-	 if ($_GET[ff] <> "" and $_GET[gg] <> "") { 
-		if ($_GET[gg] == 0) $status_use = 0;
-		if ($_GET[gg] == 1) $status_use = 1;
-		if ($_GET[gg] == 2) $status_use = 2;
+	 if ($_GET['ff'] <> "" and $_GET['gg'] <> "") { 
+		 
+		if ($_GET['gg'] == 0) $status_use = 0;
+		if ($_GET['gg'] == 1) $status_use = 1;
+
 		Check_Permission($conn,$check_module,$_SESSION['login_id'],"update");
-		$sql_status = "update $tbl_name set status_use = '$status_use' where $PK_field = '$_GET[ff]'";
+		
+		if ($_GET['gg'] == 2) {
+			$status_use = 2;
+			$sql_status = "update $tbl_name set status_use = '".$status_use."',technic_service='0',type_service='0' where $PK_field = '".$_GET['ff']."'";
+		}else{
+			$sql_status = "update $tbl_name set status_use = '".$status_use."' where $PK_field = '".$_GET['ff']."'";
+		}
+
 		@mysqli_query($conn,$sql_status);
 		
 		if($_GET['page'] != ""){$conpage = "page=".$_GET['page'];}
