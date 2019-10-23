@@ -51,7 +51,7 @@
 <SCRIPT type=text/javascript src="../js/jquery-1.9.1.min.js"></SCRIPT>
 <script type="text/javascript" src="ajax.js"></script> 
 <script type="text/javascript">
-   function get_pod(group_id,group_name,protype,protype2){
+   function get_pod(group_id,group_name,protype,protype2,protype3){
 	//alert(group_id);
 	var xmlHttp;
    xmlHttp=GetXmlHttpObject(); //Check Support Brownser
@@ -65,13 +65,14 @@
 
 			$.ajax({
 				type: "GET",
-				url: "call_return.php?action=changeSN&pod="+group_name,
+				url: "call_return.php?action=changeSN&pod="+group_name+'&id='+protype3,
 				success: function(data){
 					var ds = data.split('|');
 					//console.log(ds[1]);
 					
 					self.opener.document.getElementById(protype).innerHTML = xmlHttp.responseText;
 					self.opener.document.getElementById(protype2).innerHTML = ds[1];
+					self.opener.document.getElementById('search_sn'+protype3).innerHTML = ds[2];
 					window.close();
 					
 				}
@@ -92,7 +93,7 @@
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tv_search">
   <tr>
     <td colspan="2"><strong>ค้นหา&nbsp;&nbsp;:&nbsp;&nbsp;</strong>
-        <input type="text" name="textfield" id="textfield" style="width:85%;" onkeyup="get_podkey(this.value,'<?php  echo $_GET['protype']?>','<?php  echo $_GET['protype2']?>');"/>
+        <input type="text" name="textfield" id="textfield" style="width:85%;" onkeyup="get_podkey(this.value,'<?php  echo $_GET['protype']?>','<?php  echo $_GET['protype2']?>','<?php  echo $_GET['protype3']?>');"/>
     </td>
   </tr>
 </table>
@@ -107,7 +108,7 @@
 	while($row_cus = @mysqli_fetch_array($qu_cus)){
 		?>
 		 <tr>
-            <td><A href="javascript:void(0);" onclick="get_pod('<?php  echo $row_cus['group_id'];?>','<?php  echo $row_cus['group_name'];?>','<?php  echo $_GET['protype']?>','<?php  echo $_GET['protype2']?>');"><?php  echo $row_cus['group_name'];?></A></td>
+            <td><A href="javascript:void(0);" onclick="get_pod('<?php  echo $row_cus['group_id'];?>','<?php  echo $row_cus['group_name'];?>','<?php  echo $_GET['protype']?>','<?php  echo $_GET['protype2']?>','<?php  echo $_GET['protype3']?>');"><?php  echo $row_cus['group_name'];?></A></td>
           </tr>
 		<?php 	
 	}

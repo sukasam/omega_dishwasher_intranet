@@ -6,6 +6,7 @@ include ("../../include/function.php");
 if($_GET['action'] == 'changeSN'){
 	
 	$group_pod = getpod_id($conn,$_REQUEST['pod']);
+	$id = $_REQUEST['id'];
 	
 	$list = '<option value="">กรุณาเลือกรายการ</option>';
 
@@ -17,7 +18,9 @@ if($_GET['action'] == 'changeSN'){
 	  <?php 	
 	}
 	
-	echo '|'.$list;
+	$searthBT = "<a href=\"javascript:void(0);\" onClick=\"windowOpener('400', '500', '', 'search_sn.php?protype=pro_sn".$id."&pod=".$group_pod."');\"><img src=\"../images/icon2/mark_f2.png\" width=\"25\" height=\"25\" border=\"0\" alt=\"\" style=\"vertical-align:middle;padding-left:5px;\"></a>";
+	
+	echo '|'.$list.'|'.$searthBT;
 }
 	
 ?>

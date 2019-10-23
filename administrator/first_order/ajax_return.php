@@ -40,6 +40,7 @@
 		$cd_name =  iconv( 'UTF-8', 'TIS-620', $_REQUEST['pval']);
 		$keys = $_REQUEST['keys'];
 		$keys2 = $_REQUEST['keys2'];
+		$keys3 = $_REQUEST['keys3'];
 		if($cd_name != ""){
 			$consd = "WHERE group_name LIKE '%".$cd_name."%'";
 		}
@@ -48,7 +49,7 @@
 		while($row_cus = @mysqli_fetch_array($qu_cus)){
 			?>
 			 <tr>
-				<td><A href="javascript:void(0);" onclick="get_pod('<?php  echo $row_cus['group_id'];?>','<?php  echo $row_cus['group_name'];?>','<?php  echo $keys;?>','<?php  echo $keys2;?>');"><?php  echo $row_cus['group_name'];?></A></td>
+				<td><A href="javascript:void(0);" onclick="get_pod('<?php  echo $row_cus['group_id'];?>','<?php  echo $row_cus['group_name'];?>','<?php  echo $keys;?>','<?php  echo $keys2;?>','<?php  echo $keys3;?>');"><?php  echo $row_cus['group_name'];?></A></td>
 			  </tr>
 			<?php 	
 		}
@@ -70,7 +71,7 @@
 		//echo "SELECT * FROM s_group_typeproduct ORDER BY group_name ASC";
 	}
 	
-	if($_GET['action'] == 'getpod'){
+	if($_GET["action"] == 'getpod'){
 		$group_id = $_REQUEST['group_id'];
 		$group_name = $_REQUEST['group_name'];
 		$protype = $_REQUEST['protype'];
@@ -89,8 +90,13 @@ if($_GET['action'] == 'getsn'){
 		$group_id = $_REQUEST['group_id'];
 		$group_name = $_REQUEST['group_name'];
 		$protype = $_REQUEST['protype'];
+		$pod = $_REQUEST['pod'];
 		
-		$qusn1 = @mysqli_query($conn,"SELECT * FROM s_group_sn ORDER BY group_name ASC");
+		if($pod != ""){
+			$consd = "AND group_pod = '".$pod."'";
+		}
+		
+		$qusn1 = @mysqli_query($conn,"SELECT * FROM s_group_sn WHERE 1 ".$consd." ORDER BY group_name ASC");
 		while($row_qusn1 = @mysqli_fetch_array($qusn1)){
 		  ?>
 			<option value="<?php  echo $row_qusn1['group_name'];?>" <?php  if($group_id == $row_qusn1['group_id']){echo 'selected';}?>><?php  echo $row_qusn1['group_name'];?></option>
@@ -114,11 +120,12 @@ if($_GET['action'] == 'getsnkey'){
 		while($row_cus = @mysqli_fetch_array($qu_cus)){
 			?>
 			 <tr>
-				<td><A href="javascript:void(0);" onclick="get_sn('<?php  echo $row_cus['group_id'];?>','<?php  echo $row_cus['group_name'];?>','<?php  echo $keys;?>');"><?php  echo $row_cus['group_name'];?></A></td>
+				<td><A href="javascript:void(0);" onclick="get_sn('<?php  echo $row_cus['group_id'];?>','<?php  echo $row_cus['group_name'];?>','<?php  echo $keys;?>','<?php  echo $pod;?>');"><?php  echo $row_cus['group_name'];?></A></td>
 			  </tr>
 			<?php 	
 		}
 		//echo "SELECT cd_name FROM s_first_order ".$consd." ORDER BY cd_name ASC";
 	}
+
 ?>
 

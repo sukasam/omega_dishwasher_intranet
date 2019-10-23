@@ -50,11 +50,11 @@
 </script>-->
 <script type="text/javascript" src="ajax.js"></script> 
 <script type="text/javascript">
-   function get_sn(group_id,group_name,protype,chk){
+   function get_sn(group_id,group_name,protype,pod){
 	//alert(group_id);
 	var xmlHttp;
    xmlHttp=GetXmlHttpObject(); //Check Support Brownser
-   URL = pathLocal+'ajax_return.php?action=getsn&group_id='+group_id+'&group_name='+group_name+'&protype='+protype;
+   URL = pathLocal+'ajax_return.php?action=getsn&group_id='+group_id+'&group_name='+group_name+'&protype='+protype+'&pod='+pod;
    if (xmlHttp==null){
       alert ("Browser does not support HTTP Request");
       return;
@@ -83,7 +83,7 @@
 </table>
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tv_search">
 <tr>
-    <th width="50%">รายการรุ่นสินค้า</th>
+    <th width="50%">รหัสซีรีย์สินค้า</th>
   </tr>
 </table>
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tv_search" id="rscus">
@@ -92,7 +92,7 @@
 	while($row_cus = @mysqli_fetch_array($qu_cus)){
 		?>
 		 <tr>
-            <td><A href="javascript:void(0);" onclick="get_sn('<?php  echo $row_cus['group_id'];?>','<?php  echo $row_cus['group_name'];?>','<?php  echo $_GET['protype']?>');"><?php  echo $row_cus['group_name'];?></A></td>
+            <td><A href="javascript:void(0);" onclick="get_sn('<?php  echo $row_cus['group_id'];?>','<?php  echo $row_cus['group_name'];?>','<?php  echo $_GET['protype']?>','<?php  echo $_GET['pod']?>');"><?php  echo $row_cus['group_name'];?></A></td>
           </tr>
 		<?php 	
 	}

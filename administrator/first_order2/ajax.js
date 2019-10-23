@@ -81,11 +81,11 @@ function get_cus(pval,keys){
    xmlHttp.send(null);
 }
 
-function get_podkey(pval,keys,keys2){
+function get_podkey(pval,keys,keys2,keys3){
 	//alert(keys);
 	var xmlHttp;
    xmlHttp=GetXmlHttpObject(); //Check Support Brownser
-   URL = pathLocal+'ajax_return.php?action=getpodkey&pval='+pval+'&keys='+keys+'&keys2='+keys2;
+   URL = pathLocal+'ajax_return.php?action=getpodkey&pval='+pval+'&keys='+keys+'&keys2='+keys2+'&keys3='+keys3;
    if (xmlHttp==null){
       alert ("Browser does not support HTTP Request");
       return;
