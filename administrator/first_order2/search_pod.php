@@ -48,9 +48,10 @@
 		window.close();
 	}
 </script>-->
+<SCRIPT type=text/javascript src="../js/jquery-1.9.1.min.js"></SCRIPT>
 <script type="text/javascript" src="ajax.js"></script> 
 <script type="text/javascript">
-   function get_pod(group_id,group_name,protype,chk){
+   function get_pod(group_id,group_name,protype,protype2){
 	//alert(group_id);
 	var xmlHttp;
    xmlHttp=GetXmlHttpObject(); //Check Support Brownser
@@ -60,9 +61,23 @@
       return;
    }
     xmlHttp.onreadystatechange=function (){
-        if (xmlHttp.readyState==4 || xmlHttp.readyState=="complete"){   
-            self.opener.document.getElementById(protype).innerHTML = xmlHttp.responseText;
-			window.close();
+        if (xmlHttp.readyState==4 || xmlHttp.readyState=="complete"){  
+
+			$.ajax({
+				type: "GET",
+				url: "call_return.php?action=changeSN&pod="+group_name,
+				success: function(data){
+					var ds = data.split('|');
+					//console.log(ds[1]);
+					
+					self.opener.document.getElementById(protype).innerHTML = xmlHttp.responseText;
+					self.opener.document.getElementById(protype2).innerHTML = ds[1];
+					window.close();
+					
+				}
+			});
+			
+            
         } else{
           //document.getElementById(ElementId).innerHTML="<div class='loading'> Loading..</div>" ;
         }
@@ -77,7 +92,7 @@
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tv_search">
   <tr>
     <td colspan="2"><strong>ค้นหา&nbsp;&nbsp;:&nbsp;&nbsp;</strong>
-        <input type="text" name="textfield" id="textfield" style="width:85%;" onkeyup="get_podkey(this.value,'<?php  echo $_GET['protype']?>');"/>
+        <input type="text" name="textfield" id="textfield" style="width:85%;" onkeyup="get_podkey(this.value,'<?php  echo $_GET['protype']?>','<?php  echo $_GET['protype2']?>');"/>
     </td>
   </tr>
 </table>
@@ -92,7 +107,7 @@
 	while($row_cus = @mysqli_fetch_array($qu_cus)){
 		?>
 		 <tr>
-            <td><A href="javascript:void(0);" onclick="get_pod('<?php  echo $row_cus['group_id'];?>','<?php  echo $row_cus['group_name'];?>','<?php  echo $_GET['protype']?>');"><?php  echo $row_cus['group_name'];?></A></td>
+            <td><A href="javascript:void(0);" onclick="get_pod('<?php  echo $row_cus['group_id'];?>','<?php  echo $row_cus['group_name'];?>','<?php  echo $_GET['protype']?>','<?php  echo $_GET['protype2']?>');"><?php  echo $row_cus['group_name'];?></A></td>
           </tr>
 		<?php 	
 	}

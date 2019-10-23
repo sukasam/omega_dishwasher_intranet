@@ -81,11 +81,31 @@ function get_cus(pval,keys){
    xmlHttp.send(null);
 }
 
-function get_podkey(pval,keys){
+function get_podkey(pval,keys,keys2){
 	//alert(keys);
 	var xmlHttp;
    xmlHttp=GetXmlHttpObject(); //Check Support Brownser
-   URL = pathLocal+'ajax_return.php?action=getpodkey&pval='+pval+'&keys='+keys;
+   URL = pathLocal+'ajax_return.php?action=getpodkey&pval='+pval+'&keys='+keys+'&keys2='+keys2;
+   if (xmlHttp==null){
+      alert ("Browser does not support HTTP Request");
+      return;
+   }
+    xmlHttp.onreadystatechange=function (){
+        if (xmlHttp.readyState==4 || xmlHttp.readyState=="complete"){   
+            document.getElementById('rscus').innerHTML = xmlHttp.responseText;
+        } else{
+          //document.getElementById(ElementId).innerHTML="<div class='loading'> Loading..</div>" ;
+        }
+   };
+   xmlHttp.open("GET",URL,true);
+   xmlHttp.send(null);
+}
+
+function get_snkey(pval,keys,pod){
+	//alert(keys);
+	var xmlHttp;
+   xmlHttp=GetXmlHttpObject(); //Check Support Brownser
+   URL = pathLocal+'ajax_return.php?action=getsnkey&pval='+pval+'&keys='+keys+'&pod='+pod;
    if (xmlHttp==null){
       alert ("Browser does not support HTTP Request");
       return;

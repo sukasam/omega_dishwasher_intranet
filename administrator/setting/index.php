@@ -58,6 +58,11 @@
         <td><div align="center"><a href="../group_pod/"><img src="../images/menu/serial.png" width="89" height="61" border="0" alt=""><br>
               <br>
         <strong>รายการรุ่นสินค้า</strong></a></div></td>
+<!--
+        <td><div align="center"><a href="../group_sn/"><img src="../images/menu/serial2.png" width="89" height="61" border="0" alt=""><br>
+              <br>
+        <strong>รายการซีรี่ย์สินค้า</strong></a></div></td>
+-->
         <td><div align="center"><a href="../group_approve/"><img src="../images/menu/mn_serting08.png" width="100" height="60" border="0" alt=""><br><br><strong>กำหนดผู้อนุมัติเอกสาร</strong></a></div></td>
         <td><div align="center"></div></td>
         <td><div align="center"></div></td>

@@ -214,8 +214,8 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 						$sql .=  $subtext . " ) ";
 					}
 		  
-		  			$sql .= " and ( `sv_id` LIKE '%SR ". format_year_th(date('Y'))."/".date('m')."%'";
-					$sql .=  $subtext . " ) ";
+//		  			$sql .= " and ( `sv_id` LIKE '%SR ". format_year_th(date('Y'))."/".date('m')."%'";
+//					$sql .=  $subtext . " ) ";
 		  
 
 					if ($orderby <> "") $sql .= " order by " . $orderby;
@@ -278,10 +278,26 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
           <TD style="vertical-align:middle;"><div align="center"> Icons 
             <A title=Edit href="update.php?mode=update&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field]; if($param <> "") {?>&<?php  echo $param; }?>"><IMG src="../images/icons/paper_content_pencil_48.png" alt=Edit width="25" height="25" title="แก้ไขรายงานแจ้งซ่อม"></A>&nbsp;<a href="../../upload/service_report_open/<?php  echo $chaf;?>.pdf" target="_blank"><img src="../images/icon2/backup.png" alt="" width="25" height="25" style="margin-left:10px;" title="ดาวน์โหลดรายงานช่างซ่ิอม"></a></div></TD>
 -->
-          <TD style="vertical-align:middle;"><!-- Icons -->
-            <div align="center"><A title=Edit href="update2.php?mode=update&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field]; if($param <> "") {?>&<?php  echo $param; }?>&taget=service&cus_id=<?php echo $_GET['cus_id'];?>"><IMG src="../images/icons/paper_content_pencil_48.png" alt="Edit". width="25" height="25" title="แก้ไขรายงานแจ้งซ่อม"></A>
+          <?php
+			if($rec['st_setting'] == "1" || $rec['st_setting'] == 1){
+				?>
+				<TD style="vertical-align:middle;"><!-- Icons -->
+            <div align="center"><a href="../../upload/service_report_close/<?php  echo $chaf;?>.pdf" target="_blank"><IMG src="../images/icons/paper_content_pencil_48.png" alt="Edit". width="25" height="25" title="รายงานแจ้งซ่อม"></A>
+            
 <!--            <a href="../../upload/service_report_close/<?php  echo $chaf;?>.pdf" target="_blank"><img src="../images/icon2/backup.png" width="25" height="25" title="ดาวน์โหลดรายงานช่างซ่ิอม" style="margin-left:10px;"></a>-->
             </div></TD>
+				<?php
+			}else{
+				?>
+				<TD style="vertical-align:middle;"><!-- Icons -->
+            <div align="center"><A title="Edit" href="update2.php?mode=update&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field]; if($param <> "") {?>&<?php  echo $param; }?>&taget=service&cus_id=<?php echo $_GET['cus_id'];?>"><IMG src="../images/icons/paper_content_pencil_48.png" alt="Edit". width="25" height="25" title="แก้ไขรายงานแจ้งซ่อม"></A>
+            
+<!--            <a href="../../upload/service_report_close/<?php  echo $chaf;?>.pdf" target="_blank"><img src="../images/icon2/backup.png" width="25" height="25" title="ดาวน์โหลดรายงานช่างซ่ิอม" style="margin-left:10px;"></a>-->
+            </div></TD>
+				<?php
+			}
+		  ?>
+     
 <!--          <TD style="vertical-align:middle;"><div align="center"><a href="../service_report2/update.php?mode=<?php if($row_sr2['sr_id'] == ""){echo "add&srid=".$rec['sr_id'];}else{echo "update&srid=".$rec['sr_id']."&sr_id=".$row_sr2['sr_id'];}?>"><img src="../images/icons/icon-48-section.png" width="30"></a><?php if($row_sr2['sr_id'] != ""){?><a href="../../upload/service_report_open/<?php echo str_replace("/","-",$row_sr2['sv_id']);?>.pdf" target="_blank"><img src="../images/icon2/backup.png" width="25" height="25" title="ดาวน์โหลดรายงานช่างซ่ิอม" style="margin-left:10px;"></a><?php }?></div></TD>-->
 <!--
           <TD style="vertical-align:middle;"><div align="center"><a href="../service_report3/update.php?mode=<?php if($row_sr3['sr_id'] == ""){echo "add&srid=".$rec['sr_id'];}else{echo "update&srid=".$rec['sr_id']."&sr_id=".$row_sr3['sr_id'];}?>"><img src="../images/icons/icon-48-category.png" width="30"></a><?php if($row_sr3['sr_id'] != ""){?><a href="../../upload/service_report_open/<?php echo str_replace("/","-",$row_sr3['sv_id']);?>.pdf" target="_blank"><img src="../images/icon2/backup.png" width="25" height="25" title="ดาวน์โหลดรายงานช่างซ่ิอม" style="margin-left:10px;"></a><?php }?></div></TD>

@@ -11,7 +11,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>ค้าหาชื่อสินค้า</title>
+<title>ค้าหารหัสซีรีย์สินค้า</title>
 <style type="text/css">
 	.tv_search{
 		font-size:12px;
@@ -48,36 +48,21 @@
 		window.close();
 	}
 </script>-->
-<SCRIPT type=text/javascript src="../js/jquery-1.9.1.min.js"></SCRIPT>
 <script type="text/javascript" src="ajax.js"></script> 
 <script type="text/javascript">
-   function get_pod(group_id,group_name,protype,protype2){
+   function get_sn(group_id,group_name,protype,chk){
 	//alert(group_id);
 	var xmlHttp;
    xmlHttp=GetXmlHttpObject(); //Check Support Brownser
-   URL = pathLocal+'ajax_return.php?action=getpod&group_id='+group_id+'&group_name='+group_name+'&protype='+protype;
+   URL = pathLocal+'ajax_return.php?action=getsn&group_id='+group_id+'&group_name='+group_name+'&protype='+protype;
    if (xmlHttp==null){
       alert ("Browser does not support HTTP Request");
       return;
    }
     xmlHttp.onreadystatechange=function (){
-        if (xmlHttp.readyState==4 || xmlHttp.readyState=="complete"){  
-
-			$.ajax({
-				type: "GET",
-				url: "call_return.php?action=changeSN&pod="+group_name,
-				success: function(data){
-					var ds = data.split('|');
-					//console.log(ds[1]);
-					
-					self.opener.document.getElementById(protype).innerHTML = xmlHttp.responseText;
-					self.opener.document.getElementById(protype2).innerHTML = ds[1];
-					window.close();
-					
-				}
-			});
-			
-            
+        if (xmlHttp.readyState==4 || xmlHttp.readyState=="complete"){   
+            self.opener.document.getElementById(protype).innerHTML = xmlHttp.responseText;
+			window.close();
         } else{
           //document.getElementById(ElementId).innerHTML="<div class='loading'> Loading..</div>" ;
         }
@@ -92,7 +77,7 @@
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tv_search">
   <tr>
     <td colspan="2"><strong>ค้นหา&nbsp;&nbsp;:&nbsp;&nbsp;</strong>
-        <input type="text" name="textfield" id="textfield" style="width:85%;" onkeyup="get_podkey(this.value,'<?php  echo $_GET['protype']?>','<?php  echo $_GET['protype2']?>');"/>
+        <input type="text" name="textfield" id="textfield" style="width:85%;" onkeyup="get_snkey(this.value,'<?php  echo $_GET['protype']?>','<?php echo $_GET['pod'];?>');"/>
     </td>
   </tr>
 </table>
@@ -103,11 +88,11 @@
 </table>
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tv_search" id="rscus">
 <?php  
-  	$qu_cus = mysqli_query($conn,"SELECT * FROM s_group_pod ORDER BY group_name ASC");
+  	$qu_cus = mysqli_query($conn,"SELECT * FROM s_group_sn WHERE group_pod = '".$_GET['pod']."' ORDER BY group_name ASC");
 	while($row_cus = @mysqli_fetch_array($qu_cus)){
 		?>
 		 <tr>
-            <td><A href="javascript:void(0);" onclick="get_pod('<?php  echo $row_cus['group_id'];?>','<?php  echo $row_cus['group_name'];?>','<?php  echo $_GET['protype']?>','<?php  echo $_GET['protype2']?>');"><?php  echo $row_cus['group_name'];?></A></td>
+            <td><A href="javascript:void(0);" onclick="get_sn('<?php  echo $row_cus['group_id'];?>','<?php  echo $row_cus['group_name'];?>','<?php  echo $_GET['protype']?>');"><?php  echo $row_cus['group_name'];?></A></td>
           </tr>
 		<?php 	
 	}

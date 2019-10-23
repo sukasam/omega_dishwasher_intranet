@@ -110,10 +110,12 @@
 <LINK rel="stylesheet" type=text/css href="../css/reset.css" media=screen>
 <LINK rel="stylesheet" type=text/css href="../css/style.css" media=screen>
 <LINK rel="stylesheet" type=text/css href="../css/invalid.css" media=screen>
-<SCRIPT type=text/javascript src="../js/jquery-1.3.2.min.js"></SCRIPT>
+<SCRIPT type=text/javascript src="../js/jquery-1.9.1.min.js"></SCRIPT>
+<!--
 <SCRIPT type=text/javascript src="../js/simpla.jquery.configuration.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/facebox.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/jquery.wysiwyg.js"></SCRIPT>
+-->
 <SCRIPT type=text/javascript src="../js/popup.js"></SCRIPT>
 <SCRIPT type=text/javascript src="ajax.js"></SCRIPT>
 
@@ -137,6 +139,22 @@ function check(frm){
 
 function chksign(vals){
 	//alert(vals);	
+}
+	
+function changePod(s1,s2){
+	
+	var x = document.getElementById(s1).value;
+	 //console.log(x,s2);
+	
+	$.ajax({
+		type: "GET",
+		url: "call_return.php?action=changeSN&pod="+x,
+		success: function(data){
+			var ds = data.split('|');
+			//console.log(ds[1]);
+			document.getElementById(s2).innerHTML = ds[1];
+		}
+	});
 }
 
 </script>
@@ -299,9 +317,9 @@ function chksign(vals){
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="font-size:12px;text-align:center;">
     <tr>
       <td width="3%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>ลำดับ</strong></td>
-      <td width="53%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>รายการ</strong></td>
-      <td width="11%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>รุ่น</strong></td>
-      <td width="11%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>S/N</strong></td>
+      <td width="40%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>รายการ</strong></td>
+      <td width="21%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>รุ่น</strong></td>
+      <td width="15%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>S/N</strong></td>
       <td width="11%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>จำนวน</strong></td>
       <td width="11%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>ราคา / ต่อหน่วย</strong></td>
       
@@ -312,108 +330,153 @@ function chksign(vals){
       <td style="border:1px solid #000000;text-align:left;padding:5;">
       <select name="cpro1" id="cpro1" class="inputselect" style="width:90%;">
       		<option value="">กรุณาเลือกรายการ</option>
-		  <?php 
-              $qupro1 = @mysqli_query($conn,"SELECT * FROM s_group_sparpart ORDER BY group_name ASC");
+		  <?php
+              $qupro1 = @mysqli_query($conn,"SELECT * FROM s_group_typeproduct ORDER BY group_name ASC");
               while($row_qupro1 = @mysqli_fetch_array($qupro1)){
                 ?>
-                  <option value="<?php  echo $row_qupro1['group_id'];?>" <?php  if($cpro1 == $row_qupro1['group_id']){echo 'selected';}?>><?php  echo $row_qupro1['group_name'];?></option>
-                <?php 	
+                  <option value="<?php  echo $row_qupro1['group_id'];?>" <?php  if($cpro1 == $row_qupro1['group_id']){echo 'selected';}?>><?php  echo $row_qupro1['group_name']." ".$row_qupro1['group_detail'];?></option>
+                <?php
               }
           ?>
       </select>
       <a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search.php?protype=cpro1');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>
       </td>
       <td style="border:1px solid #000000;padding:5;text-align:center;" >
-      <?php  /*
-	  <select name="pro_pod1" id="pro_pod1" class="inputselect" style="width:80%;">
+      <select name="pro_pod1" id="pro_pod1" class="inputselect" style="width:80%;" onchange="changePod('pro_pod1','pro_sn1');">
       		<option value="">กรุณาเลือกรายการ</option>
-		  <?php 
+		  <?php
               $qupros1 = @mysqli_query($conn,"SELECT * FROM s_group_pod ORDER BY group_name ASC");
               while($row_qupros1 = @mysqli_fetch_array($qupros1)){
                 ?>
-                  <option value="<?php  echo $row_qupros1['group_id'];?>" <?php  if($pro_pod1 == $row_qupros1['group_id']){echo 'selected';}?>><?php  echo $row_qupros1['group_name'];?></option>
-                <?php 	
+                  <option value="<?php  echo $row_qupros1['group_name'];?>" <?php  if($pro_pod1 == $row_qupros1['group_name']){echo 'selected';}?>><?php  echo $row_qupros1['group_name'];?></option>
+                <?php
               }
           ?>
-      </select><a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search_pod.php?protype=pro_pod1');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>
-	  */?>
-      <input type="text" name="pro_pod1" value="<?php  echo $pro_pod1;?>" id="pro_pod1" class="inpfoder" style="width:100%;text-align:center;"></td>
-      <td style="border:1px solid #000000;padding:5;text-align:center;" ><input type="text" name="pro_sn1" value="<?php  echo $pro_sn1;?>" id="pro_sn1" class="inpfoder" style="width:100%;text-align:center;"></td>
+      </select><a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search_pod.php?protype=pro_pod1&protype2=pro_sn1');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>
+      <!--<input type="text" name="pro_pod1" value="<?php  echo $pro_pod1;?>" id="pro_pod1" class="inpfoder" style="width:100%;text-align:center;">--></td>
+      <td style="border:1px solid #000000;padding:5;text-align:center;white-space: nowrap;" >
+<!--      <input type="text" name="pro_sn1" value="<?php  echo $pro_sn1;?>" id="pro_sn1" class="inpfoder" style="width:100%;text-align:center;">-->
+   
+     <select name="pro_sn1" id="pro_sn1" class="inputselect" style="width:80%;">
+      		<option value="">กรุณาเลือกรายการ</option>
+		  <?php
+              $qusn1 = @mysqli_query($conn,"SELECT * FROM s_group_sn WHERE group_pod = '".getpod_id($conn,$pro_pod1)."' ORDER BY group_name ASC");
+              while($row_qusn1 = @mysqli_fetch_array($qusn1)){
+                ?>
+                  <option value="<?php  echo $row_qusn1['group_name'];?>" <?php  if($pro_sn1 == $row_qusn1['group_name']){echo 'selected';}?>><?php  echo $row_qusn1['group_name'];?></option>
+                <?php
+              }
+          ?>
+      </select><a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search_sn.php?protype=pro_sn1&pod=<?php echo getpod_id($conn,$pro_pod1);?>');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>
+      
+      </td>
       <td style="border:1px solid #000000;padding:5;text-align:center;">
       	<input type="text" name="camount1" value="<?php  echo $camount1;?>" id="camount1" class="inpfoder" style="width:100%;text-align:center;">
       </td>
       <td style="border:1px solid #000000;padding:5;text-align:center;">
       	<input type="text" name="cprice1" value="<?php  echo $cprice1;?>" id="cprice1" class="inpfoder" style="width:100%;text-align:center;">
       </td>
-      
-      
+
+
     </tr>
     <tr>
       <td style="border:1px solid #000000;padding:5;text-align:center;">2</td>
       <td style="border:1px solid #000000;padding:5;text-align:left;">
       	<select name="cpro2" id="cpro2" class="inputselect" style="width:90%;">
       		<option value="">กรุณาเลือกรายการ</option>
-		  <?php 
-              $qupro1 = @mysqli_query($conn,"SELECT * FROM s_group_sparpart ORDER BY group_name ASC");
+		  <?php
+              $qupro1 = @mysqli_query($conn,"SELECT * FROM s_group_typeproduct ORDER BY group_name ASC");
               while($row_qupro2 = @mysqli_fetch_array($qupro1)){
                 ?>
-                  <option value="<?php  echo $row_qupro2['group_id'];?>" <?php  if($cpro2 == $row_qupro2['group_id']){echo 'selected';}?>><?php  echo $row_qupro2['group_name'];?></option>
-                <?php 	
+                  <option value="<?php  echo $row_qupro2['group_id'];?>" <?php  if($cpro2 == $row_qupro2['group_id']){echo 'selected';}?>><?php  echo $row_qupro2['group_name']." ".$row_qupro2['group_detail'];?></option>
+                <?php
               }
           ?>
       	</select><a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search.php?protype=cpro2');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>
       </td>
       <td style="border:1px solid #000000;padding:5;text-align:center;" id="cs2">
-      <?php  /*<select name="pro_pod2" id="pro_pod2" class="inputselect" style="width:80%;">
+      <select name="pro_pod2" id="pro_pod2" class="inputselect" style="width:80%;" onchange="changePod('pro_pod2','pro_sn2');">
       		<option value="">กรุณาเลือกรายการ</option>
-		  <?php 
+		  <?php
               $qupros2 = @mysqli_query($conn,"SELECT * FROM s_group_pod ORDER BY group_name ASC");
               while($row_qupros2 = @mysqli_fetch_array($qupros2)){
                 ?>
-                  <option value="<?php  echo $row_qupros2['group_id'];?>" <?php  if($pro_pod2 == $row_qupros2['group_id']){echo 'selected';}?>><?php  echo $row_qupros2['group_name'];?></option>
-                <?php 	
+                  <option value="<?php  echo $row_qupros2['group_name'];?>" <?php  if($pro_pod2 == $row_qupros2['group_name']){echo 'selected';}?>><?php  echo $row_qupros2['group_name'];?></option>
+                <?php
               }
           ?>
-      </select><a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search_pod.php?protype=pro_pod2');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>*/?>
-      <input type="text" name="pro_pod2" value="<?php  echo $pro_pod2;?>" id="pro_pod2" class="inpfoder" style="width:100%;text-align:center;"></td>
-      <td style="border:1px solid #000000;padding:5;text-align:center;" id="csn2"><input type="text" name="pro_sn2" value="<?php  echo $pro_sn2;?>" id="pro_sn2" class="inpfoder" style="width:100%;text-align:center;"></td>
+      </select><a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search_pod.php?protype=pro_pod2&protype2=pro_sn2');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>
+      <!--<input type="text" name="pro_pod2" value="<?php  echo $pro_pod2;?>" id="pro_pod2" class="inpfoder" style="width:100%;text-align:center;">--></td>
+      <td style="border:1px solid #000000;padding:5;text-align:center;" id="csn2">
+<!--      <input type="text" name="pro_sn2" value="<?php  echo $pro_sn2;?>" id="pro_sn2" class="inpfoder" style="width:100%;text-align:center;">-->
+     
+      <select name="pro_sn2" id="pro_sn2" class="inputselect" style="width:80%;">
+      		<option value="">กรุณาเลือกรายการ</option>
+		  <?php
+              $qusn2 = @mysqli_query($conn,"SELECT * FROM s_group_sn WHERE group_pod = '".getpod_id($conn,$pro_pod2)."' ORDER BY group_name ASC");
+              while($row_qusn2 = @mysqli_fetch_array($qusn2)){
+                ?>
+                  <option value="<?php  echo $row_qusn2['group_name'];?>" <?php  if($pro_sn2 == $row_qusn2['group_name']){echo 'selected';}?>><?php  echo $row_qusn2['group_name'];?></option>
+                <?php
+              }
+          ?>
+      </select><a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search_sn.php?protype=pro_sn2&pod=<?php echo getpod_id($conn,$pro_pod2);?>');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>
+      
+      
+      </td>
       <td style="border:1px solid #000000;padding:5;text-align:center;">
       	<input type="text" name="camount2" value="<?php  echo $camount2;?>" id="camount2" class="inpfoder" style="width:100%;text-align:center;">
       </td>
       <td style="border:1px solid #000000;padding:5;text-align:center;">
       	<input type="text" name="cprice2" value="<?php  echo $cprice2;?>" id="cprice2" class="inpfoder" style="width:100%;text-align:center;">
-      </td>     
-      
+      </td>
+
     </tr>
     <tr>
       <td style="border:1px solid #000000;padding:5;text-align:center;">3</td>
       <td style="border:1px solid #000000;padding:5;text-align:left;">
       	<select name="cpro3" id="cpro3" class="inputselect" style="width:90%;">
       		<option value="">กรุณาเลือกรายการ</option>
-		  <?php 
-              $qupro3 = @mysqli_query($conn,"SELECT * FROM s_group_sparpart ORDER BY group_name ASC");
+		  <?php
+              $qupro3 = @mysqli_query($conn,"SELECT * FROM s_group_typeproduct ORDER BY group_name ASC");
               while($row_qupro3 = @mysqli_fetch_array($qupro3)){
                 ?>
-                  <option value="<?php  echo $row_qupro3['group_id'];?>" <?php  if($cpro3 == $row_qupro3['group_id']){echo 'selected';}?>><?php  echo $row_qupro3['group_name'];?></option>
-                <?php 	
+                  <option value="<?php  echo $row_qupro3['group_id'];?>" <?php  if($cpro3 == $row_qupro3['group_id']){echo 'selected';}?>><?php  echo $row_qupro3['group_name']." ".$row_qupro3['group_detail'];?></option>
+                <?php
               }
           ?>
       	</select><a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search.php?protype=cpro3');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>
       </td>
       <td style="border:1px solid #000000;padding:5;text-align:center;">
-      <?php  /* <select name="pro_pod3" id="pro_pod3" class="inputselect" style="width:80%;">
+      <select name="pro_pod3" id="pro_pod3" class="inputselect" style="width:80%;" onchange="changePod('pro_pod3','pro_sn3');">
       		<option value="">กรุณาเลือกรายการ</option>
-		  <?php 
+		  <?php
               $qupros3 = @mysqli_query($conn,"SELECT * FROM s_group_pod ORDER BY group_name ASC");
               while($row_qupros3 = @mysqli_fetch_array($qupros3)){
                 ?>
-                  <option value="<?php  echo $row_qupros3['group_id'];?>" <?php  if($pro_pod3 == $row_qupros3['group_id']){echo 'selected';}?>><?php  echo $row_qupros3['group_name'];?></option>
-                <?php 	
+                  <option value="<?php  echo $row_qupros3['group_name'];?>" <?php  if($pro_pod3 == $row_qupros3['group_name']){echo 'selected';}?>><?php  echo $row_qupros3['group_name'];?></option>
+                <?php
               }
           ?>
-      </select><a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search_pod.php?protype=pro_pod3');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>*/?>
-      <input type="text" name="pro_pod3" value="<?php  echo $pro_pod3;?>" id="pro_pod3" class="inpfoder" style="width:100%;text-align:center;"></td>
-      <td style="border:1px solid #000000;padding:5;text-align:center;"><input type="text" name="pro_sn3" value="<?php  echo $pro_sn3;?>" id="pro_sn3" class="inpfoder" style="width:100%;text-align:center;"></td>
+      </select><a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search_pod.php?protype=pro_pod3&protype2=pro_sn3');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>
+      <!--<input type="text" name="pro_pod3" value="<?php  echo $pro_pod3;?>" id="pro_pod3" class="inpfoder" style="width:100%;text-align:center;">--></td>
+      <td style="border:1px solid #000000;padding:5;text-align:center;">
+<!--      <input type="text" name="pro_sn3" value="<?php  echo $pro_sn3;?>" id="pro_sn3" class="inpfoder" style="width:100%;text-align:center;">-->
+     
+     <select name="pro_sn3" id="pro_sn3" class="inputselect" style="width:80%;">
+      		<option value="">กรุณาเลือกรายการ</option>
+		  <?php
+              $qusn3 = @mysqli_query($conn,"SELECT * FROM s_group_sn WHERE group_pod = '".getpod_id($conn,$pro_pod3)."' ORDER BY group_name ASC");
+              while($row_qusn3 = @mysqli_fetch_array($qusn3)){
+                ?>
+                  <option value="<?php  echo $row_qusn3['group_name'];?>" <?php  if($pro_sn3 == $row_qusn3['group_name']){echo 'selected';}?>><?php  echo $row_qusn3['group_name'];?></option>
+                <?php
+              }
+          ?>
+      </select><a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search_sn.php?protype=pro_sn3&pod=<?php echo getpod_id($conn,$pro_pod3);?>');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>
+      
+      
+      </td>
       <td style="border:1px solid #000000;padding:5;text-align:center;">
       	<input type="text" name="camount3" value="<?php  echo $camount3;?>" id="camount3" class="inpfoder" style="width:100%;text-align:center;">
       </td>
@@ -426,30 +489,46 @@ function chksign(vals){
       <td style="border:1px solid #000000;padding:5;text-align:left;">
       	<select name="cpro4" id="cpro4" class="inputselect" style="width:90%;">
       		<option value="">กรุณาเลือกรายการ</option>
-		  <?php 
-              $qupro4 = @mysqli_query($conn,"SELECT * FROM s_group_sparpart ORDER BY group_name ASC");
+		  <?php
+              $qupro4 = @mysqli_query($conn,"SELECT * FROM s_group_typeproduct ORDER BY group_name ASC");
               while($row_qupro4 = @mysqli_fetch_array($qupro4)){
                 ?>
-                  <option value="<?php  echo $row_qupro4['group_id'];?>" <?php  if($cpro4 == $row_qupro4['group_id']){echo 'selected';}?>><?php  echo $row_qupro4['group_name'];?></option>
-                <?php 	
+                  <option value="<?php  echo $row_qupro4['group_id'];?>" <?php  if($cpro4 == $row_qupro4['group_id']){echo 'selected';}?>><?php  echo $row_qupro4['group_name']." ".$row_qupro4['group_detail'];?></option>
+                <?php
               }
           ?>
       	</select><a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search.php?protype=cpro4');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>
       </td>
       <td style="border:1px solid #000000;padding:5;text-align:center;">
-      <?php  /*<select name="pro_pod4" id="pro_pod4" class="inputselect" style="width:80%;">
+      <select name="pro_pod4" id="pro_pod4" class="inputselect" style="width:80%;" onchange="changePod('pro_pod4','pro_sn4');">
       		<option value="">กรุณาเลือกรายการ</option>
-		  <?php 
+		  <?php
               $qupros4 = @mysqli_query($conn,"SELECT * FROM s_group_pod ORDER BY group_name ASC");
               while($row_qupros4 = @mysqli_fetch_array($qupros4)){
                 ?>
-                  <option value="<?php  echo $row_qupros4['group_id'];?>" <?php  if($pro_pod4 == $row_qupros4['group_id']){echo 'selected';}?>><?php  echo $row_qupros4['group_name'];?></option>
-                <?php 	
+                  <option value="<?php  echo $row_qupros4['group_name'];?>" <?php  if($pro_pod4 == $row_qupros4['group_name']){echo 'selected';}?>><?php  echo $row_qupros4['group_name'];?></option>
+                <?php
               }
           ?>
-      </select><a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search_pod.php?protype=pro_pod4');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>*/?>
-      <input type="text" name="pro_pod4" value="<?php  echo $pro_pod4;?>" id="pro_pod4" class="inpfoder" style="width:100%;text-align:center;"></td>
-      <td style="border:1px solid #000000;padding:5;text-align:center;"><input type="text" name="pro_sn4" value="<?php  echo $pro_sn4;?>" id="pro_sn4" class="inpfoder" style="width:100%;text-align:center;"></td>
+      </select><a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search_pod.php?protype=pro_pod4&protype2=pro_sn4');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>
+      <!--<input type="text" name="pro_pod4" value="<?php  echo $pro_pod4;?>" id="pro_pod4" class="inpfoder" style="width:100%;text-align:center;">--></td>
+      <td style="border:1px solid #000000;padding:5;text-align:center;">
+<!--      <input type="text" name="pro_sn4" value="<?php  echo $pro_sn4;?>" id="pro_sn4" class="inpfoder" style="width:100%;text-align:center;">-->
+     
+     <select name="pro_sn4" id="pro_sn4" class="inputselect" style="width:80%;">
+      		<option value="">กรุณาเลือกรายการ</option>
+		  <?php
+              $qusn4 = @mysqli_query($conn,"SELECT * FROM s_group_sn WHERE group_pod = '".getpod_id($conn,$pro_pod4)."' ORDER BY group_name ASC");
+              while($row_qusn4 = @mysqli_fetch_array($qusn4)){
+                ?>
+                  <option value="<?php  echo $row_qusn4['group_name'];?>" <?php  if($pro_sn4 == $row_qusn4['group_name']){echo 'selected';}?>><?php  echo $row_qusn4['group_name'];?></option>
+                <?php
+              }
+          ?>
+      </select><a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search_sn.php?protype=pro_sn4&pod=<?php echo getpod_id($conn,$pro_pod4);?>');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>
+      
+      
+      </td>
       <td style="border:1px solid #000000;padding:5;text-align:center;">
       	<input type="text" name="camount4" value="<?php  echo $camount4;?>" id="camount4" class="inpfoder" style="width:100%;text-align:center;">
       </td>
@@ -462,30 +541,46 @@ function chksign(vals){
       <td style="border:1px solid #000000;padding:5;text-align:left;">
       	<select name="cpro5" id="cpro5" class="inputselect" style="width:90%;">
       		<option value="">กรุณาเลือกรายการ</option>
-		  <?php 
-              $qupro5 = @mysqli_query($conn,"SELECT * FROM s_group_sparpart ORDER BY group_name ASC");
+		  <?php
+              $qupro5 = @mysqli_query($conn,"SELECT * FROM s_group_typeproduct ORDER BY group_name ASC");
               while($row_qupro5 = @mysqli_fetch_array($qupro5)){
                 ?>
-                  <option value="<?php  echo $row_qupro5['group_id'];?>" <?php  if($cpro5 == $row_qupro5['group_id']){echo 'selected';}?>><?php  echo $row_qupro5['group_name'];?></option>
-                <?php 	
+                  <option value="<?php  echo $row_qupro5['group_id'];?>" <?php  if($cpro5 == $row_qupro5['group_id']){echo 'selected';}?>><?php  echo $row_qupro5['group_name']." ".$row_qupro5['group_detail'];?></option>
+                <?php
               }
           ?>
       	</select><a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search.php?protype=cpro5');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>
       </td>
       <td style="border:1px solid #000000;padding:5;text-align:center;">
-     <?php  /* <select name="pro_pod5" id="pro_pod5" class="inputselect" style="width:80%;">
+      <select name="pro_pod5" id="pro_pod5" class="inputselect" style="width:80%;" onchange="changePod('pro_pod5','pro_sn5');">
       		<option value="">กรุณาเลือกรายการ</option>
-		  <?php 
+		  <?php
               $qupros5 = @mysqli_query($conn,"SELECT * FROM s_group_pod ORDER BY group_name ASC");
               while($row_qupros5 = @mysqli_fetch_array($qupros5)){
                 ?>
-                  <option value="<?php  echo $row_qupros5['group_id'];?>" <?php  if($pro_pod5 == $row_qupros5['group_id']){echo 'selected';}?>><?php  echo $row_qupros5['group_name'];?></option>
-                <?php 	
+                  <option value="<?php  echo $row_qupros5['group_name'];?>" <?php  if($pro_pod5 == $row_qupros5['group_name']){echo 'selected';}?>><?php  echo $row_qupros5['group_name'];?></option>
+                <?php
               }
           ?>
-      </select><a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search_pod.php?protype=pro_pod5');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>*/?>
-      <input type="text" name="pro_pod5" value="<?php  echo $pro_pod5;?>" id="pro_pod5" class="inpfoder" style="width:100%;text-align:center;"></td>
-      <td style="border:1px solid #000000;padding:5;text-align:center;"><input type="text" name="pro_sn5" value="<?php  echo $pro_sn5;?>" id="pro_sn5" class="inpfoder" style="width:100%;text-align:center;"></td>
+      </select><a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search_pod.php?protype=pro_pod5&protype2=pro_sn5');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>
+      <!--<input type="text" name="pro_pod5" value="<?php  echo $pro_pod5;?>" id="pro_pod5" class="inpfoder" style="width:100%;text-align:center;">--></td>
+      <td style="border:1px solid #000000;padding:5;text-align:center;">
+<!--      <input type="text" name="pro_sn5" value="<?php  echo $pro_sn5;?>" id="pro_sn5" class="inpfoder" style="width:100%;text-align:center;">-->
+     
+     <select name="pro_sn5" id="pro_sn5" class="inputselect" style="width:80%;">
+      		<option value="">กรุณาเลือกรายการ</option>
+		  <?php
+              $qusn5 = @mysqli_query($conn,"SELECT * FROM s_group_sn WHERE group_pod = '".getpod_id($conn,$pro_pod5)."' ORDER BY group_name ASC");
+              while($row_qusn5 = @mysqli_fetch_array($qusn5)){
+                ?>
+                  <option value="<?php  echo $row_qusn5['group_name'];?>" <?php  if($pro_sn5 == $row_qusn5['group_name']){echo 'selected';}?>><?php  echo $row_qusn5['group_name'];?></option>
+                <?php
+              }
+          ?>
+      </select><a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search_sn.php?protype=pro_sn5&pod=<?php echo getpod_id($conn,$pro_pod5);?>');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>
+      
+      
+      </td>
       <td style="border:1px solid #000000;padding:5;text-align:center;">
       	<input type="text" name="camount5" value="<?php  echo $camount5;?>" id="camount5" class="inpfoder" style="width:100%;text-align:center;">
       </td>
@@ -498,30 +593,46 @@ function chksign(vals){
       <td style="border:1px solid #000000;padding:5;text-align:left;">
       	<select name="cpro6" id="cpro6" class="inputselect" style="width:90%;" >
       		<option value="">กรุณาเลือกรายการ</option>
-		  <?php 
-              $qupro6 = @mysqli_query($conn,"SELECT * FROM s_group_sparpart ORDER BY group_name ASC");
+		  <?php
+              $qupro6 = @mysqli_query($conn,"SELECT * FROM s_group_typeproduct ORDER BY group_name ASC");
               while($row_qupro6 = @mysqli_fetch_array($qupro6)){
                 ?>
-                  <option value="<?php  echo $row_qupro6['group_id'];?>" <?php  if($cpro6 == $row_qupro6['group_id']){echo 'selected';}?>><?php  echo $row_qupro6['group_name'];?></option>
-                <?php 	
+                  <option value="<?php  echo $row_qupro6['group_id'];?>" <?php  if($cpro6 == $row_qupro6['group_id']){echo 'selected';}?>><?php  echo $row_qupro6['group_name']." ".$row_qupro6['group_detail'];?></option>
+                <?php
               }
           ?>
       	</select><a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search.php?protype=cpro6');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>
       </td>
       <td style="border:1px solid #000000;padding:5;text-align:center;">
-      <?php  /*<select name="pro_pod6" id="pro_pod6" class="inputselect" style="width:80%;">
+      <select name="pro_pod6" id="pro_pod6" class="inputselect" style="width:80%;" onchange="changePod('pro_pod6','pro_sn6');">
       		<option value="">กรุณาเลือกรายการ</option>
-		  <?php 
+		  <?php
               $qupros6 = @mysqli_query($conn,"SELECT * FROM s_group_pod ORDER BY group_name ASC");
               while($row_qupros6 = @mysqli_fetch_array($qupros6)){
                 ?>
-                  <option value="<?php  echo $row_qupros6['group_id'];?>" <?php  if($pro_pod6 == $row_qupros6['group_id']){echo 'selected';}?>><?php  echo $row_qupros6['group_name'];?></option>
-                <?php 	
+                  <option value="<?php  echo $row_qupros6['group_name'];?>" <?php  if($pro_pod6 == $row_qupros6['group_name']){echo 'selected';}?>><?php  echo $row_qupros6['group_name'];?></option>
+                <?php
               }
           ?>
-      </select><a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search_pod.php?protype=pro_pod6');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>*/?>
-      <input type="text" name="pro_pod6" value="<?php  echo $pro_pod6;?>" id="pro_pod6" class="inpfoder" style="width:100%;text-align:center;"></td>
-      <td style="border:1px solid #000000;padding:5;text-align:center;"><input type="text" name="pro_sn6" value="<?php  echo $pro_sn6;?>" id="pro_sn6" class="inpfoder" style="width:100%;text-align:center;"></td>
+      </select><a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search_pod.php?protype=pro_pod6&protype2=pro_sn6');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>
+      <!--<input type="text" name="pro_pod6" value="<?php  echo $pro_pod6;?>" id="pro_pod6" class="inpfoder" style="width:100%;text-align:center;">--></td>
+      <td style="border:1px solid #000000;padding:5;text-align:center;">
+<!--      <input type="text" name="pro_sn6" value="<?php  echo $pro_sn6;?>" id="pro_sn6" class="inpfoder" style="width:100%;text-align:center;">-->
+     
+     <select name="pro_sn6" id="pro_sn6" class="inputselect" style="width:80%;">
+      		<option value="">กรุณาเลือกรายการ</option>
+		  <?php
+              $qusn6 = @mysqli_query($conn,"SELECT * FROM s_group_sn WHERE group_pod = '".getpod_id($conn,$pro_pod6)."' ORDER BY group_name ASC");
+              while($row_qusn6 = @mysqli_fetch_array($qusn6)){
+                ?>
+                  <option value="<?php  echo $row_qusn6['group_name'];?>" <?php  if($pro_sn6 == $row_qusn6['group_name']){echo 'selected';}?>><?php  echo $row_qusn6['group_name'];?></option>
+                <?php
+              }
+          ?>
+      </select><a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search_sn.php?protype=pro_sn6&pod=<?php echo getpod_id($conn,$pro_pod6);?>');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>
+      
+      
+      </td>
       <td style="border:1px solid #000000;padding:5;text-align:center;">
       	<input type="text" name="camount6" value="<?php  echo $camount6;?>" id="camount6" class="inpfoder" style="width:100%;text-align:center;">
       </td>
@@ -534,30 +645,46 @@ function chksign(vals){
       <td style="border:1px solid #000000;padding:5;text-align:left;">
       	<select name="cpro7" id="cpro7" class="inputselect" style="width:90%;">
       		<option value="">กรุณาเลือกรายการ</option>
-		  <?php 
-              $qupro7 = @mysqli_query($conn,"SELECT * FROM s_group_sparpart ORDER BY group_name ASC");
+		  <?php
+              $qupro7 = @mysqli_query($conn,"SELECT * FROM s_group_typeproduct ORDER BY group_name ASC");
               while($row_qupro7 = @mysqli_fetch_array($qupro7)){
                 ?>
-                  <option value="<?php  echo $row_qupro7['group_id'];?>" <?php  if($cpro7 == $row_qupro7['group_id']){echo 'selected';}?>><?php  echo $row_qupro7['group_name'];?></option>
-                <?php 	
+                  <option value="<?php  echo $row_qupro7['group_id'];?>" <?php  if($cpro7 == $row_qupro7['group_id']){echo 'selected';}?>><?php  echo $row_qupro7['group_name']." ".$row_qupro7['group_detail'];?></option>
+                <?php
               }
           ?>
       	</select><a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search.php?protype=cpro7');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>
       </td>
       <td style="border:1px solid #000000;padding:5;text-align:center;">
-      <?php  /*<select name="pro_pod7" id="pro_pod7" class="inputselect" style="width:80%;">
+      <select name="pro_pod7" id="pro_pod7" class="inputselect" style="width:80%;" onchange="changePod('pro_pod7','pro_sn7');">
       		<option value="">กรุณาเลือกรายการ</option>
-		  <?php 
+		  <?php
               $qupros7 = @mysqli_query($conn,"SELECT * FROM s_group_pod ORDER BY group_name ASC");
               while($row_qupros7 = @mysqli_fetch_array($qupros7)){
                 ?>
-                  <option value="<?php  echo $row_qupros7['group_id'];?>" <?php  if($pro_pod7 == $row_qupros7['group_id']){echo 'selected';}?>><?php  echo $row_qupros7['group_name'];?></option>
-                <?php 	
+                  <option value="<?php  echo $row_qupros7['group_name'];?>" <?php  if($pro_pod7 == $row_qupros7['group_name']){echo 'selected';}?>><?php  echo $row_qupros7['group_name'];?></option>
+                <?php
               }
           ?>
-      </select><a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search_pod.php?protype=pro_pod7');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>*/?>
-     <input type="text" name="pro_pod7" value="<?php  echo $pro_pod7;?>" id="pro_pod7" class="inpfoder" style="width:100%;text-align:center;"></td>
-      <td style="border:1px solid #000000;padding:5;text-align:center;"><input type="text" name="pro_sn7" value="<?php  echo $pro_sn7;?>" id="pro_sn7" class="inpfoder" style="width:100%;text-align:center;"></td>
+      </select><a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search_pod.php?protype=pro_pod7&protype2=pro_sn7');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>
+      <!--<input type="text" name="pro_pod7" value="<?php  echo $pro_pod7;?>" id="pro_pod7" class="inpfoder" style="width:100%;text-align:center;">--></td>
+      <td style="border:1px solid #000000;padding:5;text-align:center;">
+<!--      <input type="text" name="pro_sn7" value="<?php  echo $pro_sn7;?>" id="pro_sn7" class="inpfoder" style="width:100%;text-align:center;">-->
+     
+     <select name="pro_sn7" id="pro_sn7" class="inputselect" style="width:80%;">
+      		<option value="">กรุณาเลือกรายการ</option>
+		  <?php
+              $qusn7 = @mysqli_query($conn,"SELECT * FROM s_group_sn WHERE group_pod = '".getpod_id($conn,$pro_pod7)."' ORDER BY group_name ASC");
+              while($row_qusn7 = @mysqli_fetch_array($qusn7)){
+                ?>
+                  <option value="<?php  echo $row_qusn7['group_name'];?>" <?php  if($pro_sn7 == $row_qusn7['group_name']){echo 'selected';}?>><?php  echo $row_qusn7['group_name'];?></option>
+                <?php
+              }
+          ?>
+      </select><a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search_sn.php?protype=pro_sn7&pod=<?php echo getpod_id($conn,$pro_pod7);?>');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>
+      
+      
+      </td>
       <td style="border:1px solid #000000;padding:5;text-align:center;">
       	<input type="text" name="camount7" value="<?php  echo $camount7;?>" id="camount7" class="inpfoder" style="width:100%;text-align:center;">
       </td>

@@ -224,7 +224,7 @@
 			$mpdf->Output('../../upload/contract/'.$chaf.'.pdf','F');
 			
 			include_once("form_contract2.php");
-			$mpdf=new mPDF('UTF-8','A4','','','40','15','50','40'); 
+			$mpdf=new mPDF('UTF-8','A4','','','15','15','50','40'); 
 			$mpdf->SetAutoFont();
 			$mpdf->SetHTMLHeader('<div><img src="../images/contract_header.jpg"/></div>');
 			$mpdf->SetHTMLFooter($txtcsign.'<div><img src="../images/contract_footer.jpg"/></div>');
