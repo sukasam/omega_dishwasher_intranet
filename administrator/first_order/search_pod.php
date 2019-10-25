@@ -51,7 +51,7 @@
 <SCRIPT type=text/javascript src="../js/jquery-1.9.1.min.js"></SCRIPT>
 <script type="text/javascript" src="ajax.js"></script> 
 <script type="text/javascript">
-   function get_pod(group_id,group_name,protype,protype2,protype3){
+   function get_pod(group_id,group_name,protype,protype2,protype3,fo_id){
 	//alert(group_id);
 	var xmlHttp;
    xmlHttp=GetXmlHttpObject(); //Check Support Brownser
@@ -65,7 +65,7 @@
 
 			$.ajax({
 				type: "GET",
-				url: "call_return.php?action=changeSN&pod="+group_name+'&id='+protype3,
+				url: "call_return.php?action=changeSN&pod="+group_name+'&id='+protype3+'&fo_id='+fo_id,
 				success: function(data){
 					var ds = data.split('|');
 					//console.log(ds[1]);
@@ -93,7 +93,7 @@
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tv_search">
   <tr>
     <td colspan="2"><strong>ค้นหา&nbsp;&nbsp;:&nbsp;&nbsp;</strong>
-        <input type="text" name="textfield" id="textfield" style="width:85%;" onkeyup="get_podkey(this.value,'<?php  echo $_GET['protype']?>','<?php  echo $_GET['protype2']?>','<?php  echo $_GET['protype3']?>');"/>
+        <input type="text" name="textfield" id="textfield" style="width:85%;" onkeyup="get_podkey(this.value,'<?php  echo $_GET['protype']?>','<?php  echo $_GET['protype2']?>','<?php  echo $_GET['protype3']?>','<?php  echo $_GET['fo_id']?>');"/>
     </td>
   </tr>
 </table>
@@ -108,7 +108,7 @@
 	while($row_cus = @mysqli_fetch_array($qu_cus)){
 		?>
 		 <tr>
-            <td><A href="javascript:void(0);" onclick="get_pod('<?php  echo $row_cus['group_id'];?>','<?php  echo $row_cus['group_name'];?>','<?php  echo $_GET['protype']?>','<?php  echo $_GET['protype2']?>','<?php  echo $_GET['protype3']?>');"><?php  echo $row_cus['group_name'];?></A></td>
+            <td><A href="javascript:void(0);" onclick="get_pod('<?php  echo $row_cus['group_id'];?>','<?php  echo $row_cus['group_name'];?>','<?php  echo $_GET['protype']?>','<?php  echo $_GET['protype2']?>','<?php  echo $_GET['protype3']?>','<?php  echo $_GET['fo_id']?>');"><?php  echo $row_cus['group_name'];?></A></td>
           </tr>
 		<?php 	
 	}

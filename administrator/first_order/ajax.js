@@ -81,11 +81,11 @@ function get_cus(pval,keys){
    xmlHttp.send(null);
 }
 
-function get_podkey(pval,keys,keys2,keys3){
+function get_podkey(pval,keys,keys2,keys3,fo_id){
 	//alert(keys);
 	var xmlHttp;
    xmlHttp=GetXmlHttpObject(); //Check Support Brownser
-   URL = pathLocal+'ajax_return.php?action=getpodkey&pval='+pval+'&keys='+keys+'&keys2='+keys2+'&keys3='+keys3;
+   URL = pathLocal+'ajax_return.php?action=getpodkey&pval='+pval+'&keys='+keys+'&keys2='+keys2+'&keys3='+keys3+'&fo_id='+fo_id;
    if (xmlHttp==null){
       alert ("Browser does not support HTTP Request");
       return;
@@ -101,11 +101,11 @@ function get_podkey(pval,keys,keys2,keys3){
    xmlHttp.send(null);
 }
 
-function get_snkey(pval,keys,pod){
+function get_snkey(pval,keys,pod,fo_id){
 	//alert(keys);
 	var xmlHttp;
    xmlHttp=GetXmlHttpObject(); //Check Support Brownser
-   URL = pathLocal+'ajax_return.php?action=getsnkey&pval='+pval+'&keys='+keys+'&pod='+pod;
+   URL = pathLocal+'ajax_return.php?action=getsnkey&pval='+pval+'&keys='+keys+'&pod='+pod+'&fo_id='+fo_id;
    if (xmlHttp==null){
       alert ("Browser does not support HTTP Request");
       return;

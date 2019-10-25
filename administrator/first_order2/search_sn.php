@@ -50,11 +50,11 @@
 </script>-->
 <script type="text/javascript" src="ajax.js"></script> 
 <script type="text/javascript">
-   function get_sn(group_id,group_name,protype,pod){
+   function get_sn(group_id,group_name,protype,pod,fo_id){
 	//alert(group_id);
 	var xmlHttp;
    xmlHttp=GetXmlHttpObject(); //Check Support Brownser
-   URL = pathLocal+'ajax_return.php?action=getsn&group_id='+group_id+'&group_name='+group_name+'&protype='+protype+'&pod='+pod;
+   URL = pathLocal+'ajax_return.php?action=getsn&group_id='+group_id+'&group_name='+group_name+'&protype='+protype+'&pod='+pod+'&fo_id='+fo_id;
    if (xmlHttp==null){
       alert ("Browser does not support HTTP Request");
       return;
@@ -77,7 +77,7 @@
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tv_search">
   <tr>
     <td colspan="2"><strong>ค้นหา&nbsp;&nbsp;:&nbsp;&nbsp;</strong>
-        <input type="text" name="textfield" id="textfield" style="width:85%;" onkeyup="get_snkey(this.value,'<?php  echo $_GET['protype']?>','<?php echo $_GET['pod'];?>');"/>
+        <input type="text" name="textfield" id="textfield" style="width:85%;" onkeyup="get_snkey(this.value,'<?php  echo $_GET['protype']?>','<?php echo $_GET['pod'];?>','<?php echo $_GET['fo_id'];?>');"/>
     </td>
   </tr>
 </table>
@@ -90,11 +90,13 @@
 <?php  
   	$qu_cus = mysqli_query($conn,"SELECT * FROM s_group_sn WHERE group_pod = '".$_GET['pod']."' ORDER BY group_name ASC");
 	while($row_cus = @mysqli_fetch_array($qu_cus)){
+		 if(chkSeries($conn,$row_cus['group_name'],$_GET['fo_id']) == 0){
 		?>
 		 <tr>
-            <td><A href="javascript:void(0);" onclick="get_sn('<?php  echo $row_cus['group_id'];?>','<?php  echo $row_cus['group_name'];?>','<?php  echo $_GET['protype']?>','<?php  echo $_GET['pod']?>');"><?php  echo $row_cus['group_name'];?></A></td>
+            <td><A href="javascript:void(0);" onclick="get_sn('<?php  echo $row_cus['group_id'];?>','<?php  echo $row_cus['group_name'];?>','<?php  echo $_GET['protype']?>','<?php  echo $_GET['pod']?>','<?php  echo $_GET['fo_id']?>');"><?php  echo $row_cus['group_name'];?></A></td>
           </tr>
-		<?php 	
+		<?php 
+		 }
 	}
   ?>
 </table>

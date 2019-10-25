@@ -2754,7 +2754,7 @@ function getTypeServiceDesc($id,$word){
 
 
 function getpod_id($conn,$value) {
-	$row_protype = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM s_group_pod WHERE group_name like '%".$value."%'"));
+	$row_protype = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM s_group_pod WHERE group_name = '".$value."'"));
 	return $row_protype['group_id'];
 }
 
@@ -2767,9 +2767,11 @@ function get_firstorder_qr($conn,$sn) {
 	return $row_first_order;
 }
 
-function chkSeries($conn,$sn) {
+function chkSeries($conn,$sn,$foid) {
 	
-	$qu_prosn = @mysqli_query($conn,"SELECT *  FROM `s_first_order` WHERE 1 AND (`pro_sn1` LIKE '".$sn."' OR `pro_sn1` LIKE '".$sn."' OR `pro_sn2` LIKE '".$sn."' OR `pro_sn3` LIKE '".$sn."' OR `pro_sn4` LIKE '".$sn."' OR `pro_sn5` LIKE '".$sn."' OR `pro_sn6` LIKE '".$sn."' OR `pro_sn7` LIKE '".$sn."') AND `status_use` != '2' ORDER BY `fo_id`  DESC");
+//	echo "SELECT *  FROM `s_first_order` WHERE 1 AND (`pro_sn1` LIKE '".$sn."' OR `pro_sn1` LIKE '".$sn."' OR `pro_sn2` LIKE '".$sn."' OR `pro_sn3` LIKE '".$sn."' OR `pro_sn4` LIKE '".$sn."' OR `pro_sn5` LIKE '".$sn."' OR `pro_sn6` LIKE '".$sn."' OR `pro_sn7` LIKE '".$sn."') AND `status_use` != '2' AND fo_id != '".$foid."' ORDER BY `fo_id`  DESC";
+//	
+	$qu_prosn = @mysqli_query($conn,"SELECT *  FROM `s_first_order` WHERE 1 AND (`pro_sn1` LIKE '".$sn."' OR `pro_sn1` LIKE '".$sn."' OR `pro_sn2` LIKE '".$sn."' OR `pro_sn3` LIKE '".$sn."' OR `pro_sn4` LIKE '".$sn."' OR `pro_sn5` LIKE '".$sn."' OR `pro_sn6` LIKE '".$sn."' OR `pro_sn7` LIKE '".$sn."') AND `status_use` != '2' AND fo_id != '".$foid."' ORDER BY `fo_id`  DESC");
 	$row_prosn = @mysqli_num_rows($qu_prosn);
 	return $row_prosn;
 }
