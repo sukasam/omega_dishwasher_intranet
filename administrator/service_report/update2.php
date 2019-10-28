@@ -591,35 +591,67 @@ function check(frm){
        </tr>
        <?php
 		 if($_GET['taget'] == 'service'){
+			 $srImg = getServiceImg($conn,$_GET['sr_id']);
+			 $sImg = explode(',',$srImg);
+			 $svImgArray = array();
+			 $svImgesArray = array();
+			 for($v=0;$v<count($sImg);$v++){
+				 $svImgArray[] = substr($sImg[$v],0,1);
+				 $svImgesArray[] = $sImg[$v];
+			 }
+			 
 			?>
 			<tr>
 				<td style="text-align:left;">
 				    <center><strong>รูปภาพเข้าให้บริการ</strong></center><br>
 					<table>
 						<tr>
+							<td colspan="2"><strong>ภาพก่อนบริการ</strong></td>
+						</tr>
+						<tr>
 							<td>1.</td>
 							<td><input type="file" name="fileSUpload[]"></td>
-							<td style="text-align: right;"><?php if($listSImg[0]){?><a href="../../upload/service_images/<?php echo $listSImg[0];?>" target="_blank"><img src="../images/icon2/mediamanager.png" width="25"></a><?php }?></td>
+							<td style="text-align: right;"><?php if(in_array('1',$svImgArray)){
+								 $key = array_search('1', $svImgArray);
+								?><a href="../../upload/service_images/<?php echo $svImgesArray[$key];?>" target="_blank"><img src="../images/icon2/mediamanager.png" width="25"></a><?php }?></td>
 						</tr>
 						<tr>
 							<td>2.</td>
 							<td><input type="file" name="fileSUpload[]"></td>
-							<td style="text-align: right;"><?php if($listSImg[1]){?><a href="../../upload/service_images/<?php echo $listSImg[1];?>" target="_blank"><img src="../images/icon2/mediamanager.png" width="25"></a><?php }?></td>
+							<td style="text-align: right;"><?php if(in_array('2',$svImgArray)){
+								$key = array_search('2', $svImgArray);
+								?><a href="../../upload/service_images/<?php echo $svImgesArray[$key];?>" target="_blank"><img src="../images/icon2/mediamanager.png" width="25"></a><?php }?></td>
 						</tr>
 						<tr>
 							<td>3.</td>
 							<td><input type="file" name="fileSUpload[]"></td>
-							<td style="text-align: right;"><?php if($listSImg[2]){?><a href="../../upload/service_images/<?php echo $listSImg[2];?>" target="_blank"><img src="../images/icon2/mediamanager.png" width="25"></a><?php }?></td>
+							<td style="text-align: right;"><?php if(in_array('3',$svImgArray)){
+								$key = array_search('3', $svImgArray);
+								?><a href="../../upload/service_images/<?php echo $svImgesArray[$key];?>" target="_blank"><img src="../images/icon2/mediamanager.png" width="25"></a><?php }?></td>
+						</tr>
+						<tr>
+							<td colspan="2"><strong>ภาพหลังบริการ</strong></td>
 						</tr>
 						<tr>
 							<td>4.</td>
 							<td><input type="file" name="fileSUpload[]"></td>
-							<td style="text-align: right;"><?php if($listSImg[3]){?><a href="../../upload/service_images/<?php echo $listSImg[3];?>" target="_blank"><img src="../images/icon2/mediamanager.png" width="25"></a><?php }?></td>
+							<td style="text-align: right;"><?php if(in_array('4',$svImgArray)){
+								$key = array_search('4', $svImgArray);
+								?><a href="../../upload/service_images/<?php echo $svImgesArray[$key];?>" target="_blank"><img src="../images/icon2/mediamanager.png" width="25"></a><?php }?></td>
 						</tr>
 						<tr>
 							<td>5.</td>
 							<td><input type="file" name="fileSUpload[]"></td>
-							<td style="text-align: right;"><?php if($listSImg[4]){?><a href="../../upload/service_images/<?php echo $listSImg[4];?>" target="_blank"><img src="../images/icon2/mediamanager.png" width="25"></a><?php }?></td>
+							<td style="text-align: right;"><?php if(in_array('5',$svImgArray)){
+								$key = array_search('5', $svImgArray);
+								?><a href="../../upload/service_images/<?php echo $svImgesArray[$key];?>" target="_blank"><img src="../images/icon2/mediamanager.png" width="25"></a><?php }?></td>
+						</tr>
+						<tr>
+							<td>6.</td>
+							<td><input type="file" name="fileSUpload[]"></td>
+							<td style="text-align: right;"><?php if(in_array('6',$svImgArray)){
+								$key = array_search('6', $svImgArray);
+								?><a href="../../upload/service_images/<?php echo $svImgesArray[$key];?>" target="_blank"><img src="../images/icon2/mediamanager.png" width="25"></a><?php }?></td>
 						</tr>
 					</table>
 				</td>

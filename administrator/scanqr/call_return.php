@@ -8,7 +8,13 @@
 		$qrcode = explode('|',base64_decode($_GET['qrcode']));
 		
 		$_SESSION["QR_FIELD"] = base64_decode($_GET['qrcode']);
-		echo json_encode(array('status' => 'yes','pk_field' => $_GET['qrcode'],'database'=> '','target'=> ''));
+		
+		$foID = get_firstorder_qr($conn,$_SESSION["QR_FIELD"]);
+		if($foID != ""){
+			echo json_encode(array('status' => 'yes','pk_field' => $_GET['qrcode'],'database'=> '','target'=> ''));
+		}else{
+			echo json_encode(array('status' => 'no','pk_field' => $_GET['qrcode'],'database'=> '','target'=> ''));
+		}
 		
 //		$_SESSION["QR_FIELD"] = $qrcode[0];
 //		$_SESSION["QR_DATABASE"] = $qrcode[1];

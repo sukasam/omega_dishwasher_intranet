@@ -6,7 +6,7 @@
 	$page_name = "รายการซีรี่ย์";
 	$tbl_name = "s_group_sn";
 	$field_confirm_showname= "group_product,group_pod,group_name";
-	$fieldlist = array('group_pod','group_name');
+	$fieldlist = array('group_pod','group_name','group_datetime_key','group_shipnumber','group_invoicenumber');
 	$search_key = array('group_name');
 	$pagesize = 50;
 	$pages="user";

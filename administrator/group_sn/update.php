@@ -8,6 +8,9 @@
 		$param = "";
 		$a_not_exists = array();
 		$param = get_param($a_param,$a_not_exists);
+		
+		$a_sdate=explode("/",$_POST['group_datetime_key']);
+		$_POST['group_datetime_key']=$a_sdate[2]."-".$a_sdate[1]."-".$a_sdate[0];
 
 		if ($_POST['mode'] == "add") { 
 			
@@ -37,6 +40,9 @@
 				$$value = $rec[$value];
 			}
 		}
+		
+		$a_sdate=explode("-",$group_datetime_key);
+		$group_datetime_key = $a_sdate[2]."/".$a_sdate[1]."/".$a_sdate[0];
 	}
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
@@ -48,9 +54,13 @@
 <LINK rel="stylesheet" type=text/css href="../css/style.css" media=screen>
 <LINK rel="stylesheet" type=text/css href="../css/invalid.css" media=screen>
 <SCRIPT type=text/javascript src="../js/jquery-1.3.2.min.js"></SCRIPT>
+<!--
 <SCRIPT type=text/javascript src="../js/simpla.jquery.configuration.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/facebox.js"></SCRIPT>
+-->
 <SCRIPT type=text/javascript src="../js/jquery.wysiwyg.js"></SCRIPT>
+<script language="JavaScript" src="../Carlender/calendar_us.js"></script>
+<link rel="stylesheet" href="../Carlender/calendar.css">
 <META name=GENERATOR content="MSHTML 8.00.7600.16535">
 <script>
 function confirmDelete(delUrl,text) {
@@ -105,6 +115,19 @@ function check(frm){
               <tr >
                 <td nowrap class="name">รหัสซีรี่ย์สินค้า</td>
                 <td><input name="group_name" type="text" id="group_name"  value="<?php  echo $group_name; ?>" size="60"></td>
+              </tr>
+              <tr >
+                <td nowrap class="name">วันรับเข้า</td>
+                <td><input type="text" name="group_datetime_key" readonly value="<?php  if($group_datetime_key==""){echo date("d/m/Y");}else{ echo $group_datetime_key;}?>" class="inpfoder"/><script language="JavaScript">new tcal ({'formname': 'form1','controlname': 'group_datetime_key'});</script>
+                </td>
+              </tr>
+              <tr >
+                <td nowrap class="name">เลขที่ใบขน</td>
+                <td><input name="group_shipnumber" type="text" id="group_shipnumber"  value="<?php  echo $group_shipnumber; ?>" size="60"></td>
+              </tr>
+              <tr >
+                <td nowrap class="name">เลขที่ Invoice</td>
+                <td><input name="group_invoicenumber" type="text" id="group_invoicenumber"  value="<?php  echo $group_invoicenumber; ?>" size="60"></td>
               </tr>
               <!--<tr >
                 <td nowrap class="name">จำนวน</td>

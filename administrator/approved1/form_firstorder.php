@@ -82,6 +82,15 @@ if($chkProcess == '5' || $chkProcess == '4'){
 
 }
 
+$typegaruntreeTxt = '';
+
+if($_POST['typegaruntree'] == 2){
+	$typegaruntreeTxt = 'เงินค่าเช่าล่วงหน้า';
+}else{
+	$typegaruntreeTxt = 'เงินค่าประกัน';
+}
+
+
 $form = '
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
@@ -297,7 +306,7 @@ $form = '
       <td style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;padding:6px;"><strong>วันที่ติดตั้งเครื่อง : '.format_date($conn,$_POST["cs_setting"]).'</strong></td>
     </tr>
     <tr>
-      <td style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;padding:6px;"><strong>เงินประกัน : '.number_format($money_garuntree,2).'</strong></td>
+      <td style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;padding:6px;"><strong>'.$typegaruntreeTxt.' : '.number_format($money_garuntree,2).'</strong></td>
       <td style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;padding:6px;"><strong>ค่าขนส่งและติดตั้ง : '.number_format($money_setup,2).'</strong></td>
     </tr>
   </table>
