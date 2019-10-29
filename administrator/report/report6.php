@@ -10,6 +10,7 @@
 	if(isset($_GET['ctype'])){$_REQUEST['sh1'] = 1;$_REQUEST['sh2'] = 1;$_REQUEST['sh3'] = 1;$_REQUEST['sh4'] = 1;$_REQUEST['sh5'] = 1;$_REQUEST['sh6'] = 1;$_REQUEST['sh7'] = 1;$_REQUEST['sh8'] = 1;$_REQUEST['sh9'] = 1;$_REQUEST['sh10'] = 1;}
 	
 	$ctype = $_REQUEST['ctype'];
+	$pro_pod = $_REQUEST['pro_pod'];
 	$a_sdate=explode("/",$_REQUEST['date_fm']);
 	$date_fm=$a_sdate[2]."-".$a_sdate[1]."-".$a_sdate[0];
 	$a_sdate=explode("/",$_REQUEST['date_to']);
@@ -23,7 +24,11 @@
 		$dateshow = "วันที่ค้นหา : ".format_date($conn,date("Y-m-d")); 
 	}
 	
-	$codi = " AND status_use = 0";
+	if($pro_pod != ""){
+		$codi = "AND (pro_pod1 LIKE '%".$pro_pod."%' OR pro_pod2 LIKE '%".$pro_pod."%' OR pro_pod3 LIKE '%".$pro_pod."%' OR pro_pod4 LIKE '%".$pro_pod."%' OR pro_pod5 LIKE '%".$pro_pod."%' OR pro_pod6 LIKE '%".$pro_pod."%' OR pro_pod7 LIKE '%".$pro_pod."%')";
+	}
+	
+	$codi .= " AND status_use = 0";
 	
 	$sql = "SELECT * FROM s_first_order WHERE ctype = '".$ctype."'".$daterriod." ".$codi." ORDER BY date_forder ASC";
 	

@@ -664,6 +664,20 @@ function check9(frm){
                             </select>
                            </td>
                           </tr>
+                          <tr >
+                            <td width="10%" nowrap class="name">รุ่นเครื่อง</td>
+                            <td width="90%"><select name="pro_pod" id="pro_pod" class="inputselect" style="width:250px;">
+                                        <option value="">กรุณาเลือกรายการ</option>
+                                      <?php 
+                                          $qupros1 = @mysqli_query($conn,"SELECT * FROM s_group_pod ORDER BY group_name ASC");
+                                          while($row_qupros1 = @@mysqli_fetch_array($qupros1)){
+                                            ?>
+                                              <option value="<?php  echo $row_qupros1['group_name'];?>"><?php  echo $row_qupros1['group_name'];?></option>
+                                            <?php 	
+                                          }
+                                      ?>
+                                  </select><a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search_pod.php?protype=pro_pod');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a></td>
+                          </tr>
                           <tr>
                             <td nowrap class="name">&nbsp;</td>
                             <td><span class="name">
