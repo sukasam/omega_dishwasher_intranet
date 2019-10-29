@@ -46,6 +46,7 @@
 				$_POST['status_use'] = 1;
 				$_POST['status'] = 0;
 				$_POST['loc_name'] = addslashes($_POST['loc_name']);
+			    $_POST['google_map'] = addslashes($_POST['google_map']);
 			
 				$chkSale = checkSaleMustApprove($conn,$_POST['cs_sell']);
 			
@@ -86,6 +87,7 @@
 		if ($_POST['mode'] == "update" ) {
 				
 				$_POST['loc_name'] = addslashes($_POST['loc_name']);
+			    $_POST['google_map'] = addslashes($_POST['google_map']);
 				
 				include ("../include/m_update.php");
 				$id = $_REQUEST[$PK_field];
@@ -305,7 +307,11 @@ function changePod(s1,s2,id,foid){
             </select>
            	&nbsp;&nbsp;&nbsp;<strong>Tax/ID :</strong> <input type="text" name="cd_tax" value="<?php  echo $cd_tax;?>" id="cd_tax" class="inpfoder">
            	</td>
-            <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>เลขที่ใบเสนอราคา / PO.NO. :</strong> <input type="text" name="po_id" value="<?php  echo $po_id;?>" id="po_id" class="inpfoder"></td>
+            <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>เลขที่ใบเสนอราคา / PO.NO. :</strong> <input type="text" name="po_id" value="<?php  echo $po_id;?>" id="po_id" class="inpfoder">
+            &nbsp;&nbsp;<strong>แผนที่ลูกค้า :</strong><span style="font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;">
+              <input type="text" name="google_map" value="<?php  echo stripslashes($google_map);?>" id="google_map" class="inpfoder" style="width: 220px;">
+            </span></strong>
+            </td>
           </tr>
           <tr>
             <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>โทรศัพท์ :</strong> <input type="text" name="cd_tel" value="<?php  echo $cd_tel;?>" id="cd_tel" class="inpfoder">
@@ -322,7 +328,8 @@ function changePod(s1,s2,id,foid){
               <input type="text" name="name_consign" value="<?php  echo $name_consign;?>" id="cusid" class="inpfoder">
             </span></strong><strong>รหัสลูกค้า<strong> :</strong><span style="font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;">
               <input type="text" name="cusid" value="<?php  echo $cusid;?>" id="cusid" class="inpfoder">
-            </span></strong></td>
+				</span></strong>
+            </td>
           </tr>
 </table>
   <br>
