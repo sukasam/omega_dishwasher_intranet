@@ -51,11 +51,13 @@ $techniSignature = '<img src="../../upload/user/signature/'.get_technician_signa
 if($chkProcess == '5' || $chkProcess == '4'){
 	
 	$hSaleSignature = '<img src="../../upload/user/signature/'.get_hsale_signature($conn).'" height="50" border="0" />';
+	$hCompanySignature = '<img src="../../upload/user/signature/'.get_hcompany_signature($conn).'" height="50" border="0" />';
 	
 }else{
 	
 	if($chkProcess == '0'){
 		$hSaleSignature = '<img src="../../upload/user/signature/none.png" height="50" border="0" />';
+		$hCompanySignature = '<img src="../../upload/user/signature/none.png" height="50" border="0" />';
 	}else{
 		
 		$chkHSaleAP = checkHSaleApplove($conn,$tbl_name,$id);
@@ -64,6 +66,13 @@ if($chkProcess == '5' || $chkProcess == '4'){
 			$hSaleSignature = '<img src="../../upload/user/signature/'.get_hsale_signature($conn).'" height="50" border="0" />';
 		}else{
 			$hSaleSignature = '<img src="../../upload/user/signature/none.png" height="50" border="0" />';
+		}
+		
+		$chkHCompanyAP = checkHCompanyApplove($conn,$tbl_name,$id);
+		if($chkHCompanyAP == 1){
+			$hCompanySignature = '<img src="../../upload/user/signature/'.get_hcompany_signature($conn).'" height="50" border="0" />';
+		}else{
+			$hCompanySignature = '<img src="../../upload/user/signature/none.png" height="50" border="0" />';
 		}
 		
 	}
@@ -340,10 +349,10 @@ if($chkProcess == '5' || $chkProcess == '4'){
         <td width="33%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
         	<table width="100%" cellspacing="0" cellpadding="0">
               <tr>
-                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;">'.$techniSignature.'</td>
+                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;">'.$hCompanySignature.'</td>
               </tr>
               <tr>
-                <td style="padding-top:10px;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>( '.get_technician_name($conn,$_POST['cs_providers']).' )</strong><br><br><strong>ผู้ให้บริการ</strong></td>
+                <td style="padding-top:10px;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>( '.$_POST["cs_providers"].' )</strong><br><br><strong>ผู้มีอำนาจลงนาม</strong></td>
               </tr>
               <tr>
               <td style="font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;">

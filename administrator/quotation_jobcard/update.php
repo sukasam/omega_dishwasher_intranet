@@ -525,6 +525,7 @@ function check(frm){
                 <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;">
 <!--                <strong><input type="text" name="cs_providers" value="<?php  echo $cs_providers;?>" id="cs_providers" class="inpfoder" style="width:50%;text-align:center;"></strong>-->
                
+<!--
                <select name="cs_providers" id="cs_providers" class="inputselect" style="width:50%;">
                 <?php
                 	$qutectype = @mysqli_query($conn,"SELECT * FROM s_group_technician ORDER BY group_name ASC");
@@ -535,11 +536,21 @@ function check(frm){
 					}
 				?>
             	</select>
-               
+-->
+              
+              <?php
+					$hBig = '';
+					if($cs_aceep != ""){
+						$hBig = $cs_aceep;
+					}else{
+						$hBig = getNameBigApprove($conn);
+					}
+				?>
+               <strong><input type="text" name="cs_providers" value="<?php  echo $hBig;?>" id="cs_providers" class="inpfoder" style="width:50%;text-align:center;border: none;"></strong>
                 </td>
               </tr>
               <tr>
-                <td style="padding-top:10px;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>ผู้ให้บริการ</strong></td>
+                <td style="padding-top:10px;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>ผู้มีอำนาจลงนาม</strong></td>
               </tr>
               <tr>
               <td style="font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;">
