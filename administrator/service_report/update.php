@@ -611,6 +611,9 @@ function check(frm){
       
       
       <input name="supply" type="hidden" id="supply" value="<?php  echo $supply;?>">
+      <input name="st_setting" type="hidden" id="st_setting" value="<?php  echo $st_setting;?>"> 
+      <input name="approve" type="hidden" id="approve" value="<?php  echo $approve;?>"> 
+      
       
       <input name="cpro1" type="hidden" id="cpro1" value="<?php  echo $cpro1;?>">
       <input name="cpro2" type="hidden" id="cpro2" value="<?php  echo $cpro2;?>">
@@ -622,9 +625,7 @@ function check(frm){
       <input name="camount2" type="hidden" id="camount2" value="<?php  echo $camount2;?>">
       <input name="camount3" type="hidden" id="camount3" value="<?php  echo $camount3;?>">
       <input name="camount4" type="hidden" id="camount4" value="<?php  echo $camount4;?>">
-      <input name="camount5" type="hidden" id="camount5" value="<?php  echo $camount5;?>">  
-      
-      <input name="st_setting" type="hidden" id="st_setting" value="<?php  echo $st_setting;?>">         
+      <input name="camount5" type="hidden" id="camount5" value="<?php  echo $camount5;?>">          
     
       <input name="<?php  echo $PK_field;?>" type="hidden" id="<?php  echo $PK_field;?>" value="<?php  echo $_GET[$PK_field];?>">
     </div>

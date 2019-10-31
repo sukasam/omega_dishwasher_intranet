@@ -608,7 +608,7 @@ function check(frm){
       <input name="ckl_list" type="hidden" id="ckl_list" value="<?php  echo $ckl_list;?>">
       <input name="ckw_list" type="hidden" id="ckw_list" value="<?php  echo $ckw_list;?>">
       <input name="detail_recom2" type="hidden" id="detail_recom2" value="<?php  echo strip_tags($detail_recom2);?>">
-      <input name="supply" type="hidden" id="supply" value="<?php  echo $supply;?>">
+     
       
       <input name="cpro1" type="hidden" id="cpro1" value="<?php  echo $cpro1;?>">
       <input name="cpro2" type="hidden" id="cpro2" value="<?php  echo $cpro2;?>">
@@ -622,7 +622,9 @@ function check(frm){
       <input name="camount4" type="hidden" id="camount4" value="<?php  echo $camount4;?>">
       <input name="camount5" type="hidden" id="camount5" value="<?php  echo $camount5;?>">  
       
-      <input name="st_setting" type="hidden" id="st_setting" value="<?php  echo $st_setting;?>">         
+      <input name="supply" type="hidden" id="supply" value="<?php  echo $supply;?>">
+      <input name="st_setting" type="hidden" id="st_setting" value="<?php  echo $st_setting;?>"> 
+      <input name="approve" type="hidden" id="approve" value="<?php  echo $approve;?>">         
     
       <input name="<?php  echo $PK_field;?>" type="hidden" id="<?php  echo $PK_field;?>" value="<?php  echo $_GET[$PK_field];?>">
     </div>
