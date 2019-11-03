@@ -313,9 +313,12 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 							  <option value="4">รอผู้อนุมัติฝ่ายช่าง</option>
 							  <?php
 						  }else{
-							  ?>
-							  <option value="1">รอผู้อนุมัติฝ่ายขาย</option>
-							  <?php
+							  if(checkFOInputFix($conn,$rec['fo_id']) == 0){
+								  ?>
+								  <option value="1">รอผู้อนุมัติฝ่ายขาย</option>
+								  <?php
+							  }
+							  
 						  }
 					  ?>
 					  

@@ -866,9 +866,11 @@ Vat 7%</strong></td>
               <strong>&nbsp;สิ้นสุด : </strong>
               <input type="text" name="date_qut" readonly value="<?php  if($date_qut==""){echo date("d/m/Y");}else{ echo $date_qut;}?>" class="inpfoder"/>
               <script language="JavaScript">new tcal ({'formname': 'form1','controlname': 'date_qut'});</script><br>
+<!--
               <div id="cssign"><strong>ผู้มีอำนาจเซ็นสัญญา</strong>
               <input type="text" name="cs_sign" value="<?php  echo $cs_sign;?>" id="cs_sign" class="inpfoder" style="width:50%;">
               <br><br></div>
+-->
               <br><strong>เงื่อนไขการชำระเงิน :<br>
               <textarea name="qucomment" id="qucomment" style="height:50px;"><?php  echo strip_tags($qucomment);?></textarea>
               </strong><!--<br>

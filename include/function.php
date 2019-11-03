@@ -2778,6 +2778,70 @@ function chkSeries($conn,$sn,$foid) {
 	return $row_prosn;
 }
 
+function checkFOInputFix($conn,$fo_id){
+	
+	$sqlFO = "SELECT * FROM s_first_order WHERE fo_id = ".$fo_id;
+	$quFO = mysqli_query($conn,$sqlFO);
+	$rowFO = mysqli_fetch_array($quFO);
+	
+	$chkFO = array("cd_name", "cd_address", "cd_tel", "cd_tax", "c_contact", "cg_type", "ctype", "pro_type", "po_id", "loc_name", "loc_address", "date_quf", "date_qut", "name_consign", "qucomment", "cs_contact", "cs_tel", "cs_ship", "cs_setting", "cpro1", "pro_pod1", "pro_sn1", "camount1", "cprice1");
+	
+	$valChk = 0;
+	
+	for($i=0;$i<count($chkFO);$i++){
+		if($rowFO[$chkFO[$i]] == ""){
+			$valChk = 1;
+		}
+	}
+	
+	for($j=2;$j<8;$j++){
+		if($rowFO['cpro'.$j] != ""){
+			if($rowFO['pro_pod'.$j] == "" || $rowFO['pro_sn'.$j] == "" || $rowFO['camount'.$j] == "" || $rowFO['cprice'.$j] == ""){
+				$valChk = 1;
+			}
+		}
+	}
+	
+//	if($rowFO['cpro2'] != ""){
+//		if($rowFO['pro_pod2'] == "" || $rowFO['pro_sn2'] == "" || $rowFO['camount2'] == "" || $rowFO['cprice2'] == ""){
+//			$valChk = 1;
+//		}
+//	}
+//	
+//	if($rowFO['cpro3'] != ""){
+//		if($rowFO['pro_pod3'] == "" || $rowFO['pro_sn3'] == "" || $rowFO['camount3'] == "" || $rowFO['cprice4'] == ""){
+//			$valChk = 1;
+//		}
+//	}
+//	
+//	if($rowFO['cpro4'] != ""){
+//		if($rowFO['pro_pod2'] == "" || $rowFO['pro_sn2'] == "" || $rowFO['camount2'] == "" || $rowFO['cprice2'] == ""){
+//			$valChk = 1;
+//		}
+//	}
+//	
+//	if($rowFO['cpro5'] != ""){
+//		if($rowFO['pro_pod2'] == "" || $rowFO['pro_sn2'] == "" || $rowFO['camount2'] == "" || $rowFO['cprice2'] == ""){
+//			$valChk = 1;
+//		}
+//	}
+//	
+//	if($rowFO['cpro6'] != ""){
+//		if($rowFO['pro_pod2'] == "" || $rowFO['pro_sn2'] == "" || $rowFO['camount2'] == "" || $rowFO['cprice2'] == ""){
+//			$valChk = 1;
+//		}
+//	}
+//	
+//	if($rowFO['cpro7'] != ""){
+//		if($rowFO['pro_pod2'] == "" || $rowFO['pro_sn2'] == "" || $rowFO['camount2'] == "" || $rowFO['cprice2'] == ""){
+//			$valChk = 1;
+//		}
+//	}
+	
+	
+	return $valChk;
+	
+}
 
 
 ?>
