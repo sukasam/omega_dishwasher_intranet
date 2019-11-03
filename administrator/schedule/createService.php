@@ -28,6 +28,7 @@
 
 	$quGen = mysqli_query($conn,"SELECT * FROM service_schedule WHERE month = '".$getMonth."' AND technician = '".$_GET['loccontact']."' AND year = '".$getYear."'");
 	$numCreated = mysqli_num_rows($quGen);
+
 	
 	if($numCreated == 0){
 		
@@ -44,8 +45,11 @@
 		if($getMonth != 4 && $getMonth != 8 && $getMonth != 12){
 			$condition.= " AND type_service != 3";
 		}
+		
+		$condition.= " AND type_service != '0'";
 
-		$sqlSched = "SELECT * FROM `s_first_order` WHERE `technic_service` = ".$_GET['loccontact'].$condition." ORDER BY `cd_province` ,`loc_name` ASC;";
+		 $sqlSched = "SELECT * FROM `s_first_order` WHERE `technic_service` = ".$_GET['loccontact'].$condition." AND status_use != '2' ORDER BY `cd_province` ,`loc_name` ASC;";
+		
 
 		$quSched = mysqli_query($conn,$sqlSched);
 
@@ -53,10 +57,10 @@
 		
 		  while($rowSched = mysqli_fetch_array($quSched)){
 
-			  set_time_limit(0);
+			  //set_time_limit(0);
 			  
-			  //echo $runRow++." => ".$rowSched['cpro2']."<br>";
-			  //exit();
+//			  echo $runRow++." => ".$rowSched['cpro2']."<br>";
+//			  exit();
 			  
 			  if($rowSched['cpro2'] == 1 || $rowSched['cpro2'] == 2 || $rowSched['cpro2'] == 99 || $rowSched['cpro2'] == 148 || $rowSched['cpro2'] == 201){
 
@@ -259,8 +263,8 @@
 				  
 //				  	echo $url;
 //     				exit();
-				  
-				
+//				  
+//				
 
 			 }
 
@@ -290,7 +294,7 @@
 			
 		
 		 while($rowGen2 = mysqli_fetch_array($quGen2)){
-			set_time_limit(0);
+			//set_time_limit(0);
 			$pdf->addPDF("../../upload/service_report_open/".$rowGen2['pdf'], 'all');
 		 }
 

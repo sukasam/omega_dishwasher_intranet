@@ -33,8 +33,10 @@
 			if($getMonth != 4 && $getMonth != 8 && $getMonth != 12){
 				$condition.= " AND type_service != 3";
 			}
+			
+			$condition.= " AND type_service != '0'";
 
-			$sqlSched = "SELECT * FROM `s_first_order` WHERE `technic_service` = ".$_GET['loccontact'].$condition." ORDER BY `cd_province` ,`loc_name` ASC;";
+			$sqlSched = "SELECT * FROM `s_first_order` WHERE `technic_service` = ".$_GET['loccontact'].$condition." AND status_use != '2' ORDER BY `cd_province` ,`loc_name` ASC;";
 
 			$quSched = mysqli_query($conn,$sqlSched);
 
