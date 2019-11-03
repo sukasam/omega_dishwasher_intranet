@@ -78,7 +78,10 @@
 				
 				@mysqli_query($conn,"UPDATE `s_service_report` SET `process` = '4',`latitude` = '".$_SESSION["LATITUDE"]."', `longitude` = '".$_SESSION["LONGITUDE"]."' WHERE `sr_id` = ".$id.";");
 				
+			}
+			
 				$checkSImg = '';
+				$numImg = 1;
 				
 				for($i=0;$i<count($_FILES["fileSUpload"]["name"]);$i++){
 					if(trim($_FILES["fileSUpload"]["tmp_name"][$i]) != ""){
@@ -90,7 +93,7 @@
 						$filename = "";
 						$name_data = explode(".",$_FILES['fileSUpload']['name'][$i]);
 						$type = $name_data[1];
-						$new_images = date('YmdHis').$mname.".".$type;
+						$new_images = $numImg.date('YmdHis').$mname.".".$type;
 						
 						$images = $_FILES["fileSUpload"]["tmp_name"][$i];
 						
@@ -109,6 +112,8 @@
 						ImageDestroy($images_orig);
 						ImageDestroy($images_fin);
 					}
+					
+					$numImg++;
 				}
 				
 				$service_image = substr($checkSImg,0,-1);
@@ -117,7 +122,6 @@
 					@mysqli_query($conn,"UPDATE `s_service_report` SET `service_image` = '".$service_image."' WHERE `sr_id` = ".$id.";");
 				}
 
-			}
 				
 			include_once("../mpdf54/mpdf.php");
 			include_once("form_serviceclose.php");
@@ -590,7 +594,8 @@ function check(frm){
          </span></td>
        </tr>
        <?php
-		 if($_GET['taget'] == 'service'){
+		 //if($_GET['taget'] == 'service'){
+			 
 			 $srImg = getServiceImg($conn,$_GET['sr_id']);
 			 $sImg = explode(',',$srImg);
 			 $svImgArray = array();
@@ -657,7 +662,7 @@ function check(frm){
 				</td>
 			 </tr>
 			<?php 
-		 }
+		// }
 	   ?>
      </table></td>
   </tr>
