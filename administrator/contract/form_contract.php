@@ -237,11 +237,16 @@
 	}else{
 		$txt2 = '';
 	}
+
+	$cdf = convertDate($_POST['con_startdate'],'Y-m-d');
+	$cdt = convertDate($_POST['con_enddate'],'Y-m-d');
+				
+	$monthDiff = diffMonth($cdf,$cdt);
 	
 	$form .= 'หมายเหตุ : อุปกรณ์เสริมที่ทางผู้ให้เช่าให้ผู้เช่ายืม (หากอุปกรณ์ที่ยืมมีความเสียหายใด ๆ หรือมีการสูญหาย เกิดขึ้นทางผู้เช่าจะเป็นผู้รับผิดชอบทั้งหมดทุกกรณีโดยไม่มีเงื่อนไข'.$txt2.')	<br><br>
 	
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>ข้อ 3. ระยะเวลาการเช่า</strong><br>
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;สัญญานี้ มีผลบังคับตั้งแต่วันที่ลงนามในสัญญาเช่า'.$nameConpro.'นี้ ให้มีกำหนด <strong>ระยะเวลาการเช่า 12 เดือน</strong> เริ่มตั้งแต่วันที่ '.format_date_th($_POST['con_startdate'],1).' ถึงวันที่ '.format_date_th($_POST['con_enddate'],1).' ถัดจากวันที่ผู้เช่ารับมอบ '.$nameConpro.'เรียบร้อยแล้ว <br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;สัญญานี้ มีผลบังคับตั้งแต่วันที่ลงนามในสัญญาเช่า'.$nameConpro.'นี้ ให้มีกำหนด <strong>ระยะเวลาการเช่า '.$monthDiff.' เดือน</strong> เริ่มตั้งแต่วันที่ '.format_date_th($_POST['con_startdate'],1).' ถึงวันที่ '.format_date_th($_POST['con_enddate'],1).' ถัดจากวันที่ผู้เช่ารับมอบ '.$nameConpro.'เรียบร้อยแล้ว <br>
 	<strong class="colorbBlue">(สัญญาเล่มนี้เป็นสัญญาปีที่ '.$numContract.' (ปีแรก ปี '.$contractFY.' เดือน '.$contractFM.') ตามเลขที่สัญญาเล่มแรก '.$contractFN.')</strong><br>
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>ตลอดระยะเวลาการเช่าและหลังครบกำหนดระยะเวลาการเช่า ผู้ให้เช่าเป็นผู้ครอบครองและเป็นเจ้าของ กรรมสิทธิ์ในเครื่องล้างจานและอุปกรณ์ประกอบต่าง ๆ ตามสัญญาข้อ 1. และ ข้อ 2. โดยผู้เช่าไม่มีสิทธิ์ โต้แย้งใด ๆ ทั้งสิ้น</strong>
 	<br><br>

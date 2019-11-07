@@ -2802,47 +2802,26 @@ function checkFOInputFix($conn,$fo_id){
 		}
 	}
 	
-//	if($rowFO['cpro2'] != ""){
-//		if($rowFO['pro_pod2'] == "" || $rowFO['pro_sn2'] == "" || $rowFO['camount2'] == "" || $rowFO['cprice2'] == ""){
-//			$valChk = 1;
-//		}
-//	}
-//	
-//	if($rowFO['cpro3'] != ""){
-//		if($rowFO['pro_pod3'] == "" || $rowFO['pro_sn3'] == "" || $rowFO['camount3'] == "" || $rowFO['cprice4'] == ""){
-//			$valChk = 1;
-//		}
-//	}
-//	
-//	if($rowFO['cpro4'] != ""){
-//		if($rowFO['pro_pod2'] == "" || $rowFO['pro_sn2'] == "" || $rowFO['camount2'] == "" || $rowFO['cprice2'] == ""){
-//			$valChk = 1;
-//		}
-//	}
-//	
-//	if($rowFO['cpro5'] != ""){
-//		if($rowFO['pro_pod2'] == "" || $rowFO['pro_sn2'] == "" || $rowFO['camount2'] == "" || $rowFO['cprice2'] == ""){
-//			$valChk = 1;
-//		}
-//	}
-//	
-//	if($rowFO['cpro6'] != ""){
-//		if($rowFO['pro_pod2'] == "" || $rowFO['pro_sn2'] == "" || $rowFO['camount2'] == "" || $rowFO['cprice2'] == ""){
-//			$valChk = 1;
-//		}
-//	}
-//	
-//	if($rowFO['cpro7'] != ""){
-//		if($rowFO['pro_pod2'] == "" || $rowFO['pro_sn2'] == "" || $rowFO['camount2'] == "" || $rowFO['cprice2'] == ""){
-//			$valChk = 1;
-//		}
-//	}
-	
-	
 	return $valChk;
 	
 }
 
+function diffMonth($from, $to) {
+    $month_in_year = 12;
+    $date_from = getdate(strtotime($from));
+    $date_to = getdate(strtotime($to));
+    return ($date_to['year'] - $date_from['year']) * $month_in_year -
+        ($month_in_year - $date_to['mon']) +
+        ($month_in_year - $date_from['mon'])+1;
+}
+
+function convertDate($date,$fomat){
+	
+	$date = str_replace('/', '-', $date);
+	$newDate = date($fomat, strtotime($date));
+	
+	return $newDate;
+}
 
 ?>
 
