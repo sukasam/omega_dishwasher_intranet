@@ -344,6 +344,17 @@ function check(frm){
 			document.getElementById("Fluency3").checked = true;
 		}
 	}
+	
+	function changeContactNumber(){
+		
+		var con_id = document.getElementById("con_id").value.split(" ");
+		var con_type_pro = document.getElementById("con_type_pro").value;
+		
+		
+		document.getElementById("con_id").value = con_type_pro+' '+con_id[1];
+		//console.log(document.getElementById("con_id").value,document.getElementById("con_type_pro").value);
+		
+	}
 
 	
 </script>
@@ -481,6 +492,18 @@ function check(frm){
                 <span id="rsnameid"><input type="hidden" name="cus_id" value="<?php  echo $cus_id;?>"></span><a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search.php');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>
             </td>
             <td>
+            	<strong>ประเภทสินค้า : </strong>
+            	<select name="con_type_pro" id="con_type_pro" class="inputselect" onchange="changeContactNumber();">
+					<option value="">กรุณาเลือกรายการ</option>
+				  <?php
+					  $qupro1 = @mysqli_query($conn,"SELECT * FROM s_group_contract ORDER BY group_id ASC");
+					  while($row_qupro1 = @mysqli_fetch_array($qupro1)){
+						?>
+						  <option value="<?php  echo $row_qupro1['group_con_id'];?>" <?php  if($con_type_pro == $row_qupro1['group_con_id']){echo 'selected';}?>><?php  echo $row_qupro1['group_con_id'].' - '.$row_qupro1['group_name'];?></option>
+						<?php
+					  }
+				  ?>
+			  </select>&nbsp;&nbsp;&nbsp;
             	<strong>เลขที่สัญญา : <input type="text" name="con_id" value="<?php  if($con_id == ""){echo check_contract_number($conn);}else{echo $con_id;};?>" id="con_id" class="inpfoder" style="border:0;">&nbsp;&nbsp;เลขที่ FO  :</strong> <span id="contactid"><?php  echo $finfo['fs_id'];?></span>
             </td>
           </tr>

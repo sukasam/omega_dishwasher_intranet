@@ -1461,17 +1461,17 @@ function check_quotation4($conn){
 
 function check_contract_number ($conn){
 	$thdate = substr(date("Y")+543,2);
-	$concheck = "R ".$thdate.date("/m/");
+	$concheck = "RU ".$thdate.date("/m/");
 	
 	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_contract WHERE con_id like '%".$concheck."%' ORDER BY con_id DESC");
 	$num_oder = @mysqli_num_rows($qu_forder);
 	$row_forder = @mysqli_fetch_array($qu_forder);
 	
 	if($row_forder['con_id'] == ""){
-		return "R ".$thdate.date("/m/")."001";
+		return "RU ".$thdate.date("/m/")."001";
 	}else{
 		$num_odersum = $num_oder+1;
-		return "R ".$thdate.date("/m/").sprintf("%03d",$num_odersum);
+		return "RU ".$thdate.date("/m/").sprintf("%03d",$num_odersum);
 	}
 }
 
