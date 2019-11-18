@@ -2802,6 +2802,10 @@ function checkFOInputFix($conn,$fo_id){
 		}
 	}
 	
+	if($rowFO['prowithliquid'] == '2'){
+		$valChk = 0;
+	}
+	
 	return $valChk;
 	
 }

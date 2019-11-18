@@ -559,7 +559,7 @@ function check(frm){
 				<input type="checkbox" name="chkPro[]" value="<?php echo $i;?>" <?php if(@in_array( $i , $con_chkpro)){echo 'checked="checked"';}?>><br>
 			  </td>
 			  <td style="border:1px solid #000000;text-align:left;padding:5;">
-			  <?php echo get_proname($conn,$finfo['cpro'.$i]);?>
+			  <?php echo get_proname($conn,$finfo['cpro'.$i]).' '.get_prodetail($conn,$finfo['cpro'.$i]);?>
 			  </td>
 			  <td style="border:1px solid #000000;padding:5;text-align:center;" >
 			  <?php echo $finfo['pro_pod'.$i];?>

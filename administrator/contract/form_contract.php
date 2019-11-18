@@ -31,9 +31,10 @@
 	$runPro = 0;
 	for($i=1;$i<=7;$i++){
 		if($finfos['cpro'.$i]){
-			if($finfos['pro_pod'.$i] != ""){$propod = ' รุ่น '.$finfos['pro_pod'.$i];}
-			if($finfos['pro_sn'.$i] != ""){$prosn = ' S/N '.$finfos['pro_sn'.$i];}
-			$listPro .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.'.$i.' '.get_proname($conn,$finfos['cpro'.$i]).$propod.$prosn.' จำนวน '.$finfos['camount'.$i].' '.get_pronamecall($conn,$finfos['cpro'.$i]).'<br>';
+			if($finfos['pro_pod'.$i] != ""){$propod = ' รุ่น '.$finfos['pro_pod'.$i];}else{$propod = '';}			
+			if($finfos['pro_sn'.$i] != ""){$prosn = ' S/N '.$finfos['pro_sn'.$i];}else{$prosn = '';}
+			
+			$listPro .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.'.$i.' '.get_proname($conn,$finfos['cpro'.$i]).' '.get_prodetail($conn,$finfos['cpro'.$i]).$propod.$prosn.' จำนวน '.$finfos['camount'.$i].' '.get_pronamecall($conn,$finfos['cpro'.$i]).'<br>';
 			$runPro++;
 		}
 	}

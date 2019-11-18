@@ -372,10 +372,12 @@ Not vat
 Vat 7%</strong></td>
           </tr>
           <tr>
-            <td style="font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;">&nbsp;</td>
+            <td style="font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>การเลือกรายการสินค้า</strong></td>
           </tr>
           <tr>
-            <td style="font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;">&nbsp;</td>
+            <td style="font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;">
+			  <input name="prowithliquid" type="radio" id="radio" value="1" <?php  if($prowithliquid != '2'){echo 'checked';}?>> สินค้าเท่านั้น &nbsp;&nbsp;&nbsp; <input name="prowithliquid" type="radio" id="radio" value="2" <?php  if($prowithliquid == '2'){echo 'checked';}?> > สินค้ากับน้ำยา
+            </td>
           </tr>
     </table></td>
     <td style="vertical-align:top;">

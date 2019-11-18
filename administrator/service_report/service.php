@@ -209,6 +209,10 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 						$sql .=  $subtext . " ) ";
 					}
 		  
+		  			if($_SESSION["QR_FIELD"] != ""){
+						$sql .= " AND `loc_sn` = '".$_SESSION["QR_FIELD"]."'";
+					}
+		  
 		  			if ($_GET['cus_id'] <> "") {
 						$sql .= " and ( cus_id = '".$_GET['cus_id']."' ";
 						$sql .=  $subtext . " ) ";
