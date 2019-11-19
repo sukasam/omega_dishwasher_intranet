@@ -19,10 +19,10 @@
 	
 	if($_REQUEST['priod'] == 0){
 		$daterriod = " AND `job_open`  between '".$date_fm."' and '".$date_to."'"; 
-		$dateshow = "เริ่มวันที่ : ".format_date($conn,$date_fm)."&nbsp;&nbsp;ถึงวันที่ : ".format_date($conn,$date_to); 
+		$dateshow = "เริ่มวันที่ : ".format_date($date_fm)."&nbsp;&nbsp;ถึงวันที่ : ".format_date($date_to); 
 	}
 	else{
-		$dateshow = "วันที่ค้นหา : ".format_date($conn,date("Y-m-d")); 
+		$dateshow = "วันที่ค้นหา : ".format_date(date("Y-m-d")); 
 	}
 	
 	$condition = "";
@@ -105,7 +105,7 @@
               <?php  if($_REQUEST['sh2'] == 1){?><td><?php  echo $row_fr['loc_name']."<br />".$row_fr['loc_address'];?></td><?php  }?>
               <?php  if($_REQUEST['sh3'] == 1){?><td><?php  echo getcustom_type($conn,$row_fr['sr_ctype2']);?></td><?php  }?>
               <?php  if($_REQUEST['sh4'] == 1){?><td><?php  echo get_servicename($conn,$row_fr['sr_ctype']);?></td><?php  }?>
-              <?php  if($_REQUEST['sh5'] == 1){?><td><?php  echo $row_fr['sv_id'];?> / <?php  echo format_date($conn,$row_fr['job_open']);?></td><?php  }?>
+              <?php  if($_REQUEST['sh5'] == 1){?><td><?php  echo $row_fr['sv_id'];?> / <?php  echo format_date($row_fr['job_open']);?></td><?php  }?>
               <?php  if($_REQUEST['sh6'] == 1 || $_REQUEST['sh7'] == 1){?><td style="padding:0;">
               	<table width="99%" border="0" cellpadding="0" cellspacing="0" class="tbreport" style="margin-bottom:5px;">
                 <?php  

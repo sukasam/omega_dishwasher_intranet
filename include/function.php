@@ -1666,7 +1666,13 @@ function check_serviceman2($conn){
 	}	
 }
 
-function format_date($conn,$value) {
+//function format_date($conn,$value) {
+//	list ($s_year, $s_month, $s_day) = explode("-",$value);
+//	$year=intval($s_year)+543;
+//	return $s_day.'-'.$s_month.'-'.$year;
+//}
+
+function format_date($value) {
 	list ($s_year, $s_month, $s_day) = explode("-",$value);
 	$year=intval($s_year)+543;
 	return $s_day.'-'.$s_month.'-'.$year;
@@ -1791,6 +1797,7 @@ function get_servicereport($conn,$sv_id) {
 	//var_dump($sv_id);
 	return $row_service_report;
 }
+
 
 function get_servicereport2($conn,$sr_id) {
 	$row_service_report = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM  s_service_report WHERE sr_id = '".$sr_id."'"));
@@ -2825,6 +2832,34 @@ function convertDate($date,$fomat){
 	$newDate = date($fomat, strtotime($date));
 	
 	return $newDate;
+}
+
+
+function get_sparpart_id($conn,$gid) {
+	$row_dea = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM  s_group_sparpart WHERE group_id = '".$gid."'"));
+	return $row_dea['group_spar_id'];		
+}
+
+function getStockSpar($conn,$gid){
+	$row_dea = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM  s_group_sparpart WHERE group_id = '".$gid."'"));
+	return $row_dea['group_stock'];	
+}
+
+function check_servicerepair($conn){
+	
+	$thdate = substr(date("Y")+543,2);
+	$concheck = "RO ".$thdate.date("/m/");
+	
+	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_service_report6 WHERE sv_id like '%".$concheck."%' ORDER BY sv_id DESC");
+	$num_oder = @mysqli_num_rows($qu_forder);
+	$row_forder = @mysqli_fetch_array($qu_forder);
+	
+	if($row_forder['sv_id'] == ""){
+		return "RO ".$thdate.date("/m/")."001";
+	}else{
+		$num_odersum = $num_oder+1;
+		return "RO ".$thdate.date("/m/").sprintf("%03d",$num_odersum);
+	}	
 }
 
 ?>

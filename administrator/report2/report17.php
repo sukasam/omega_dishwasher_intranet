@@ -15,10 +15,10 @@
 	
 	if($_REQUEST['priod'] == 0){
 		$daterriod = " AND `detail3`  between '".$date_fm."' and '".$date_to."'"; 
-		$dateshow = "เริ่มวันที่ : ".format_date($conn,$date_fm)."&nbsp;&nbsp;ถึงวันที่ : ".format_date($conn,$date_to); 
+		$dateshow = "เริ่มวันที่ : ".format_date($date_fm)."&nbsp;&nbsp;ถึงวันที่ : ".format_date($date_to); 
 	}
 	else{
-		$dateshow = "วันที่ค้นหา : ".format_date($conn,date("Y-m-d")); 
+		$dateshow = "วันที่ค้นหา : ".format_date(date("Y-m-d")); 
 	}
 	
 	if($loc_contact != ""){

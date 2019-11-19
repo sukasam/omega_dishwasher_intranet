@@ -23,10 +23,10 @@
 		
 	if($_REQUEST['priod'] == 0){
 		$daterriod = " AND `sr_stime`  between '".$date_fm."' and '".$date_to."'"; 
-		$dateshow = "เริ่มวันที่ : ".format_date($conn,$date_fm)."&nbsp;&nbsp;ถึงวันที่ : ".format_date($conn,$date_to); 
+		$dateshow = "เริ่มวันที่ : ".format_date($date_fm)."&nbsp;&nbsp;ถึงวันที่ : ".format_date($date_to); 
 	}
 	else{
-		$dateshow = "วันที่ค้นหา : ".format_date($conn,date("Y-m-d")); 
+		$dateshow = "วันที่ค้นหา : ".format_date(date("Y-m-d")); 
 	}
 	
 	$condition = "";
@@ -300,7 +300,7 @@
 				?>
               </table></td><?php  }?>
               <?php  if($_REQUEST['sh9'] == 1){?><td><?php  echo $row_fr['detail_recom2'];?></td>   <?php  }?>
-              <?php  if($_REQUEST['sh10'] == 1){?><td><?php  if($openclose == 0){echo format_date($conn,$row_fr['sr_stime']);}else if($openclose == 2){echo format_date($conn,$row_fr['sr_stime']);}else{echo "-";}?></td>  <?php  }?>    
+              <?php  if($_REQUEST['sh10'] == 1){?><td><?php  if($openclose == 0){echo format_date($row_fr['sr_stime']);}else if($openclose == 2){echo format_date($row_fr['sr_stime']);}else{echo "-";}?></td>  <?php  }?>    
             </tr>
 			
 			<?php 

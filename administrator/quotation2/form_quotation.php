@@ -106,7 +106,7 @@ $form = '
             <strong>โทรศัพท์ :</strong> '.$_POST["cd_tel"].'<strong>&nbsp;&nbsp;&nbsp;อีเมล์ :</strong> '.$_POST["cd_fax"].'<br /><br />
             <strong>ชื่อผู้ติดต่อ : </strong>'.$_POST["c_contact"].'<strong>&nbsp;&nbsp;&nbsp;เบอร์โทร :</strong> '.$_POST["c_tel"].' </td>
             <td width="43%" valign="top" style="font-size:11px;font-family:Verdana, Geneva, sans-serif;padding:9px 5px;">
-            <strong>วันที่ :</strong> '.format_date($conn,$_POST["date_forder"]).'<br /><br />
+            <strong>วันที่ :</strong> '.format_date($_POST["date_forder"]).'<br /><br />
             <strong>เลขที่เสนอราคา :</strong>'.$_POST["fs_id"].'<br /><br />
             <strong>ประเภทสินค้า :</strong> '.protype_name($conn,$_POST["pro_type"]).'<br /><br />
 			</td>
@@ -291,7 +291,7 @@ $form = '
               <tr>
                 <td style="font-size:11px;font-family:Verdana, Geneva, sans-serif;text-align:center;">
                 <strong>เบอร์โทร '.$_POST["tel_sell"].'</strong>
-                <br><br><strong>วันที่ '.format_date($conn,$_POST["date_sell"]).'</strong></td>
+                <br><br><strong>วันที่ '.format_date($_POST["date_sell"]).'</strong></td>
               </tr>
             </table>
 
@@ -308,7 +308,7 @@ $form = '
               <td style="font-size:11px;font-family:Verdana, Geneva, sans-serif;text-align:center;">
               <strong>เบอร์โทร '.$_POST["tel_hsell"].'</strong>
               <br><br>
-              <strong>วันที่ '.format_date($conn,$_POST["date_hsell"]).'</strong></td>
+              <strong>วันที่ '.format_date($_POST["date_hsell"]).'</strong></td>
               </tr>
             </table>
         </td>
@@ -324,7 +324,7 @@ $form = '
               <td style="font-size:11px;font-family:Verdana, Geneva, sans-serif;text-align:center;">
               <strong>เบอร์โทร '.$_POST["tel_account"].'</strong>
               <br><br>
-              <strong>วันที่ '.format_date($conn,$_POST["date_account"]).'</strong></td>
+              <strong>วันที่ '.format_date($_POST["date_account"]).'</strong></td>
               </tr>
             </table>
         </td>

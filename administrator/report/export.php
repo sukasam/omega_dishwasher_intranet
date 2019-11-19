@@ -116,8 +116,8 @@ while($row_serfirsh = @mysqli_fetch_array($qu_serfirsh)){
 	
 	$worksheet1->write($row_ex, 6, number_format(get_totalprice($conn,$firshoinfo["fo_id"]),2), $right);
 	$worksheet1->write($row_ex, 7, custype_name($conn,$firshoinfo['ctype']), $center);
-	$worksheet1->write($row_ex, 8, "(".format_date($conn,$firshoinfo['date_quf']).") / (".format_date($conn,$firshoinfo['date_qut']).")", $center);
-	$worksheet1->write($row_ex, 9, format_date($conn,$firshoinfo['cs_setting']), $center);
+	$worksheet1->write($row_ex, 8, "(".format_date($firshoinfo['date_quf']).") / (".format_date($firshoinfo['date_qut']).")", $center);
+	$worksheet1->write($row_ex, 9, format_date($firshoinfo['cs_setting']), $center);
 	$worksheet1->write($row_ex, 10, $firshoinfo['loc_shopping'], $left);
 	$worksheet1->write($row_ex, 11, $firshoinfo['loc_name'], $left);
 	$worksheet1->write($row_ex, 12, $firshoinfo['cs_sell'], $left);

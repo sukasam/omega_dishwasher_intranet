@@ -19,7 +19,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>เลือกตามช่วงเวลา ( เริ่มวันที่ : <?php  echo format_date($conn,$date_fm);?>&nbsp;&nbsp;ถึงวันที่ : <?php  echo format_date($conn,$date_to);?> )</title>
+<title>เลือกตามช่วงเวลา ( เริ่มวันที่ : <?php  echo format_date($date_fm);?>&nbsp;&nbsp;ถึงวันที่ : <?php  echo format_date($date_to);?> )</title>
 <style type="text/css">
  .tbreport{
  	font-size:10px;
@@ -43,7 +43,7 @@
 	  <tr>
 	    <th colspan="2" style="text-align:left;font-size:12px;">บริษัท โอเมก้า ดิชวอชเชอร์ (ประเทศไทย) จำกัด<br />
         รายงานตามช่วงเวลา</th>
-	    <th colspan="6" style="text-align:right;font-size:11px;">เริ่มวันที่ : <?php  echo format_date($conn,$date_fm);?>&nbsp;&nbsp;ถึงวันที่ : <?php  echo format_date($conn,$date_to);?></th>
+	    <th colspan="6" style="text-align:right;font-size:11px;">เริ่มวันที่ : <?php  echo format_date($date_fm);?>&nbsp;&nbsp;ถึงวันที่ : <?php  echo format_date($date_to);?></th>
       </tr>
       <tr>
         <th width="15%">ชื่อลูกค้า / บริษัท + เบอร์โทร</th>
@@ -148,7 +148,7 @@
 					}
 				?>
               </table></td>
-              <td style="text-align:right;"><?php  echo format_date($conn,$row_fr['cs_setting']);?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+              <td style="text-align:right;"><?php  echo format_date($row_fr['cs_setting']);?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
               <td><?php  echo get_sale_id($conn,$row_fr['cs_sell']);?></td>
             </tr>
 			<?php 

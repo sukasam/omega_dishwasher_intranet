@@ -36,8 +36,13 @@
 		if ($_POST['mode'] == "add") { 
 		
 			$_POST['detail_recom'] = nl2br($_POST['detail_recom']);
-			$_POST['detail_calpr'] = nl2br($_POST['detail_calpr']);
-			$_POST['detail_calpr'] = nl2br($_POST['detail_calpr']);
+//			$_POST['detail_calpr'] = nl2br($_POST['detail_calpr']);
+//			$_POST['detail_calpr'] = nl2br($_POST['detail_calpr']);
+			
+			$_POST['approve'] = 0;
+			$_POST['supply'] = 0;
+			$_POST['st_setting'] = 0;
+
 			
 			$codes = $_POST['codes'];
 			$lists = $_POST['lists'];
@@ -48,33 +53,24 @@
 			$remains = $_POST['remains'];
 
 			$_POST['sr_stime'] = date ("Y-m-d", strtotime("+7 day", strtotime($_POST['sr_stime'])));  
-			
-			
+
 			$_POST['job_last'] = get_lastservice_s($conn,$_POST['cus_id'],"");
-			
-			foreach ($_POST['ckf_list2'] as $value) {
-				$checklist .= $value.',';
-			}
-			
-			$_POST['ckf_list'] = substr($checklist,0,-1);
-			
-			$_POST['ckf_list'];
 
 			include "../include/m_add.php";
 			
 			$id = mysqli_insert_id($conn);
 			
-			@mysqli_query($conn,"UPDATE `s_service_report` SET `cpro1` = '".$_POST['lists'][0]."', `cpro2` = '".$_POST['lists'][1]."', `cpro3` = '".$_POST['lists'][2]."', `cpro4` = '".$_POST['lists'][3]."', `cpro5` = '".$_POST['lists'][4]."', `camount1` = '".$_POST['opens'][0]."', `camount2` = '".$_POST['opens'][1]."', `camount3` = '".$_POST['opens'][2]."', `camount4` = '".$_POST['opens'][3]."', `camount5` = '".$_POST['opens'][4]."', `cprice1` = '".$_POST['prices'][0]."', `cprice2` = '".$_POST['prices'][1]."', `cprice3` = '".$_POST['prices'][2]."', `cprice4` = '".$_POST['prices'][3]."', `cprice5` = '".$_POST['prices'][4]."' WHERE `sv_id` = '".$_POST['srid']."' LIMIT 1;");
-			
 			foreach($codes as $a => $b){
-				//$BX_NAME[$a]
-				@mysqli_query($conn,"INSERT INTO `s_service_report2sub` (`r_id`, `sr_id`, `codes`, `lists`, `units`, `prices`, `amounts`, `opens`, `remains`) VALUES (NULL, '".$id."', '".$codes[$a]."', '".$lists[$a]."', '".$units[$a]."', '".$prices[$a]."', '".$amounts[$a]."', '".$opens[$a]."', '".$remains[$a]."');");
-				$idsp = mysqli_insert_id($conn);
-				@mysqli_query($conn,"UPDATE `s_group_sparpart` SET `group_stock` = `group_stock` - '".$opens[$a]."' WHERE `group_id` = '".$lists[$a]."';");
-				@mysqli_query($conn,"UPDATE `s_service_report2sub` SET `amounts` = `amounts` - '".$opens[$a]."' WHERE `r_id` = '".$idsp."';");
+				
+				if($lists[$a] != ""){
+					if($opens[$a] == ""){
+						$opens[$a] = 0;
+					}
+					@mysqli_query($conn,"INSERT INTO `s_service_report2sub` (`r_id`, `sr_id`, `codes`, `lists`, `units`, `prices`, `amounts`, `opens`, `remains`) VALUES (NULL, '".$id."', '".$codes[$a]."', '".$lists[$a]."', '".$units[$a]."', '".$prices[$a]."', '".$amounts[$a]."', '".$opens[$a]."', '".($amounts[$a]-$opens[$a])."');");
+					@mysqli_query($conn,"UPDATE `s_group_sparpart` SET `group_stock` = `group_stock` - '".$opens[$a]."' WHERE `group_id` = '".$lists[$a]."';");
+				}
 			}
 			
-				
 			include_once("../mpdf54/mpdf.php");
 			include_once("form_serviceopen.php");
 			$mpdf=new mPDF('UTF-8'); 
@@ -85,6 +81,7 @@
 			
 			header ("location:../service_report/" . $param); 
 		}
+		
 		if ($_POST['mode'] == "update" ) {
 			
 			$_POST['detail_recom'] = nl2br($_POST['detail_recom']);
@@ -101,40 +98,60 @@
 			$remains = $_POST['remains'];
 			$rid = $_POST['r_id'];
 			
-			foreach ($_POST['ckf_list2'] as $value) {
-				$checklist .= $value.',';
+//			foreach ($_POST['ckf_list2'] as $value) {
+//				$checklist .= $value.',';
+//			}
+//			
+//			$_POST['ckf_list'] = substr($checklist,0,-1);
+//			
+//			$_POST['ckf_list'];
+			
+			$sql2 = "select * from s_service_report2sub where sr_id = '".$_REQUEST[$PK_field]."'";
+			$quPro = @mysqli_query($conn,$sql2);
+			while($rowPro = mysqli_fetch_array($quPro)){
+				@mysqli_query($conn,"UPDATE `s_group_sparpart` SET `group_stock` = `group_stock`+'".$rowPro['opens']."' WHERE `group_id` = '".$rowPro['lists']."';");
 			}
 			
-			$_POST['ckf_list'] = substr($checklist,0,-1);
-			
-			$_POST['ckf_list'];
+			@mysqli_query($conn,"DELETE FROM `s_service_report2sub` WHERE `sr_id` = '".$_REQUEST[$PK_field]."'");
 			 
 			include ("../include/m_update.php");
 			
 			$id = $_REQUEST[$PK_field];		
 			
 
-			@mysqli_query($conn,"UPDATE `s_service_report` SET `cpro1` = '".$_POST['lists'][0]."', `cpro2` = '".$_POST['lists'][1]."', `cpro3` = '".$_POST['lists'][2]."', `cpro4` = '".$_POST['lists'][3]."', `cpro5` = '".$_POST['lists'][4]."', `camount1` = '".$_POST['opens'][0]."', `camount2` = '".$_POST['opens'][1]."', `camount3` = '".$_POST['opens'][2]."', `camount4` = '".$_POST['opens'][3]."', `camount5` = '".$_POST['opens'][4]."', `cprice1` = '".$_POST['prices'][0]."', `cprice2` = '".$_POST['prices'][1]."', `cprice3` = '".$_POST['prices'][2]."', `cprice4` = '".$_POST['prices'][3]."', `cprice5` = '".$_POST['prices'][4]."' WHERE `sv_id` = '".$_POST['srid']."' LIMIT 1;");
-
+//			@mysqli_query($conn,"UPDATE `s_service_report` SET `cpro1` = '".$_POST['lists'][0]."', `cpro2` = '".$_POST['lists'][1]."', `cpro3` = '".$_POST['lists'][2]."', `cpro4` = '".$_POST['lists'][3]."', `cpro5` = '".$_POST['lists'][4]."', `camount1` = '".$_POST['opens'][0]."', `camount2` = '".$_POST['opens'][1]."', `camount3` = '".$_POST['opens'][2]."', `camount4` = '".$_POST['opens'][3]."', `camount5` = '".$_POST['opens'][4]."', `cprice1` = '".$_POST['prices'][0]."', `cprice2` = '".$_POST['prices'][1]."', `cprice3` = '".$_POST['prices'][2]."', `cprice4` = '".$_POST['prices'][3]."', `cprice5` = '".$_POST['prices'][4]."' WHERE `sv_id` = '".$_POST['srid']."' LIMIT 1;");
+//
+//			
+//			foreach($codes as $a => $b){
+//				
+//				$resupdate = get_plusminus($conn,"s_group_sparpart","s_service_report2sub",$rid[$a],$lists[$a]);
+//				
+//				@mysqli_query($conn,"UPDATE `s_service_report2sub` SET `codes` = '".$codes[$a]."', `lists` = '".$lists[$a]."', `units` = '".$units[$a]."', `prices` = '".$prices[$a]."', `opens` = '".$opens[$a]."' WHERE `r_id` =".$rid[$a]."");
+//				
+//				@mysqli_query($conn,"UPDATE `s_group_sparpart` SET `group_stock` = `group_stock` - '".$opens[$a]."' WHERE `group_id` = '".$lists[$a]."';");
+//				
+//				$amount = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM `s_group_sparpart` WHERE `group_id` = '".$lists[$a]."';"));
+//								
+//				@mysqli_query($conn,"UPDATE `s_service_report2sub` SET `amounts` = '".$amount['group_stock']."' WHERE `r_id` = '".$rid[$a]."';");	
+//				
+//				if($opens[$a] == 0){
+//					@mysqli_query($conn,"UPDATE `s_service_report2sub` SET `codes` = '', `lists` = '', `units` = '', `prices` = '', `amounts` = '', `opens` = '', `remains` = '' WHERE `r_id` =".$rid[$a]."");
+//				}
+//						
+//			}	
+//			
 			
 			foreach($codes as $a => $b){
 				
-				$resupdate = get_plusminus($conn,"s_group_sparpart","s_service_report2sub",$rid[$a],$lists[$a]);
-				
-				@mysqli_query($conn,"UPDATE `s_service_report2sub` SET `codes` = '".$codes[$a]."', `lists` = '".$lists[$a]."', `units` = '".$units[$a]."', `prices` = '".$prices[$a]."', `opens` = '".$opens[$a]."' WHERE `r_id` =".$rid[$a]."");
-				
-				@mysqli_query($conn,"UPDATE `s_group_sparpart` SET `group_stock` = `group_stock` - '".$opens[$a]."' WHERE `group_id` = '".$lists[$a]."';");
-				
-				$amount = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM `s_group_sparpart` WHERE `group_id` = '".$lists[$a]."';"));
-								
-				@mysqli_query($conn,"UPDATE `s_service_report2sub` SET `amounts` = '".$amount['group_stock']."' WHERE `r_id` = '".$rid[$a]."';");	
-				
-				if($opens[$a] == 0){
-					@mysqli_query($conn,"UPDATE `s_service_report2sub` SET `codes` = '', `lists` = '', `units` = '', `prices` = '', `amounts` = '', `opens` = '', `remains` = '' WHERE `r_id` =".$rid[$a]."");
+				if($lists[$a] != ""){
+					if($opens[$a] == ""){
+						$opens[$a] = 0;
+					}
+					@mysqli_query($conn,"INSERT INTO `s_service_report2sub` (`r_id`, `sr_id`, `codes`, `lists`, `units`, `prices`, `amounts`, `opens`, `remains`) VALUES (NULL, '".$id."', '".$codes[$a]."', '".$lists[$a]."', '".$units[$a]."', '".$prices[$a]."', '".$amounts[$a]."', '".$opens[$a]."', '".($amounts[$a]-$opens[$a])."');");
+					@mysqli_query($conn,"UPDATE `s_group_sparpart` SET `group_stock` = `group_stock` - '".$opens[$a]."' WHERE `group_id` = '".$lists[$a]."';");
 				}
 						
 			}	
-			
 	
 				
 			include_once("../mpdf54/mpdf.php");
@@ -156,7 +173,7 @@
 		 
 		 $rowSR = mysqli_fetch_array(mysqli_query($conn,"SELECT * FROM s_service_report WHERE sr_id = '".$_GET['srid']."'"));
 		 $finfo = get_firstorder($conn,$rowSR['cus_id']);
-		 
+//		 
 		 $rowSR3 = mysqli_fetch_array(mysqli_query($conn,"SELECT * FROM s_service_report3 WHERE srid = '".$_GET['srid']."'"));
 		 $srid2 = $rowSR3['sv_id'];
 		//echo "MKUNG=".$srid2;
@@ -564,7 +581,8 @@ function check(frm){
         </td>
         <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding-top:10px;padding-bottom:10px;"><input type="hidden" name="r_id[]" value="<?php  echo $brid[$i-1]?>"><input type="text" name="units[]" id="units<?php  echo $i;?>" value="<?php  echo $bunits[$i-1];?>" style="width:100%;text-align:center;" readonly></td>
         <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding-top:10px;padding-bottom:10px;"><input type="text" name="prices[]" id="prices<?php  echo $i;?>" value="<?php  if($bprices[$i-1] != 0){echo $bprices[$i-1];}?>" style="width:100%;text-align:right;" readonly></td>
-        <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding-top:10px;padding-bottom:10px;"><input type="text" name="amounts[]" id="amounts<?php  echo $i;?>" value="<?php  if($bamounts[$i-1] != 0){echo $bamounts[$i-1];}?>" style="width:100%;text-align:right;" readonly></td>
+        <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding-top:10px;padding-bottom:10px;"><input type="text" name="amounts[]" id="amounts<?php  echo $i;?>" value="<?php   
+		echo getStockSpar($conn,$blists[$i-1]);?>" style="width:100%;text-align:right;" readonly></td>
         <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding-top:10px;padding-bottom:10px;"><input type="text" name="opens[]" id="opens<?php  echo $i;?>" value="<?php  if($bopens[$i-1] != 0){echo $bopens[$i-1];}?>" style="width:100%;text-align:right;" onkeypress="return isNumberKey(event)"></td>
         <!--<td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding-top:10px;padding-bottom:10px;"><input type="text" name="remains[]" id="remains<?php  echo $i;?>" value="<?php  if($bremains[$i-1] != 0){echo $bremains[$i-1];}?>" style="width:100%;text-align:right;"></td>
         </tr>-->
@@ -615,7 +633,7 @@ function check(frm){
                 <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>
                   <select name="cs_sell" id="cs_sell" class="inputselect" style="width:50%;">
                     <?php  
-						$qu_custec = @mysqli_query($conn,"SELECT * FROM s_group_technician WHERE 1 AND (group_id = 12 OR group_id = 13)  ORDER BY group_name ASC");
+						$qu_custec = @mysqli_query($conn,"SELECT * FROM s_group_technician WHERE 1 AND (group_id = 11)  ORDER BY group_name ASC");
 						while($row_custec = @mysqli_fetch_array($qu_custec)){
 							?>
                     <option value="<?php  echo $row_custec['group_id'];?>" <?php  if($row_custec['group_id'] == $cs_sell){echo 'selected';}?>><?php  echo $row_custec['group_name']. " (Tel : ".$row_custec['group_tel'].")";?></option>
@@ -679,10 +697,13 @@ function check(frm){
 			post_param($a_param,$a_not_exists); 
 			?>
       <input name="mode" type="hidden" id="mode" value="<?php  echo $_GET['mode'];?>">
+<!--
       <input name="ckl_list" type="hidden" id="ckl_list" value="<?php  echo $ckl_list;?>">
       <input name="ckw_list" type="hidden" id="ckw_list" value="<?php  echo $ckw_list;?>">
       <input name="detail_recom2" type="hidden" id="detail_recom2" value="<?php  echo strip_tags($detail_recom2);?>">
+-->
       
+<!--
       <input name="cpro1" type="hidden" id="cpro1" value="<?php  echo $cpro1;?>">
       <input name="cpro2" type="hidden" id="cpro2" value="<?php  echo $cpro2;?>">
       <input name="cpro3" type="hidden" id="cpro3" value="<?php  echo $cpro3;?>">
@@ -694,7 +715,10 @@ function check(frm){
       <input name="camount3" type="hidden" id="camount3" value="<?php  echo $camount3;?>">
       <input name="camount4" type="hidden" id="camount4" value="<?php  echo $camount4;?>">
       <input name="camount5" type="hidden" id="camount5" value="<?php  echo $camount5;?>">  
+-->
       
+      <input name="approve" type="hidden" id="approve" value="<?php  echo $approve;?>">       
+      <input name="supply" type="hidden" id="supply" value="<?php  echo $supply;?>">       
       <input name="st_setting" type="hidden" id="st_setting" value="<?php  echo $st_setting;?>">         
       <input name="srid" type="hidden" id="srid" value="<?php  echo $_GET['srid'];?>">         
     

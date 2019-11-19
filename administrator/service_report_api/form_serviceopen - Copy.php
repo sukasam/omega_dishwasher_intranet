@@ -240,10 +240,10 @@
 	
 	<div class="bbtxt5">'.get_servicename($conn,$_POST['sr_ctype']).'&nbsp;&nbsp;&nbsp;&nbsp;'.custype_name($conn,$_POST['sr_ctype2']).'</div>
 	<div class="bbtxt6">'.$finfos['fs_id'].'</div>
-	<div class="bbtxt7">'.format_date($conn,$_POST['job_open']).'</div>
-	<div class="bbtxt8">'.format_date($conn,$_POST['job_balance']).'</div>
+	<div class="bbtxt7">'.format_date($_POST['job_open']).'</div>
+	<div class="bbtxt8">'.format_date($_POST['job_balance']).'</div>
 	<div class="bbtxt9">'.$_POST['job_last'].'</div>
-	<div class="bbtxt91">'.format_date($conn,$_POST['sr_stime']).'</div>
+	<div class="bbtxt91">'.format_date($_POST['sr_stime']).'</div>
 	
 	<div class="bx01">'.$finfos['loc_name'].'</div>
 	<div class="bx02">'.$_POST['loc_pro'].'</div>

@@ -20,10 +20,10 @@
 	
 	if($_REQUEST['priod'] == 0){
 		$daterriod = " AND `date_forder`  between '".$date_fm."' and '".$date_to."'"; 
-		$dateshow = "เริ่มวันที่ : ".format_date($conn,$date_fm)."&nbsp;&nbsp;ถึงวันที่ : ".format_date($conn,$date_to); 
+		$dateshow = "เริ่มวันที่ : ".format_date($date_fm)."&nbsp;&nbsp;ถึงวันที่ : ".format_date($date_to); 
 	}
 	else{
-		$dateshow = "วันที่ค้นหา : ".format_date($conn,date("Y-m-d")); 
+		$dateshow = "วันที่ค้นหา : ".format_date(date("Y-m-d")); 
 	}
 	
 	/*if($_REQUEST['use'] == 0){
@@ -193,7 +193,7 @@
 					}
 				?>
               </table></td><?php  }?>
-              <?php  if($_REQUEST['sh9'] == 1){?><td><?php  echo format_date($conn,$row_fr['cs_setting']);?></td><?php  }?>
+              <?php  if($_REQUEST['sh9'] == 1){?><td><?php  echo format_date($row_fr['cs_setting']);?></td><?php  }?>
               <?php  if($_REQUEST['sh10'] == 1){?><td><?php  echo number_format($row_fr['money_garuntree']);
 			  $sumMnGar += $row_fr['money_garuntree']; 
 			  ?></td><?php  }?>

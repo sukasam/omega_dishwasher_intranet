@@ -16,6 +16,8 @@
 		';	
 	}
 
+	$svInfo = get_servicereport2($conn,$_POST['srid']);
+
 	$form = '<style>
 	.bgheader{
 		font-size:10px;
@@ -121,10 +123,10 @@
             <br>
             ประเภทลูกค้า :</strong> '.custype_name($conn,$_POST['sr_ctype2']).' <strong><br />
               <br />
-            </strong><strong>วันที่เบิกอะไหล่  :</strong> '.format_date($conn,$_POST['job_open']).' <strong>&nbsp;&nbsp;เลขที่ใบงาน  :</strong> '.$_POST['srid'].' <strong><br />
+            </strong><strong>วันที่เบิกอะไหล่  :</strong> '.format_date($_POST['job_open']).' <strong>&nbsp;&nbsp;เลขที่ใบงาน  :</strong> '.$svInfo['sv_id'].' <strong><br />
             <br />
-            กำหนดคืนอะไหล่ :</strong> '.format_date($conn,$_POST['job_balance']).' &nbsp;<strong>วันที่คืนอะไหล่ :</strong> '.format_date($conn,$_POST['sr_stime']).'<br /><br />
-            <strong>อ้างอิงใบยืม :</strong> '.$_POST['srid2'].'&nbsp;&nbsp;<strong>วันที่ :</strong> '.format_date($conn,$_POST['ref_date']).'</td>
+            กำหนดคืนอะไหล่ :</strong> '.format_date($_POST['job_balance']).' &nbsp;<strong>วันที่คืนอะไหล่ :</strong> '.format_date($_POST['sr_stime']).'<br /><br />
+            <strong>อ้างอิงใบยืม :</strong> '.$_POST['srid2'].'&nbsp;&nbsp;<strong>วันที่ :</strong> '.format_date($_POST['ref_date']).'</td>
           </tr>
     </table>
 	<br>
@@ -169,8 +171,8 @@
 			<td>'.$codes[$a].'</td>
 			<td>'.get_sparpart_name($conn,$lists[$a]).'</td>
 			<td align="center">'.$units[$a].'</td>
-			<td align="right">'.$prices[$a].'</td>
-			<td align="right">'.$amounts[$a].'</td>
+			<td align="right">'.$prices[$a].'</td>		
+			<td align="right">'.getStockSpar($conn,$lists[$a]).'</td>
 			<td align="right">'.$opens[$a].'</td>
 			</tr>';
 			
@@ -200,7 +202,7 @@
                 <td style="padding-top:10px;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>ช่างเบิก</strong></td>
               </tr>
               <tr>
-                <td style="font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>วันที่ : </strong>'.format_date($conn,$_POST['loc_date2']).'</td>
+                <td style="font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>วันที่ : </strong>'.format_date($_POST['loc_date2']).'</td>
               </tr>
             </table>
         </td>	
@@ -214,7 +216,7 @@
                 <td style="padding-top:10px;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>ผู้จ่ายอะไหล่</strong></td>
               </tr>
               <tr>
-                <td style="font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>วันที่ : </strong>'.format_date($conn,$_POST['sell_date']).'</td>
+                <td style="font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>วันที่ : </strong>'.format_date($_POST['sell_date']).'</td>
               </tr>
             </table>
         </td>
@@ -228,7 +230,7 @@
                 <td style="padding-top:10px;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>ผู้อนุมัติ</strong></td>
               </tr>
               <tr>
-                <td style="font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>วันที่ : </strong>'.format_date($conn,$_POST['loc_date3']).'</td>
+                <td style="font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>วันที่ : </strong>'.format_date($_POST['loc_date3']).'</td>
               </tr>
             </table>
         </td>

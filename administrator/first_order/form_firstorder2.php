@@ -60,7 +60,7 @@ $form = '
             <br />
             <strong>เลขที่ใบเสนอราคา / PO.NO. : </strong>'.$_POST["po_id"].'<br />
             <br />
-            <strong>เลขที่ First order :</strong>'.$_POST["fs_id"].'<strong>&nbsp;&nbsp;&nbsp;&nbsp;วันที่ :</strong> '.format_date($conn,$_POST["date_forder"]).'
+            <strong>เลขที่ First order :</strong>'.$_POST["fs_id"].'<strong>&nbsp;&nbsp;&nbsp;&nbsp;วันที่ :</strong> '.format_date($_POST["date_forder"]).'
 			<br /><br />
             <strong>รหัสลูกค้า : </strong>'.$_POST["cusid"].'
 			</td>
@@ -228,7 +228,7 @@ $form = '
 				  if(($_POST["date_quf"] == date("Y-m-d")) && ($_POST["date_qut"] == date("Y-m-d"))){
 					  $form .= '<strong>วันเริ่มสัญญา : </strong> - <strong>&nbsp;สิ้นสุดสัญญา : </strong> - <br><br>';
 				  }else{
-					  $form .= '<strong>วันเริ่มสัญญา : </strong>'.format_date($conn,$_POST["date_quf"]).' <strong>&nbsp;สิ้นสุดสัญญา : </strong>'.format_date($conn,$_POST["date_qut"]).'
+					  $form .= '<strong>วันเริ่มสัญญา : </strong>'.format_date($_POST["date_quf"]).' <strong>&nbsp;สิ้นสุดสัญญา : </strong>'.format_date($_POST["date_qut"]).'
 			  <br><br>';
 				  }
 
@@ -251,8 +251,8 @@ $form = '
       <td width="50%" style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;padding:6px;"> <strong>โทรศัพท์ : </strong>'.$_POST["cs_tel"].'</td>
     </tr>
     <tr>
-      <td style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;padding:6px;"><strong>วันที่ส่งสินค้า : '.format_date($conn,$_POST["cs_ship"]).'</strong></td>
-      <td style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;padding:6px;"><strong>วันที่ติดตั้งเครื่อง : '.format_date($conn,$_POST["cs_setting"]).'</strong></td>
+      <td style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;padding:6px;"><strong>วันที่ส่งสินค้า : '.format_date($_POST["cs_ship"]).'</strong></td>
+      <td style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;padding:6px;"><strong>วันที่ติดตั้งเครื่อง : '.format_date($_POST["cs_setting"]).'</strong></td>
     </tr>
     <tr>
       <td style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;padding:6px;"><strong>เงินประกัน : '.number_format($money_garuntree,2).'</strong></td>
@@ -342,7 +342,7 @@ $form = '
             สินค้า :</strong> '.protype_name($conn,$_POST["pro_type"]).'<br />
             <br />
             <strong>เลขที่ใบเสนอราคา / PO.NO. : </strong>'.$_POST["po_id"].'<br />
-            <br />            <strong>เลขที่ First order :</strong><strong> </strong>'.$_POST["fs_id"].'<strong>&nbsp;&nbsp;&nbsp;&nbsp;วันที่ :</strong> '.format_date($conn,$_POST["date_forder"]).'<strong></td>
+            <br />            <strong>เลขที่ First order :</strong><strong> </strong>'.$_POST["fs_id"].'<strong>&nbsp;&nbsp;&nbsp;&nbsp;วันที่ :</strong> '.format_date($_POST["date_forder"]).'<strong></td>
           </tr>
 </table>
 

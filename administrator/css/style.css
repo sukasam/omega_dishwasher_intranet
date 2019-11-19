@@ -976,3 +976,6 @@ div.validateresult{background:#FF9; padding:12px; margin:-20px -20px 20px -20px;
 .tblistChk tr td{
 	white-space: nowrap;
 }
+.hide {
+    display: none !important;
+}

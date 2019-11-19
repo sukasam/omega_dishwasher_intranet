@@ -58,7 +58,7 @@ $form = '
             <strong>โทรศัพท์ :</strong> '.$_POST["cd_tel"].'<strong>&nbsp;&nbsp;&nbsp; แฟกซ์ :</strong> '.$_POST["cd_fax"].'<br /><br />
             </td>
             <td width="43%" valign="top" style="font-size:11px;font-family:Verdana, Geneva, sans-serif;padding:9px 5px;">
-            <strong>วันที่ : </strong> '.format_date($conn,$_POST["date_forder"]).'<br /><br />
+            <strong>วันที่ : </strong> '.format_date($_POST["date_forder"]).'<br /><br />
             <strong>เลขที่เสนอราคา : </strong>'.$_POST["fs_id"].'<br /><br />
 			<strong>ชื่อผู้ติดต่อ : </strong>'.$_POST["c_contact"].'<strong>&nbsp;&nbsp;&nbsp;เบอร์โทร :</strong> '.$_POST["c_tel"].' 
             <br /><br />

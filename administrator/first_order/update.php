@@ -462,7 +462,7 @@ Vat 7%</strong></td>
      <select name="pro_sn1" id="pro_sn1" class="inputselect" style="width:80%;">
       		<option value="">กรุณาเลือกรายการ</option>
 		  <?php
-              $qusn1 = @mysqli_query($conn,"SELECT * FROM s_group_sn WHERE group_pod = '".getpod_id($conn,$pro_pod1)."' ORDER BY group_name ASC");
+              $qusn1 = @mysqli_query($conn,"SELECT * FROM s_group_sn WHERE group_pod = '".getpod_id($conn,$pro_pod1)."' ORDER BY group_id ASC");
               while($row_qusn1 = @mysqli_fetch_array($qusn1)){
 				  if(chkSeries($conn,$row_qusn1['group_name'],$_GET['fo_id']) == 0){
 					  ?>
@@ -519,7 +519,7 @@ Vat 7%</strong></td>
       <select name="pro_sn2" id="pro_sn2" class="inputselect" style="width:80%;">
       		<option value="">กรุณาเลือกรายการ</option>
 		  <?php
-              $qusn2 = @mysqli_query($conn,"SELECT * FROM s_group_sn WHERE group_pod = '".getpod_id($conn,$pro_pod2)."' ORDER BY group_name ASC");
+              $qusn2 = @mysqli_query($conn,"SELECT * FROM s_group_sn WHERE group_pod = '".getpod_id($conn,$pro_pod2)."' ORDER BY group_id ASC");
               while($row_qusn2 = @mysqli_fetch_array($qusn2)){
 				  if(chkSeries($conn,$row_qusn2['group_name'],$_GET['fo_id']) == 0){
 					  ?>
@@ -575,7 +575,7 @@ Vat 7%</strong></td>
      <select name="pro_sn3" id="pro_sn3" class="inputselect" style="width:80%;">
       		<option value="">กรุณาเลือกรายการ</option>
 		  <?php
-              $qusn3 = @mysqli_query($conn,"SELECT * FROM s_group_sn WHERE group_pod = '".getpod_id($conn,$pro_pod3)."' ORDER BY group_name ASC");
+              $qusn3 = @mysqli_query($conn,"SELECT * FROM s_group_sn WHERE group_pod = '".getpod_id($conn,$pro_pod3)."' ORDER BY group_id ASC");
               while($row_qusn3 = @mysqli_fetch_array($qusn3)){
 				  if(chkSeries($conn,$row_qusn3['group_name'],$_GET['fo_id']) == 0){
 					  ?>
@@ -630,7 +630,7 @@ Vat 7%</strong></td>
      <select name="pro_sn4" id="pro_sn4" class="inputselect" style="width:80%;">
       		<option value="">กรุณาเลือกรายการ</option>
 		  <?php
-              $qusn4 = @mysqli_query($conn,"SELECT * FROM s_group_sn WHERE group_pod = '".getpod_id($conn,$pro_pod4)."' ORDER BY group_name ASC");
+              $qusn4 = @mysqli_query($conn,"SELECT * FROM s_group_sn WHERE group_pod = '".getpod_id($conn,$pro_pod4)."' ORDER BY group_id ASC");
               while($row_qusn4 = @mysqli_fetch_array($qusn4)){
 				  if(chkSeries($conn,$row_qusn4['group_name'],$_GET['fo_id']) == 0){
 					  ?>
@@ -685,7 +685,7 @@ Vat 7%</strong></td>
      <select name="pro_sn5" id="pro_sn5" class="inputselect" style="width:80%;">
       		<option value="">กรุณาเลือกรายการ</option>
 		  <?php
-              $qusn5 = @mysqli_query($conn,"SELECT * FROM s_group_sn WHERE group_pod = '".getpod_id($conn,$pro_pod5)."' ORDER BY group_name ASC");
+              $qusn5 = @mysqli_query($conn,"SELECT * FROM s_group_sn WHERE group_pod = '".getpod_id($conn,$pro_pod5)."' ORDER BY group_id ASC");
               while($row_qusn5 = @mysqli_fetch_array($qusn5)){
 				 if(chkSeries($conn,$row_qusn5['group_name'],$_GET['fo_id']) == 0){
 					  ?>
@@ -739,7 +739,7 @@ Vat 7%</strong></td>
      <select name="pro_sn6" id="pro_sn6" class="inputselect" style="width:80%;">
       		<option value="">กรุณาเลือกรายการ</option>
 		  <?php
-              $qusn6 = @mysqli_query($conn,"SELECT * FROM s_group_sn WHERE group_pod = '".getpod_id($conn,$pro_pod6)."' ORDER BY group_name ASC");
+              $qusn6 = @mysqli_query($conn,"SELECT * FROM s_group_sn WHERE group_pod = '".getpod_id($conn,$pro_pod6)."' ORDER BY group_id ASC");
               while($row_qusn6 = @mysqli_fetch_array($qusn6)){
 				  if(chkSeries($conn,$row_qusn6['group_name'],$_GET['fo_id']) == 0){
 					  ?>
@@ -794,7 +794,7 @@ Vat 7%</strong></td>
      <select name="pro_sn7" id="pro_sn7" class="inputselect" style="width:80%;">
       		<option value="">กรุณาเลือกรายการ</option>
 		  <?php
-              $qusn7 = @mysqli_query($conn,"SELECT * FROM s_group_sn WHERE group_pod = '".getpod_id($conn,$pro_pod7)."' ORDER BY group_name ASC");
+              $qusn7 = @mysqli_query($conn,"SELECT * FROM s_group_sn WHERE group_pod = '".getpod_id($conn,$pro_pod7)."' ORDER BY group_id ASC");
               while($row_qusn7 = @mysqli_fetch_array($qusn7)){
 				  if(chkSeries($conn,$row_qusn7['group_name'],$_GET['fo_id']) == 0){
 					  ?>

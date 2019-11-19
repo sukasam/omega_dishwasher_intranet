@@ -29,10 +29,10 @@
 	if(($_REQUEST['base1'] != 1 || $_REQUEST['basebox2'] != 1) && ($_REQUEST['base1'] != 2 || $_REQUEST['basebox2'] != 1) && ($_REQUEST['base1'] != 3 || $_REQUEST['basebox2'] != 3) && ($_REQUEST['base1'] != 4 || $_REQUEST['basebox2'] != 3)){
 		if($_REQUEST['priod'] == 0){
 			$daterriod = " AND `date_forder`  between '".$date_fm."' and '".$date_to."'"; 
-			$dateshow = "เริ่มวันที่ : ".format_date($conn,$date_fm)."&nbsp;&nbsp;ถึงวันที่ : ".format_date($conn,$date_to); 
+			$dateshow = "เริ่มวันที่ : ".format_date($date_fm)."&nbsp;&nbsp;ถึงวันที่ : ".format_date($date_to); 
 		}
 		else{
-			$dateshow = "วันที่ค้นหา : ".format_date($conn,date("Y-m-d")); 
+			$dateshow = "วันที่ค้นหา : ".format_date(date("Y-m-d")); 
 		}	
 	}
 	
@@ -402,8 +402,8 @@
 					}
 				?>
               </table></td><?php  }?>
-              <?php  if($_REQUEST['sh8'] == 1){?><td><?php  echo format_date($conn,$row_fr['date_quf']);?></td><?php  }?>
-              <?php  if($_REQUEST['sh9'] == 1){?><td><?php  echo format_date($conn,$row_fr['date_qut']);?></td><?php  }?>
+              <?php  if($_REQUEST['sh8'] == 1){?><td><?php  echo format_date($row_fr['date_quf']);?></td><?php  }?>
+              <?php  if($_REQUEST['sh9'] == 1){?><td><?php  echo format_date($row_fr['date_qut']);?></td><?php  }?>
             </tr>
 			<?php 
 			$sum += 1;	

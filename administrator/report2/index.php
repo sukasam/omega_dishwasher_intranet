@@ -1360,9 +1360,9 @@ S/N
                         <td>
                         <div align="right"><?php 
                         	if($_GET['poi'] == 0){
-								echo $dateshow = "เริ่มวันที่ : ".format_date($conn,$_GET['df'])."&nbsp;&nbsp;ถึงวันที่ : ".format_date($conn,$_GET['dt']); 
+								echo $dateshow = "เริ่มวันที่ : ".format_date($_GET['df'])."&nbsp;&nbsp;ถึงวันที่ : ".format_date($_GET['dt']); 
 							}else{
-								echo $dateshow = "วันที่ค้นหา : ".format_date($conn,date("Y-m-d")); 	
+								echo $dateshow = "วันที่ค้นหา : ".format_date(date("Y-m-d")); 	
 							}
 						?></div>
                         </td>

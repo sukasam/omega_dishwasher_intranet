@@ -15,10 +15,10 @@
 	
 	if($_REQUEST['priod'] == 0){
 		$daterriod = " AND `date_forder`  between '".$date_fm."' and '".$date_to."'"; 
-		$dateshow = "เริ่มวันที่ : ".format_date($conn,$date_fm)."&nbsp;&nbsp;ถึงวันที่ : ".format_date($conn,$date_to); 
+		$dateshow = "เริ่มวันที่ : ".format_date($date_fm)."&nbsp;&nbsp;ถึงวันที่ : ".format_date($date_to); 
 	}
 	else{
-		$dateshow = "วันที่ค้นหา : ".format_date($conn,date("Y-m-d")); 
+		$dateshow = "วันที่ค้นหา : ".format_date(date("Y-m-d")); 
 	}
 	
 	
@@ -155,7 +155,7 @@
 					}
 				?>
               </table></td>
-              <td style="text-align:right;"><?php  echo format_date($conn,$row_fr['cs_setting']);?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+              <td style="text-align:right;"><?php  echo format_date($row_fr['cs_setting']);?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
               <td><?php  echo get_sale_id($conn,$row_fr['cs_sell']);?></td>
             </tr>
 			<?php 

@@ -115,9 +115,9 @@
             <strong>ชื่อผู้ติดต่อ :</strong> '.$finfos['c_contact'].' <strong>&nbsp;&nbsp;&nbsp;&nbsp;เบอร์โทร :</strong> '.$finfos['c_tel'].'</td>
             <td width="43%"><strong>ประเภทบริการลูกค้า :</strong> '.get_servicename($conn,$_POST['sr_ctype']).' <strong><br />
               <br />
-            เลขที่สัญญา  :</strong> '.$finfos['fs_id'].'&nbsp;&nbsp;&nbsp;&nbsp;<strong>วันที่  :</strong> '.format_date($conn,$_POST['job_open']).' <strong>&nbsp;&nbsp;<br />
+            เลขที่สัญญา  :</strong> '.$finfos['fs_id'].'&nbsp;&nbsp;&nbsp;&nbsp;<strong>วันที่  :</strong> '.format_date($_POST['job_open']).' <strong>&nbsp;&nbsp;<br />
             <br />
-            วันที่ติดตั้ง :</strong> '.format_date($conn,$_POST['job_balance']).' &nbsp;&nbsp;&nbsp;&nbsp;<strong>วันที่ส่งงาน  :</strong> '.format_date($conn,$_POST['sr_stime']).'<br /><br><strong>เลขที่ใบงาน :</strong> '.$_POST['srid'].'</td>
+            วันที่ติดตั้ง :</strong> '.format_date($_POST['job_balance']).' &nbsp;&nbsp;&nbsp;&nbsp;<strong>วันที่ส่งงาน  :</strong> '.format_date($_POST['sr_stime']).'<br /><br><strong>เลขที่ใบงาน :</strong> '.$_POST['srid'].'</td>
           </tr>
     </table>	
 	<br>
@@ -200,7 +200,7 @@
                 <td style="padding-top:10px;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>ช่างเบิก</strong></td>
               </tr>
               <tr>
-                <td style="font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>วันที่ : </strong>'.format_date($conn,$_POST['loc_date2']).'</td>
+                <td style="font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>วันที่ : </strong>'.format_date($_POST['loc_date2']).'</td>
               </tr>
             </table>
         </td>	
@@ -214,7 +214,7 @@
                 <td style="padding-top:10px;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>ผู้จ่ายอะไหล่</strong></td>
               </tr>
               <tr>
-                <td style="font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>วันที่ : </strong>'.format_date($conn,$_POST['sell_date']).'</td>
+                <td style="font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>วันที่ : </strong>'.format_date($_POST['sell_date']).'</td>
               </tr>
             </table>
         </td>
@@ -228,7 +228,7 @@
                 <td style="padding-top:10px;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>ผู้อนุมัติ</strong></td>
               </tr>
               <tr>
-                <td style="font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>วันที่ : </strong>'.format_date($conn,$_POST['loc_date3']).'</td>
+                <td style="font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>วันที่ : </strong>'.format_date($_POST['loc_date3']).'</td>
               </tr>
             </table>
         </td>

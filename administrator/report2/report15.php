@@ -20,10 +20,10 @@
 	
 	if($_REQUEST['priod'] == 0){
 		$daterriod = " AND `sr_stime`  between '".$date_fm."' and '".$date_to."'"; 
-		$dateshow = "เริ่มวันที่ : ".format_date($conn,$date_fm)."&nbsp;&nbsp;ถึงวันที่ : ".format_date($conn,$date_to); 
+		$dateshow = "เริ่มวันที่ : ".format_date($date_fm)."&nbsp;&nbsp;ถึงวันที่ : ".format_date($date_to); 
 	}
 	else{
-		$dateshow = "วันที่ดำเนินการ : ".format_date($conn,date("Y-m-d")); 
+		$dateshow = "วันที่ดำเนินการ : ".format_date(date("Y-m-d")); 
 	}
 	
 	$condition = "";
@@ -145,8 +145,8 @@
 				?>
                 </table>
               </td><?php  }?>
-              <?php  if($_REQUEST['sh6'] == 1){?><td style="padding:0;"><?php  echo format_date($conn,$row_fr['job_open']);?></td><?php  }?>
-              <?php  if($_REQUEST['sh7'] == 1){?><td style="padding:0;"><?php  echo format_date($conn,$row_fr['sr_stime']);?></td><?php  }?>
+              <?php  if($_REQUEST['sh6'] == 1){?><td style="padding:0;"><?php  echo format_date($row_fr['job_open']);?></td><?php  }?>
+              <?php  if($_REQUEST['sh7'] == 1){?><td style="padding:0;"><?php  echo format_date($row_fr['sr_stime']);?></td><?php  }?>
               <?php  if($_REQUEST['sh9'] == 1){?><td style="padding:0;"><?php  echo get_technician_id($conn,$row_fr['loc_contact']);?></td><?php  }?>
             </tr>
 			<?php 
