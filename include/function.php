@@ -2769,7 +2769,7 @@ function get_firstorder_qr($conn,$sn) {
 	
 	//AND `status_use` != '2' ดาวแดง
 	
-	$row_first_order = @mysqli_fetch_array(@mysqli_query($conn,"SELECT *  FROM `s_first_order` WHERE 1 AND (`pro_sn1` LIKE '".$sn."' OR `pro_sn1` LIKE '".$sn."' OR `pro_sn2` LIKE '".$sn."' OR `pro_sn3` LIKE '".$sn."' OR `pro_sn4` LIKE '".$sn."' OR `pro_sn5` LIKE '".$sn."' OR `pro_sn6` LIKE '".$sn."' OR `pro_sn7` LIKE '".$sn."') AND `status_use` != '2' ORDER BY `fo_id`  DESC"));
+	$row_first_order = @mysqli_fetch_array(@mysqli_query($conn,"SELECT *  FROM `s_first_order` WHERE 1 AND (`pro_sn1` LIKE '".$sn."%' OR `pro_sn2` LIKE '".$sn."%' OR `pro_sn3` LIKE '".$sn."%' OR `pro_sn4` LIKE '".$sn."%' OR `pro_sn5` LIKE '".$sn."%' OR `pro_sn6` LIKE '".$sn."%' OR `pro_sn7` LIKE '".$sn."%') AND `status_use` != '2' ORDER BY `fo_id`  DESC"));
 	
 	return $row_first_order;
 }
