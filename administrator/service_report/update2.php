@@ -590,6 +590,20 @@ function check(frm){
       <tr>
         <td><div class="setting" id="slapp" style="height: auto;">
           <div class="sc_wrap">
+          
+           <?php  
+				$qu_fix = @mysqli_query($conn,"SELECT * FROM s_group_fix ORDER BY group_name ASC");
+				$numfix = @mysqli_num_rows($qu_fix);
+				$nd = 1;
+				while($row_fix = @mysqli_fetch_array($qu_fix)){
+				?>
+				 <div style="margin-bottom: 5px;">
+					<input type="checkbox" name="ckf_list2[]" value="<?php  echo $row_fix['group_id'];?>" id="checkbox<?php  echo $nd;?>" <?php  if(@in_array( $row_fix['group_id'] , $ckf_list )){echo 'checked="checked"';}?>> <?php  echo $row_fix['group_name'];?>
+				 </div>
+				<?php
+				}
+			?>
+<!--
             <ul>
               <?php  
 					 	$qu_fix = @mysqli_query($conn,"SELECT * FROM s_group_fix ORDER BY group_name ASC");
@@ -597,14 +611,16 @@ function check(frm){
 						$nd = 1;
 						while($row_fix = @mysqli_fetch_array($qu_fix)){
 							?>
-              <li>
+              <li class="mmm">
                 <input type="checkbox" name="ckf_list2[]" onClick="CountChecks('listone',5,this,<?php  echo $numfix;?>)" value="<?php  echo $row_fix['group_id'];?>" id="checkbox<?php  echo $nd;?>" <?php  if(@in_array( $row_fix['group_id'] , $ckf_list )){echo 'checked="checked"';}?>>
+               <input type="checkbox" name="ckf_list2[]" value="<?php  echo $row_fix['group_id'];?>" id="checkbox<?php  echo $nd;?>" <?php  if(@in_array( $row_fix['group_id'] , $ckf_list )){echo 'checked="checked"';}?>>
                 <label for="checkbox<?php  echo $nd;?>" style="font-weight:normal;"><?php  echo $row_fix['group_name'];?></label>
               </li>
               <?php 	
 						$nd++;}
 					 ?>
             </ul>
+-->
             <div class="clear"></div>
           </div>
         </div></td>
