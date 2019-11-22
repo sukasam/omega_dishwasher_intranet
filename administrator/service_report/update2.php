@@ -34,7 +34,18 @@
 
 		if ($_POST['mode'] == "update" ) {
 			
-			$_POST['approve'] = 0;
+			if($_POST['approve'] == ""){
+				$_POST['approve'] = 0;
+			}
+			
+			if($_POST['supply'] == ""){
+				$_POST['supply'] = 0;
+			}
+			
+			if($_POST['st_setting'] == ""){
+				$_POST['st_setting'] = 0;
+			}
+
 			
 			$_POST['detail_recom'] = nl2br($_POST['detail_recom']);
 			$_POST['detail_recom2'] = nl2br($_POST['detail_recom2']);
@@ -132,7 +143,14 @@
 			$mpdf->Output('../../upload/service_report_close/'.$chaf.'.pdf','F');
 		
 			if($_REQUEST['taget'] == "service"){
-				header ("location:service.php?cus_id=".$_POST['cus_id']); 
+				if($_POST['chkSignature'] != ""){
+					/*signature.php?mode=update&sr_id=<?php echo $_GET['sr_id'];?>&page=<?php echo $_GET['page'];?>&taget=service&cus_id=<?php echo $_GET['cus_id'];?>*/
+					
+					header ("location:signature.php?mode=update&sr_id=".$_POST['sr_id']."&taget=service&cus_id=".$_POST['cus_id']); 
+					
+				}else{
+					header ("location:service.php?cus_id=".$_POST['cus_id']); 
+				}
 			}else{
 				header ("location:index.php?" . $param); 
 			}
@@ -187,10 +205,12 @@
 <LINK rel="stylesheet" type=text/css href="../css/reset.css?v=<?php echo $v;?>" media=screen>
 <LINK rel="stylesheet" type=text/css href="../css/style.css?v=<?php echo $v;?>" media=screen>
 <LINK rel="stylesheet" type=text/css href="../css/invalid.css?v=<?php echo $v;?>" media=screen>
-<SCRIPT type=text/javascript src="../js/jquery-1.3.2.min.js?v=<?php echo $v;?>"></SCRIPT>
+<SCRIPT type=text/javascript src="../js/jquery-1.9.1.min.js?v=<?php echo $v;?>"></SCRIPT>
+<!--
 <SCRIPT type=text/javascript src="../js/simpla.jquery.configuration.js?v=<?php echo $v;?>"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/facebox.js?v=<?php echo $v;?>"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/jquery.wysiwyg.js?v=<?php echo $v;?>"></SCRIPT>
+-->
 <SCRIPT type=text/javascript src="ajax.js?v=<?php echo $v;?>"></SCRIPT>
 <META name=GENERATOR content="MSHTML 8.00.7600.16535">
 
@@ -232,6 +252,12 @@ function check(frm){
 	   }
 	}
 	
+	function checkSignature(){
+		console.log('checkSignature');
+		document.getElementById("chkSignature").value = '1';
+		setTimeout(function(){document.getElementById("form1").submit();}, 1000);
+	}
+	
 </script>
 </HEAD>
 <?php  include ("../../include/function_script.php"); ?>
@@ -258,7 +284,7 @@ function check(frm){
 </DIV></DIV><!-- End .content-box-header -->
 <DIV class=content-box-content>
 <DIV id=tab1 class="tab-content default-tab">
-  <form action="update2.php" method="post" enctype="multipart/form-data" name="form1" id="form1"  onSubmit="return check(this)">
+  <form action="update2.php" method="post" enctype="multipart/form-data" name="form1" id="form1">
     <div class="formArea">
       <fieldset>
       <legend><?php  echo $page_name; ?> </legend>
@@ -736,7 +762,11 @@ function check(frm){
 						echo $hCustomerSignature = '<img src="../../upload/customer/signature/'.$chkHCustomerAP.'" height="50" border="0" />';
 					}else{
 						?>
-						<input type="button" name="Cancel" value=" ลายเช็นผู้รับบริการ " class="button bt_cancel" onClick="window.location='signature.php?mode=update&sr_id=<?php echo $_GET['sr_id'];?>&page=<?php echo $_GET['page'];?>&taget=service&cus_id=<?php echo $_GET['cus_id'];?>';" style="width: 100%;height: 40px;">
+<!--						<input type="button" name="Cancel" value=" ลายเช็นผู้รับบริการ " class="button bt_cancel" onClick="window.location='signature.php?mode=update&sr_id=<?php echo $_GET['sr_id'];?>&page=<?php echo $_GET['page'];?>&taget=service&cus_id=<?php echo $_GET['cus_id'];?>';" style="width: 100%;height: 40px;">-->
+				
+				<input type="button" name="btSignature" value=" ลายเช็นผู้รับบริการ " class="button bt_cancel" onClick="checkSignature();" style="width: 100%;height: 40px;">
+					
+						
 						<?php
 					}
 					
@@ -826,7 +856,8 @@ function check(frm){
       <input name="supply" type="hidden" id="supply" value="<?php  echo $supply;?>">
       <input name="st_setting" type="hidden" id="st_setting" value="<?php  echo $st_setting;?>"> 
       <input name="approve" type="hidden" id="approve" value="<?php  echo $approve;?>">
-      <input name="taget" type="hidden" id="taget" value="<?php  echo $_GET['taget'];?>">     
+      <input name="taget" type="hidden" id="taget" value="<?php  echo $_GET['taget'];?>">  
+      <input name="chkSignature" type="hidden" id="chkSignature" value="">     
 <!--      <input name="cus_id" type="hidden" id="cus_id" value="<?php  echo $_GET['cus_id'];?>">   -->
       <input name="<?php  echo $PK_field;?>" type="hidden" id="<?php  echo $PK_field;?>" value="<?php  echo $_GET[$PK_field];?>">
       <input name="srid" type="hidden" id="mode" value="<?php  echo $row_service2['sr_id'];?>">
