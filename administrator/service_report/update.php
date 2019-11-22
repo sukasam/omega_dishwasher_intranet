@@ -38,7 +38,19 @@
 		}
 
 
-		if ($_POST['mode'] == "add") { 
+		if ($_POST['mode'] == "add") {
+			
+			if($_POST['approve'] == ""){
+				$_POST['approve'] = 0;
+			}
+			
+			if($_POST['supply'] == ""){
+				$_POST['supply'] = 0;
+			}
+			
+			if($_POST['st_setting'] == ""){
+				$_POST['st_setting'] = 0;
+			}
 			
 			if($_POST['sv_id'] == ""){
 				 $_POST['sv_id'] = check_servicereport($conn);
@@ -79,6 +91,18 @@
 			header ("location:index.php?" . $param); 
 		}
 		if ($_POST['mode'] == "update" ) {
+			
+			if($_POST['approve'] == ""){
+				$_POST['approve'] = 0;
+			}
+			
+			if($_POST['supply'] == ""){
+				$_POST['supply'] = 0;
+			}
+			
+			if($_POST['st_setting'] == ""){
+				$_POST['st_setting'] = 0;
+			}
 			
 			$_POST['detail_recom'] = nl2br($_POST['detail_recom']);
 			$_POST['detail_calpr'] = nl2br($_POST['detail_calpr']);
