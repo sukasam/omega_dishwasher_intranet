@@ -64,7 +64,7 @@ function check_select(frm){
     <LI><A class=shortcut-button href="../group_typeproduct_stockin/update.php?mode=add"><SPAN><IMG  alt=icon src="../images/menu/mn_serting22.png"><BR>
     รับเข้าสต๊อคสินค้า</SPAN></A></LI>
     <LI><A class=shortcut-button href="../report2/?mid=16&act=20"><SPAN><IMG  alt=icon src="../images/menu/mn_serting23.png"><BR>
-    รายงานสต็อคสินค้า</SPAN></A></LI>
+    รายงานสต็อค</SPAN></A></LI>
     <?php
 	if ($FR_module <> "") { 
 	$param2 = get_return_param();

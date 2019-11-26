@@ -43,6 +43,17 @@
 		if ($_POST['mode'] == "add") { 
 		
 				$_POST['fs_id'] = get_snfirstorders($conn,$_POST['fs_id']);
+			
+				for($i=1;$i<=7;$i++){
+
+					if($_POST['cpro'.$i] != ""){
+						if($_POST['camount'.$i] == ""){
+							$_POST['camount'.$i] = 0;
+						}
+						
+						@mysqli_query($conn,"UPDATE `s_group_typeproduct` SET `group_stock` = `group_stock` - '".$_POST['camount'.$i]."' WHERE `group_id` = '".$_POST['cpro'.$i]."';");
+					}
+				}	
 				
 				include "../include/m_add.php";
 				$id = mysqli_insert_id($conn);
@@ -58,8 +69,37 @@
 			header ("location:index.php?" . $param); 
 		}
 		if ($_POST['mode'] == "update" ) { 
+			
+				
+				$bpro = $_POST['bpro'];
+				$bpod = $_POST['bpod'];
+				$bamount = $_POST['bamount'];
+			
+				foreach($bpro as $a => $b){
+
+					if($bpro[$a] != ""){
+						if($bamount[$a] == ""){
+							$bamount[$a] = 0;
+						}
+						
+						@mysqli_query($conn,"UPDATE `s_group_typeproduct` SET `group_stock` = `group_stock` + '".$bamount[$a]."' WHERE `group_id` = '".$bpro[$a]."';");
+					}
+				}
+				
 				include ("../include/m_update.php");
-				$id = $_REQUEST[$PK_field];			
+				$id = $_REQUEST[$PK_field];
+			
+			
+				for($i=1;$i<=7;$i++){
+
+					if($_POST['cpro'.$i] != ""){
+						if($_POST['camount'.$i] == ""){
+							$_POST['camount'.$i] = 0;
+						}
+						
+						@mysqli_query($conn,"UPDATE `s_group_typeproduct` SET `group_stock` = `group_stock` - '".$_POST['camount'.$i]."' WHERE `group_id` = '".$_POST['cpro'.$i]."';");
+					}
+				}		
 				
 				include_once("../mpdf54/mpdf.php");
 				include_once("form_firstorder.php");
@@ -327,7 +367,90 @@ function changePod(s1,s2,id,foid){
       
       
     </tr>
-    <tr>
+    
+    
+   <?php
+		
+		$cproTmp = array($cpro1, $cpro2, $cpro3, $cpro4, $cpro5, $cpro6, $cpro7);
+		$cpodTmp = array($pro_pod1, $pro_pod2, $pro_pod3, $pro_pod4, $pro_pod5, $pro_pod6, $pro_pod7);
+		$csnTmp = array($pro_sn1, $pro_sn2, $pro_sn3, $pro_sn4, $pro_sn5, $pro_sn6, $pro_sn7);
+		$camountTmp = array($camount1, $camount2, $camount3, $camount4, $camount5, $camount6, $camount7);
+		$cpriceTmp = array($cprice1, $cprice2, $cprice3, $cprice4, $cprice5, $cprice6, $cprice7);
+	
+		for($i=1;$i<=7;$i++){
+			
+			$bpro[] = $cproTmp[$i-1];
+			$bpod[] = $cpodTmp[$i-1];
+			$bamount[] = $camountTmp[$i-1];
+			
+			?>
+			<tr>
+			  <td style="border:1px solid #000000;padding:5;text-align:center;">
+			  <?php echo $i;?>
+			  <input type="hidden" name="bpro[]" value="<?php  echo $bpro[$i-1];?>">
+			  <input type="hidden" name="bpod[]" value="<?php  echo $bpod[$i-1];?>">
+			  <input type="hidden" name="bamount[]" value="<?php  echo $bamount[$i-1];?>">
+			  </td>
+			  <td style="border:1px solid #000000;text-align:left;padding:5;">
+			  <select name="cpro<?php echo $i;?>" id="cpro<?php echo $i;?>" class="inputselect" style="width:90%;">
+					<option value="">กรุณาเลือกรายการ</option>
+				  <?php
+					  $qupro1 = @mysqli_query($conn,"SELECT * FROM s_group_typeproduct ORDER BY group_name ASC");
+					  while($row_qupro1 = @mysqli_fetch_array($qupro1)){
+						?>
+						  <option value="<?php  echo $row_qupro1['group_id'];?>" <?php  if($cproTmp[$i-1] == $row_qupro1['group_id']){echo 'selected';}?>><?php  echo $row_qupro1['group_name']." ".$row_qupro1['group_detail'];?></option>
+						<?php
+					  }
+				  ?>
+			  </select>
+			  <a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search.php?protype=cpro<?php echo $i;?>');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>
+			  </td>
+			  <td style="border:1px solid #000000;padding:5;text-align:center;" >
+			  <select name="pro_pod<?php echo $i;?>" id="pro_pod<?php echo $i;?>" class="inputselect" style="width:80%;" onchange="changePod('pro_pod<?php echo $i;?>','pro_sn<?php echo $i;?>','<?php echo $i;?>','<?php echo $_GET['fo_id']?>');">
+					<option value="">กรุณาเลือกรายการ</option>
+				  <?php
+					  $qupros1 = @mysqli_query($conn,"SELECT * FROM s_group_pod ORDER BY group_name ASC");
+					  while($row_qupros1 = @mysqli_fetch_array($qupros1)){
+						?>
+						  <option value="<?php  echo $row_qupros1['group_name'];?>" <?php  if($cpodTmp[$i-1] == $row_qupros1['group_name']){echo 'selected';}?>><?php  echo $row_qupros1['group_name'];?></option>
+						<?php
+					  }
+				  ?>
+			  </select><a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search_pod.php?protype=pro_pod<?php echo $i;?>&protype2=pro_sn<?php echo $i;?>&protype3=<?php echo $i;?>&fo_id=<?php echo $_GET['fo_id'];?>');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>
+			  </td>
+			  <td style="border:1px solid #000000;padding:5;text-align:center;white-space: nowrap;" >
+	
+			 <select name="pro_sn<?php echo $i;?>" id="pro_sn<?php echo $i;?>" class="inputselect" style="width:80%;">
+					<option value="">กรุณาเลือกรายการ</option>
+				  <?php
+					  $qusn1 = @mysqli_query($conn,"SELECT * FROM s_group_sn WHERE group_pod = '".getpod_id($conn,$cpodTmp[$i-1])."' ORDER BY group_id ASC");
+					  while($row_qusn1 = @mysqli_fetch_array($qusn1)){
+						  if(chkSeries($conn,$row_qusn1['group_name'],$_GET['fo_id']) == 0){
+							  ?>
+							  <option value="<?php  echo $row_qusn1['group_name'];?>" <?php  if($csnTmp[$i-1] == $row_qusn1['group_name']){echo 'selected';}?>><?php  echo $row_qusn1['group_name'];?></option>
+							<?php 
+						  } 
+					  }
+				  ?>
+			  </select><span id="search_sn<?php echo $i;?>">
+				<a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search_sn.php?protype=pro_sn<?php echo $i;?>&pod=<?php echo getpod_id($conn,$pro_pod1);?>&fo_id=<?php echo $_GET['fo_id'];?>');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>
+			  </span>
+
+			  </td>
+			  <td style="border:1px solid #000000;padding:5;text-align:center;">
+				<input type="text" name="camount<?php echo $i;?>" value="<?php  echo $camountTmp[$i-1];?>" id="camount<?php echo $i;?>" class="inpfoder" style="width:100%;text-align:center;">
+			  </td>
+			  <td style="border:1px solid #000000;padding:5;text-align:center;">
+				<input type="text" name="cprice<?php echo $i;?>" value="<?php  echo $cpriceTmp[$i-1];?>" id="cprice<?php echo $i;?>" class="inpfoder" style="width:100%;text-align:center;">
+			  </td>
+			</tr>
+			<?php
+		}
+	?>
+   	
+   	<?php /*
+	
+	<tr>
       <td style="border:1px solid #000000;padding:5;text-align:center;">1</td>
       <td style="border:1px solid #000000;text-align:left;padding:5;">
       <select name="cpro1" id="cpro1" class="inputselect" style="width:90%;">
@@ -715,6 +838,9 @@ function changePod(s1,s2,id,foid){
       	<input type="text" name="cprice7" value="<?php  echo $cprice7;?>" id="cprice7" class="inpfoder" style="width:100%;text-align:center;">
       </td>
     </tr>
+	
+	*/?> 
+   
     <tr>
       <td colspan="7" style="text-align:left;border:1px solid #000000;padding:5;vertical-align:top;padding-top:15px;"><strong>หมายเหตุ :</strong><br><textarea name="ccomment" id="ccomment" ><?php  echo strip_tags($ccomment);?></textarea><br></td>
     </tr>

@@ -10,6 +10,19 @@
 	if($_GET['action'] == "delete"){
 		$code = Check_Permission($conn,$check_module,$_SESSION["login_id"],"delete");		
 		if ($code == "1") {
+			
+			$rowFO = mysqli_fetch_array(mysqli_query($conn,"SELECT * FROM s_first_order WHERE $PK_field = '".$_GET[$PK_field]."'"));
+			
+			for($i=1;$i<=7;$i++){
+
+				if($rowFO['cpro'.$i] != ""){
+					if($rowFO['camount'.$i] == ""){
+						$rowFO['camount'.$i] = 0;
+					}
+					@mysqli_query($conn,"UPDATE `s_group_typeproduct` SET `group_stock` = `group_stock` + '".$rowFO['camount'.$i]."' WHERE `group_id` = '".$rowFO['cpro'.$i]."';");
+				}
+			}	
+			
 			$sql = "delete from $tbl_name  where $PK_field = '$_GET[$PK_field]'";
 			@mysqli_query($conn,$sql);			
 			header ("location:index.php");
