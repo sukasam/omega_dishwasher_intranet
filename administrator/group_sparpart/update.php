@@ -273,10 +273,12 @@ function submitForm(){
                 <td nowrap class="name">ชื่ออะไหล่</td>
                 <td><input name="group_name" type="text" id="group_name"  value="<?php     echo $group_name; ?>" size="60"></td>
               </tr>
+<!--
               <tr >
                 <td nowrap class="name">สถานที่จัดเก็บ</td>
                 <td><input name="group_location" type="text" id="group_location"  value="<?php     echo $group_location; ?>" size="60"></td>
               </tr>
+-->
 <!--
               <tr >
                 <td nowrap class="name">จำนวน</td>
@@ -287,10 +289,12 @@ function submitForm(){
                 <td><input name="group_price" type="text" id="group_price"  value="<?php     echo $group_price; ?>" size="60"></td>
               </tr>
 -->
+<!--
               <tr>
                 <td nowrap class="name">ชนิดสินค้า</td>
                 <td><input name="group_type" type="text" id="group_type"  value="<?php     echo $group_type; ?>" size="60"></td>
               </tr>
+-->
               <tr>
                 <td nowrap class="name">นาม</td>
                 <td><input name="group_namecall" type="text" id="group_namecall"  value="<?php     echo $group_namecall; ?>" size="60"></td>
@@ -301,10 +305,12 @@ function submitForm(){
                 <td><input name="group_unit_price" type="text" id="group_unit_price"  value="<?php     echo number_format($group_unit_price); ?>" size="60"></td>
               </tr>
               
+<!--
               <tr>
                 <td nowrap class="name">ราคาขาย</td>
                 <td><input name="group_price" type="text" id="group_price"  value="<?php     echo  number_format($group_price); ?>" size="60"></td>
               </tr>
+-->
               
               <tr style="display: none;">
                 <td nowrap class="name">ประเภทอะไหล่</td>

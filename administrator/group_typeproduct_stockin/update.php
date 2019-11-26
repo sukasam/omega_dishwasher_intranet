@@ -30,9 +30,9 @@
 						
 						$cost = $_POST['camount'][$i] * $_POST['cprice'][$i];
 					
-						@mysqli_query($conn,"INSERT INTO `s_group_sparpart_bill_pro` (`id`, `id_bill`, `sparpart_id`, `sparpart_qty`, `sparpart_unit_price`, `sparpart_total`) VALUES (NULL,'".$id."','".$_POST['cpro'][$i]."','".$_POST['camount'][$i]."','".$_POST['cprice'][$i]."','".$cost."');");
+						@mysqli_query($conn,"INSERT INTO `s_group_typeproduct_bill_pro` (`id`, `id_bill`, `sparpart_id`, `sparpart_pod`, `sparpart_qty`, `sparpart_unit_price`, `sparpart_total`) VALUES (NULL,'".$id."','".$_POST['cpro'][$i]."', '".$_POST['cpod'][$i]."','".$_POST['camount'][$i]."','".$_POST['cprice'][$i]."','".$cost."');");
 						
-						@mysqli_query($conn,"UPDATE `s_group_sparpart` SET `group_stock` = `group_stock`+'".$_POST['camount'][$i]."' WHERE `group_id` = '".$_POST['cpro'][$i]."';");
+						@mysqli_query($conn,"UPDATE `s_group_typeproduct` SET `group_stock` = `group_stock`+'".$_POST['camount'][$i]."' WHERE `group_id` = '".$_POST['cpro'][$i]."';");
 					}
 				}
 			
@@ -42,20 +42,20 @@
 			$mpdf->SetAutoFont();
 			$mpdf->WriteHTML($form);
 			$chaf = preg_replace("/\//","-",$id); 
-			$mpdf->Output('../../upload/stockin/'.$chaf.'_sparpart.pdf','F');
+			$mpdf->Output('../../upload/stockin/'.$chaf.'_product.pdf','F');
 				
 			header ("location:index.php?" . $param); 
 		}
 		if ($_POST["mode"] == "update" ) { 
 				
 			
-				$sql2 = "select * from s_group_sparpart_bill_pro where id_bill = '".$_REQUEST[$PK_field]."'";
+				$sql2 = "select * from s_group_typeproduct_bill_pro where id_bill = '".$_REQUEST[$PK_field]."'";
 				$quPro = @mysqli_query($conn,$sql2);
 				while($rowPro = mysqli_fetch_array($quPro)){
-					@mysqli_query($conn,"UPDATE `s_group_sparpart` SET `group_stock` = `group_stock`-'".$rowPro['sparpart_qty']."' WHERE `group_id` = '".$rowPro['sparpart_id']."';");
+					@mysqli_query($conn,"UPDATE `s_group_typeproduct` SET `group_stock` = `group_stock`-'".$rowPro['sparpart_qty']."' WHERE `group_id` = '".$rowPro['sparpart_id']."';");
 				}
 			
-				@mysqli_query($conn,"DELETE FROM `s_group_sparpart_bill_pro` WHERE `id_bill` = '".$_REQUEST[$PK_field]."'");
+				@mysqli_query($conn,"DELETE FROM `s_group_typeproduct_bill_pro` WHERE `id_bill` = '".$_REQUEST[$PK_field]."'");
 			
 				include ("../include/m_update.php");
 				$id = $_REQUEST[$PK_field];	
@@ -67,9 +67,9 @@
 						
 						$cost = $_POST['camount'][$i] * $_POST['cprice'][$i];
 					
-						@mysqli_query($conn,"INSERT INTO `s_group_sparpart_bill_pro` (`id`, `id_bill`, `sparpart_id`, `sparpart_qty`, `sparpart_unit_price`, `sparpart_total`) VALUES (NULL,'".$id."','".$_POST['cpro'][$i]."','".$_POST['camount'][$i]."','".$_POST['cprice'][$i]."','".$cost."');");
+						@mysqli_query($conn,"INSERT INTO `s_group_typeproduct_bill_pro` (`id`, `id_bill`, `sparpart_id`, `sparpart_pod`, `sparpart_qty`, `sparpart_unit_price`, `sparpart_total`) VALUES (NULL,'".$id."','".$_POST['cpro'][$i]."','".$_POST['cpod'][$i]."','".$_POST['camount'][$i]."','".$_POST['cprice'][$i]."','".$cost."');");
 						
-						@mysqli_query($conn,"UPDATE `s_group_sparpart` SET `group_stock` = `group_stock`+'".$_POST['camount'][$i]."' WHERE `group_id` = '".$_POST['cpro'][$i]."';");
+						@mysqli_query($conn,"UPDATE `s_group_typeproduct` SET `group_stock` = `group_stock`+'".$_POST['camount'][$i]."' WHERE `group_id` = '".$_POST['cpro'][$i]."';");
 					}
 				}
 
@@ -79,7 +79,7 @@
 			$mpdf->SetAutoFont();
 			$mpdf->WriteHTML($form);
 			$chaf = preg_replace("/\//","-",$id); 
-			$mpdf->Output('../../upload/stockin/'.$chaf.'_sparpart.pdf','F');
+			$mpdf->Output('../../upload/stockin/'.$chaf.'_product.pdf','F');
 			
 			header ("location:index.php?" . $param); 
 		}
@@ -177,7 +177,14 @@ function changeSpar(key){
 		success: function(data){
 			var obj = JSON.parse(data);
 			if(obj.status === 'yes'){
-				$("#ccode"+key).html(obj.group_spar_id);
+				$("#ccode"+key).html(obj.group_spro_id);
+			}else{
+				$("#ccode"+key).html('');
+				$("#cpod"+key).val('');
+				$("#camount"+key).val('0');
+				$("#cprice"+key).val('0');
+				$("#sumtotal").html('');
+				checkTotal(key);
 			}
 		}
 	});
@@ -192,7 +199,7 @@ function checkTotal(key){
 	console.log(camount);
 	console.log(cprice);
 	console.log(total);
-	
+
 	if(camount == "" || camount == 0){
 		$("#ctotal"+key).html(total);
 	}
@@ -305,7 +312,8 @@ function checkTotal(key){
     <tr>
       <td width="3%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>ลำดับ</strong></td>
       <td width="5%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>Code</strong></td>
-      <td width="30%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>รายการ</strong></td>
+      <td width="20%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>รายการ</strong></td>
+      <td width="10%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>รุ่น</strong></td>
       <td width="10%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>จำนวน</strong></td>
       <td width="11%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>ราคา / ต่อหน่วย</strong></td>
       <td width="11%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>จำนวนเงิน</strong></td>
@@ -315,7 +323,7 @@ function checkTotal(key){
     <tbody id="exp" name="exp">
     <?php    
 		$sub_id = $_GET['sub_id'];
-		$quQry = mysqli_query($conn,"SELECT * FROM `s_group_sparpart_bill_pro` WHERE id_bill = '".$sub_id."' ORDER BY id ASC");
+		$quQry = mysqli_query($conn,"SELECT * FROM `s_group_typeproduct_bill_pro` WHERE id_bill = '".$sub_id."' ORDER BY id ASC");
 		$numRowPro = mysqli_num_rows($quQry);
 		$rowCal = 1;
 		$sumPrice = 0;
@@ -331,7 +339,7 @@ function checkTotal(key){
 				  <select name="cpro[]" id="cpro<?php   echo $rowCal;?>" class="inputselect" style="width:90%;" onchange="changeSpar('<?php   echo $rowCal;?>');">
 						<option value="">กรุณาเลือกรายการ</option>
 						<?php    
-							$qupro1 = @mysqli_query($conn,"SELECT * FROM s_group_sparpart ORDER BY group_name ASC");
+							$qupro1 = @mysqli_query($conn,"SELECT * FROM s_group_typeproduct ORDER BY group_name ASC");
 							while($row_qupro1 = @mysqli_fetch_array($qupro1)){
 							  ?>
 								<option value="<?php     echo $row_qupro1['group_id'];?>" <?php    if($rowPro['cpro'] == $row_qupro1['group_id']){echo 'selected';}?>><?php     echo $row_qupro1['group_name'];?></option>
@@ -339,7 +347,21 @@ function checkTotal(key){
 							}
 					  ?>
 				  </select>
-				  <a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search_spar.php?protype=cpro<?php   echo $rowCal;?>&ccode=ccode<?php   echo $rowCal;?>');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>
+				  <a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search_pros.php?protype=cpro<?php   echo $rowCal;?>&ccode=ccode<?php   echo $rowCal;?>');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>
+				  </td>
+				  <td style="border:1px solid #000000;text-align:left;padding:5;">
+				  <select name="cpod[]" id="cpod<?php echo $rowCal;?>" class="inputselect" style="width:80%;">
+						<option value="">กรุณาเลือกรายการ</option>
+						<?php    
+							$qupro1 = @mysqli_query($conn,"SELECT * FROM s_group_pod ORDER BY group_name ASC");
+							while($row_qupro1 = @mysqli_fetch_array($qupro1)){
+							  ?>
+								<option value="<?php echo $row_qupro1['group_id'];?>" <?php if($rowPro['cpod'] == $row_qupro1['group_id']){echo 'selected';}?>><?php     echo $row_qupro1['group_name'];?></option>
+							  <?php    	
+							}
+					  ?>
+				  </select>
+				  <a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search_pod.php?protype=cpod<?php   echo $rowCal;?>');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>
 				  </td>
 				  <td style="border:1px solid #000000;padding:5;text-align:center;">
 					<input type="text" name="camount[]" value="<?php   echo number_format($rowPro['camount']);?>" id="camount<?php     echo $rowCal;?>" class="inpfoder" style="width:100%;text-align:center;" onkeypress="return isNumberKey(event)" onblur="checkTotal('<?php   echo $rowCal;?>')">
@@ -360,13 +382,13 @@ function checkTotal(key){
 				<tr>
 				  <td style="border:1px solid #000000;padding:5;text-align:center;"><?php   echo $rowCal;?></td>
 				  <td style="border:1px solid #000000;padding:5;text-align:center;" id="ccode<?php   echo $rowCal;?>">
-				  <?php   echo get_sparpart_id($conn,$rowPro['sparpart_id']);?>
+				  <?php   echo get_product_id($conn,$rowPro['sparpart_id']);?>
 				  </td>
 				  <td style="border:1px solid #000000;text-align:left;padding:5;">
 				  <select name="cpro[]" id="cpro<?php     echo $rowCal;?>" class="inputselect" style="width:90%;" onchange="changeSpar('<?php   echo $rowCal;?>');">
 						<option value="">กรุณาเลือกรายการ</option>
 						<?php    
-							$qupro1 = @mysqli_query($conn,"SELECT * FROM s_group_sparpart ORDER BY group_name ASC");
+							$qupro1 = @mysqli_query($conn,"SELECT * FROM s_group_typeproduct ORDER BY group_name ASC");
 							while($row_qupro1 = @mysqli_fetch_array($qupro1)){
 							  ?>
 								<option value="<?php     echo $row_qupro1['group_id'];?>" <?php    if($rowPro['sparpart_id'] == $row_qupro1['group_id']){echo 'selected';}?>><?php     echo $row_qupro1['group_name'];?></option>
@@ -374,10 +396,24 @@ function checkTotal(key){
 							}
 					  ?>
 				  </select>
-				  <a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search_spar.php?protype=cpro<?php   echo $rowCal;?>&ccode=ccode<?php   echo $rowCal;?>');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>
+				  <a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search_pros.php?protype=cpro<?php   echo $rowCal;?>&ccode=ccode<?php   echo $rowCal;?>');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>
+				  </td>
+				  <td style="border:1px solid #000000;text-align:left;padding:5;">
+				  <select name="cpod[]" id="cpod<?php echo $rowCal;?>" class="inputselect" style="width:80%;">
+						<option value="">กรุณาเลือกรายการ</option>
+						<?php    
+							$qupro1 = @mysqli_query($conn,"SELECT * FROM s_group_pod ORDER BY group_name ASC");
+							while($row_qupro1 = @mysqli_fetch_array($qupro1)){
+							  ?>
+								<option value="<?php echo $row_qupro1['group_id'];?>" <?php    if($rowPro['sparpart_pod'] == $row_qupro1['group_id']){echo 'selected';}?>><?php     echo $row_qupro1['group_name'];?></option>
+							  <?php    	
+							}
+					  ?>
+				  </select>
+				  <a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search_pod.php?protype=cpod<?php   echo $rowCal;?>');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>
 				  </td>
 				  <td style="border:1px solid #000000;padding:5;text-align:center;">
-					<input type="text" name="camount[]" value="<?php     echo number_format($rowPro['sparpart_qty']);?>" id="camount<?php     echo $rowCal;?>" class="inpfoder" style="width:100%;text-align:center;" onkeypress="return isNumberKey(event)" onblur="checkTotal('<?php   echo $rowCal;?>')">
+					<input type="text" name="camount[]" value="<?php echo number_format($rowPro['sparpart_qty']);?>" id="camount<?php     echo $rowCal;?>" class="inpfoder" style="width:100%;text-align:center;" onkeypress="return isNumberKey(event)" onblur="checkTotal('<?php   echo $rowCal;?>')">
 				  </td>
 				  <td style="border:1px solid #000000;padding:5;text-align:center;">
 					<input type="text" name="cprice[]" value="<?php     echo number_format($rowPro['sparpart_unit_price']);?>" id="cprice<?php     echo $rowCal;?>" class="inpfoder" style="width:100%;text-align:center;" onkeypress="return isNumberKey(event)" onblur="checkTotal('<?php   echo $rowCal;?>')">
@@ -395,7 +431,7 @@ function checkTotal(key){
     </tbody>
     <input type="text" hidden="hidden" value="<?php   echo $rowCal;?>" id="countexp" name="countexp"/>
     <tr>
-      <td colspan="5" style="text-align: right;border: 1px solid #000000;padding: 5;vertical-align: middle;font-size: 15px;font-weight: bold;">จำนวนเงินรวมทั้งสิ้น</td>
+      <td colspan="6" style="text-align: right;border: 1px solid #000000;padding: 5;vertical-align: middle;font-size: 15px;font-weight: bold;">จำนวนเงินรวมทั้งสิ้น</td>
       <td  style="text-align: left;border: 1px solid #000000;padding: 5;vertical-align: middle;text-align: right;font-size: 15px;font-weight: bold;" id="sumtotal"><?php     echo number_format($sumPrice);?></td>
       
     </tr>
@@ -423,7 +459,14 @@ function checkTotal(key){
 		 			filedMore += '		<option value="">กรุณาเลือกรายการ</option>';
 		 			filedMore += '';
 		 			filedMore += '	</select>';	
-		 			filedMore += '<a href="javascript:void(0);" onClick="windowOpener(\'400\', \'500\', \'\', \'search_spar.php?protype=cpro'+countBox+'&ccode=ccode'+countBox+'\');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>';
+		 			filedMore += ' <a href="javascript:void(0);" onClick="windowOpener(\'400\', \'500\', \'\', \'search_pros.php?protype=cpro'+countBox+'&ccode=ccode'+countBox+'\');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>';
+		 			filedMore += '	</td>';
+		            filedMore += '	<td style="border:1px solid #000000;text-align:left;padding:5;">';
+		 			filedMore += '		<select name="cpod[]" id="cpod'+countBox+'" class="inputselect" style="width:80%;">';
+		 			filedMore += '		<option value="">กรุณาเลือกรายการ</option>';
+		 			filedMore += '';
+		 			filedMore += '	</select>';	
+		 			filedMore += ' <a href="javascript:void(0);" onClick="windowOpener(\'400\', \'500\', \'\', \'search_pod.php?protype=cpod'+countBox+'\');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>';
 		 			filedMore += '	</td>';
       				filedMore += '	<td style="border:1px solid #000000;padding:5;text-align:center;">';
       				filedMore += '		<input type="text" name="camount[]" value="0" id="camount'+countBox+'" class="inpfoder" style="width:100%;text-align:center;" onkeypress="return isNumberKey(event)" onblur="checkTotal(\''+countBox+'\')"></td>';

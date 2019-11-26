@@ -6,8 +6,8 @@
 	$page_name = "รายการสินค้า";
 	$tbl_name = "s_group_typeproduct";
 	$field_confirm_showname= "group_name";
-	$fieldlist = array('group_spro_id','group_name','group_detail','group_namecall','group_unit_price','group_price');
-	$search_key = array('group_spro_id','group_name','group_detail');
+	$fieldlist = array('group_spro_id','group_name','group_detail','group_namecall');
+	$search_key = array('group_spro_id','group_name','group_detail','group_namecall');
 	$pagesize = 50;
 	$pages="user";
 

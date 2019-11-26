@@ -61,7 +61,7 @@ function chkPrint(){
         </TFOOT>
       <TBODY>
         <?php     
-//					if($orderby=="") $orderby = $tbl_name.".group_spar_id";
+//					if($orderby=="") $orderby = $tbl_name.".group_spro_id";
 //					if ($sortby =="") $sortby ="ASC";
 //					
 //				   	$sql = " select *,$tbl_name.create_date as c_date from $tbl_name  where 1 ";
@@ -83,10 +83,10 @@ function chkPrint(){
 //					include ("../include/page_init.php");
 		  
 		  			if($_GET['keyword']){
-						$keyWord = " AND (group_name like '%".$_GET['keyword']."%' OR group_type like '%".$_GET['keyword']."%')";
+						$keyWord = " AND group_spro_id LIKE '%".$_GET['keyword']."%'";
 					}
 
-					$sql = 'select *,s_group_sparpart.create_date as c_date from s_group_sparpart where 1 '.$keyWord.' order by s_group_sparpart.group_spar_id ASC';
+					$sql = 'SELECT * FROM `s_group_typeproduct` WHERE 1 '.$keyWord.' ORDER BY `group_spro_id` ASC';
 		  
 					$query = @mysqli_query($conn,$sql);
 					if($_GET["page"] == "") $_GET["page"] = 1;
@@ -98,7 +98,7 @@ function chkPrint(){
         <TR>
 <!--          <TD><INPUT type=checkbox name="del[]" value="<?php     echo $rec[$PK_field]; ?>" ></TD>-->
           <TD  style="text-align: center;"><span class="text" ><?php     echo sprintf("%04d",$counter); ?></span></TD>
-          <TD style="text-align: center;"><span class="text"><?php     echo $rec["group_spar_id"] ; ?></span></TD>
+          <TD style="text-align: center;"><span class="text"><?php     echo $rec["group_spro_id"] ; ?></span></TD>
           <TD><span class="text"><?php     echo $rec["group_name"] ; ?></span></TD>
           <TD style="text-align: center;"><span class="text"><?php     echo $rec["group_namecall"] ; ?></span></TD>
           <TD style="text-align: center;"><span class="text"><?php     echo number_format($rec["group_stock"]); ?></span></TD>

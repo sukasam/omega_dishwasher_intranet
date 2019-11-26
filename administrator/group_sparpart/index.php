@@ -65,7 +65,7 @@ function check_select(frm){
     รับเข้าสต๊อค</SPAN></A></LI>
     <LI><A class=shortcut-button href="../report2/?mid=16&act=19"><SPAN><IMG  alt=icon src="../images/menu/mn_serting23.png"><BR>
     รายงานสต็อค</SPAN></A></LI>
-    <?php     
+    <?php
 	if ($FR_module <> "") { 
 	$param2 = get_return_param();
 	?>
@@ -79,7 +79,7 @@ function check_select(frm){
 <DIV class=content-box><!-- Start Content Box -->
 <DIV class=content-box-header align="right" style="padding-right:15px;">
 
-<H3 align="left"><?php     echo $check_module; ?></H3>
+<H3 align="left"><?php echo $check_module; ?></H3>
 <br><form name="form1" method="get" action="index.php">
     <input name="keyword" type="text" id="keyword" value="<?php     echo $keyword;?>">
     <input name="Action" type="submit" id="Action" value="ค้นหา">
@@ -103,16 +103,17 @@ function check_select(frm){
       <THEAD>
         <TR>
 <!--          <TH width="4%"><INPUT class=check-all type=checkbox name="ca" value="true" onClick="chkAll(this.form, 'del[]', this.checked)"></TH>-->
-          <TH width="5%"><a>ลำดับ</a></TH>
-          <TH width="10%"><a>รหัสอะไหล่</a></TH>
+          <TH width="5%"><center><a>ลำดับ</a></center></TH>
+          <TH width="10%"><center><a>รหัสอะไหล่</a></center></TH>
           <TH width="20%"><a>ชื่ออะไหล่</a></TH>
-          <TH width="10%"><a>สถานที่จัดเก็บ</a></TH>
-          <TH width="10%"><a>คงเหลือ</a></TH>
-          <TH width="10%"><a>ชนิดสินค้า</a></TH>
-          <TH width="10%"><a>ราคาต้นทุนสินค้า</a></TH>
-          <TH width="10%"><a>รวมราคาต้นทุนสินค้า</a></TH>
-          <TH width="10%"><a>ราคาขาย</a></TH>
-          <TH width="5%"><a>ลบ</a></TH>
+          <TH width="5%"><a>นาม</a></TH>
+<!--          <TH width="10%"><a>สถานที่จัดเก็บ</a></TH>-->
+          <TH width="10%"><center><a>คงเหลือ</a></center></TH>
+<!--          <TH width="10%"><a>ชนิดสินค้า</a></TH>-->
+          <TH width="10%"><center><a>ราคาต้นทุนสินค้า</a></center></TH>
+          <TH width="10%"><center><a>รวมราคาต้นทุนสินค้า</a></center></TH>
+<!--          <TH width="10%"><center><a>ราคาขาย</a></center></TH>-->
+          <TH width="5%"><center><a>ลบ</a></center></TH>
         </TR>
       </THEAD>
       <TFOOT>
@@ -151,12 +152,13 @@ function check_select(frm){
           <TD><span class="text"><?php     echo sprintf("%04d",$counter); ?></span></TD>
           <TD style="text-align: center;"><span class="text"><?php     echo $rec["group_spar_id"] ; ?></span></TD>
           <TD><span class="text"><?php     echo $rec["group_name"] ; ?></span></TD>
-          <TD><span class="text"><?php     echo $rec["group_location"] ; ?></span></TD>
+          <TD><span class="text"><?php     echo $rec["group_namecall"] ; ?></span></TD>
+<!--          <TD><span class="text"><?php     echo $rec["group_location"] ; ?></span></TD>-->
           <TD style="text-align: center;"><span class="text"><?php     echo number_format($rec["group_stock"]); ?></span></TD>
-          <TD style="text-align: center;"><span class="text"><?php     echo $rec["group_type"] ; ?></span></TD>
+<!--          <TD style="text-align: center;"><span class="text"><?php     echo $rec["group_type"] ; ?></span></TD>-->
           <TD style="text-align: right;"><span class="text"><?php     echo number_format($rec["group_unit_price"],2); ?></span></TD>
           <TD style="text-align: right;"><span class="text"><?php     echo number_format($rec["group_stock"]*$rec["group_unit_price"],2) ; ?></span></TD>
-          <TD style="text-align: right;"><span class="text"><?php     echo number_format($rec["group_price"],2); ?></span></TD>
+<!--          <TD style="text-align: right;"><span class="text"><?php     echo number_format($rec["group_price"],2); ?></span></TD>-->
           <TD style="text-align: center;"><A title=Delete  href="#"><IMG alt=Delete src="../images/cross.png" onClick="confirmDelete('?action=delete&<?php     echo $PK_field; ?>=<?php     echo $rec[$PK_field];?>','Group  <?php     echo $rec[$PK_field];?> : <?php     echo $rec["group_name"];?>')"></A></TD>
 
         </TR>  

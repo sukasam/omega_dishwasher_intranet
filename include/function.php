@@ -1839,6 +1839,11 @@ function get_sparpart_name($conn,$gid) {
 	return $row_dea['group_name'];		
 }
 
+function get_product_name($conn,$gid) {
+	$row_dea = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM  s_group_typeproduct WHERE group_id = '".$gid."'"));
+	return $row_dea['group_name'];		
+}
+
 
 function get_servreport($conn,$ymd,$loc,$ctype) {
 	
@@ -2832,6 +2837,11 @@ function convertDate($date,$fomat){
 	$newDate = date($fomat, strtotime($date));
 	
 	return $newDate;
+}
+
+function get_product_id($conn,$gid) {
+	$row_dea = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM  s_group_typeproduct WHERE group_id = '".$gid."'"));
+	return $row_dea['group_spro_id'];		
 }
 
 

@@ -170,6 +170,10 @@ function check_select(frm){
       <strong>รายงานการรับอะไหล่เข้าสต๊อค<br>
       </strong>
       </SPAN></A></LI>
+      <LI><A class=shortcut-button href="../report2/?mid=16&act=20"><SPAN><IMG  alt=icon src="../images/icons/icon-48-category.png"><BR>
+      <strong>รายงานการรับสินค้าเข้าสต๊อค<br>
+      </strong>
+      </SPAN></A></LI>
   </UL>
   <DIV class="clear"></DIV>
 </DIV><!-- End #tab1 -->
@@ -2258,6 +2262,141 @@ S/N
 
             <DIV id=tab1 class="tab-content default-tab"><!-- This is the target div. id must match the href of this div's tab -->
               <form action="report19.php" method="post" name="form1" id="form1" target="_blank" onSubmit="return check3(this)">
+                <div class="formArea">
+                  <fieldset>
+                    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                      <tr>
+
+                        <td><table class="formFields" cellspacing="0" width="100%">
+
+                          <tr>
+
+                            <td nowrap class="name">&nbsp;</td>
+
+                            <td><span class="name">
+
+                              <input name="priod" type="radio" value="0" checked>
+
+                              กำหนดช่วงเวลา&nbsp;
+
+                              <input name="priod" type="radio" value="1">
+
+                              ไม่กำหนดช่วงเวลา</span></td>
+
+                          </tr>
+
+                          <tr>
+
+                            <td width="10%" nowrap class="name">เริ่มวันที่</td>
+
+                            <td width="90%"><input type="text" name="date_fm" readonly value="<?php  echo date("d/m/Y");?>" class="inpfoder"/><script language="JavaScript">new tcal ({'formname': 'form1','controlname': 'date_fm'});</script></td>
+
+                          </tr>
+
+                          <tr>
+
+                            <td width="10%" nowrap class="name">ถึงวันที่</td>
+
+                            <td width="90%"><input type="text" name="date_to" readonly value="<?php  echo date("d/m/Y");?>" class="inpfoder"/><script language="JavaScript">new tcal ({'formname': 'form1','controlname': 'date_to'});</script></td>
+
+                          </tr>
+
+                          <tr>
+
+                            <td nowrap class="name">รายการแสดง</td>
+
+                            <td><input name="sh9" type="checkbox" id="sh9" value="1" checked>
+
+                              วันที่รับเข้า
+
+                              <input name="sh1" type="checkbox" id="sh1" value="1" checked>
+
+                              ผู้จำหน่าย / ส่งสินค้า
+
+                              <input name="sh2" type="checkbox" id="sh2" value="1" checked>
+
+                              ชื่ที่อยู่ /ผู้จำหน่าย / เบอร์โทร
+
+                              <input name="sh3" type="checkbox" id="sh3" value="1" checked>
+
+                              เลขที่บิล
+
+                              <input name="sh4" type="checkbox" id="sh4" value="1" checked>
+
+                              รหัสอะไหล่<br>
+
+
+                              <input name="sh5" type="checkbox" id="sh5" value="1" checked>
+
+							  รายการอะไหล่
+
+							 <input name="sh6" type="checkbox" id="sh6" value="1" checked>
+
+							  ราคาซื้อ
+
+                              <input name="sh7" type="checkbox" id="sh7" value="1" checked>
+
+                              รวมราคาซื้ิอ
+
+                              <input name="sh8" type="checkbox" id="sh8" value="1" checked>
+
+                              ผู้รับสินค้าเข้า
+                              </td>
+
+                          </tr>
+
+
+
+                        </table></td>
+
+                      </tr>
+
+                    </table>
+
+                    </fieldset>
+
+                </div><br>
+
+                <div class="formArea">
+
+                  <input type="submit" name="Submit" value="Submit" class="button">
+
+                </div>
+
+              </form>
+
+            </DIV><!-- End #tab1 -->
+
+            
+
+            
+
+            </DIV><!-- End .content-box-content -->
+
+            </DIV>	
+
+            <?php 
+
+	}
+		  
+if($_GET['act'] == 20){
+
+	?>
+
+		<DIV class=content-box><!-- Start Content Box -->
+
+            <DIV class=content-box-header align="right" style="padding-right:15px;">
+
+            <H3 align="left">เลือกตามการรับสินค้าเข้าสต๊อค</H3>
+
+            <DIV class=clear>
+            
+            </DIV></DIV><!-- End .content-box-header -->
+
+            <DIV class=content-box-content>
+
+            <DIV id=tab1 class="tab-content default-tab"><!-- This is the target div. id must match the href of this div's tab -->
+              <form action="report20.php" method="post" name="form1" id="form1" target="_blank" onSubmit="return check3(this)">
                 <div class="formArea">
                   <fieldset>
                     <table width="100%" cellspacing="0" cellpadding="0" border="0">
