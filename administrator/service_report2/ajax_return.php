@@ -101,6 +101,7 @@
 		$sparval = $_REQUEST['sval'];
 		$qu_spare = @mysqli_query($conn,"SELECT * FROM s_group_sparpart  WHERE  group_id = '".$sparval."'");
 		$row_spare = @mysqli_fetch_array($qu_spare);
+		
 		$res_spare = " ".'|'.$row_spare['group_spar_id'].'|'.$row_spare['group_namecall'].'|'.$row_spare['group_price'].'|'.$row_spare['group_stock'];
 		echo $res_spare;
 	}

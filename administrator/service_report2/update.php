@@ -567,7 +567,7 @@ function check(frm){
         <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding-top:10px;padding-bottom:10px;text-align:center;"><?php  echo $i;?></td>
         <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding-top:10px;padding-bottom:10px;"><input type="text" name="codes[]" id="codes<?php  echo $i;?>" value="<?php  echo $bcodes[$i-1];?>" style="width:100%" readonly></td>
         <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding-top:10px;padding-bottom:10px;">
-        <span id="listss<?php  echo $i;?>"><select name="lists[]" id="lists<?php  echo $i;?>" class="inputselect" style="width:92%" onchange="showspare(this.value,'<?php  echo "codes".$i;?>','<?php  echo "units".$i;?>','<?php  echo "prices".$i;?>','<?php  echo "amounts".$i;?>')">
+        <span id="listss<?php  echo $i;?>"><select name="lists[]" id="lists<?php  echo $i;?>" class="inputselect" style="width:92%" onchange="showspare(this.value,'<?php  echo "codes".$i;?>','<?php  echo "units".$i;?>','<?php  echo "prices".$i;?>','<?php  echo "amounts".$i;?>','<?php  echo "opens".$i;?>')">
         <option value="">กรุณาเลือกรายการอะไหล่</option>
                 <?php 
                 	$qucgspare = @mysqli_query($conn,"SELECT * FROM s_group_sparpart ORDER BY group_name ASC");

@@ -110,7 +110,7 @@ function get_sparpart(pval,resdata){
    xmlHttp.send(null);
 }
 
-function showspare(sval,param1,param2,param3,param4){
+function showspare(sval,param1,param2,param3,param4,param5){
 	var xmlHttp;
    xmlHttp=GetXmlHttpObject(); //Check Support Brownser
    URL = pathLocal+'ajax_return.php?action=getspare&sval='+sval;
@@ -125,6 +125,7 @@ function showspare(sval,param1,param2,param3,param4){
 			document.getElementById(param2).value=ds[2];
 			document.getElementById(param3).value=ds[3];
 			document.getElementById(param4).value=ds[4];
+			document.getElementById(param5).value='';
         } else{
           //document.getElementById(ElementId).innerHTML="<div class='loading'> Loading..</div>" ;
         }
