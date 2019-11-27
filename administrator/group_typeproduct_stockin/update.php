@@ -121,7 +121,7 @@
 -->
 <SCRIPT type=text/javascript src="../js/popup.js"></SCRIPT>
 <SCRIPT type=text/javascript src="ajax.js"></SCRIPT>
-
+<SCRIPT type=text/javascript src="../js/accounting.js"></SCRIPT>
 <script language="JavaScript" src="../Carlender/calendar_us.js"></script>
 <link rel="stylesheet" href="../Carlender/calendar.css">
 
@@ -178,6 +178,11 @@ function changeSpar(key){
 			var obj = JSON.parse(data);
 			if(obj.status === 'yes'){
 				$("#ccode"+key).html(obj.group_spro_id);
+				$("#cpod"+key).val('');
+				$("#camount"+key).val('0');
+				$("#cprice"+key).val('0');
+				$("#ctotal"+key).html('');
+				checkTotal(key);
 			}else{
 				$("#ccode"+key).html('');
 				$("#cpod"+key).val('');
@@ -189,11 +194,10 @@ function changeSpar(key){
 		}
 	});
 }
-	
 function checkTotal(key){
 	//console.log('Sumtotal : '+key);
-	var camount = parseInt($("#camount"+key).val());
-	var cprice = parseInt($("#cprice"+key).val());
+	var camount = parseInt(accounting.unformat($("#camount"+key).val()));
+	var cprice = parseInt(accounting.unformat($("#cprice"+key).val()));
 	var total = 0;
 	
 	console.log(camount);
@@ -201,27 +205,27 @@ function checkTotal(key){
 	console.log(total);
 
 	if(camount == "" || camount == 0){
-		$("#ctotal"+key).html(total);
+		$("#ctotal"+key).html(accounting.formatNumber(total));
 	}
 	
 	if(cprice == "" || cprice == 0){
-		$("#ctotal"+key).html(total);
+		$("#ctotal"+key).html(accounting.formatNumber(total));
 	}
 	
 	if(cprice != 0 && camount != 0){
 		total = parseInt(camount*cprice);
-		$("#ctotal"+key).html(total);
+		$("#ctotal"+key).html(accounting.formatNumber(total));
 	}
 	
 	var rowCal = $("#countexp").val();
 	var sumTotal = 0;
 	for(var i=1;i<rowCal;i++){
-		if($("#camount"+i).val() != "" && $("#cprice"+i).val() != ""){
-			sumTotal = parseInt(sumTotal)+parseInt($("#camount"+i).val()*$("#cprice"+i).val());
+		if(accounting.unformat($("#camount"+i).val()) != "" && accounting.unformat($("#cprice"+i).val()) != ""){
+			sumTotal = parseInt(sumTotal)+parseInt(accounting.unformat($("#camount"+i).val())*accounting.unformat($("#cprice"+i).val()));
 		}
 	}
 	
-	$("#sumtotal").html(sumTotal);
+	$("#sumtotal").html(accounting.formatNumber(sumTotal));
 }
 
 </script>
