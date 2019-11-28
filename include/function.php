@@ -1374,7 +1374,8 @@ function check_firstorder($conn){
 	if($row_forder['fs_id'] == ""){
 		return "FO ".$thdate.date("/m/")."001";
 	}else{
-		$num_odersum = $num_oder+1;
+		//$num_odersum = $num_oder+1;
+		$num_odersum = substr($row_forder['fs_id'],-3)+1;
 		return "FO ".$thdate.date("/m/").sprintf("%03d",$num_odersum);
 	}
 	
@@ -1419,6 +1420,7 @@ function check_quotation2($conn){
 	
 }
 
+
 function check_quotation3($conn){
 	
 	$thdate = substr(date("Y")+543,2);
@@ -1459,6 +1461,25 @@ function check_quotation4($conn){
 	
 }
 
+function check_ordersolution($conn){
+	
+	$thdate = substr(date("Y")+543,2);
+	$concheck = "OS ".$thdate.date("/m/");
+	
+	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_order_solution WHERE fs_id like '%".$concheck."%' ORDER BY fs_id DESC");
+	$num_oder = @mysqli_num_rows($qu_forder);
+	$row_forder = @mysqli_fetch_array($qu_forder);
+
+	if($row_forder['fs_id'] == ""){
+		return "OS ".$thdate.date("/m/")."001";
+	}else{
+		//$num_odersum = $num_oder+1;
+		$num_odersum = substr($row_forder['fs_id'],-3)+1;
+		return "OS ".$thdate.date("/m/").sprintf("%03d",$num_odersum);
+	}
+	
+}
+
 function check_contract_number ($conn){
 	$thdate = substr(date("Y")+543,2);
 	$concheck = "RU ".$thdate.date("/m/");
@@ -1470,7 +1491,8 @@ function check_contract_number ($conn){
 	if($row_forder['con_id'] == ""){
 		return "RU ".$thdate.date("/m/")."001";
 	}else{
-		$num_odersum = $num_oder+1;
+		//$num_odersum = $num_oder+1;
+		$num_odersum = substr($row_forder['con_id'],-3)+1;
 		return "RU ".$thdate.date("/m/").sprintf("%03d",$num_odersum);
 	}
 }
@@ -1486,7 +1508,8 @@ function check_contract2_number ($conn){
 	if($row_forder['con_id'] == ""){
 		return "S ".$thdate.date("/m/")."001";
 	}else{
-		$num_odersum = $num_oder+1;
+		//$num_odersum = $num_oder+1;
+		$num_odersum = substr($row_forder['con_id'],-3)+1;
 		return "S ".$thdate.date("/m/").sprintf("%03d",$num_odersum);
 	}
 }
@@ -1502,7 +1525,8 @@ function check_contract3_number ($conn){
 	if($row_forder['con_id'] == ""){
 		return "ODT ".$thdate.date("/m/")."001";
 	}else{
-		$num_odersum = $num_oder+1;
+		//$num_odersum = $num_oder+1;
+		$num_odersum = substr($row_forder['con_id'],-3)+1;
 		return "ODT ".$thdate.date("/m/").sprintf("%03d",$num_odersum);
 	}
 }
@@ -1521,7 +1545,8 @@ function check_serviceorder($conn){
 	if($row_forder['fs_id'] == ""){
 		return "SV ".$thdate.date("/m/")."001";
 	}else{
-		$num_odersum = $num_oder+1;
+		//$num_odersum = $num_oder+1;
+		$num_odersum = substr($row_forder['fs_id'],-3)+1;
 		return "SV ".$thdate.date("/m/").sprintf("%03d",$num_odersum);
 	}
 	
@@ -1539,7 +1564,8 @@ function check_contactfo($conn){
 	if($row_forder['r_id'] == ""){
 		return "R".$thdate.date("/m/")."001";
 	}else{
-		$num_odersum = $num_oder+1;
+		//$num_odersum = $num_oder+1;
+		$num_odersum = substr($row_forder['r_id'],-3)+1;
 		return "R".$thdate.date("/m/").sprintf("%03d",$num_odersum);
 	}
 	
@@ -1557,7 +1583,8 @@ function check_contact($conn){
 	if($row_forder['r_id'] == ""){
 		return "RV".$thdate.date("/m/")."001";
 	}else{
-		$num_odersum = $num_oder+1;
+		//$num_odersum = $num_oder+1;
+		$num_odersum = substr($row_forder['r_id'],-3)+1;
 		return "RV".$thdate.date("/m/").sprintf("%03d",$num_odersum);
 	}
 	
@@ -1575,7 +1602,8 @@ function check_servicereport($conn){
 	if($row_forder['sv_id'] == ""){
 		return "SR ".$thdate.date("/m/")."001";
 	}else{
-		$num_odersum = $num_oder+1;
+		//$num_odersum = $num_oder+1;
+		$num_odersum = substr($row_forder['sv_id'],-3)+1;
 		return "SR ".$thdate.date("/m/").sprintf("%03d",$num_odersum);
 	}	
 }
@@ -1592,7 +1620,8 @@ function check_servicecard($conn){
 	if($row_forder['sv_id'] == ""){
 		return "SC ".$thdate.date("/m/")."001";
 	}else{
-		$num_odersum = $num_oder+1;
+		//$num_odersum = $num_oder+1;
+		$num_odersum = substr($row_forder['sv_id'],-3)+1;
 		return "SC ".$thdate.date("/m/").sprintf("%03d",$num_odersum);
 	}	
 }
@@ -1609,7 +1638,8 @@ function check_memo($conn){
 	if($row_forder['mo_id'] == ""){
 		return "MO ".$thdate.date("/m/")."001";
 	}else{
-		$num_odersum = $num_oder+1;
+		//$num_odersum = $num_oder+1;
+		$num_odersum = substr($row_forder['mo_id'],-3)+1;
 		return "MO ".$thdate.date("/m/").sprintf("%03d",$num_odersum);
 	}	
 }
@@ -1627,7 +1657,8 @@ function check_servicereportinstall($conn){
 	if($row_forder['sv_id'] == ""){
 		return "IR ".$thdate.date("/m/")."001";
 	}else{
-		$num_odersum = $num_oder+1;
+		//$num_odersum = $num_oder+1;
+		$num_odersum = substr($row_forder['sv_id'],-3)+1;
 		return "IR ".$thdate.date("/m/").sprintf("%03d",$num_odersum);
 	}	
 }
@@ -1644,7 +1675,8 @@ function check_serviceman($conn){
 	if($row_forder['sv_id'] == ""){
 		return "RP ".$thdate.date("/m/")."001";
 	}else{
-		$num_odersum = $num_oder+1;
+		//$num_odersum = $num_oder+1;
+		$num_odersum = substr($row_forder['sv_id'],-3)+1;
 		return "RP ".$thdate.date("/m/").sprintf("%03d",$num_odersum);
 	}	
 }
@@ -1661,7 +1693,8 @@ function check_serviceman2($conn){
 	if($row_forder['sv_id'] == ""){
 		return "LP ".$thdate.date("/m/")."001";
 	}else{
-		$num_odersum = $num_oder+1;
+		//$num_odersum = $num_oder+1;
+		$num_odersum = substr($row_forder['sv_id'],-3)+1;
 		return "LP ".$thdate.date("/m/").sprintf("%03d",$num_odersum);
 	}	
 }
@@ -2867,9 +2900,20 @@ function check_servicerepair($conn){
 	if($row_forder['sv_id'] == ""){
 		return "RO ".$thdate.date("/m/")."001";
 	}else{
-		$num_odersum = $num_oder+1;
+		//$num_odersum = $num_oder+1;
+		$num_odersum = substr($row_forder['sv_id'],-3)+1;
 		return "RO ".$thdate.date("/m/").sprintf("%03d",$num_odersum);
 	}	
+}
+
+function getCustomerTypeSolution($val){
+	if($val == 2){
+		return "เช่ารวมน้ำยา";
+	}else if($val == 3){
+		return "เช่าแยกน้ำยา";
+	}else{
+		return "ลูกค้าน้ำยา";
+	}
 }
 
 ?>
