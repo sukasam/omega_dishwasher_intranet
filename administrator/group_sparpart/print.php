@@ -82,7 +82,7 @@ function chkPrint(){
 //		  
 //					include ("../include/page_init.php");
 		  
-		  			if($_GET['keyword']){
+		  			if($_GET['keyword'] != ""){
 						$keyWord = " AND (group_name like '%".$_GET['keyword']."%' OR group_type like '%".$_GET['keyword']."%')";
 					}
 

@@ -166,16 +166,19 @@ function check_select(frm){
       </TBODY>
     </TABLE>
     <br><br>
+    <div>
+    	<center><a href="print.php?keyword=<?php echo $_GET['keyword'];?>" target="_blank"><input class=button name="btprint" type="button" value="พิมพ์รายการอะไหล่"></a></center>
+    </div>
     <DIV class="bulk-actions align-left">
-            <SELECT name="choose_action" id="choose_action">
+            <!-- <SELECT name="choose_action" id="choose_action">
               <OPTION selected value="">กรุณาเลือก...</OPTION>
               <OPTION value="del">ลบ</OPTION>
-            </SELECT>            
+            </SELECT>             -->
             <?php 
 				$a_not_exists = array();
 				post_param($a_param,$a_not_exists); 
 			?>
-            <input class=button name="Action2" type="submit" id="Action2" value="ตกลง">
+            <!-- <input class=button name="Action2" type="submit" id="Action2" value="ตกลง"> -->
           </DIV> <DIV class=pagination> <?php  include("../include/page_show.php");?> </DIV>
   </form>  
 </DIV><!-- End #tab1 -->

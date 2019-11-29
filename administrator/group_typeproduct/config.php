@@ -1,4 +1,3 @@
-
 <?php 
 	$PK_field = "group_id";
 	//$FR_field = "";
@@ -6,7 +5,7 @@
 	$page_name = "รายการสินค้า";
 	$tbl_name = "s_group_typeproduct";
 	$field_confirm_showname= "group_name";
-	$fieldlist = array('group_spro_id','group_name','group_detail','group_namecall','group_unit_price','group_price');
+	$fieldlist = array('group_spro_id','group_name','group_detail','group_namecall','group_unit_price');
 	$search_key = array('group_spro_id','group_name','group_detail');
 	$pagesize = 50;
 	$pages="user";

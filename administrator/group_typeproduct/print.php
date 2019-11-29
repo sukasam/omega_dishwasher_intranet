@@ -82,7 +82,7 @@ function chkPrint(){
 //		  
 //					include ("../include/page_init.php");
 		  
-		  			if($_GET['keyword']){
+		  			if($_GET['keyword'] != ""){
 						$keyWord = " AND group_spro_id LIKE '%".$_GET['keyword']."%'";
 					}
 
@@ -99,7 +99,7 @@ function chkPrint(){
 <!--          <TD><INPUT type=checkbox name="del[]" value="<?php     echo $rec[$PK_field]; ?>" ></TD>-->
           <TD  style="text-align: center;"><span class="text" ><?php     echo sprintf("%04d",$counter); ?></span></TD>
           <TD style="text-align: center;"><span class="text"><?php     echo $rec["group_spro_id"] ; ?></span></TD>
-          <TD><span class="text"><?php     echo $rec["group_name"] ; ?></span></TD>
+          <TD><span class="text"><?php echo $rec["group_name"] ; ?></span></TD>
           <TD style="text-align: center;"><span class="text"><?php     echo $rec["group_namecall"] ; ?></span></TD>
           <TD style="text-align: center;"><span class="text"><?php     echo number_format($rec["group_stock"]); ?></span></TD>
 <!--          <TD style="text-align: center;"><span class="text"><?php     echo $rec["group_type"] ; ?></span></TD>-->
