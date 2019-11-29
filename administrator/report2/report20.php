@@ -94,7 +94,7 @@
 
 	  <tr>
 
-	    <th colspan="4" style="text-align:left;font-size:12px;">บริษัท โอเมก้า แมชชีนเนอรี่ (1999) จำกัด<br />
+	    <th colspan="4" style="text-align:left;font-size:12px;">บริษัท โอเมก้า ดิชวอชเชอร์ (ประเทศไทย) จำกัด<br />
 
 รายงานการรับสินค้าเข้าสต๊อค</th>
 
