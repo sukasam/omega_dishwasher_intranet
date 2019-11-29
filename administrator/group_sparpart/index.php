@@ -1,16 +1,16 @@
-<?php    
+<?php 
 	include ("../../include/config.php");
 	include ("../../include/connect.php");
 	include ("../../include/function.php");
 	include ("config.php");
-	Check_Permission($conn,$check_module,$_SESSION["login_id"],"read");
-	if ($_GET["page"] == ""){$_REQUEST["page"] = 1;	}
+	Check_Permission($conn,$check_module,$_SESSION['login_id'],"read");
+	if ($_GET['page'] == ""){$_REQUEST['page'] = 1;	}
 	$param = get_param($a_param,$a_not_exists);
 	
-	if($_GET["action"] == "delete"){
+	if($_GET['action'] == "delete"){
 		$code = Check_Permission($conn,$check_module,$_SESSION["login_id"],"delete");		
 		if ($code == "1") {
-			$sql = "delete from $tbl_name  where $PK_field = '".$_GET[$PK_field]."'";
+			$sql = "delete from $tbl_name  where $PK_field = '$_GET[$PK_field]'";
 			@mysqli_query($conn,$sql);			
 			header ("location:index.php");
 		} 
@@ -19,17 +19,15 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML xmlns="http://www.w3.org/1999/xhtml">
 <HEAD>
-<TITLE><?php     echo $s_title;?></TITLE>
+<TITLE><?php  echo $s_title;?></TITLE>
 <META content="text/html; charset=utf-8" http-equiv=Content-Type>
-<LINK rel=stylesheet type=text/css href="../css/reset.css" media=screen>
-<LINK rel=stylesheet type=text/css href="../css/style.css" media=screen>
-<LINK rel=stylesheet type=text/css href="../css/invalid.css" media=screen>
-<SCRIPT type=text/javascript src="../js/jquery-1.9.1.min.js"></SCRIPT>
-<!--
+<LINK rel="stylesheet" type=text/css href="../css/reset.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/style.css" media=screen>
+<LINK rel="stylesheet" type=text/css href="../css/invalid.css" media=screen>
+<SCRIPT type=text/javascript src="../js/jquery-1.3.2.min.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/simpla.jquery.configuration.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/facebox.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/jquery.wysiwyg.js"></SCRIPT>
--->
 <META name=GENERATOR content="MSHTML 8.00.7600.16535">
 <script>
 function confirmDelete(delUrl,text) {
@@ -46,32 +44,32 @@ function check_select(frm){
 }	
 </script>
 </HEAD>
-<?php     include ("../../include/function_script.php"); ?>
+<?php  include ("../../include/function_script.php"); ?>
 <BODY>
 <DIV id=body-wrapper>
-<?php     include("../left.php");?>
+<?php  include("../left.php");?>
 <DIV id=main-content>
 <NOSCRIPT>
 </NOSCRIPT>
-<?php     include('../top.php');?>
-<P id=page-intro><?php     echo $page_name; ?></P>
+<?php  include('../top.php');?>
+<P id=page-intro><?php  echo $page_name; ?></P>
 
 <UL class=shortcut-buttons-set>
-  <LI><A class=shortcut-button href="index.php"><SPAN><IMG  alt=icon src="../images/menu/mn_serting06.png"><BR>
+    <LI><A class=shortcut-button href="index.php"><SPAN><IMG  alt=icon src="../images/menu/mn_serting06.png"><BR>
     สต๊อคอะไหล่</SPAN></A></LI>
-    <LI><A class=shortcut-button href="update.php?mode=add"><SPAN><IMG  alt=icon src="../images/menu/mn_serting21.png"><BR>
-    เพิ่ม/แก้ไข อะไหล่</SPAN></A></LI>
+    <LI><A class=shortcut-button href="update.php?mode=add<?php  if ($param <> "") echo "&".$param; ?>"><SPAN><IMG  alt=icon src="../images/menu/mn_serting21.png"><BR>
+    เพิ่มอะไหล่</SPAN></A></LI>
     <LI><A class=shortcut-button href="../group_sparpart_stockin/update.php?mode=add"><SPAN><IMG  alt=icon src="../images/menu/mn_serting22.png"><BR>
     รับเข้าสต๊อค</SPAN></A></LI>
     <LI><A class=shortcut-button href="../report2/?mid=16&act=19"><SPAN><IMG  alt=icon src="../images/menu/mn_serting23.png"><BR>
     รายงานสต็อค</SPAN></A></LI>
-    <?php
+    <?php  
 	if ($FR_module <> "") { 
 	$param2 = get_return_param();
 	?>
-  <LI><A class=shortcut-button href="../<?php     echo $FR_module; ?>/?<?php     if($param2 <> "") echo $param2;?>"><SPAN><IMG  alt=icon src="../images/btn_back.gif"><BR>
+  <LI><A class=shortcut-button href="../<?php  echo $FR_module; ?>/?<?php  if($param2 <> "") echo $param2;?>"><SPAN><IMG  alt=icon src="../images/btn_back.gif"><BR>
   กลับ</SPAN></A></LI>
-  <?php     }?> 
+  <?php  }?> 
 </UL>
   
   <!-- End .shortcut-buttons-set -->
@@ -79,16 +77,16 @@ function check_select(frm){
 <DIV class=content-box><!-- Start Content Box -->
 <DIV class=content-box-header align="right" style="padding-right:15px;">
 
-<H3 align="left"><?php echo $check_module; ?></H3>
+<H3 align="left"><?php  echo $page_name; ?></H3>
 <br><form name="form1" method="get" action="index.php">
-    <input name="keyword" type="text" id="keyword" value="<?php     echo $keyword;?>">
+    <input name="keyword" type="text" id="keyword" value="<?php  echo $keyword;?>">
     <input name="Action" type="submit" id="Action" value="ค้นหา">
-    <?php    
+    <?php 
 			$a_not_exists = array('keyword');
 			$param2 = get_param($a_param,$a_not_exists);
 			  ?>
-    <a href="index.php?<?php     echo $param2;?>">แสดงทั้งหมด</a>
-    <?php     
+    <a href="index.php?<?php  echo $param2;?>">แสดงทั้งหมด</a>
+    <?php  
 			/*$a_not_exists = array();
 			post_param($a_param,$a_not_exists);*/
 			?>
@@ -99,9 +97,9 @@ function check_select(frm){
 <DIV class=content-box-content>
 <DIV id=tab1 class="tab-content default-tab"><!-- This is the target div. id must match the href of this div's tab -->
   <form name="form2" method="post" action="confirm.php" onSubmit="return check_select(this)">
-    <TABLE class="tbMain">
+    <TABLE>
       <THEAD>
-        <TR>
+      <TR>
 <!--          <TH width="4%"><INPUT class=check-all type=checkbox name="ca" value="true" onClick="chkAll(this.form, 'del[]', this.checked)"></TH>-->
           <TH width="5%"><center><a>ลำดับ</a></center></TH>
           <TH width="10%"><center><a>รหัสอะไหล่</a></center></TH>
@@ -113,25 +111,26 @@ function check_select(frm){
           <TH width="10%"><center><a>ราคาต้นทุนสินค้า</a></center></TH>
           <TH width="10%"><center><a>รวมราคาต้นทุนสินค้า</a></center></TH>
 <!--          <TH width="10%"><center><a>ราคาขาย</a></center></TH>-->
+        <TH width="5%"><center><a>แก้ไข</a></center></TH>
           <TH width="5%"><center><a>ลบ</a></center></TH>
         </TR>
       </THEAD>
       <TFOOT>
         </TFOOT>
       <TBODY>
-        <?php     
-					if($orderby=="") $orderby = $tbl_name.".group_spar_id";
+        <?php  
+					if($orderby=="") $orderby = $tbl_name.".group_name";
 					if ($sortby =="") $sortby ="ASC";
 					
 				   	$sql = " select *,$tbl_name.create_date as c_date from $tbl_name  where 1 ";
 					if ($_GET[$PK_field] <> "") $sql .= " and ($PK_field  = '" . $_GET[$PK_field] . " ' ) ";					
 					if ($_GET[$FR_field] <> "") $sql .= " and ($FR_field  = '" . $_GET[$FR_field] . " ' ) ";					
- 					if ($_GET["keyword"] <> "") { 
-						$sql .= "and ( " .  $PK_field  . " like '%".$_GET["keyword"]."%' ";
+ 					if ($_GET['keyword'] <> "") { 
+						$sql .= "and ( " .  $PK_field  . " like '%".$_GET['keyword']."%' ";
 						if (count ($search_key) > 0) { 
 							$search_text = " and ( " ;
 							foreach ($search_key as $key=>$value) { 
-									$subtext .= "or " . $value  . " like '%" . $_GET["keyword"] . "%'";
+									$subtext .= "or " . $value  . " like '%" . $_GET['keyword'] . "%'";
 							}	
 						}
 						$sql .=  $subtext . " ) ";
@@ -141,13 +140,13 @@ function check_select(frm){
 					include ("../include/page_init.php");
 					//echo $sql;
 					$query = @mysqli_query($conn,$sql);
-					if($_GET["page"] == "") $_GET["page"] = 1;
-					$counter = ($_GET["page"]-1)*$pagesize;
+					if($_GET['page'] == "") $_GET['page'] = 1;
+					$counter = ($_GET['page']-1)*$pagesize;
 					
-					while ($rec = @mysqli_fetch_array ($query)) { 
+					while ($rec = @mysqli_fetch_array($query)) { 
 					$counter++;
 				   ?>
-        <TR>
+         <TR>
 <!--          <TD><INPUT type=checkbox name="del[]" value="<?php     echo $rec[$PK_field]; ?>" ></TD>-->
           <TD><span class="text"><?php     echo sprintf("%04d",$counter); ?></span></TD>
           <TD style="text-align: center;"><span class="text"><?php     echo $rec["group_spar_id"] ; ?></span></TD>
@@ -159,29 +158,25 @@ function check_select(frm){
           <TD style="text-align: right;"><span class="text"><?php     echo number_format($rec["group_unit_price"],2); ?></span></TD>
           <TD style="text-align: right;"><span class="text"><?php     echo number_format($rec["group_stock"]*$rec["group_unit_price"],2) ; ?></span></TD>
 <!--          <TD style="text-align: right;"><span class="text"><?php     echo number_format($rec["group_price"],2); ?></span></TD>-->
+          <TD style="text-align: center;"><A title=Edit href="update.php?mode=update&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field]; if($param <> "") {?>&<?php  echo $param; }?>"><IMG alt=Edit src="../images/pencil.png"></A></TD>
           <TD style="text-align: center;"><A title=Delete  href="#"><IMG alt=Delete src="../images/cross.png" onClick="confirmDelete('?action=delete&<?php     echo $PK_field; ?>=<?php     echo $rec[$PK_field];?>','Group  <?php     echo $rec[$PK_field];?> : <?php     echo $rec["group_name"];?>')"></A></TD>
 
         </TR>  
-		<?php     }?>
+		<?php  }?>
       </TBODY>
     </TABLE>
     <br><br>
-    <div>
-    	<center><a href="print.php?keyword=<?php echo $_GET['keyword'];?>" target="_blank"><input class=button name="btprint" type="button" value="พิมพ์รายการอะไหล่"></a></center>
-    </div>
     <DIV class="bulk-actions align-left">
-<!--
             <SELECT name="choose_action" id="choose_action">
               <OPTION selected value="">กรุณาเลือก...</OPTION>
               <OPTION value="del">ลบ</OPTION>
             </SELECT>            
-
-            <?php    
+            <?php 
 				$a_not_exists = array();
 				post_param($a_param,$a_not_exists); 
 			?>
-            <input class=button name="Action2" type="submit" id="Action2" value="ตกลง">-->
-          </DIV> <DIV class=pagination> <?php     include("../include/page_show.php");?> </DIV>
+            <input class=button name="Action2" type="submit" id="Action2" value="ตกลง">
+          </DIV> <DIV class=pagination> <?php  include("../include/page_show.php");?> </DIV>
   </form>  
 </DIV><!-- End #tab1 -->
 
@@ -193,7 +188,7 @@ function check_select(frm){
 <DIV class=clear></DIV><!-- Start Notifications -->
 <!-- End Notifications -->
 
-<?php     include("../footer.php");?>
+<?php  include("../footer.php");?>
 </DIV><!-- End #main-content -->
 </DIV>
 </BODY>

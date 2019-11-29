@@ -158,8 +158,7 @@ function check_select(frm){
           <TD><span class="text"><?php  echo $rec["group_pro_sn"] ; ?></span></TD>-->
           <TD><!-- Icons -->
             <A title='Series' href="../group_sn/index.php?pod=<?php  echo $rec[$PK_field];?>"><IMG alt=Edit src="../images/icon2/addedit.png" width="25"></A></TD>
-          <TD><!-- Icons -->
-            <A title=Edit href="update.php?mode=update&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field]; if($param <> "") {?>&<?php  echo $param; }?>"><IMG alt=Edit src="../images/pencil.png"></A> <A title=Delete  href="#"></A></TD>
+          <TD><A title=Edit href="update.php?mode=update&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field]; if($param <> "") {?>&<?php  echo $param; }?>"><IMG alt=Edit src="../images/pencil.png"></A> <A title=Delete  href="#"></A></TD>
           <TD><A title=Delete  href="#"><IMG alt=Delete src="../images/cross.png" onClick="confirmDelete('?action=delete&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field];?>','Group  <?php  echo $rec[$PK_field];?> : <?php  echo $rec["group_name"];?>')"></A></TD>
         </TR>  
 		<?php  }?>
