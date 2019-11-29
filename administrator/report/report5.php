@@ -9,7 +9,9 @@
 	
 	if(isset($_GET['pro_pod'])){$_REQUEST['sh1'] = 1;$_REQUEST['sh2'] = 1;$_REQUEST['sh3'] = 1;$_REQUEST['sh4'] = 1;$_REQUEST['sh5'] = 1;$_REQUEST['sh6'] = 1;$_REQUEST['sh7'] = 1;$_REQUEST['sh8'] = 1;$_REQUEST['sh9'] = 1;$_REQUEST['sh10'] = 1;}
 	
+
 	$pro_pod = $_REQUEST['pro_pod'];
+	$pro_sn = $_REQUEST['pro_sn'];
 	$a_sdate=explode("/",$_REQUEST['date_fm']);
 	$date_fm=$a_sdate[2]."-".$a_sdate[1]."-".$a_sdate[0];
 	$a_sdate=explode("/",$_REQUEST['date_to']);
@@ -26,8 +28,13 @@
 	if($pro_pod != ""){
 		$condition = "AND (pro_pod1 LIKE '%".$pro_pod."%' OR pro_pod2 LIKE '%".$pro_pod."%' OR pro_pod3 LIKE '%".$pro_pod."%' OR pro_pod4 LIKE '%".$pro_pod."%' OR pro_pod5 LIKE '%".$pro_pod."%' OR pro_pod6 LIKE '%".$pro_pod."%' OR pro_pod7 LIKE '%".$pro_pod."%')";
 	}
+	if($pro_sn != ""){
+		$condition .= "AND (pro_sn1 LIKE '%".$pro_sn."%' OR pro_sn2 LIKE '%".$pro_sn."%' OR pro_sn3 LIKE '%".$pro_sn."%' OR pro_sn4 LIKE '%".$pro_sn."%' OR pro_sn5 LIKE '%".$pro_sn."%' OR pro_sn6 LIKE '%".$pro_sn."%' OR pro_sn7 LIKE '%".$pro_sn."%')";
+	}
+
 	
-	$codi = " AND status_use = 0";
+	
+	//$codi = " AND status_use = 0";
 	
 	$sql = "SELECT * FROM s_first_order WHERE 1 ".$condition." ".$daterriod." ".$codi." ORDER BY date_forder ASC";
 	

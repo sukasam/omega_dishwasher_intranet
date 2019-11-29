@@ -572,6 +572,10 @@ function check9(frm){
                                       ?>
                                   </select><a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search_pod.php?protype=pro_pod');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a></td>
                           </tr>
+                          <tr >
+                            <td nowrap class="name">S/N เครื่อง</td>
+                            <td><input name="pro_sn" type="text" id="pro_sn"  value="" size="60"></td>
+                          </tr>
                           <tr>
                             <td nowrap class="name">&nbsp;</td>
                             <td><span class="name">
@@ -607,10 +611,10 @@ function check9(frm){
                               <input name="sh9" type="checkbox" id="sh52" value="1" checked>
                               วันที่ติดตั้ง</td>
                           </tr>
-                          <tr>
+                          <!-- <tr>
                             <td nowrap class="name">&nbsp;</td>
                             <td>&nbsp;</td>
-                          </tr>
+                          </tr> -->
                         </table></td>
                       </tr>
                     </table>

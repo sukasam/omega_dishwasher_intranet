@@ -10,6 +10,7 @@
 	if(isset($_GET['pro_pod'])){$_REQUEST['sh1'] = 1;$_REQUEST['sh2'] = 1;$_REQUEST['sh3'] = 1;$_REQUEST['sh4'] = 1;$_REQUEST['sh5'] = 1;$_REQUEST['sh6'] = 1;$_REQUEST['sh7'] = 1;$_REQUEST['sh8'] = 1;$_REQUEST['sh9'] = 1;$_REQUEST['sh10'] = 1;}
 	
 	$pro_pod = $_REQUEST['pro_pod'];
+	$loc_sn = $_REQUEST['loc_sn'];
 	$a_sdate=explode("/",$_REQUEST['date_fm']);
 	$date_fm=$a_sdate[2]."-".$a_sdate[1]."-".$a_sdate[0];
 	$a_sdate=explode("/",$_REQUEST['date_to']);
@@ -23,8 +24,14 @@
 		$dateshow = "วันที่ค้นหา : ".format_date(date("Y-m-d")); 
 	}
 	
+	$condition = '';
+
 	if($pro_pod != ""){
-		$condition = "AND (loc_seal = '".$pro_pod."')";
+		$condition .= "AND (loc_seal = '".$pro_pod."')";
+	}
+
+	if($loc_sn != ""){
+		$condition .= "AND (loc_sn = '".$loc_sn."')";
 	}
 	
 	

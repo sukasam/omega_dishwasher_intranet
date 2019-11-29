@@ -346,7 +346,7 @@ function changePod(s1,s2,id,foid){
            	&nbsp;&nbsp;&nbsp;<strong>Tax/ID :</strong> <input type="text" name="cd_tax" value="<?php  echo $cd_tax;?>" id="cd_tax" class="inpfoder">
            	</td>
             <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>เลขที่ใบเสนอราคา / PO.NO. :</strong> <input type="text" name="po_id" value="<?php  echo $po_id;?>" id="po_id" class="inpfoder">
-            &nbsp;&nbsp;<strong>แผนที่ลูกค้า :</strong><span style="font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;">
+            &nbsp;&nbsp;<strong>แผนที่ลูกค้า (Google Map) :</strong><span style="font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;">
               <input type="text" name="google_map" value="<?php  echo stripslashes($google_map);?>" id="google_map" class="inpfoder" style="width: 220px;">
             </span></strong>
             </td>
