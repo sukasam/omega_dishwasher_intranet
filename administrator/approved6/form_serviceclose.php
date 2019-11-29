@@ -363,7 +363,7 @@
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="ccontact">
 	  <tr>
 	    <td valign="bottom" style="text-align:left;">&nbsp;</td>
-	    <td valign="bottom" style="text-align:right;font-size:15px;"><strong>สายด่วน...งานบริการ 086-319-3766</strong></td>
+	    <td valign="bottom" style="text-align:right;font-size:15px;"><strong>สายด่วน...งานบริการ 063-210-6557</strong></td>
       </tr>
     </table>';
 ?>
