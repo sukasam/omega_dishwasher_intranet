@@ -81,8 +81,11 @@ $form = '
     $sumtotals = 0;
     $sumprice = 0;
 
+    $vowels = array(",");
+
     foreach($_POST['chkCode'] as $a => $b){
       if($_POST['chkAmount'][$a] != "" && $_POST['chkPrice'][$a] != ""){
+        $_POST['chkPrice'][$a] = str_replace($vowels,"",$_POST['chkPrice'][$a]);
         $form .='<tr>
           <td style="border:1px solid #003399;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;">
           '.$nrow.'

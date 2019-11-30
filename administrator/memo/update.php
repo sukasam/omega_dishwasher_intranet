@@ -96,9 +96,8 @@
 			
 			$id = $_REQUEST[$PK_field];			
 			
-			mysqli_query($conn,"UPDATE `s_memo` SET `process` = '0' WHERE `s_memo`.`id` = ".$id.";");
-			
-			@mysqli_query($conn,"DELETE FROM `s_approve` WHERE tag_db = '".$tbl_name."' AND t_id = '".$id."'");
+			 mysqli_query($conn,"UPDATE `s_memo` SET `process` = '0' WHERE `s_memo`.`id` = ".$id.";");
+			 @mysqli_query($conn,"DELETE FROM `s_approve` WHERE tag_db = '".$tbl_name."' AND t_id = '".$id."'");
 				
 			include_once("../mpdf54/mpdf.php");
 			include_once("form_memo.php");
@@ -106,8 +105,15 @@
 			$mpdf->SetAutoFont();
 			$mpdf->SetHTMLHeader('<div><img src="../images/contract_header.jpg"/></div>');
 			$mpdf->SetHTMLFooter('<div><img src="../images/contract_footer.jpg"/></div>');
-			$mpdf->showWatermarkText = true;
-			$mpdf->WriteHTML('<watermarktext content="NOT YET APPROVED" alpha="0.4" />');
+
+			$process = checkProcess($conn,$tbl_name,$PK_field,$id);
+			// echo $tag_db." ".$PK_field." ".$id;
+			// exit();
+			
+			if($process <= '2'){
+				$mpdf->showWatermarkText = true;
+				$mpdf->WriteHTML('<watermarktext content="NOT YET APPROVED" alpha="0.4" />');
+			}
 			$mpdf->WriteHTML($form);
 			$chaf = str_replace("/","-",$_POST['mo_id']); 
 			$mpdf->Output('../../upload/memo/'.$chaf.'.pdf','F');

@@ -41,6 +41,9 @@
         foreach($_POST['chkCode'] as $a => $b){
 				
           if($_POST['chkAmount'][$a] != "" && $_POST['chkPrice'][$a] != ""){
+
+            $_POST['chkPrice'][$a] = str_replace($vowels,"",$_POST['chkPrice'][$a]);
+
             @mysqli_query($conn,"INSERT INTO `s_order_solution_pro` (`id`, `order_id`, `pro_id`, `pro_code`, `pro_amount`, `pro_price`) VALUES (NULL, '".$id."', '".$_POST['chkCode'][$a]."', '".$_POST['chkSproid'][$a]."', '".$_POST['chkAmount'][$a]."', '".$_POST['chkPrice'][$a]."');");
           }
           //echo $a ." ". $b." ".$_POST['chkOrder'][$a]." ".$_POST['chkAmount'][$a]." ".$_POST['chkPrice'][$a]."<br>";
@@ -73,6 +76,7 @@
         foreach($_POST['chkCode'] as $a => $b){
 				
           if($_POST['chkAmount'][$a] != "" && $_POST['chkPrice'][$a] != ""){
+            $_POST['chkPrice'][$a] = str_replace($vowels,"",$_POST['chkPrice'][$a]);
             @mysqli_query($conn,"INSERT INTO `s_order_solution_pro` (`id`, `order_id`, `pro_id`, `pro_code`, `pro_amount`, `pro_price`) VALUES (NULL, '".$id."', '".$_POST['chkCode'][$a]."', '".$_POST['chkSproid'][$a]."', '".$_POST['chkAmount'][$a]."', '".$_POST['chkPrice'][$a]."');");
           }
           //echo $a ." ". $b." ".$_POST['chkOrder'][$a]." ".$_POST['chkAmount'][$a]." ".$_POST['chkPrice'][$a]."<br>";
@@ -287,7 +291,7 @@ function isNumberKey(evt){
        <input type="hidden" name="chkSproid[]" value="<?php echo $rowOrder['group_spro_id'];?>">
       </td>
       <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:left;">
-      <?php echo $rowOrder['group_name'];?>
+      <?php echo $rowOrder['group_name'].' '.$rowOrder['group_detail'];?>
       </td>
       <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;">
         <input type="text" name="chkAmount[]" id="chkAmount<?php echo $nRow-1;?>" value="<?php if(in_array($rowOrder['group_id'], $pro_id)){$key = array_search($rowOrder['group_id'], $pro_id);echo number_format($pro_amount[$key]);}?>" style="text-align:center;" onkeypress="return isNumberKey(event);">
@@ -301,7 +305,8 @@ function isNumberKey(evt){
 
        if(in_array($rowOrder['group_id'], $pro_id)){
          $key = array_search($rowOrder['group_id'], $pro_id);
-         $sumprice =  $sumprice + ($pro_amount[$key]*$pro_price[$key]);
+         $pro_priceR = str_replace($vowels,"",$pro_price[$key]);
+         $sumprice =  $sumprice + ($pro_amount[$key]*$pro_priceR);
         }
         
         $sumpricevat = ($sumprice * 7) / 100;
