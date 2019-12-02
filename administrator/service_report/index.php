@@ -87,8 +87,15 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 <P id=page-intro><?php  echo $page_name; ?></P>
 
 <UL class=shortcut-buttons-set>
-  <LI><A class=shortcut-button href="update.php?mode=add<?php  if ($param <> "") echo "&".$param; ?>"><SPAN><IMG  alt=icon src="../images/pencil_48.png"><BR>
+  
+    <?php
+    if(chkServerFormGen($conn) == 1){
+      ?>
+       <LI><A class=shortcut-button href="update.php?mode=add<?php  if ($param <> "") echo "&".$param; ?>"><SPAN><IMG  alt=icon src="../images/pencil_48.png"><BR>
     เพิ่ม</SPAN></A></LI>
+      <?php
+    }
+  ?>
     <!--<LI><A class=shortcut-button href="../service_report/"><SPAN><IMG  alt=icon src="../images/icons/icon-48-section.png"><BR>
     เปิด - ปิดใบงาน</SPAN></A></LI>
     <LI><A class=shortcut-button href="../service_report2/"><SPAN><IMG  alt=icon src="../images/icons/icon-48-section.png"><BR>

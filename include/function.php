@@ -2916,5 +2916,21 @@ function getCustomerTypeSolution($val){
 	}
 }
 
+function chkServerFormGen($conn){
+	
+	$dateM = date("m");
+	$dateY = date("Y");
+
+	$qu_forder = @mysqli_query($conn,"SELECT * FROM `service_schedule` WHERE `month` = ".$dateM." AND `year` = '".$dateY."' ORDER BY `id` DESC");
+	$num_oder = @mysqli_num_rows($qu_forder);
+
+	if($num_oder >= 1){
+		return 1;
+	}else{
+		return 0;
+	}
+
+}
+
 ?>
 
