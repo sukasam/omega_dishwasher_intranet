@@ -2815,12 +2815,20 @@ function get_firstorder_qr($conn,$sn) {
 function chkSeries($conn,$sn,$foid) {
 	
 //	$sqlSN = "SELECT *  FROM `s_first_order` WHERE 1 AND (`pro_sn1` LIKE '".$sn."' OR `pro_sn1` LIKE '".$sn."' OR `pro_sn2` LIKE '".$sn."' OR `pro_sn3` LIKE '".$sn."' OR `pro_sn4` LIKE '".$sn."' OR `pro_sn5` LIKE '".$sn."' OR `pro_sn6` LIKE '".$sn."' OR `pro_sn7` LIKE '".$sn."') AND `status_use` != '2' AND fo_id != '".$foid."' ORDER BY `fo_id`  DESC";
+	$foInfo  = get_firstorder($conn,$foid);
+	$status_use = $foInfo['status_use'];
+
+	if($status_use != "2" || $status_use != 2){
+		$sqlSN = "SELECT *  FROM `s_first_order` WHERE 1 AND (`pro_sn1` LIKE '".$sn."' OR `pro_sn1` LIKE '".$sn."' OR `pro_sn2` LIKE '".$sn."' OR `pro_sn3` LIKE '".$sn."' OR `pro_sn4` LIKE '".$sn."' OR `pro_sn5` LIKE '".$sn."' OR `pro_sn6` LIKE '".$sn."' OR `pro_sn7` LIKE '".$sn."') AND `status_use` != '2' AND fo_id != '".$foid."' AND `fs_id` NOT LIKE 'SV%' ORDER BY `fo_id`  DESC";
 	
-	$sqlSN = "SELECT *  FROM `s_first_order` WHERE 1 AND (`pro_sn1` LIKE '".$sn."' OR `pro_sn1` LIKE '".$sn."' OR `pro_sn2` LIKE '".$sn."' OR `pro_sn3` LIKE '".$sn."' OR `pro_sn4` LIKE '".$sn."' OR `pro_sn5` LIKE '".$sn."' OR `pro_sn6` LIKE '".$sn."' OR `pro_sn7` LIKE '".$sn."') AND `status_use` != '2' AND fo_id != '".$foid."' AND `fs_id` NOT LIKE 'SV%' ORDER BY `fo_id`  DESC";
+		$qu_prosn = @mysqli_query($conn,$sqlSN);
+		$row_prosn = @mysqli_num_rows($qu_prosn);
 	
-	$qu_prosn = @mysqli_query($conn,$sqlSN);
-	$row_prosn = @mysqli_num_rows($qu_prosn);
-	return $row_prosn;
+		return $row_prosn;
+	}else{
+		return 0;
+	}
+	
 }
 
 function checkFOInputFix($conn,$fo_id){
