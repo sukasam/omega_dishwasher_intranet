@@ -2864,12 +2864,18 @@ function checkFOInputFix($conn,$fo_id){
 }
 
 function diffMonth($from, $to) {
-    $month_in_year = 12;
-    $date_from = getdate(strtotime($from));
-    $date_to = getdate(strtotime($to));
-    return ($date_to['year'] - $date_from['year']) * $month_in_year -
-        ($month_in_year - $date_to['mon']) +
-        ($month_in_year - $date_from['mon'])+1;
+    // $month_in_year = 12;
+    // $date_from = getdate(strtotime($from));
+    // $date_to = getdate(strtotime($to));
+    // return ($date_to['year'] - $date_from['year']) * $month_in_year -
+    //     ($month_in_year - $date_to['mon']) +
+	//     ($month_in_year - $date_from['mon'])+1;
+	
+	$datetime1 = new DateTime($from);
+	$datetime2   = new DateTime($to);
+	$diff  = $datetime1->diff($datetime2);
+	return ($diff->format('%y') * 12 + $diff->format('%m'))+1;
+
 }
 
 function convertDate($date,$fomat){
