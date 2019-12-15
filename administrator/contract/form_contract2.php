@@ -145,11 +145,13 @@
 	if($numContract >= 2){
 		$contractFN = $numContractInfo['con_id'];
 		$contractFY = date("Y",strtotime($numContractInfo['con_startdate']))+543;
-		$contractFM = date('Y-m-d', strtotime('-1 months', strtotime($numContractInfo['con_startdate'])));
+		//$contractFM = date('Y-m-d', strtotime('-1 months', strtotime($numContractInfo['con_startdate'])));
+		$contractFM = date('Y-m-d', strtotime($numContractInfo['con_startdate']));
 		$contractFM = format_date_th($contractFM,7);
 	}else{
 		$contractFY = date("Y",strtotime($_POST['con_startdate']))+543;
-		$contractFM = date('Y-m-d', strtotime('-1 months', strtotime($_POST['con_startdate'])));
+		//$contractFM = date('Y-m-d', strtotime('-1 months', strtotime($_POST['con_startdate'])));
+		$contractFM = date('Y-m-d', strtotime($_POST['con_startdate']));
 		$contractFM = format_date_th($contractFM,7);
 		$contractFN = $_POST['con_id'];
 	}
