@@ -59,6 +59,12 @@ function check(frm){
 			frm.group_name.focus(); return false;
 		}		
 }	
+
+function submitForm() {
+		document.getElementById("submitF").disabled = true;
+		document.getElementById("resetF").disabled = true;
+		document.form1.submit()
+	}
 </script>
 </HEAD>
 <?php  include ("../../include/function_script.php"); ?>
@@ -114,8 +120,8 @@ function check(frm){
         </fieldset>
     </div><br>
     <div class="formArea">
-      <input type="submit" name="Submit" value="Submit" class="button">
-      <input type="reset" name="Submit" value="Reset" class="button">
+	  <input type="button" value="Submit" id="submitF" class="button" onclick="submitForm()">
+      <input type="reset" name="Reset" id="resetF" value="Reset" class="button">
       <?php  
 			$a_not_exists = array();
 			post_param($a_param,$a_not_exists); 

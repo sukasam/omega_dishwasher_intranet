@@ -257,6 +257,12 @@ function check(frm){
 		document.getElementById("chkSignature").value = '1';
 		setTimeout(function(){document.getElementById("form1").submit();}, 1000);
 	}
+
+	function submitForm() {
+		document.getElementById("submitF").disabled = true;
+		document.getElementById("resetF").disabled = true;
+		document.form1.submit()
+	}
 	
 </script>
 </HEAD>
@@ -842,25 +848,27 @@ function check(frm){
     </div><br>
     <div class="formArea">
 <!--
-      <input type="submit" name="Submit" value="Submit" class="button">
-      <input type="reset" name="Submit" value="Reset" class="button">
+	  <input type="button" value="Submit" id="submitF" class="button" onclick="submitForm()">
+      <input type="reset" name="Reset" id="resetF" value="Reset" class="button">
 -->
      <div style="text-align: center;">
      <?php
 		 if($_GET['taget'] === "service"){
 			 if($chkHCustomerAP !== '' && $chkHCustomerAP != NULL){
 				 ?>
-				 <input type="submit" name="Submit" value=" บันทึก " class="button bt_save">
+				 <!-- <input type="submit" name="Submit" value=" บันทึก " class="button bt_save"> -->
+				 <input type="button" value=" บันทึก " id="submitF" class="button bt_save" onclick="submitForm()">
 				 <?php
 			 }
 		 }else{
 			 ?>
-			 <input type="submit" name="Submit" value=" บันทึก " class="button bt_save">
+			 <!-- <input type="submit" name="Submit" value=" บันทึก " class="button bt_save"> -->
+			 <input type="button" value=" บันทึก " id="submitF" class="button bt_save" onclick="submitForm()">
 			 <?php
 		 }
 	 ?>
       
-      <input type="button" name="Cancel" value=" ยกเลิก " class="button bt_cancel" onClick="window.history.back()">
+      <input type="button" name="Cancel" value=" ยกเลิก " id="resetF"  class="button bt_cancel" onClick="window.history.back()">
      </div>
       <?php  
 			$a_not_exists = array();

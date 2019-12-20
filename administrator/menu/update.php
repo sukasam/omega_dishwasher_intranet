@@ -95,6 +95,12 @@ function check(frm){
 
 }	
 
+function submitForm() {
+		document.getElementById("submitF").disabled = true;
+		document.getElementById("resetF").disabled = true;
+		document.form1.submit()
+	}
+
 </script>
 
 </HEAD>
@@ -198,9 +204,8 @@ function check(frm){
 
     <div class="formArea">
 
-      <input type="submit" name="Submit" value="Submit" class="button">
-
-      <input type="reset" name="Submit" value="Reset" class="button">
+	<input type="button" value="Submit" id="submitF" class="button" onclick="submitForm()">
+      <input type="reset" name="Reset" id="resetF" value="Reset" class="button">
 
       <?php  
 

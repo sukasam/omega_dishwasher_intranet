@@ -238,6 +238,13 @@ function check(frm){
 	   }
 	}
 	
+	function submitForm() {
+		document.getElementById("submitF").disabled = true;
+		document.getElementById("resetF").disabled = true;
+		document.form1.submit()
+	}
+
+
 </script>
 </HEAD>
 <?php  include ("../../include/function_script.php"); ?>
@@ -570,8 +577,8 @@ function check(frm){
     </div><br>
     <div class="formArea">
       <div style="text-align: center;">
-      	<input type="submit" name="Submit" value=" บันทึก " class="button bt_save">
-      	<input type="button" name="Cancel" value=" ยกเลิก " class="button bt_cancel" onClick="history.back();">
+	  <input type="button" value=" บันทึก " id="submitF" class="button bt_save" onclick="submitForm()">
+      <input type="button" name="Cancel" id="resetF" value=" ยกเลิก " class="button bt_cancel" onClick="history.back();">
       </div>
       <?php  
 			$a_not_exists = array();
