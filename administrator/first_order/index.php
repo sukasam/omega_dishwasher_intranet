@@ -84,8 +84,7 @@
 <LINK rel="stylesheet" type=text/css href="../css/style.css" media=screen>
 <LINK rel="stylesheet" type=text/css href="../css/invalid.css" media=screen>
 <SCRIPT type=text/javascript src="../js/jquery-1.9.1.min.js"></SCRIPT>
-<!--
-<SCRIPT type=text/javascript src="../js/simpla.jquery.configuration.js"></SCRIPT>
+<!--<SCRIPT type=text/javascript src="../js/simpla.jquery.configuration.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/facebox.js"></SCRIPT>
 -->
 <!--<SCRIPT type=text/javascript src="../js/jquery.wysiwyg.js"></SCRIPT>-->

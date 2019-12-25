@@ -403,8 +403,19 @@ function check(frm){
                 <?php  echo get_customername($conn,$cus_id);?>
                 <input type="hidden" name="cus_id" value="<?php  echo $cus_id;?>">
                 </td>
-	    <td width="57%"><strong>ประเภทบริการลูกค้า :</strong>
-	      <select name="sr_ctype" id="sr_ctype">
+	    <td width="57%">
+		<?php 
+		if($_GET['taget'] == "service"){
+			?>
+			<strong>ประเภทบริการลูกค้า :</strong><?php echo get_servicename($conn,$sr_ctype);?>
+			<input type="hidden" name="sr_ctype" value="<?php echo $sr_ctype;?>">&nbsp;&nbsp;
+			<strong>ประเภทลูกค้า :</strong><?php echo getcustom_type($conn,$sr_ctype);?>
+			<input type="hidden" name="sr_ctype2" value="<?php echo $sr_ctype;?>">
+			<?php
+		}else{
+		?>
+			<strong>ประเภทบริการลูกค้า :</strong>
+			<select name="sr_ctype" id="sr_ctype">
 	        <!--<option value="">กรุณาเลือก</option>-->
 	        <?php  
 						$qu_cusftype = @mysqli_query($conn,"SELECT * FROM s_group_service ORDER BY group_name ASC");
@@ -415,7 +426,8 @@ function check(frm){
 						}
 					?>
 	        </select>
-            <strong>ประเภทลูกค้า :</strong>
+			&nbsp;&nbsp;
+			<strong>ประเภทลูกค้า :</strong>
             	<select name="sr_ctype2" id="sr_ctype2">
             	  <!--<option value="">กรุณาเลือก</option>-->
             	  <?php  
@@ -427,6 +439,9 @@ function check(frm){
 						}
 					?>
           	  </select>
+		<?php
+		}
+		?>
             </td>
 	    </tr>
 	  <tr>
@@ -435,15 +450,41 @@ function check(frm){
 	    </tr>
 	  <tr>
 	    <td><strong>จังหวัด :</strong> <span id="cusprovince"><?php  echo province_name($conn,$finfo['cd_province']);?></span></td>
-	    <td><strong>วันที่ปิดงาน  :</strong> <span id="datef"></span><input type="text" name="job_close" readonly value="<?php  if($job_close==""){echo date("d/m/Y");}else{ echo $job_close;}?>" class="inpfoder"/>
-	      <script language="JavaScript">new tcal ({'formname': 'form1','controlname': 'job_close'});</script><span id="datet"></span><input type="hidden" name="job_open" value="<?php  if($job_open==""){echo date("d/m/Y");}else{ echo $job_open;}?>" class="inpfoder"/><input type="hidden" name="job_balance" value="<?php  if($job_balance==""){echo date("d/m/Y");}else{ echo $job_balance;}?>" class="inpfoder"/></td>
-	    </tr>
+	    <td>
+		<?php 
+		if($_GET['taget'] == "service"){
+			?>
+			<strong>วันที่ปิดงาน  :</strong> <?php echo date("d/m/Y");?>
+			<input type="hidden" name="job_close" value="<?php echo date("d/m/Y");?>" class="inpfoder"/>
+			<input type="hidden" name="job_open" value="<?php  if($job_open==""){echo date("d/m/Y");}else{ echo $job_open;}?>" class="inpfoder"/>
+			<input type="hidden" name="job_balance" value="<?php  if($job_balance==""){echo date("d/m/Y");}else{ echo $job_balance;}?>" class="inpfoder"/>
+		<?php
+		}else{
+			?>
+			<strong>วันที่ปิดงาน  :</strong> <span id="datef"></span><input type="text" name="job_close" readonly value="<?php  if($job_close==""){echo date("d/m/Y");}else{ echo $job_close;}?>" class="inpfoder"/>
+	      	<script language="JavaScript">new tcal ({'formname': 'form1','controlname': 'job_close'});</script><span id="datet"></span><input type="hidden" name="job_open" value="<?php  if($job_open==""){echo date("d/m/Y");}else{ echo $job_open;}?>" class="inpfoder"/><input type="hidden" name="job_balance" value="<?php  if($job_balance==""){echo date("d/m/Y");}else{ echo $job_balance;}?>" class="inpfoder"/>
+			<?php
+		}
+		?>
+		</td>
+		</tr>
 	  <tr>
 	    <td><strong>โทรศัพท์ :</strong> <span id="custel"><?php  echo $finfo['cd_tel'];?></span><strong>&nbsp;&nbsp;&nbsp;&nbsp;แฟกซ์ :</strong> <span id="cusfax"><?php  echo $finfo['cd_fax'];?></span></td>
-	    <td><strong>บริการครั้งล่าสุด : </strong><span id="sevlast"><?php  echo get_lastservice_f($conn,$cus_id,$sv_id);?></span> &nbsp;&nbsp;&nbsp;&nbsp;<strong>บริการครั้งต่อไป  :</strong><span style="font-size:11px;font-family:Verdana, Geneva, sans-serif;padding:5px;">
+	    <td>
+		<?php 
+		if($_GET['taget'] == "service"){?>
+		 <strong>บริการครั้งล่าสุด : -</strong> &nbsp;&nbsp;&nbsp;&nbsp;<strong>บริการครั้งต่อไป  : -</strong><span style="font-size:11px;font-family:Verdana, Geneva, sans-serif;padding:5px;">
+	      <input type="hidden" name="sr_stime" readonly value="<?php  if($sr_stime==""){echo date("d/m/Y");}else{ echo $sr_stime;}?>" class="inpfoder"/>
+	      </span>
+		<?php
+		}else{?>
+		  <strong>บริการครั้งล่าสุด : </strong><span id="sevlast"><?php  echo get_lastservice_f($conn,$cus_id,$sv_id);?></span> &nbsp;&nbsp;&nbsp;&nbsp;<strong>บริการครั้งต่อไป  :</strong><span style="font-size:11px;font-family:Verdana, Geneva, sans-serif;padding:5px;">
 	      <input type="text" name="sr_stime" readonly value="<?php  if($sr_stime==""){echo date("d/m/Y");}else{ echo $sr_stime;}?>" class="inpfoder"/>
 	      <script language="JavaScript">new tcal ({'formname': 'form1','controlname': 'sr_stime'});</script>
-	      </span></td>
+	      </span>
+		<?php }?>
+		
+		</td>
 	    </tr>
 	  <tr>
 	    <td><strong>ชื่อผู้ติดต่อ :</strong> <span id="cscont"><?php  echo $finfo['c_contact'];?></span>&nbsp;&nbsp;&nbsp;&nbsp;<strong>เบอร์โทร :</strong> <span id="cstel"><?php  echo $finfo['c_tel'];?></span></td>
@@ -454,41 +495,66 @@ function check(frm){
 	  <tr>
 	    <td width="46%"><strong>สถานที่ติดตั้ง / ส่งสินค้า : </strong><span id="sloc_name"><?php  echo $finfo['loc_name'];?></span><br />
           <br>
-          <strong>เลือกสินค้า :</strong>
-          <span id="prolist">
-          		<?php  
-				$prolist = get_profirstorder($conn,$cus_id);
-				//$lispp = explode(",",$prolist);
-				$plid = "<select name=\"bbfpro\" id=\"bbfpro\" onchange=\"get_podsn(this.value,'lpa1','lpa2','lpa3','".$cus_id."')\">
-								<option value=\"\">กรุณาเลือก</option>       
-							 ";
-				for($i=0;$i<count($prolist);$i++){
-					$plid .= "<option value=".$i.">".get_proname($conn,$prolist[$i])."</option>";
-				}	
-				echo $plid .=	 "</select>";
-						?>
-          </span>
-         <br>
-          <br />
-            <strong>เครื่องล้างจาน / ยี่ห้อ : </strong><span style="font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;" id="lpa1">
-            <input type="text" name="loc_pro" value="<?php  echo $loc_pro;?>" id="loc_pro" class="inpfoder" style="width:50%;">
-            </span><br>
-            <br />
-            <strong>รุ่นเครื่อง : </strong><span id="lpa2"><input type="text" name="loc_seal" value="<?php  echo $loc_seal;?>" id="loc_seal" class="inpfoder" style="width:20%;"></span>&nbsp;&nbsp;&nbsp;<strong>S/N</strong>&nbsp;<span id="lpa3"><input type="text" name="loc_sn" value="<?php  echo $loc_sn;?>" id="loc_sn" class="inpfoder" style="width:20%;"></span><br /><br />
-            <strong>เครื่องป้อนน้ำยา : </strong><input type="text" name="loc_clean" value="<?php  echo $loc_clean;?>" id="loc_clean" class="inpfoder" style="width:50%;"><br />
-            <br>
-	      <strong>ช่างบริการประจำ :</strong>
-            <select name="loc_contact" id="loc_contact">
-                	<option value="">กรุณาเลือก</option>
-                	<?php  
-						$qu_custec = @mysqli_query($conn,"SELECT * FROM s_group_technician ORDER BY group_name ASC");
-						while($row_custec = @mysqli_fetch_array($qu_custec)){
+		  <?php
+		 	if($_GET['taget'] == "service"){
+				?>
+				<strong>เลือกสินค้า :</strong>
+				<span id="prolist">
+						-
+				</span>
+				<br>
+				<br />
+					<strong>เครื่องล้างจาน / ยี่ห้อ : </strong><span style="font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;" id="lpa1">
+					<?php  echo $loc_pro;?><input type="hidden" name="loc_pro" value="<?php  echo $loc_pro;?>" id="loc_pro" class="inpfoder" style="width:50%;">
+					</span><br>
+					<br />
+					<strong>รุ่นเครื่อง : </strong> <?php  echo $loc_seal;?><span id="lpa2"><input type="hidden" name="loc_seal" value="<?php  echo $loc_seal;?>" id="loc_seal" class="inpfoder" style="width:20%;"></span>&nbsp;&nbsp;&nbsp;<strong>S/N</strong>&nbsp;<?php  echo $loc_sn;?><span id="lpa3"><input type="hidden" name="loc_sn" value="<?php  echo $loc_sn;?>" id="loc_sn" class="inpfoder" style="width:20%;"></span><br /><br />
+					<strong>เครื่องป้อนน้ำยา : </strong><?php  echo $loc_clean;?><input type="hidden" name="loc_clean" value="<?php  echo $loc_clean;?>" id="loc_clean" class="inpfoder" style="width:50%;"><br />
+					<br>
+					<strong>ช่างบริการประจำ :</strong> <?php  echo get_technician_name($conn,$loc_contact);?>
+					<input type="hidden" name="loc_contact" value="<?php  echo $loc_contact;?>" id="loc_contact">
+				<?php
+			 }else{
+				?>
+				<strong>เลือกสินค้า :</strong>
+				<span id="prolist">
+						<?php  
+						$prolist = get_profirstorder($conn,$cus_id);
+						//$lispp = explode(",",$prolist);
+						$plid = "<select name=\"bbfpro\" id=\"bbfpro\" onchange=\"get_podsn(this.value,'lpa1','lpa2','lpa3','".$cus_id."')\">
+										<option value=\"\">กรุณาเลือก</option>       
+									";
+						for($i=0;$i<count($prolist);$i++){
+							$plid .= "<option value=".$i.">".get_proname($conn,$prolist[$i])."</option>";
+						}	
+						echo $plid .=	 "</select>";
+								?>
+				</span>
+				<br>
+				<br />
+					<strong>เครื่องล้างจาน / ยี่ห้อ : </strong><span style="font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;" id="lpa1">
+					<input type="text" name="loc_pro" value="<?php  echo $loc_pro;?>" id="loc_pro" class="inpfoder" style="width:50%;">
+					</span><br>
+					<br />
+					<strong>รุ่นเครื่อง : </strong><span id="lpa2"><input type="text" name="loc_seal" value="<?php  echo $loc_seal;?>" id="loc_seal" class="inpfoder" style="width:20%;"></span>&nbsp;&nbsp;&nbsp;<strong>S/N</strong>&nbsp;<span id="lpa3"><input type="text" name="loc_sn" value="<?php  echo $loc_sn;?>" id="loc_sn" class="inpfoder" style="width:20%;"></span><br /><br />
+					<strong>เครื่องป้อนน้ำยา : </strong><input type="text" name="loc_clean" value="<?php  echo $loc_clean;?>" id="loc_clean" class="inpfoder" style="width:50%;"><br />
+					<br>
+				<strong>ช่างบริการประจำ :</strong>
+					<select name="loc_contact" id="loc_contact">
+							<option value="">กรุณาเลือก</option>
+							<?php  
+								$qu_custec = @mysqli_query($conn,"SELECT * FROM s_group_technician ORDER BY group_name ASC");
+								while($row_custec = @mysqli_fetch_array($qu_custec)){
+									?>
+									<option value="<?php  echo $row_custec['group_id'];?>" <?php  if($row_custec['group_id'] == $loc_contact){echo 'selected';}?>><?php  echo $row_custec['group_name']. " (Tel : ".$row_custec['group_tel'].")";?></option>
+									<?php 
+								}
 							?>
-							<option value="<?php  echo $row_custec['group_id'];?>" <?php  if($row_custec['group_id'] == $loc_contact){echo 'selected';}?>><?php  echo $row_custec['group_name']. " (Tel : ".$row_custec['group_tel'].")";?></option>
-							<?php 
-						}
-					?>
-                </select></td>
+						</select>
+				<?php
+			 }
+		  ?>
+        </td>
 	    <td width="54%"><strong>ปริมาณน้ำยา</strong><br />
 	      <br />
 	      <strong>ปริมาณน้ำยาล้าง : </strong>

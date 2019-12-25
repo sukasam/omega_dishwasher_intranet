@@ -81,6 +81,10 @@
 			}else{
 				@mysqli_query($conn,"INSERT INTO `s_approve` (`id`, `tag_db`, `t_id`, `process_1`, `process_2`, `process_3`, `process_4`, `process_4_date`) VALUES (NULL, '".$tbl_name."', '".$_REQUEST[$PK_field]."', '0', '0', '0', '1','".date("Y-m-d H:i:s")."');");
 			}
+
+
+			addNotification($conn,6,$tbl_name,$_REQUEST[$PK_field],$_POST['process']);
+			//@mysqli_query($conn,"INSERT INTO `s_notification` (`id`, `tag_db`, `t_id`, `process`, `process_date`) VALUES (NULL, '".$tbl_name."', '".$_REQUEST[$PK_field]."', '".$_POST['process']."','".date("Y-m-d H:i:s")."');");
 			
 			$_POST['process'] = '5';
 			

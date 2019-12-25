@@ -64,7 +64,11 @@
 					}
 				}else{			
 					@mysqli_query($conn,"INSERT INTO `s_approve` (`id`, `tag_db`, `t_id`, `process_1`, `process_2`, `process_3`, `process_4`, `process_1_date`) VALUES (NULL, '".$tbl_name."', '".$_REQUEST[$PK_field]."', '1', '0', '0', '0','".date("Y-m-d H:i:s")."');");
-				}
+        }
+        
+        addNotification($conn,1,$tbl_name,$_REQUEST[$PK_field],$_POST['process']);
+
+        //@mysqli_query($conn,"INSERT INTO `s_notification` (`id`, `tag_db`, `t_id`, `process`, `process_date`) VALUES (NULL, '".$tbl_name."', '".$_REQUEST[$PK_field]."', '".$_POST['process']."','".date("Y-m-d H:i:s")."');");
 				
 				$_POST['process'] = $_POST['process']+1;
 			
@@ -126,9 +130,9 @@
 <LINK rel="stylesheet" type=text/css href="../css/reset.css" media=screen>
 <LINK rel="stylesheet" type=text/css href="../css/style.css" media=screen>
 <LINK rel="stylesheet" type=text/css href="../css/invalid.css" media=screen>
-<SCRIPT type=text/javascript src="../js/jquery-1.3.2.min.js"></SCRIPT>
-<SCRIPT type=text/javascript src="../js/simpla.jquery.configuration.js"></SCRIPT>
-<SCRIPT type=text/javascript src="../js/facebox.js"></SCRIPT>
+<SCRIPT type=text/javascript src="../js/jquery-1.9.1.min.js"></SCRIPT>
+<!--<SCRIPT type=text/javascript src="../js/simpla.jquery.configuration.js"></SCRIPT>
+<SCRIPT type=text/javascript src="../js/facebox.js"></SCRIPT>-->
 <SCRIPT type=text/javascript src="../js/jquery.wysiwyg.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/popup.js"></SCRIPT>
 <SCRIPT type=text/javascript src="ajax.js"></SCRIPT>

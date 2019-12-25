@@ -37,3 +37,61 @@ if(chkBrowser("Opera")==1){
         </ul>
         <div class="clear"></div>
 </div>
+
+<style>
+.alert-success {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
+.alert {
+    padding: 15px;
+    margin-bottom: 5px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+.close {
+    float: right;
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    filter: alpha(opacity=20);
+    opacity: .2;
+}
+</style>
+
+<!-- <LINK rel="stylesheet" type=text/css href="../css/bootstrap.min.css" media=screen> -->
+<SCRIPT type=text/javascript src="../js/bootstrap.min.js"></SCRIPT>
+<!-- <SCRIPT type=text/javascript src="../js/jquery-1.12.2.min.js"></SCRIPT> -->
+
+<?php
+  $resultNoti = mysqli_query($conn, "SELECT * FROM s_notification WHERE user_account = '".$_SESSION["login_id"]."' AND view = '0'");
+  while ($rowNoti = mysqli_fetch_array($resultNoti, MYSQLI_ASSOC)) {
+      //printf("ID: %s  Name: %s", $row["id"], $row["name"]);
+      ?>
+      <div class="alert alert-success">
+        <a href="#" onclick="notiChange(<?php echo $rowNoti['id'];?>)" class="close" data-dismiss="alert" aria-label="close">×</a>
+        <?php echo getShowNoti($conn,$rowNoti);?>
+      </div>
+      <?php
+  }
+?>
+
+<script>
+  function notiChange(id){
+    $.ajax({
+		type: "GET",
+		url: "../api/call_api.php?action=updateNoti&id="+id,
+		success: function(data){
+			var obj = JSON.parse(data);
+			if(obj.status === 'yes'){
+				//$("#ccode"+key).html(obj.group_spar_id);
+        //console.log(data);
+			}
+		}
+	});
+  }
+</script>
+<br><br>

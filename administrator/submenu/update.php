@@ -94,7 +94,7 @@
 
 <LINK rel="stylesheet" type=text/css href="../css/invalid.css" media=screen>
 
-<SCRIPT type=text/javascript src="../js/jquery-1.3.2.min.js"></SCRIPT>
+<SCRIPT type=text/javascript src="../js/jquery-1.9.1.min.js"></SCRIPT>
 
 <SCRIPT type=text/javascript src="../js/simpla.jquery.configuration.js"></SCRIPT>
 

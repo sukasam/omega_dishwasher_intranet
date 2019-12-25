@@ -2930,6 +2930,24 @@ function getCustomerTypeSolution($val){
 	}
 }
 
+function get_typeNoti($val){
+	if($val == 1){
+		return "อนุมัติเอกสาร (First Order)";
+	}else if($val == 2){
+		return "อนุมัติเอกสาร (ใบแจ้งงาน)";
+	}else if($val == 3){
+		return "อนุมัติเอกสาร (Memo)";
+	}else if($val == 4){
+		return "อนุมัติเอกสาร (ใบเสนอราคาซื้อ)";
+	}else if($val == 5){
+		return "อนุมัติเอกสาร (ใบเสนอราคาเช่า)";
+	}else if($val == 6){
+		return "อนุมัติเอกสาร (ใบงานบริการ)";
+	}else{
+		return "";
+	}
+}
+
 function chkServerFormGen($conn){
 	
 	$dateM = date("m");
@@ -2944,6 +2962,63 @@ function chkServerFormGen($conn){
 		return 0;
 	}
 
+}
+
+function addNotification($conn,$typenoti,$tbl_name,$PK_field,$process){
+	$qu_forder = @mysqli_query($conn,"SELECT * FROM `s_group_notification` WHERE group_name = '".$typenoti."'");
+	while($row_forder = @mysqli_fetch_array($qu_forder)){
+		@mysqli_query($conn,"INSERT INTO `s_notification` (`id`, `tag_db`, `t_id`, `process`, `process_date`, `user_account`, `view`, `type_noti`) VALUES (NULL, '".$tbl_name."', '".$PK_field."', '".$process."','".date("Y-m-d H:i:s")."', '".$row_forder['user_account']."', '0', '".$typenoti."');");
+	}
+}
+
+function getShowNoti($conn,$res){
+
+
+	/*<option value="index.php?process=0" <?php  if($_GET['process'] == '0'){echo "selected";}?>>รอการแก้ไข</option>
+	<option value="index.php?process=1" <?php  if($_GET['process'] == '1'){echo "selected";}?>>รอผู้อนุมัติฝ่ายขาย</option>
+	<option value="index.php?process=2" <?php  if($_GET['process'] == '2'){echo "selected";}?>>รอผู้อนุมัติฝ่ายการเงิน</option>
+	<option value="index.php?process=3" <?php  if($_GET['process'] == '3'){echo "selected";}?>>รอผู้มีอำนาจลงนาม</option>
+	<option value="index.php?process=4" <?php  if($_GET['process'] == '4'){echo "selected";}?>>รอผู้อนุมัติฝ่ายช่าง</option>
+	<option value="index.php?process=5" <?php  if($_GET['process'] == '5'){echo "selected";}?>>ผ่านการอนุมัติ</option>*/
+	$processType = '';
+	if($res['process'] == '1'){
+		$processType = 'จากผู้อนุมัติฝ่ายขายเรียบร้อย';
+	}else if($res['process'] == '2'){
+		$processType = 'จากผู้อนุมัติฝ่ายการเงินเรียบร้อย';
+	}else if($res['process'] == '3'){
+		$processType = 'จากผู้มีอำนาจลงนามเรียบร้อย';
+	}else if($res['process'] == '4'){
+		$processType = 'จากผู้อนุมัติฝ่ายช่างเรียบร้อย';
+	}else if($res['process'] == '5'){
+		$processType = 'จากผ่านการอนุมัติเรียบร้อย';
+	}
+	if($res['type_noti'] == '1'){
+		$rownoti = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM ".$res['tag_db']." WHERE fo_id = '".$res['t_id']."'"));
+		return "<img src=\"../images/notifications-icon.png\" style=\"width: 24px;
+		vertical-align: middle;\"> <strong>มีการอนุมัติเอกสาร (First Order)</strong> เลขที่ ".$rownoti['fs_id']." ".$processType;
+	}else if($res['type_noti'] == '2'){
+		$rownoti = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM ".$res['tag_db']." WHERE qc_id = '".$res['t_id']."'"));
+		return "<img src=\"../images/notifications-icon.png\" style=\"width: 24px;
+		vertical-align: middle;\"> <strong>มีการอนุมัติเอกสาร (ใบแจ้งงาน)</strong> เลขที่ ".$rownoti['sv_id']." ".$processType;
+	}else if($res['type_noti'] == '3'){
+		$rownoti = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM ".$res['tag_db']." WHERE id = '".$res['t_id']."'"));
+		return "<img src=\"../images/notifications-icon.png\" style=\"width: 24px;
+		vertical-align: middle;\"> <strong>มีการอนุมัติเอกสาร (Memo)</strong> เลขที่ ".$rownoti['mo_id']." ".$processType;
+	}else if($res['type_noti'] == '4'){
+		$rownoti = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM ".$res['tag_db']." WHERE qu_id = '".$res['t_id']."'"));
+		return "<img src=\"../images/notifications-icon.png\" style=\"width: 24px;
+		vertical-align: middle;\"> <strong>มีการอนุมัติเอกสาร (ใบเสนอราคาซื้อ)</strong> เลขที่ ".$rownoti['fs_id']." ".$processType;
+	}else if($res['type_noti'] == '5'){
+		$rownoti = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM ".$res['tag_db']." WHERE qu_id = '".$res['t_id']."'"));
+		return "<img src=\"../images/notifications-icon.png\" style=\"width: 24px;
+		vertical-align: middle;\"> <strong>มีการอนุมัติเอกสาร (ใบเสนอราคาเช่า)</strong> เลขที่ ".$rownoti['fs_id']." ".$processType;
+	}else if($res['type_noti'] == '6'){
+		$rownoti = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM ".$res['tag_db']." WHERE sr_id = '".$res['t_id']."'"));
+		return "<img src=\"../images/notifications-icon.png\" style=\"width: 24px;
+		vertical-align: middle;\"> <strong>มีการอนุมัติเอกสาร (ใบงานบริการ)</strong> เลขที่ ".$rownoti['sv_id']." ".$processType;
+	}else{
+		return "";
+	}
 }
 
 ?>

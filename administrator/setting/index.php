@@ -12,9 +12,9 @@
 <LINK rel="stylesheet" type=text/css href="../css/reset.css" media=screen>
 <LINK rel="stylesheet" type=text/css href="../css/style.css" media=screen>
 <LINK rel="stylesheet" type=text/css href="../css/invalid.css" media=screen>
-<SCRIPT type=text/javascript src="../js/jquery-1.3.2.min.js"></SCRIPT>
-<SCRIPT type=text/javascript src="../js/simpla.jquery.configuration.js"></SCRIPT>
-<SCRIPT type=text/javascript src="../js/facebox.js"></SCRIPT>
+<SCRIPT type=text/javascript src="../js/jquery-1.9.1.min.js"></SCRIPT>
+<!--<SCRIPT type=text/javascript src="../js/simpla.jquery.configuration.js"></SCRIPT>
+<SCRIPT type=text/javascript src="../js/facebox.js"></SCRIPT>-->
 <SCRIPT type=text/javascript src="../js/jquery.wysiwyg.js"></SCRIPT>
 <META name=GENERATOR content="MSHTML 8.00.7600.16535"></HEAD>
 <BODY onLoad="clock();">
@@ -64,7 +64,7 @@
         <strong>รายการซีรี่ย์สินค้า</strong></a></div></td>
 -->
         <td><div align="center"><a href="../group_approve/"><img src="../images/menu/mn_serting08.png" width="100" height="60" border="0" alt=""><br><br><strong>กำหนดผู้อนุมัติเอกสาร</strong></a></div></td>
-        <td><div align="center"></div></td>
+        <td><div align="center"><a href="../group_notification/"><img src="../images/menu/mn_notifications.png" width="100" height="60" border="0" alt=""><br><br><strong>ระบบแจ้งเตือนการอนุมัติ</strong></a></div></td>
         <td><div align="center"></div></td>
       </tr>
       <tr>
