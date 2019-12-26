@@ -9,6 +9,7 @@
 		$a_not_exists = array();
 		$param = get_param($a_param,$a_not_exists);
 		
+		$_POST['detail_recom'] = addslashes($_POST['detail_recom']);
 		
 		if($_POST['job_open'] == ""){
 			$_POST['job_open'] = date("Y-m-d");

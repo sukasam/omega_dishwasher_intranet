@@ -310,7 +310,7 @@ if($chkProcess == '5' || $chkProcess == '4'){
 		</tr>
 		<tr>
 			<td style="font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:left;padding:20px;border:1px solid #000000;height: 200px;">
-			'.$_POST['detail_recom'].'
+			'.stripslashes($_POST['detail_recom']).'
 			</td>
 		</tr>
     </table>

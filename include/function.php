@@ -1367,16 +1367,16 @@ function check_firstorder($conn){
 	$thdate = substr(date("Y")+543,2);
 	$concheck = "FO ".$thdate.date("/m/");
 	
-	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_first_order WHERE fs_id like '%".$concheck."%' ORDER BY fs_id DESC");
+	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_first_order WHERE fs_id like '%".$concheck."%' ORDER BY fo_id DESC");
 	$num_oder = @mysqli_num_rows($qu_forder);
 	$row_forder = @mysqli_fetch_array($qu_forder);
 	
 	if($row_forder['fs_id'] == ""){
-		return "FO ".$thdate.date("/m/")."001";
+		return "FO ".$thdate.date("/m/")."0001";
 	}else{
 		//$num_odersum = $num_oder+1;
-		$num_odersum = substr($row_forder['fs_id'],-3)+1;
-		return "FO ".$thdate.date("/m/").sprintf("%03d",$num_odersum);
+		$num_odersum = substr($row_forder['fs_id'],-4)+1;
+		return "FO ".$thdate.date("/m/").sprintf("%04d",$num_odersum);
 	}
 	
 }
@@ -1386,17 +1386,17 @@ function check_quotation($conn){
 	$thdate = substr(date("Y")+543,2);
 	$concheck = "QA-B ".$thdate.date("/m/");
 	
-	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_quotation WHERE fs_id like '%".$concheck."%' ORDER BY fs_id DESC");
+	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_quotation WHERE fs_id like '%".$concheck."%' ORDER BY qu_id DESC");
 	$num_oder = @mysqli_num_rows($qu_forder);
 	$row_forder = @mysqli_fetch_array($qu_forder);
 	
 	if($row_forder['fs_id'] == ""){
-		return "QA-B ".$thdate.date("/m/")."001";
+		return "QA-B ".$thdate.date("/m/")."0001";
 	}else{
 		$runQAA = explode("/",$row_forder['fs_id']);
 		$runNum = number_format($runQAA[2]);
 		$num_odersum = $runNum+1;
-		return "QA-B ".$thdate.date("/m/").sprintf("%03d",$num_odersum);
+		return "QA-B ".$thdate.date("/m/").sprintf("%04d",$num_odersum);
 	}
 	
 }
@@ -1405,17 +1405,17 @@ function check_quotation2($conn){
 	$thdate = substr(date("Y")+543,2);
 	$concheck = "QA-H ".$thdate.date("/m/");
 	
-	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_quotation2 WHERE fs_id like '%".$concheck."%' ORDER BY fs_id DESC");
+	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_quotation2 WHERE fs_id like '%".$concheck."%' ORDER BY qu_id DESC");
 	$num_oder = @mysqli_num_rows($qu_forder);
 	$row_forder = @mysqli_fetch_array($qu_forder);
 	
 	if($row_forder['fs_id'] == ""){
-		return "QA-H ".$thdate.date("/m/")."001";
+		return "QA-H ".$thdate.date("/m/")."0001";
 	}else{
 		$runQAA = explode("/",$row_forder['fs_id']);
 		$runNum = number_format($runQAA[2]);
 		$num_odersum = $runNum+1;
-		return "QA-H ".$thdate.date("/m/").sprintf("%03d",$num_odersum);
+		return "QA-H ".$thdate.date("/m/").sprintf("%04d",$num_odersum);
 	}
 	
 }
@@ -1426,17 +1426,17 @@ function check_quotation3($conn){
 	$thdate = substr(date("Y")+543,2);
 	$concheck = "QA-R ".$thdate.date("/m/");
 	
-	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_quotation3 WHERE fs_id like '%".$concheck."%' ORDER BY fs_id DESC");
+	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_quotation3 WHERE fs_id like '%".$concheck."%' ORDER BY qu_id DESC");
 	$num_oder = @mysqli_num_rows($qu_forder);
 	$row_forder = @mysqli_fetch_array($qu_forder);
 	
 	if($row_forder['fs_id'] == ""){
-		return "QA-R ".$thdate.date("/m/")."001";
+		return "QA-R ".$thdate.date("/m/")."0001";
 	}else{
 		$runQAA = explode("/",$row_forder['fs_id']);
 		$runNum = number_format($runQAA[2]);
 		$num_odersum = $runNum+1;
-		return "QA-R ".$thdate.date("/m/").sprintf("%03d",$num_odersum);
+		return "QA-R ".$thdate.date("/m/").sprintf("%04d",$num_odersum);
 	}
 	
 }
@@ -1446,17 +1446,17 @@ function check_quotation4($conn){
 	$thdate = substr(date("Y")+543,2);
 	$concheck = "QA-RC ".$thdate.date("/m/");
 	
-	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_quotation4 WHERE fs_id like '%".$concheck."%' ORDER BY fs_id DESC");
+	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_quotation4 WHERE fs_id like '%".$concheck."%' ORDER BY qu_id DESC");
 	$num_oder = @mysqli_num_rows($qu_forder);
 	$row_forder = @mysqli_fetch_array($qu_forder);
 	
 	if($row_forder['fs_id'] == ""){
-		return "QA-RC ".$thdate.date("/m/")."001";
+		return "QA-RC ".$thdate.date("/m/")."0001";
 	}else{
 		$runQAA = explode("/",$row_forder['fs_id']);
 		$runNum = number_format($runQAA[2]);
 		$num_odersum = $runNum+1;
-		return "QA-RC ".$thdate.date("/m/").sprintf("%03d",$num_odersum);
+		return "QA-RC ".$thdate.date("/m/").sprintf("%04d",$num_odersum);
 	}
 	
 }
@@ -1466,16 +1466,16 @@ function check_ordersolution($conn){
 	$thdate = substr(date("Y")+543,2);
 	$concheck = "OS ".$thdate.date("/m/");
 	
-	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_order_solution WHERE fs_id like '%".$concheck."%' ORDER BY fs_id DESC");
+	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_order_solution WHERE fs_id like '%".$concheck."%' ORDER BY order_id DESC");
 	$num_oder = @mysqli_num_rows($qu_forder);
 	$row_forder = @mysqli_fetch_array($qu_forder);
 
 	if($row_forder['fs_id'] == ""){
-		return "OS ".$thdate.date("/m/")."001";
+		return "OS ".$thdate.date("/m/")."0001";
 	}else{
 		//$num_odersum = $num_oder+1;
-		$num_odersum = substr($row_forder['fs_id'],-3)+1;
-		return "OS ".$thdate.date("/m/").sprintf("%03d",$num_odersum);
+		$num_odersum = substr($row_forder['fs_id'],-4)+1;
+		return "OS ".$thdate.date("/m/").sprintf("%04d",$num_odersum);
 	}
 	
 }
@@ -1484,16 +1484,16 @@ function check_contract_number ($conn){
 	$thdate = substr(date("Y")+543,2);
 	$concheck = "RU ".$thdate.date("/m/");
 	
-	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_contract WHERE con_id like '%".$concheck."%' ORDER BY con_id DESC");
+	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_contract WHERE con_id like '%".$concheck."%' ORDER BY ct_id DESC");
 	$num_oder = @mysqli_num_rows($qu_forder);
 	$row_forder = @mysqli_fetch_array($qu_forder);
 	
 	if($row_forder['con_id'] == ""){
-		return "RU ".$thdate.date("/m/")."001";
+		return "RU ".$thdate.date("/m/")."0001";
 	}else{
 		//$num_odersum = $num_oder+1;
-		$num_odersum = substr($row_forder['con_id'],-3)+1;
-		return "RU ".$thdate.date("/m/").sprintf("%03d",$num_odersum);
+		$num_odersum = substr($row_forder['con_id'],-4)+1;
+		return "RU ".$thdate.date("/m/").sprintf("%04d",$num_odersum);
 	}
 }
 
@@ -1501,16 +1501,16 @@ function check_contract2_number ($conn){
 	$thdate = substr(date("Y")+543,2);
 	$concheck = "S ".$thdate.date("/m/");
 	
-	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_contract2 WHERE con_id like '%".$concheck."%' ORDER BY con_id DESC");
+	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_contract2 WHERE con_id like '%".$concheck."%' ORDER BY ct_id DESC");
 	$num_oder = @mysqli_num_rows($qu_forder);
 	$row_forder = @mysqli_fetch_array($qu_forder);
 	
 	if($row_forder['con_id'] == ""){
-		return "S ".$thdate.date("/m/")."001";
+		return "S ".$thdate.date("/m/")."0001";
 	}else{
 		//$num_odersum = $num_oder+1;
-		$num_odersum = substr($row_forder['con_id'],-3)+1;
-		return "S ".$thdate.date("/m/").sprintf("%03d",$num_odersum);
+		$num_odersum = substr($row_forder['con_id'],-4)+1;
+		return "S ".$thdate.date("/m/").sprintf("%04d",$num_odersum);
 	}
 }
 
@@ -1518,16 +1518,16 @@ function check_contract3_number ($conn){
 	$thdate = substr(date("Y")+543,2);
 	$concheck = "ODT ".$thdate.date("/m/");
 	
-	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_contract3 WHERE con_id like '%".$concheck."%' ORDER BY con_id DESC");
+	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_contract3 WHERE con_id like '%".$concheck."%' ORDER BY ct_id DESC");
 	$num_oder = @mysqli_num_rows($qu_forder);
 	$row_forder = @mysqli_fetch_array($qu_forder);
 	
 	if($row_forder['con_id'] == ""){
-		return "ODT ".$thdate.date("/m/")."001";
+		return "ODT ".$thdate.date("/m/")."0001";
 	}else{
 		//$num_odersum = $num_oder+1;
-		$num_odersum = substr($row_forder['con_id'],-3)+1;
-		return "ODT ".$thdate.date("/m/").sprintf("%03d",$num_odersum);
+		$num_odersum = substr($row_forder['con_id'],-4)+1;
+		return "ODT ".$thdate.date("/m/").sprintf("%04d",$num_odersum);
 	}
 }
 
@@ -1543,11 +1543,11 @@ function check_serviceorder($conn){
 	$row_forder = @mysqli_fetch_array($qu_forder);
 	
 	if($row_forder['fs_id'] == ""){
-		return "SV ".$thdate.date("/m/")."001";
+		return "SV ".$thdate.date("/m/")."0001";
 	}else{
 		//$num_odersum = $num_oder+1;
-		$num_odersum = substr($row_forder['fs_id'],-3)+1;
-		return "SV ".$thdate.date("/m/").sprintf("%03d",$num_odersum);
+		$num_odersum = substr($row_forder['fs_id'],-4)+1;
+		return "SV ".$thdate.date("/m/").sprintf("%04d",$num_odersum);
 	}
 	
 }
@@ -1562,11 +1562,11 @@ function check_contactfo($conn){
 	$row_forder = @mysqli_fetch_array($qu_forder);
 	
 	if($row_forder['r_id'] == ""){
-		return "R".$thdate.date("/m/")."001";
+		return "R".$thdate.date("/m/")."0001";
 	}else{
 		//$num_odersum = $num_oder+1;
-		$num_odersum = substr($row_forder['r_id'],-3)+1;
-		return "R".$thdate.date("/m/").sprintf("%03d",$num_odersum);
+		$num_odersum = substr($row_forder['r_id'],-4)+1;
+		return "R".$thdate.date("/m/").sprintf("%04d",$num_odersum);
 	}
 	
 }
@@ -1576,16 +1576,16 @@ function check_contact($conn){
 	$thdate = substr(date("Y")+543,2);
 	$concheck = "RV".$thdate.date("/m/");
 	
-	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_first_order WHERE r_id like '%".$concheck."%' ORDER BY r_id DESC");
+	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_first_order WHERE r_id like '%".$concheck."%' ORDER BY fo_id DESC");
 	$num_oder = @mysqli_num_rows($qu_forder);
 	$row_forder = @mysqli_fetch_array($qu_forder);
 	
 	if($row_forder['r_id'] == ""){
-		return "RV".$thdate.date("/m/")."001";
+		return "RV".$thdate.date("/m/")."0001";
 	}else{
 		//$num_odersum = $num_oder+1;
-		$num_odersum = substr($row_forder['r_id'],-3)+1;
-		return "RV".$thdate.date("/m/").sprintf("%03d",$num_odersum);
+		$num_odersum = substr($row_forder['r_id'],-4)+1;
+		return "RV".$thdate.date("/m/").sprintf("%04d",$num_odersum);
 	}
 	
 }
@@ -1595,16 +1595,16 @@ function check_servicereport($conn){
 	$thdate = substr(date("Y")+543,2);
 	$concheck = "SR ".$thdate.date("/m/");
 	
-	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_service_report WHERE sv_id like '%".$concheck."%' ORDER BY sv_id DESC");
+	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_service_report WHERE sv_id like '%".$concheck."%' ORDER BY sr_id DESC");
 	$num_oder = @mysqli_num_rows($qu_forder);
 	$row_forder = @mysqli_fetch_array($qu_forder);
 	
 	if($row_forder['sv_id'] == ""){
-		return "SR ".$thdate.date("/m/")."001";
+		return "SR ".$thdate.date("/m/")."0001";
 	}else{
 		//$num_odersum = $num_oder+1;
-		$num_odersum = substr($row_forder['sv_id'],-3)+1;
-		return "SR ".$thdate.date("/m/").sprintf("%03d",$num_odersum);
+		$num_odersum = substr($row_forder['sv_id'],-4)+1;
+		return "SR ".$thdate.date("/m/").sprintf("%04d",$num_odersum);
 	}	
 }
 
@@ -1613,16 +1613,16 @@ function check_servicecard($conn){
 	$thdate = substr(date("Y")+543,2);
 	$concheck = "SC ".$thdate.date("/m/");
 	
-	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_quotation_jobcard WHERE sv_id like '%".$concheck."%' ORDER BY sv_id DESC");
+	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_quotation_jobcard WHERE sv_id like '%".$concheck."%' ORDER BY qc_id DESC");
 	$num_oder = @mysqli_num_rows($qu_forder);
 	$row_forder = @mysqli_fetch_array($qu_forder);
 	
 	if($row_forder['sv_id'] == ""){
-		return "SC ".$thdate.date("/m/")."001";
+		return "SC ".$thdate.date("/m/")."0001";
 	}else{
 		//$num_odersum = $num_oder+1;
-		$num_odersum = substr($row_forder['sv_id'],-3)+1;
-		return "SC ".$thdate.date("/m/").sprintf("%03d",$num_odersum);
+		$num_odersum = substr($row_forder['sv_id'],-4)+1;
+		return "SC ".$thdate.date("/m/").sprintf("%04d",$num_odersum);
 	}	
 }
 
@@ -1631,16 +1631,16 @@ function check_memo($conn){
 	$thdate = substr(date("Y")+543,2);
 	$concheck = "MO ".$thdate.date("/m/");
 	
-	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_memo WHERE mo_id like '%".$concheck."%' ORDER BY mo_id DESC");
+	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_memo WHERE mo_id like '%".$concheck."%' ORDER BY id DESC");
 	$num_oder = @mysqli_num_rows($qu_forder);
 	$row_forder = @mysqli_fetch_array($qu_forder);
 	
 	if($row_forder['mo_id'] == ""){
-		return "MO ".$thdate.date("/m/")."001";
+		return "MO ".$thdate.date("/m/")."0001";
 	}else{
 		//$num_odersum = $num_oder+1;
-		$num_odersum = substr($row_forder['mo_id'],-3)+1;
-		return "MO ".$thdate.date("/m/").sprintf("%03d",$num_odersum);
+		$num_odersum = substr($row_forder['mo_id'],-4)+1;
+		return "MO ".$thdate.date("/m/").sprintf("%04d",$num_odersum);
 	}	
 }
 
@@ -1650,16 +1650,16 @@ function check_servicereportinstall($conn){
 	$thdate = substr(date("Y")+543,2);
 	$concheck = "IR ".$thdate.date("/m/");
 	
-	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_service_report4 WHERE sv_id like '%".$concheck."%' ORDER BY sv_id DESC");
+	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_service_report4 WHERE sv_id like '%".$concheck."%' ORDER BY sr_id DESC");
 	$num_oder = @mysqli_num_rows($qu_forder);
 	$row_forder = @mysqli_fetch_array($qu_forder);
 	
 	if($row_forder['sv_id'] == ""){
-		return "IR ".$thdate.date("/m/")."001";
+		return "IR ".$thdate.date("/m/")."0001";
 	}else{
 		//$num_odersum = $num_oder+1;
-		$num_odersum = substr($row_forder['sv_id'],-3)+1;
-		return "IR ".$thdate.date("/m/").sprintf("%03d",$num_odersum);
+		$num_odersum = substr($row_forder['sv_id'],-4)+1;
+		return "IR ".$thdate.date("/m/").sprintf("%04d",$num_odersum);
 	}	
 }
 
@@ -1668,16 +1668,16 @@ function check_serviceman($conn){
 	$thdate = substr(date("Y")+543,2);
 	$concheck = "RP ".$thdate.date("/m/");
 	
-	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_service_report2 WHERE sv_id like '%".$concheck."%' ORDER BY sv_id DESC");
+	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_service_report2 WHERE sv_id like '%".$concheck."%' ORDER BY sr_id DESC");
 	$num_oder = @mysqli_num_rows($qu_forder);
 	$row_forder = @mysqli_fetch_array($qu_forder);
 	
 	if($row_forder['sv_id'] == ""){
-		return "RP ".$thdate.date("/m/")."001";
+		return "RP ".$thdate.date("/m/")."0001";
 	}else{
 		//$num_odersum = $num_oder+1;
-		$num_odersum = substr($row_forder['sv_id'],-3)+1;
-		return "RP ".$thdate.date("/m/").sprintf("%03d",$num_odersum);
+		$num_odersum = substr($row_forder['sv_id'],-4)+1;
+		return "RP ".$thdate.date("/m/").sprintf("%04d",$num_odersum);
 	}	
 }
 
@@ -1686,16 +1686,16 @@ function check_serviceman2($conn){
 	$thdate = substr(date("Y")+543,2);
 	$concheck = "LP ".$thdate.date("/m/");
 	
-	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_service_report3 WHERE sv_id like '%".$concheck."%' ORDER BY sv_id DESC");
+	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_service_report3 WHERE sv_id like '%".$concheck."%' ORDER BY sr_id DESC");
 	$num_oder = @mysqli_num_rows($qu_forder);
 	$row_forder = @mysqli_fetch_array($qu_forder);
 	
 	if($row_forder['sv_id'] == ""){
-		return "LP ".$thdate.date("/m/")."001";
+		return "LP ".$thdate.date("/m/")."0001";
 	}else{
 		//$num_odersum = $num_oder+1;
-		$num_odersum = substr($row_forder['sv_id'],-3)+1;
-		return "LP ".$thdate.date("/m/").sprintf("%03d",$num_odersum);
+		$num_odersum = substr($row_forder['sv_id'],-4)+1;
+		return "LP ".$thdate.date("/m/").sprintf("%04d",$num_odersum);
 	}	
 }
 
@@ -2170,7 +2170,7 @@ function get_snfirstorders($conn,$val) {
 	}else{
 		$row_pfirsts = @mysqli_fetch_array(@mysqli_query($conn,"SELECT `fs_id` FROM `s_first_order` WHERE `fs_id` like '%".substr($val,0,9)."%' ORDER BY `fo_id` DESC"));
 		$fsid = $row_pfirsts['fs_id'];
-		$fsid = sprintf("%03d",(substr($fsid,-3)+1));
+		$fsid = sprintf("%04d",(substr($fsid,-4)+1));
 		return substr($val,0,9).$fsid;
 		
 	}
@@ -2907,16 +2907,16 @@ function check_servicerepair($conn){
 	$thdate = substr(date("Y")+543,2);
 	$concheck = "RO ".$thdate.date("/m/");
 	
-	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_service_report6 WHERE sv_id like '%".$concheck."%' ORDER BY sv_id DESC");
+	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_service_report6 WHERE sv_id like '%".$concheck."%' ORDER BY sr_id DESC");
 	$num_oder = @mysqli_num_rows($qu_forder);
 	$row_forder = @mysqli_fetch_array($qu_forder);
 	
 	if($row_forder['sv_id'] == ""){
-		return "RO ".$thdate.date("/m/")."001";
+		return "RO ".$thdate.date("/m/")."0001";
 	}else{
 		//$num_odersum = $num_oder+1;
-		$num_odersum = substr($row_forder['sv_id'],-3)+1;
-		return "RO ".$thdate.date("/m/").sprintf("%03d",$num_odersum);
+		$num_odersum = substr($row_forder['sv_id'],-4)+1;
+		return "RO ".$thdate.date("/m/").sprintf("%04d",$num_odersum);
 	}	
 }
 

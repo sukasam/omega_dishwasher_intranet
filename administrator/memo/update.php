@@ -8,8 +8,9 @@
 		$param = "";
 		$a_not_exists = array();
 		$param = get_param($a_param,$a_not_exists);
-		
-		
+
+		$_POST['remark1'] = addslashes($_POST['remark1']);
+
 		if($_POST['memo_open'] == ""){
 			$_POST['memo_open'] = date("Y-m-d");
 		}else{

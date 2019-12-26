@@ -58,7 +58,7 @@ if($chkProcess == '5'){
 	<p class="pSubject">เรื่อง&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$_POST['subject'].'</p>
 	<p class="pSubject">เรียน&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$_POST['dear'].'</p>
 	<div class="pDetail">
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$_POST['remark1'].'
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.stripslashes($_POST['remark1']).'
 	</div>';
 
 $nameConpro = '<br><div class="pDetail"><table>';
