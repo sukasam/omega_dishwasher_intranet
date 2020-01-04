@@ -262,7 +262,7 @@
 	
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>ข้อ 3. ระยะเวลาการเช่า</strong><br>
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;สัญญานี้ มีผลบังคับตั้งแต่วันที่ลงนามในสัญญาเช่า'.$nameConpro.'นี้ ให้มีกำหนด <strong>ระยะเวลาการเช่า '.$monthDiff.' เดือน</strong> เริ่มตั้งแต่วันที่ '.format_date_th($_POST['con_startdate'],1).' ถึงวันที่ '.format_date_th($_POST['con_enddate'],1).' ถัดจากวันที่ผู้เช่ารับมอบ '.$nameConpro.'เรียบร้อยแล้ว <br>
-	<strong class="colorbBlue">(สัญญาเล่มนี้เป็นสัญญาปีที่ '.$numContract.' (ปีแรก ปี '.$contractFY.' เดือน '.$contractFM.') ตามเลขที่สัญญาเล่มแรก '.$contractFN.')</strong><br>
+	<strong class="colorbBlue">(สัญญาเล่มนี้เป็นสัญญาปีที่ '.$numContract.' (ปีแรก ปี '.$contractFY.' เดือน '.format_date_th($_POST['con_startdate'],7).') ตามเลขที่สัญญาเล่มแรก '.$contractFN.')</strong><br>
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>ตลอดระยะเวลาการเช่าและหลังครบกำหนดระยะเวลาการเช่า ผู้ให้เช่าเป็นผู้ครอบครองและเป็นเจ้าของ กรรมสิทธิ์ใน'.$nameTypeContract.'และอุปกรณ์ประกอบต่าง ๆ ตามสัญญาข้อ 1. และ ข้อ 2. โดยผู้เช่าไม่มีสิทธิ์ โต้แย้งใด ๆ ทั้งสิ้น</strong>
 	<br><br>
 	
