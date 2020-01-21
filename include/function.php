@@ -1482,7 +1482,7 @@ function check_ordersolution($conn){
 
 function check_contract_number ($conn){
 	$thdate = substr(date("Y")+543,2);
-	$concheck = "RU ".$thdate.date("/m/");
+	$concheck = $thdate.date("/m/");
 	
 	$qu_forder = @mysqli_query($conn,"SELECT * FROM s_contract WHERE con_id like '%".$concheck."%' ORDER BY ct_id DESC");
 	$num_oder = @mysqli_num_rows($qu_forder);
