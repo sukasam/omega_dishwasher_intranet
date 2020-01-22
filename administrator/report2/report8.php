@@ -89,7 +89,7 @@
 <br />
 ประเภทบริการ  :
 <?php  if($_POST['sr_ctype']){echo get_servicename($conn,$_POST['sr_ctype']);}else{echo "ทั้งหมด";}?><br /></th>
-	    <th colspan="4" style="text-align:right;font-size:11px;vertical-align:bottom;"><?php  echo $dateshow;?><br />
+	    <th colspan="5" style="text-align:right;font-size:11px;vertical-align:bottom;"><?php  echo $dateshow;?><br />
         <br />
         <br /></th>
       </tr>
@@ -113,12 +113,14 @@
        </th><?php  }?>
         <?php  if($_REQUEST['sh9'] == 1){?><th width="19%">รายละเอียดบริการ</th><?php  }?>
         <?php  if($_REQUEST['sh10'] == 1){?><th width="7%">วันที่ให้บริการ</th><?php  }?>
+		<th width="7%">พื้นที่เข้าบริการ</th>
       </tr>
       <?php  
 		$sql = "SELECT * FROM s_first_order as fr, s_service_report as sv WHERE sv.cus_id = fr.fo_id ".$condition." ".$daterriod." ORDER BY fr.cd_name ASC";
 	  	$qu_fr = @mysqli_query($conn,$sql);
 		$sum = 0;
 		$sums = 0;
+		$sumSerice = 0;
 		while($row_fr = @mysqli_fetch_array($qu_fr)){
 				
 			?>
@@ -300,7 +302,19 @@
 				?>
               </table></td><?php  }?>
               <?php  if($_REQUEST['sh9'] == 1){?><td><?php  echo $row_fr['detail_recom2'];?></td>   <?php  }?>
-              <?php  if($_REQUEST['sh10'] == 1){?><td><?php  if($openclose == 0){echo format_date($row_fr['sr_stime']);}else if($openclose == 2){echo format_date($row_fr['sr_stime']);}else{echo "-";}?></td>  <?php  }?>    
+              <?php  if($_REQUEST['sh10'] == 1){?><td><?php  if($openclose == 0){echo format_date($row_fr['sr_stime']);}else if($openclose == 2){echo format_date($row_fr['sr_stime']);}else{echo "-";}?></td>  <?php  }?>   
+			  <td>
+			  <?php
+			 	if($row_fr['latitude'] != "" && $row_fr['longitude'] != ""){
+					$sumSerice = $sumSerice+1;
+					?>
+					<a href="https://www.google.co.th/maps/search/<?php echo $row_fr['latitude'];?>+<?php echo $row_fr['longitude'];?>" target="_blank"><img src="../images/google_map.png" width="25"></a>
+					<?php
+				 }else{
+					echo "<center>-</center>";
+				 }
+			  ?>
+			  </td> 
             </tr>
 			
 			<?php 
@@ -310,7 +324,13 @@
 		
 	  ?>
       <tr>
-			  <td colspan="9" align="right"><strong>ให้บริการตามรายชื่อช่างทั้งหมด</strong>&nbsp;&nbsp;&nbsp;<strong><?php  echo $sums;?>&nbsp;&nbsp;รายการ</strong>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			  <td colspan="10" align="right"><strong>ให้บริการตามรายชื่อช่างทั้งหมด</strong>&nbsp;&nbsp;&nbsp;<strong><?php  echo $sums;?>&nbsp;&nbsp;รายการ</strong>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+	  </tr>
+	  <tr>
+			  <td colspan="10" align="right"><strong>ให้บริการทั้งหมด</strong>&nbsp;&nbsp;&nbsp;<strong><?php  echo $sumSerice;?>&nbsp;&nbsp;รายการ</strong>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+	  </tr>
+	  <tr>
+			  <td colspan="10" align="right"><strong>คงเหลือเข้าบริการทั้งหมด</strong>&nbsp;&nbsp;&nbsp;<strong><?php  echo $sums - $sumSerice;?>&nbsp;&nbsp;รายการ</strong>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 	  </tr>
     </table>
 

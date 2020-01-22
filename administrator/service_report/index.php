@@ -106,8 +106,8 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
     ใบคืนอะไหล่</SPAN></A></LI>
     <LI><A class=shortcut-button href="../service_report4/"><SPAN><IMG  alt=icon src="../images/icons/icon-48-section.png"><BR>
     ใบรายงานติดตั้ง</SPAN></A></LI>-->
-    <LI><A class=shortcut-button href="../service_report_approve/"><SPAN><IMG  alt=icon src="../images/icons/icon-48-user.png"><BR>
-    อนุมัติใบงาน</SPAN></A></LI>
+    <!-- <LI><A class=shortcut-button href="../service_report_approve/"><SPAN><IMG  alt=icon src="../images/icons/icon-48-user.png"><BR>
+    อนุมัติใบงาน</SPAN></A></LI> -->
     <?php
 	if ($FR_module <> "") {
 	$param2 = get_return_param();
