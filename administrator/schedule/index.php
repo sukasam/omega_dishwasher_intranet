@@ -463,7 +463,7 @@ if($_GET['month'] == 2){
 		
 	$numCreated = mysqli_num_rows($quGen);
 	//echo $numCreated;
-	if($numCreated == 0){
+	/*if($numCreated == 0){
 		$linkGenPDF = "createService.php?month=".$_GET['month']."&year=".$_GET['year']."&loccontact=".$_GET['loccontact'];
 		?>
 		<input type="image" src="icon_genPDF.png" alt="Submit" width="40" style="background-color: #dddddd;padding: 10px 40px;border-radius: 5px;" onclick="window.open('<?php echo $linkGenPDF;?>');">
@@ -475,7 +475,7 @@ if($_GET['month'] == 2){
 		<input type="image" src="icon_pdf_print.png" alt="Submit" width="48" style="background-color: #dddddd;padding: 10px 40px;border-radius: 5px;" onclick="window.open('<?php echo $linkGenPDF;?>');">
 <!--		&nbsp;&nbsp;<input type="image" src="icon_pdf_print.png" alt="Submit" width="48" style="background-color: #dddddd;padding: 10px 40px;border-radius: 5px;" onclick="window.open('<?php echo $linkGenPDF2;?>');">-->
 		<?php
-	}
+	}*/
 ?>
 
 </div>
