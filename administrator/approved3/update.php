@@ -154,9 +154,11 @@
 		
 		$con_chkpro = explode(',',$con_chkpro);
 		$con_chkprofree = explode(',',$con_chkprofree);
+
+		$quinfo =get_quotation($conn,$fo_id,3);
 	}
 
-	$quinfo =get_quotation($conn,$_GET['cus_id'],3);
+	
 	
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
@@ -223,7 +225,7 @@ function check(frm){
 </script>
 </HEAD>
 <?php  include ("../../include/function_script.php"); ?>
-<BODY onload="document.form1.submit()">
+<BODY onload="submitForm()">
 <!--<BODY>-->
 <DIV id=body-wrapper>
 <?php  include("../left.php");?>
