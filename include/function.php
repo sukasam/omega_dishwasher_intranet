@@ -2553,7 +2553,7 @@ function get_hsale_signature($conn) {
 	
 	$rowSale = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM `s_group_approve` WHERE group_id = 1"));
 	
-	$rowAccount = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM `s_user` WHERE user_id = '".$rowSale['user_account']."'"));
+	$rowAccount = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM `s_user` WHERE `user_id` = '".$rowSale['user_account']."'"));
 	
 	$signature = '';
 	
@@ -2571,7 +2571,7 @@ function get_haccount_signature($conn) {
 	
 	$rowSale = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM `s_group_approve` WHERE group_id = 2"));
 	
-	$rowAccount = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM `s_user` WHERE user_id = '".$rowSale['user_account']."'"));
+	$rowAccount = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM `s_user` WHERE `user_id` = '".$rowSale['user_account']."'"));
 	
 	$signature = '';
 	
@@ -2589,7 +2589,7 @@ function get_hcompany_signature($conn) {
 	
 	$rowSale = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM `s_group_approve` WHERE group_id = 3"));
 	
-	$rowAccount = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM `s_user` WHERE user_id = '".$rowSale['user_account']."'"));
+	$rowAccount = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM `s_user` WHERE `user_id` = '".$rowSale['user_account']."'"));
 	
 	$signature = '';
 	

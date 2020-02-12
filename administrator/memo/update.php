@@ -31,6 +31,13 @@
 			$a_sdate=explode("/",$_POST['date_hsell']);
 			$_POST['date_hsell']=$a_sdate[2]."-".$a_sdate[1]."-".$a_sdate[0];
 		}
+
+		if($_POST['date_haccount'] == ""){
+			$_POST['date_haccount'] = date("Y-m-d");
+		}else{
+			$a_sdate=explode("/",$_POST['date_haccount']);
+			$_POST['date_haccount']=$a_sdate[2]."-".$a_sdate[1]."-".$a_sdate[0];
+		}
 		
 		if($_POST['date_accep'] == ""){
 			$_POST['date_accep'] = date("Y-m-d");
@@ -145,6 +152,10 @@
 		$date_sell=$a_sdate[2]."/".$a_sdate[1]."/".$a_sdate[0];
 		$a_sdate=explode("-",$date_hsell);
 		$date_hsell=$a_sdate[2]."/".$a_sdate[1]."/".$a_sdate[0];
+
+		$a_sdate=explode("-",$date_haccount);
+		$date_haccount= ($a_sdate[2] != "") ? $a_sdate[2]."/".$a_sdate[1]."/".$a_sdate[0] : date("d/m/Y");
+
 		$a_sdate=explode("-",$date_accep);
 		$date_accep=$a_sdate[2]."/".$a_sdate[1]."/".$a_sdate[0];
 		$a_sdate=explode("-",$date_appoint1);
@@ -508,7 +519,7 @@ function check(frm){
 	
 	<table width="100%" cellspacing="0" cellpadding="0" style="text-align:center;">
       <tr>
-        <td width="33%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
+        <td width="25%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
         	<table width="100%" cellspacing="0" cellpadding="0">
               <tr>
                 <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong><!--<input type="text" name="cs_sell" value="<?php  echo $cs_sell;?>" id="cs_sell" class="inpfoder" style="width:50%;text-align:center;">-->
@@ -536,7 +547,7 @@ function check(frm){
               </tr>
             </table>
         </td>
-        <td width="33%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
+        <td width="25%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
         	<table width="100%" cellspacing="0" cellpadding="0">
               <tr>
                 <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong >
@@ -564,7 +575,35 @@ function check(frm){
             </table>
 
         </td>
-        <td width="33%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
+		<td width="25%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
+        	<table width="100%" cellspacing="0" cellpadding="0">
+              <tr>
+                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong >
+                <?php
+					$haccount = '';
+					if($cs_account != ""){
+						$haccount = $cs_account;
+					}else{
+						$haccount = getNameAccountApprove($conn);
+					}
+				?>
+                <input type="text" name="cs_haccount" value="<?php  echo $haccount;?>" id="cs_haccount" class="inpfoder" style="width:50%;text-align:center;border: none;"></strong></td>
+              </tr>
+              <tr>
+                <td style="padding-top:10px;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>หัวหน้าฝ่ายการเงิน</strong></td>
+              </tr>
+              <tr>
+              <td style="font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;">
+<!--
+              <strong>เบอร์โทร <input type="text" name="tel_hsell" value="<?php echo $tel_hsell;?>" style="text-align: center;width: 150px;"></strong>
+                <br><br>
+-->
+              <strong>วันที่ <input type="text" name="date_haccount" style="text-align: center;" readonly value="<?php  if($date_haccount==""){echo date("d/m/Y");}else{ echo $date_haccount;}?>" class="inpfoder"/><script language="JavaScript">new tcal ({'formname': 'form1','controlname': 'date_haccount'});</script></strong></td>
+              </tr>
+            </table>
+
+        </td>
+        <td width="25%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
         	<table width="100%" cellspacing="0" cellpadding="0">
               <tr>
                 <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;">

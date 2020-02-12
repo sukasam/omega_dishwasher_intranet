@@ -10,22 +10,31 @@
 if($chkProcess == '5'){
 	
 	$hSaleSignature = '<img src="../../upload/user/signature/'.get_hsale_signature($conn).'" height="50" border="0" />';
+	$hAccountSignature = '<img src="../../upload/user/signature/'.get_haccount_signature($conn).'" height="50" border="0" />';
 	$hCompanySignature = '<img src="../../upload/user/signature/'.get_hcompany_signature($conn).'" height="50" border="0" />';
 	
 }else{
 	
 	if($chkProcess == '0'){
 		$hSaleSignature = '<img src="../../upload/user/signature/none.png" height="50" border="0" />';
+		$hAccountSignature = '<img src="../../upload/user/signature/none.png" height="50" border="0" />';
 		$hCompanySignature = '<img src="../../upload/user/signature/none.png" height="50" border="0" />';
 	}else{
 		
 		$chkHSaleAP = checkHSaleApplove($conn,$tbl_name,$id);
+		$chkHAccountAP = checkHAccountApplove($conn,$tbl_name,$id);
 		$chkHCompanyAP = checkHCompanyApplove($conn,$tbl_name,$id);
 		
 		if($chkHSaleAP == 1){
 			$hSaleSignature = '<img src="../../upload/user/signature/'.get_hsale_signature($conn).'" height="50" border="0" />';
 		}else{
 			$hSaleSignature = '<img src="../../upload/user/signature/none.png" height="50" border="0" />';
+		}
+
+		if($chkHAccountAP == 1){
+			$hAccountSignature = '<img src="../../upload/user/signature/'.get_haccount_signature($conn).'" height="50" border="0" />';
+		}else{
+			$hAccountSignature = '<img src="../../upload/user/signature/none.png" height="50" border="0" />';
 		}
 		
 		if($chkHCompanyAP == 1){
@@ -110,7 +119,7 @@ $nameConpro = '<br><div class="pDetail"><table>';
 	$form .='<p class="pDetail">จึงแจ้งมาเพื่อดำเนินการ</p>
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" style="text-align:center;margin-top: 10px;">
       <tr>
-        <td width="33%" style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
+        <td width="25%" style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
         	<table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
                 <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;">'.$saleSignature.'</td>
@@ -124,7 +133,7 @@ $nameConpro = '<br><div class="pDetail"><table>';
             </table>
 
         </td>
-        <td width="33%" style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
+        <td width="25%" style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
         	<table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
                 <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;">'.$hSaleSignature.'</td>
@@ -136,8 +145,21 @@ $nameConpro = '<br><div class="pDetail"><table>';
                 <td style="font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>วันที่'.format_date_th($_POST['date_hsell'],1).'</strong></td>
               </tr>
             </table>
+		</td>
+		<td width="25%" style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
+        	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;">'.$hAccountSignature.'</td>
+              </tr>
+              <tr>
+                <td style="padding-top:10px;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>( '.$_POST["cs_haccount"].' )</strong><br><br><strong>ผู้อนุมัติการเงิน</strong></td>
+              </tr>
+              <tr>
+                <td style="font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>วันที่'.format_date_th($_POST['date_haccount'],1).'</strong></td>
+              </tr>
+            </table>
         </td>
-        <td width="33%" style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
+        <td width="25%" style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
         	<table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
                 <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;">'.$hCompanySignature.'</td>
