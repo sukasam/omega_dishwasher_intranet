@@ -9,9 +9,8 @@
 		$param = "";
 		$a_not_exists = array();
 		$param = get_param($a_param,$a_not_exists);	
-		 $_POST['doc_name']=addslashes($_POST['doc_name']);
+		$_POST['doc_name']=addslashes($_POST['doc_name']);
 		 //$_POST['doc_name_native']=addslashes($_POST['doc_name_native']);
-
 
 		//-------------------------------------------------------------------------------------
 		if ($_POST['mode'] == "add") {
@@ -53,7 +52,7 @@
 
 			
 				echo '<script type="text/javascript">
-                    	window.location="index.php?mid=8&fo_id='.$_POST['fo_id'].'";
+                    	window.location="index.php?mid=8&fo_id='.$_POST['fo_id'].'&target='.$_POST['target'].'";
                     </script>';
 		}
 
@@ -106,7 +105,7 @@
 
 			
 			echo '<script type="text/javascript">
-                    	window.location="index.php?mid=8&fo_id='.$_POST['fo_id'].'";
+                    	window.location="index.php?mid=8&fo_id='.$_POST['fo_id'].'&target='.$_POST['target'].'";
                     </script>';
 		}
 	}
@@ -282,7 +281,8 @@ function submitForm() {
 			post_param($a_param,$a_not_exists); 
 		?>
       <input name="mode" type="hidden" id="mode" value="<?php  echo $_GET['mode'];?>">
-			<input name="fo_id" type="hidden" id="fo_id" value="<?php  echo $_GET['fo_id'];?>">
+	  <input name="fo_id" type="hidden" id="fo_id" value="<?php  echo $_GET['fo_id'];?>">
+	  <input name="target" type="hidden" id="target" value="<?php  echo $_GET['target'];?>">
       <input name="mid" type="hidden" id="mid" value="<?php  echo $_GET['mid'];?>">
       <input type="hidden" name="sorts" value="<?php  echo $sorts;?>">
       <input name="<?php  echo $PK_field;?>" type="hidden" id="<?php  echo $PK_field;?>" value="<?php  echo $_GET[$PK_field];?>">

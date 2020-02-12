@@ -353,7 +353,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 			  <center><a href="../memo/?cus_id=<?php  echo $rec[$PK_field];?>"><img src="../images/meno.png" height="30"></a></center>
 			  </td>
           <td style="vertical-align: middle;">
-			  <center><a href="../document/?fo_id=<?php  echo $rec[$PK_field];?>"><img src="../images/document.png" height="30"></a></center>
+			  <center><a href="../document/?fo_id=<?php  echo $rec[$PK_field];?>&target=FO"><img src="../images/document.png" height="30"></a></center>
 			  </td>
            <TD nowrap style="vertical-align:middle"><div align="center">
             <?php  if($rec["status_use"]==0) {?>

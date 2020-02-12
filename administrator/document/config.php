@@ -6,7 +6,7 @@
 	$page_name = "Document Management";
 	$tbl_name = "s_document";
 	$field_confirm_showname= "doc_name";
-	$fieldlist = array('images','fo_id','doc_name','sorts','status');
+	$fieldlist = array('images','fo_id','target','doc_name','sorts','status');
 	$search_key = array('doc_name');
 	$title_del="Document Management";
 	$title_del_name="doc_name";
