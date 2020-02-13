@@ -87,6 +87,14 @@
 			$a_sdate=explode("/",$_POST['date_appoint7']);
 			$_POST['date_appoint7']=$a_sdate[2]."-".$a_sdate[1]."-".$a_sdate[0];
 		}
+
+		$checklist = '';
+		
+		foreach ($_POST['chkPro'] as $value) {
+			$checklist .= $value.',';
+		}
+
+		$_POST['con_chkpro'] = substr($checklist,0,-1);
 		
 
 		if ($_POST['mode'] == "add") { 
@@ -180,6 +188,8 @@
 		$date_appoint6=$a_sdate[2]."/".$a_sdate[1]."/".$a_sdate[0];
 		$a_sdate=explode("-",$date_appoint7);
 		$date_appoint7=$a_sdate[2]."/".$a_sdate[1]."/".$a_sdate[0];
+
+		$con_chkpro = explode(',',$con_chkpro);
 	}
 
 $quinfo =get_quotation($conn,$_GET['cus_id'],$_GET['tab']);
@@ -402,6 +412,21 @@ function check(frm){
               <?php  echo $quinfo['c_tel'];?>
             </td>
           </tr>
+		  <?php 
+		 	if($_GET['tab'] == 3){
+				?>
+				<tr>
+					<td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;">
+					<strong>สถานที่ติดตั้ง / ส่งสินค้า :</strong> <?php  echo $quinfo['loc_name'];?><br>
+					<strong>ที่อยู่ : </strong><?php  echo $quinfo['loc_address'];?>
+					</td>
+					<td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;">
+					<strong>ขนส่งโดย :</strong> <?php  echo $quinfo['loc_shopping'];?>
+					</td>
+				</tr>
+				<?php 
+			 } 
+		  ?>
 </table>
 
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tb3">
@@ -468,7 +493,56 @@ function check(frm){
         </span><br /></td>
       </tr>
     </table>
-	
+	<br/><br>
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" style="font-size:12px;text-align:center;" id="productConlist">
+    <tr>
+     <td width="3%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>เลือก</strong></td>
+      <td width="43%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>รายการสินค้า</strong></td>
+      <td width="21%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>รุ่น</strong></td>
+      <td width="11%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong><?php if($_GET['tab'] == 3){echo 'S/N';}else{echo 'จำนวน';}?></strong></td>
+	  <?php 
+		if($_GET['tab'] == 3){
+			?>
+			<td width="11%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>จำนวน</strong></td>
+			<?php
+		} 
+	  ?>
+    </tr>
+    <?php 
+		for($i=1;$i<=7;$i++){
+			if($quinfo['cpro'.$i]){
+				?>
+			<tr>
+		  	  <td style="border:1px solid #000000;padding:5;text-align:center;">
+				<input type="checkbox" name="chkPro[]" value="<?php echo $i;?>" <?php if(@in_array( $i , $con_chkpro)){echo 'checked="checked"';}?>><br>
+			  </td>
+			  <td style="border:1px solid #000000;text-align:left;padding:5;">
+			  <?php echo get_proname($conn,$quinfo['cpro'.$i]).' '.get_prodetail($conn,$quinfo['cpro'.$i]);?>
+			  </td>
+			  <td style="border:1px solid #000000;padding:5;text-align:center;" >
+			  <?php echo $quinfo['pro_pod'.$i];?>
+			 </td>
+			  <td style="border:1px solid #000000;padding:5;text-align:center;" >
+			  <?php echo $quinfo['pro_sn'.$i];?>
+			  </td>
+			  <?php 
+			 	if($_GET['tab'] == 3){ 
+			  ?>
+			  <td style="border:1px solid #000000;padding:5;text-align:center;">
+			  <?php echo $quinfo['camount'.$i];?>
+			  </td>
+			  <?php }?>
+			</tr>
+			<?php
+			}
+		}
+	?>
+   
+    </table><br>
+    
+        </fieldset>
+    </div><br>
+
 	<table width="100%" cellspacing="0" cellpadding="0" style="text-align:center;">
       <tr>
         <td width="33%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">

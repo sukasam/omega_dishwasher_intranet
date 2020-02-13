@@ -88,6 +88,14 @@
 			$a_sdate=explode("/",$_POST['date_appoint7']);
 			$_POST['date_appoint7']=$a_sdate[2]."-".$a_sdate[1]."-".$a_sdate[0];
 		}
+
+		$checklist = '';
+		
+		foreach ($_POST['chkPro'] as $value) {
+			$checklist .= $value.',';
+		}
+
+		$_POST['con_chkpro'] = substr($checklist,0,-1);
 		
 
 		if ($_POST['mode'] == "update" ) {
@@ -112,7 +120,7 @@
 
 			addNotification($conn,2,$tbl_name,$_REQUEST[$PK_field],$_POST['process']);
 			//@mysqli_query($conn,"INSERT INTO `s_notification` (`id`, `tag_db`, `t_id`, `process`, `process_date`) VALUES (NULL, '".$tbl_name."', '".$_REQUEST[$PK_field]."', '".$_POST['process']."','".date("Y-m-d H:i:s")."');");
-			
+
 			if($_POST['process'] == '3'){
 				$_POST['process'] = '4';
 			}else if($_POST['process'] == '4'){
@@ -128,7 +136,7 @@
 //			mysqli_query($conn,"UPDATE `s_quotation_jobcard` SET `process` = '0' WHERE `s_quotation_jobcard`.`qc_id` = ".$id.";");
 				
 			include_once("../mpdf54/mpdf.php");
-			include_once("form_servicecard.php");
+			include_once("../quotation_jobcard/form_servicecard.php");
 			$mpdf=new mPDF('UTF-8'); 
 			$mpdf->SetAutoFont();
 //			if($_POST['process'] != '5'){
@@ -178,6 +186,8 @@
 		$date_appoint6=$a_sdate[2]."/".$a_sdate[1]."/".$a_sdate[0];
 		$a_sdate=explode("-",$date_appoint7);
 		$date_appoint7=$a_sdate[2]."/".$a_sdate[1]."/".$a_sdate[0];
+
+		$con_chkpro = explode(',',$con_chkpro);
 	}
 
 	$quinfo =get_quotation($conn,$qu_id,$qu_table);
@@ -273,7 +283,7 @@ function check(frm){
 <div><center><img src="../images/waiting.gif" width="450"></center></div>
 <DIV class=content-box-content style="display: none;">
 <DIV id=tab1 class="tab-content default-tab">
-  <form action="update.php" method="post" enctype="multipart/form-data" name="form1" id="form1"  onSubmit="return check(this)">
+<form action="update.php" method="post" enctype="multipart/form-data" name="form1" id="form1"  onSubmit="return check(this)">
     <div class="formArea">
       <fieldset>
       <legend><?php  echo $page_name; ?> </legend>
@@ -403,6 +413,21 @@ function check(frm){
               <?php  echo $quinfo['c_tel'];?>
             </td>
           </tr>
+		  <?php 
+		 	if($_GET['tab'] == 3){
+				?>
+				<tr>
+					<td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;">
+					<strong>สถานที่ติดตั้ง / ส่งสินค้า :</strong> <?php  echo $quinfo['loc_name'];?><br>
+					<strong>ที่อยู่ : </strong><?php  echo $quinfo['loc_address'];?>
+					</td>
+					<td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;">
+					<strong>ขนส่งโดย :</strong> <?php  echo $quinfo['loc_shopping'];?>
+					</td>
+				</tr>
+				<?php 
+			 } 
+		  ?>
 </table>
 
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tb3">
@@ -469,7 +494,56 @@ function check(frm){
         </span><br /></td>
       </tr>
     </table>
-	
+	<br/><br>
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" style="font-size:12px;text-align:center;" id="productConlist">
+    <tr>
+     <td width="3%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>เลือก</strong></td>
+      <td width="43%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>รายการสินค้า</strong></td>
+      <td width="21%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>รุ่น</strong></td>
+      <td width="11%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong><?php if($_GET['tab'] == 3){echo 'S/N';}else{echo 'จำนวน';}?></strong></td>
+	  <?php 
+		if($_GET['tab'] == 3){
+			?>
+			<td width="11%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>จำนวน</strong></td>
+			<?php
+		} 
+	  ?>
+    </tr>
+    <?php 
+		for($i=1;$i<=7;$i++){
+			if($quinfo['cpro'.$i]){
+				?>
+			<tr>
+		  	  <td style="border:1px solid #000000;padding:5;text-align:center;">
+				<input type="checkbox" name="chkPro[]" value="<?php echo $i;?>" <?php if(@in_array( $i , $con_chkpro)){echo 'checked="checked"';}?>><br>
+			  </td>
+			  <td style="border:1px solid #000000;text-align:left;padding:5;">
+			  <?php echo get_proname($conn,$quinfo['cpro'.$i]).' '.get_prodetail($conn,$quinfo['cpro'.$i]);?>
+			  </td>
+			  <td style="border:1px solid #000000;padding:5;text-align:center;" >
+			  <?php echo $quinfo['pro_pod'.$i];?>
+			 </td>
+			  <td style="border:1px solid #000000;padding:5;text-align:center;" >
+			  <?php echo $quinfo['pro_sn'.$i];?>
+			  </td>
+			  <?php 
+			 	if($_GET['tab'] == 3){ 
+			  ?>
+			  <td style="border:1px solid #000000;padding:5;text-align:center;">
+			  <?php echo $quinfo['camount'.$i];?>
+			  </td>
+			  <?php }?>
+			</tr>
+			<?php
+			}
+		}
+	?>
+   
+    </table><br>
+    
+        </fieldset>
+    </div><br>
+
 	<table width="100%" cellspacing="0" cellpadding="0" style="text-align:center;">
       <tr>
         <td width="33%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
@@ -528,7 +602,7 @@ function check(frm){
             </table>
 
         </td>
-       <td width="33%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
+        <td width="33%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
         	<table width="100%" cellspacing="0" cellpadding="0">
               <tr>
                 <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;">
@@ -589,8 +663,8 @@ function check(frm){
       <input name="mode" type="hidden" id="mode" value="<?php  echo $_GET['mode'];?>">
       <input name="qu_id" type="hidden" id="qu_id" value="<?php  echo $qu_id;?>"> 
       <input name="qu_table" type="hidden" id="qu_table" value="<?php  echo $qu_table;?>"> 
-      <input name="process" type="hidden" id="process" value="<?php  echo $process;?>">
-      <input name="st_setting" type="hidden" id="st_setting" value="<?php  echo $st_setting;?>"> 
+	  <input name="st_setting" type="hidden" id="st_setting" value="<?php  echo $st_setting;?>"> 
+	  <input name="process" type="hidden" id="process" value="<?php  echo $process;?>"> 
       <input name="<?php  echo $PK_field;?>" type="hidden" id="<?php  echo $PK_field;?>" value="<?php  echo $_GET[$PK_field];?>">
     </div>
   </form>

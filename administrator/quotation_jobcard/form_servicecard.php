@@ -2,7 +2,7 @@
 <?php 
 	
 
-	$quinfo =get_quotation($conn,$_REQUEST['qu_id'],$_REQUEST['qu_table']);
+	$quinfo = get_quotation($conn,$_REQUEST['qu_id'],$_REQUEST['qu_table']);
 
 	$checkApp1 = "uncheck.png";
 	$checkApp2 = "uncheck.png";
@@ -83,12 +83,12 @@ if($chkProcess == '5' || $chkProcess == '4'){
 	.bgheader{
 		font-size:10px;
 		position:absolute;
-		margin-top:98px;
-		padding-left:581px;
+		margin-top:94px;
+		padding-left:582px;
 	}
 	table tr td{
 		vertical-align:top;
-		padding:10px;
+		padding:5px;
 		line-height: 20px;
 	}	
 	.tb1{
@@ -180,29 +180,45 @@ if($chkProcess == '5' || $chkProcess == '4'){
 		</tr>
 		
           <tr>
-            <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:10px;"><strong>ชื่อลูกค้า/CUST.NAME :</strong></td>
-            <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:10px;">
+            <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>ชื่อลูกค้า/CUST.NAME :</strong></td>
+            <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;">
             	'.$quinfo['cd_name'].'
             </td>
           </tr>
 		  <tr>
-            <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:10px;"><strong>ที่อยู่/ADDRESS :</strong></td>
-            <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:10px;">
+            <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>ที่อยู่/ADDRESS :</strong></td>
+            <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;">
             	'.$quinfo['cd_address'].'
             </td>
           </tr>
 		  <tr>
-            <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:10px;"><strong>โทรศัพท์/TEL :</strong></td>
-            <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:10px;">
+            <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>โทรศัพท์/TEL :</strong></td>
+            <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;">
             	'.$quinfo['cd_tel'].'
             </td>
-          </tr>
+		  </tr>';
+		  
+		  if($_POST['qu_table'] == 3){
+			  $form .= ' <tr>
+			  <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>สถานที่ติดตั้ง / ส่งสินค้า :</strong></td>
+			  <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;">
+				  '.$quinfo['loc_name'].'
+			  </td>
+		  </tr>
 		  <tr>
-            <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:10px;"><strong>วันที่/DATE :</strong></td>
-            <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:10px;">
+			  <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>ที่อยู่/ADDRESS :</strong></td>
+			  <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;">
+				  '.$quinfo['loc_address'].'
+			  </td>
+		  </tr> ';
+		  }
+
+		  $form .='<tr>
+            <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>วันที่/DATE :</strong></td>
+            <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;">
             	'.format_date_th($_POST['job_open'],2).'
             </td>
-          </tr>
+		  </tr>
 	</table>
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tb1">
         	<tr>
@@ -301,7 +317,7 @@ if($chkProcess == '5' || $chkProcess == '4'){
         	</tr>
 			<tr>
         		<td><strong>ชื่อผู้ติดต่อ :</strong></td>
-				<td colspan="4">'.$quinfo['c_tel'].'&nbsp;&nbsp;'.$quinfo['c_contact'].'</td>
+				<td colspan="4">'.$quinfo['c_contact'].' / '.$quinfo['c_tel'].'</td>
         	</tr>
         </table>
 	<table width="100%" cellspacing="0" cellpadding="0" style="text-align:left;">
@@ -313,9 +329,38 @@ if($chkProcess == '5' || $chkProcess == '4'){
 			'.stripslashes($_POST['detail_recom']).'
 			</td>
 		</tr>
-    </table>
+	</table>';
+
+	if($_POST['chkPro']){
+		$form .= '<br/><table width="100%" border="0" cellspacing="0" cellpadding="0" style="font-size:12px;text-align:center;" id="productConlist">
+		<tr>
+		  <td width="46%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>รายการสินค้า</strong></td>
+		  <td width="21%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>รุ่น</strong></td>';
+		  $nameCol = ($_POST['qu_table'] == 3) ? 'S/N' : 'จำนวน';
+		  $form .= '<td width="11%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>'.$nameCol.'</strong></td>';
+		  if($_POST['qu_table'] == 3){
+			$form .= '<td width="11%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>จำนวน</strong></td>';
+		  }
+		  $form .= '</tr>';
 	
-	<table width="100%" cellspacing="0" cellpadding="0" style="text-align:center;">
+		for($i=1;$i<=7;$i++){
+			if($quinfo['cpro'.$i]){
+				if((@in_array( $i , $_POST['chkPro']))){
+					$form .= '<tr>
+					<td style="border:1px solid #000000;text-align:left;padding:5;">'.get_proname($conn,$quinfo['cpro'.$i]).' '.get_prodetail($conn,$quinfo['cpro'.$i]).'</td>
+					<td style="border:1px solid #000000;padding:5;text-align:center;" >'.$quinfo['pro_pod'.$i].'</td>';
+					$form .= '<td style="border:1px solid #000000;padding:5;text-align:center;" >'.$quinfo['pro_sn'.$i].'</td>';
+					if($_POST['qu_table'] == 3){
+						$form .= '<td style="border:1px solid #000000;padding:5;text-align:center;">'.number_format($quinfo['camount'.$i]).'</td>';
+					}
+					$form .= '</tr>';
+				}
+			}
+		}
+		
+		$form .= '</table><br>';
+	}
+	$form .= '<table width="100%" cellspacing="0" cellpadding="0" style="text-align:center;">
       <tr>
         <td width="33%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
         	<table width="100%" cellspacing="0" cellpadding="0">

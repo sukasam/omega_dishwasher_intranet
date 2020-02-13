@@ -263,12 +263,23 @@ function selectProcess(evt){
 				  </select>
 				  <?php
 			  }else{
-				  ?>
-				  <select name="process_applove" style="background:#FFFFFF;color:#000;" onchange="selectProcess('<?php echo $rec['qc_id'];?>')" id="process_<?php echo $rec['qc_id'];?>">
-					  <option value="0" <?php if($rec['process'] == '0'){echo 'selected';}?>>รอแก้ไขใบแจ้งงาน</option>
-					  <option value="1">รอผู้อนุมัติฝ่ายขาย</option>
-				  </select>
-				  <?php
+				  if($_GET['tab'] == 3){
+					  if($quinfo['loc_name'] != '' && $quinfo['loc_address'] != ''){
+						?>
+						<select name="process_applove" style="background:#FFFFFF;color:#000;" onchange="selectProcess('<?php echo $rec['qc_id'];?>')" id="process_<?php echo $rec['qc_id'];?>">
+							<option value="0" <?php if($rec['process'] == '0'){echo 'selected';}?>>รอแก้ไขใบแจ้งงาน</option>
+							<option value="1">รอผู้อนุมัติฝ่ายขาย</option>
+						</select>
+						<?php
+					  }
+				  }else{
+					?>
+					<select name="process_applove" style="background:#FFFFFF;color:#000;" onchange="selectProcess('<?php echo $rec['qc_id'];?>')" id="process_<?php echo $rec['qc_id'];?>">
+						<option value="0" <?php if($rec['process'] == '0'){echo 'selected';}?>>รอแก้ไขใบแจ้งงาน</option>
+						<option value="1">รอผู้อนุมัติฝ่ายขาย</option>
+					</select>
+					<?php
+				  }
 			  }
 			  ?>
           </center></TD>
