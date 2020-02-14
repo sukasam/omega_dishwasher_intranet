@@ -134,7 +134,8 @@
 					$process = '0';
 					@mysqli_query($conn,"UPDATE `s_first_order` SET `process` = '".$process."' WHERE `s_first_order`.`fo_id` = ".$id.";");
 					@mysqli_query($conn,"DELETE FROM `s_approve` WHERE tag_db = '".$tbl_name."' AND t_id = '".$id."'");
-				//}
+        //}
+        
 
 				include_once("../mpdf54/mpdf.php");
 				include_once("form_firstorder.php");
