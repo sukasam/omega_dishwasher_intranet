@@ -26,9 +26,9 @@
 		$a_sdate=explode("/",$_POST['date_qut']);
 		$_POST['date_qut']=$a_sdate[2]."-".$a_sdate[1]."-".$a_sdate[0];
 
-		$_POST['ccomment'] = nl2br($_POST['ccomment']);
-		$_POST['qucomment'] = nl2br($_POST['qucomment']);
-		$_POST['remark'] = nl2br($_POST['remark']);
+		$_POST['ccomment'] = nl2br(addslashes($_POST['ccomment']));
+		$_POST['qucomment'] = nl2br(addslashes($_POST['qucomment']));
+		$_POST['remark'] = nl2br(addslashes($_POST['remark']));
 
 		$_POST['separate'] = 0;
 
@@ -949,7 +949,7 @@ Vat 7%</strong></td>
     
 
     <tr>
-      <td colspan="7" style="text-align:left;border:1px solid #000000;padding:5;vertical-align:top;padding-top:15px;"><strong>หมายเหตุ :</strong><br><textarea name="ccomment" id="ccomment" ><?php  echo strip_tags($ccomment);?></textarea><br></td>
+      <td colspan="7" style="text-align:left;border:1px solid #000000;padding:5;vertical-align:top;padding-top:15px;"><strong>หมายเหตุ :</strong><br><textarea name="ccomment" id="ccomment" ><?php  echo strip_tags(stripslashes($ccomment));?></textarea><br></td>
     </tr>
     </table><br>
 	<table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -1007,7 +1007,7 @@ Vat 7%</strong></td>
               <br><br></div>
 -->
               <br><strong>เงื่อนไขการชำระเงิน :<br>
-              <textarea name="qucomment" id="qucomment" style="height:50px;"><?php  echo strip_tags($qucomment);?></textarea>
+              <textarea name="qucomment" id="qucomment" style="height:50px;"><?php  echo strip_tags(stripslashes($qucomment));?></textarea>
               </strong><!--<br>
                 <br>
                 <strong>กำหนดวางบิล : </strong>ตั้งแต่วันที่ 12-15 ของเดือน-->
@@ -1152,7 +1152,7 @@ Vat 7%</strong></td>
         <td width="33%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:left;padding-top:10px;padding-bottom:10px;">
         <strong>หมายเหตุอื่นๆ :</strong>
         <br>
-        <textarea name="remark" id="remark" style="height:150px;"><?php  echo strip_tags($remark);?></textarea>
+        <textarea name="remark" id="remark" style="height:150px;"><?php  echo strip_tags(stripslashes($remark));?></textarea>
         </td>
       </tr>
     </table>
