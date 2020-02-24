@@ -280,6 +280,9 @@ function format_date_th ($value,$type) {
 		case "7" :  //มกราคม
 			$msg =  $month_full_th[$s_month];
 			break;
+		case "8" :  // อาทิตย์ที่ 4 มกราคม 2548 เวลา 14.11 น.
+			$msg = "วันที่ ". sprintf("%02d",$s_day) . "/" .  sprintf("%02d",$s_month) . "/" .  $s_year . " <br>เวลา " . $s_hour . "." . $s_minute . " น." ;
+			break;
 		}
 	return ($msg);
 
@@ -2969,6 +2972,16 @@ function addNotification($conn,$typenoti,$tbl_name,$PK_field,$process){
 	while($row_forder = @mysqli_fetch_array($qu_forder)){
 		@mysqli_query($conn,"INSERT INTO `s_notification` (`id`, `tag_db`, `t_id`, `process`, `process_date`, `user_account`, `view`, `type_noti`) VALUES (NULL, '".$tbl_name."', '".$PK_field."', '".$process."','".date("Y-m-d H:i:s")."', '".$row_forder['user_account']."', '0', '".$typenoti."');");
 	}
+}
+
+function getCustomerSignatureDateTime($conn,$val){
+	$row_dea = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM  s_service_report WHERE sr_id = '".$val."'"));
+	if($row_dea['signature_date'] != ""){
+		return format_date_th($row_dea['signature_date'],8);	
+	}else{
+		return "";
+	}
+	
 }
 
 function getShowNoti($conn,$res){

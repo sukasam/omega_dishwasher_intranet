@@ -668,7 +668,7 @@ function check(frm){
 						$qu_custec = @mysqli_query($conn,"SELECT * FROM s_group_technician ORDER BY group_name ASC");
 						while($row_custec = @mysqli_fetch_array($qu_custec)){
 							if($loc_contact3 != ""){$loc_contact3 = $loc_contact3;}
-							else{$loc_contact3 = 9;}
+							else{$loc_contact3 = 11;}
 							?>
                     <option value="<?php  echo $row_custec['group_id'];?>" <?php  if($row_custec['group_id'] == $loc_contact3){echo 'selected';}?>><?php  echo $row_custec['group_name']. " (Tel : ".$row_custec['group_tel'].")";?></option>
                     <?php 

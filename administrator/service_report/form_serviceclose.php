@@ -93,6 +93,8 @@
 		$hCustomerSignature = '<img src="../../upload/customer/signature/none.png" height="50" border="0" />';
 	}
 
+	$dateTimeCusSignature = getCustomerSignatureDateTime($conn,$id);
+
 	$form = '<style>
 	.bgheader{
 		font-size:10px;
@@ -335,9 +337,7 @@
                 <td style="padding-top:10px;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>ผู้รับบริการ</strong></td>
               </tr>
               <tr>
-                <td style="font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>วันที่............./.............../..............<br />
-                  <br />
-                เวลา............................................                </strong></td>
+                <td style="font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>'.$dateTimeCusSignature.'</strong></td>
               </tr>
             </table>
         </td>
