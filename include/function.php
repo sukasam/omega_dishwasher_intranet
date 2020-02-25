@@ -2984,6 +2984,12 @@ function getCustomerSignatureDateTime($conn,$val){
 	
 }
 
+function setLogSystem($conn,$user,$tabledb,$action,$datasql){
+	$sql = "INSERT INTO `s_log_system` (`id`, `user`, `tabledb`, `uaction`, `datasql`, `datetime`) VALUES 
+	(NULL, '".$user."', '".$tabledb."', '".$action."', '".$datasql."', CURRENT_TIMESTAMP);";
+	mysqli_query($conn,$sql);
+}
+
 function getShowNoti($conn,$res){
 
 

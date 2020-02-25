@@ -410,8 +410,8 @@ function check(frm){
 			?>
 			<strong>ประเภทบริการลูกค้า :</strong><?php echo get_servicename($conn,$sr_ctype);?>
 			<input type="hidden" name="sr_ctype" value="<?php echo $sr_ctype;?>">&nbsp;&nbsp;
-			<strong>ประเภทลูกค้า :</strong><?php echo getcustom_type($conn,$sr_ctype);?>
-			<input type="hidden" name="sr_ctype2" value="<?php echo $sr_ctype;?>">
+			<strong>ประเภทลูกค้า :</strong><?php echo getcustom_type($conn,$sr_ctype2);?>
+			<input type="hidden" name="sr_ctype2" value="<?php echo $sr_ctype2;?>">
 			<?php
 		}else{
 		?>

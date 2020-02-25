@@ -82,7 +82,7 @@
 <body>
 	<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbreport">
 	  <tr>
-	    <th colspan="5" style="text-align:left;font-size:12px;">บริษัท โอเมก้า ดิชวอชเชอร์ (ประเทศไทย) จำกัด<br />
+	    <th colspan="6" style="text-align:left;font-size:12px;">บริษัท โอเมก้า ดิชวอชเชอร์ (ประเทศไทย) จำกัด<br />
 รายงานการให้บริการตามรายชื่อช่าง (<?php  if($loc_contact){echo get_technician_name($conn,$loc_contact);}else{echo "ทั้งหมด";}?>)<br />
 ประเภทลูกค้า  :
 <?php  if($_POST['ctype'] != ""){echo getcustom_type($conn,$_POST['ctype']);}else{echo "ทั้งหมด";}?>
@@ -112,8 +112,9 @@
         </table>
        </th><?php  }?>
         <?php  if($_REQUEST['sh9'] == 1){?><th width="19%">รายละเอียดบริการ</th><?php  }?>
-        <?php  if($_REQUEST['sh10'] == 1){?><th width="7%">วันที่ให้บริการ</th><?php  }?>
-		<th width="7%">พื้นที่เข้าบริการ</th>
+        <?php  if($_REQUEST['sh10'] == 1){?><th width="7%" style="white-space: nowrap;">วันที่ให้บริการ</th><?php  }?>
+		<th width="10%" style="white-space: nowrap;">วันที่เข้าเซอร์วิส</th>
+		<th width="7%" style="white-space: nowrap;">พื้นที่เข้าบริการ</th>
       </tr>
       <?php  
 		$sql = "SELECT * FROM s_first_order as fr, s_service_report as sv WHERE sv.cus_id = fr.fo_id ".$condition." ".$daterriod." ORDER BY fr.cd_name ASC";
@@ -304,6 +305,9 @@
               <?php  if($_REQUEST['sh9'] == 1){?><td><?php  echo $row_fr['detail_recom2'];?></td>   <?php  }?>
               <?php  if($_REQUEST['sh10'] == 1){?><td><?php  if($openclose == 0){echo format_date($row_fr['sr_stime']);}else if($openclose == 2){echo format_date($row_fr['sr_stime']);}else{echo "-";}?></td>  <?php  }?>   
 			  <td>
+					<?php if($row_fr['signature_date'] != ""){echo format_date(substr($row_fr['signature_date'],0,10));}else{echo '-';};?>
+			  </td>
+			  <td>
 			  <?php
 			 	if($row_fr['latitude'] != "" && $row_fr['longitude'] != ""){
 					$sumSerice = $sumSerice+1;
@@ -324,13 +328,13 @@
 		
 	  ?>
       <tr>
-			  <td colspan="10" align="right"><strong>ให้บริการตามรายชื่อช่างทั้งหมด</strong>&nbsp;&nbsp;&nbsp;<strong><?php  echo $sums;?>&nbsp;&nbsp;รายการ</strong>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			  <td colspan="11" align="right"><strong>ให้บริการตามรายชื่อช่างทั้งหมด</strong>&nbsp;&nbsp;&nbsp;<strong><?php  echo $sums;?>&nbsp;&nbsp;รายการ</strong>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 	  </tr>
 	  <tr>
-			  <td colspan="10" align="right"><strong>ให้บริการทั้งหมด</strong>&nbsp;&nbsp;&nbsp;<strong><?php  echo $sumSerice;?>&nbsp;&nbsp;รายการ</strong>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			  <td colspan="11" align="right"><strong>ให้บริการทั้งหมด</strong>&nbsp;&nbsp;&nbsp;<strong><?php  echo $sumSerice;?>&nbsp;&nbsp;รายการ</strong>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 	  </tr>
 	  <tr>
-			  <td colspan="10" align="right"><strong>คงเหลือเข้าบริการทั้งหมด</strong>&nbsp;&nbsp;&nbsp;<strong><?php  echo $sums - $sumSerice;?>&nbsp;&nbsp;รายการ</strong>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			  <td colspan="11" align="right"><strong>คงเหลือเข้าบริการทั้งหมด</strong>&nbsp;&nbsp;&nbsp;<strong><?php  echo $sums - $sumSerice;?>&nbsp;&nbsp;รายการ</strong>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 	  </tr>
     </table>
 

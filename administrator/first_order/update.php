@@ -71,15 +71,15 @@
 				include "../include/m_add.php";
 				$id = mysqli_insert_id($conn);
 			
-//				if($chkSale == '0'){
+//	      if($chkSale == '0'){
 //					@mysqli_query($conn,"UPDATE `s_first_order` SET `process` = '5' WHERE `s_first_order`.`fo_id` = ".$id.";");
 //				}else{
 //					@mysqli_query($conn,"UPDATE `s_first_order` SET `process` = '0' WHERE `s_first_order`.`fo_id` = ".$id.";");
 //				}
 			
-				$process = '0';
-			
-				@mysqli_query($conn,"UPDATE `s_first_order` SET `process` = '0' WHERE `s_first_order`.`fo_id` = ".$id.";");
+        $process = '0';
+        @mysqli_query($conn,"UPDATE `s_first_order` SET `process` = '0' WHERE `s_first_order`.`fo_id` = ".$id.";");
+
 				
 				include_once("../mpdf54/mpdf.php");
 				include_once("form_firstorder.php");
@@ -91,7 +91,9 @@
 				}
 				$mpdf->WriteHTML($form);
 				$chaf = str_replace("/","-",$_POST['fs_id']);
-				$mpdf->Output('../../upload/first_order/'.$chaf.'.pdf','F');
+        $mpdf->Output('../../upload/first_order/'.$chaf.'.pdf','F');
+        
+        setLogSystem($conn,$_SESSION["login_id"],$tbl_name,$_POST['mode'],addslashes($sqlIns));
 
 			header ("location:index.php?" . $param);
 		}
@@ -130,11 +132,11 @@
 					}
 				}
 
-				//if($_POST['chkprocess'] == '0'){
+				if($_POST['chkprocess'] == '0'){
 					$process = '0';
 					@mysqli_query($conn,"UPDATE `s_first_order` SET `process` = '".$process."' WHERE `s_first_order`.`fo_id` = ".$id.";");
 					@mysqli_query($conn,"DELETE FROM `s_approve` WHERE tag_db = '".$tbl_name."' AND t_id = '".$id."'");
-        //}
+        }
         
 
 				include_once("../mpdf54/mpdf.php");
@@ -149,7 +151,9 @@
 				
 				$mpdf->WriteHTML($form);
 				$chaf = str_replace("/","-",$_POST['fs_id']);
-				$mpdf->Output('../../upload/first_order/'.$chaf.'.pdf','F');
+        $mpdf->Output('../../upload/first_order/'.$chaf.'.pdf','F');
+        
+        setLogSystem($conn,$_SESSION["login_id"],$tbl_name,$_POST['mode'],addslashes($sqlIns));
 
 			header ("location:index.php?" . $param);
 		}
