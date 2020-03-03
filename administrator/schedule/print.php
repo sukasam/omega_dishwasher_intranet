@@ -13,9 +13,16 @@
 <head>
 <meta charset="UTF-8">
 <title>ใบปะหน้างานบริการประจำเดือน</title>
+
+<script>
+function chkPrint(){
+	setTimeout(function () { window.print(); }, 200);
+	window.onfocus = function () { setTimeout(function () { window.close(); }, 200); }
+}
+</script>
 </head>
 
-<body onLoad="window.print();window.close();">
+<body onLoad="javascript:chkPrint();">
 <!--onLoad="window.print();window.close();"-->
 <style>
 	body{

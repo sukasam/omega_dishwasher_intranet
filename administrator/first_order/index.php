@@ -24,7 +24,10 @@
 			}	
 			
 			$sql = "delete from $tbl_name  where $PK_field = '".$_GET[$PK_field]."'";
-			@mysqli_query($conn,$sql);			
+			@mysqli_query($conn,$sql);		
+			
+			setLogSystem($conn,$_SESSION["login_id"],$tbl_name,'delete',addslashes($sql));
+
 			header ("location:index.php");
 		} 
 	}
