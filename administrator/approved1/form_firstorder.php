@@ -25,8 +25,11 @@ $sumprice  = str_replace($vowels,"",$prspro1) + str_replace($vowels,"",$prspro2)
 $sumpricevat = ($sumprice * 7) / 100;
 $sumtotal = $sumprice + $sumpricevat;
 
-if ($_POST['notvat1'] == 2) {$money_garuntree = $_POST['money_garuntree'];} else {$money_garuntree = $_POST['money_garuntree']* 1.07;}
-if ($_POST['notvat2'] == 2) {$money_setup = $_POST['money_setup'] - ($_POST['money_setup'] - ($_POST['money_setup'] / 1.07));} else {$money_setup = $_POST['money_setup'];}
+// if ($_POST['notvat1'] == 2) {$money_garuntree = $_POST['money_garuntree'];} else {$money_garuntree = $_POST['money_garuntree']* 1.07;}
+// if ($_POST['notvat2'] == 2) {$money_setup = $_POST['money_setup'] - ($_POST['money_setup'] - ($_POST['money_setup'] / 1.07));} else {$money_setup = $_POST['money_setup'];}
+
+if($_REQUEST['notvat1'] == 2){$money_garuntree = $_REQUEST["money_garuntree"] + (($_REQUEST["money_garuntree"] * 7 ) / 100);}else{$money_garuntree = $_REQUEST["money_garuntree"];}
+if($_REQUEST['notvat2'] == 2){$money_setup = $_REQUEST["money_setup"]+ (($_REQUEST["money_setup"] * 7 ) / 100);}else{$money_setup = $_REQUEST["money_setup"];}
 
 //break;
 if($_POST["loc_clean"] != ""){$loc_clean = $_POST["loc_clean"];}else{$loc_clean = " - ";}
