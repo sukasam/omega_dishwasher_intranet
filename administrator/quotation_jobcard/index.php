@@ -42,11 +42,9 @@
 <LINK rel="stylesheet" type=text/css href="../css/style.css" media=screen>
 <LINK rel="stylesheet" type=text/css href="../css/invalid.css" media=screen>
 <SCRIPT type=text/javascript src="../js/jquery-1.9.1.min.js"></SCRIPT>
-<!--
 <!--<SCRIPT type=text/javascript src="../js/simpla.jquery.configuration.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/facebox.js"></SCRIPT>-->
 <SCRIPT type=text/javascript src="../js/jquery.wysiwyg.js"></SCRIPT>
--->
 <SCRIPT type=text/javascript src="ajax.js"></SCRIPT>
 <META name=GENERATOR content="MSHTML 8.00.7600.16535">
 <script>
@@ -263,6 +261,7 @@ function selectProcess(evt){
 				  </select>
 				  <?php
 			  }else{
+				  //echo $rec['process']."sss";
 				  if($_GET['tab'] == 3){
 					  if($quinfo['loc_name'] != '' && $quinfo['loc_address'] != ''){
 						?>
@@ -271,6 +270,8 @@ function selectProcess(evt){
 							<option value="1">รอผู้อนุมัติฝ่ายขาย</option>
 						</select>
 						<?php
+					  }else{
+						  echo "รอการยืนยันจาก FO";
 					  }
 				  }else{
 					?>
