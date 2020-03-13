@@ -137,11 +137,11 @@ $garunteeVat = 0;
 //	}
 
 if ($finfos['notvat1'] == 2 && $finfos['money_garuntree'] != "") {
-	$garunteePrice = $finfos['money_garuntree'] - ($finfos['money_garuntree'] - ($finfos['money_garuntree'] / 1.07));
-	$garunteeVat = $finfos['money_garuntree'] - ($finfos['money_garuntree'] / 1.07);
+	$garunteePrice = $finfos['money_garuntree'];
+	$garunteeVat = ($finfos['money_garuntree'] * 1.07) - $finfos['money_garuntree'];
 } else {
 	$garunteePrice = $finfos['money_garuntree'];
-	$garunteeVat = $finfos['money_garuntree'] * 0.07;
+	$garunteeVat = 0;
 }
 
 $garunteeTotal = $garunteePrice + $garunteeVat;
