@@ -65,7 +65,7 @@
 -->
         <td><div align="center"><a href="../group_approve/"><img src="../images/menu/mn_serting08.png" width="100" height="60" border="0" alt=""><br><br><strong>กำหนดผู้อนุมัติเอกสาร</strong></a></div></td>
         <td><div align="center"><a href="../group_notification/"><img src="../images/menu/mn_notifications.png" width="100" height="60" border="0" alt=""><br><br><strong>ระบบแจ้งเตือนการอนุมัติ</strong></a></div></td>
-        <td><div align="center"></div></td>
+        <td><div align="center"><a href="../order_solution/"><img src="../images/menu/mn_serting05.png" width="62" height="60" border="0" alt=""><br><br><strong>ระบบใบสั่งน้ำยา</strong></a></div></div></td>
       </tr>
       <tr>
         <td colspan="4"><br /><br /></td>

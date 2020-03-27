@@ -90,6 +90,8 @@
 			}
 			
 			$_POST['ckf_list'] = substr($checklist,0,-1);
+
+			//$_POST['st_setting'] = "1";
 			
 //			$chaf = str_replace("/","-",$_POST['sv_id']); 
 //			echo '../../upload/service_report_open/'.$chaf.'.pdf';

@@ -124,7 +124,6 @@
 <!--<SCRIPT type=text/javascript src="../js/simpla.jquery.configuration.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/facebox.js"></SCRIPT>-->
 <SCRIPT type=text/javascript src="../js/jquery.wysiwyg.js"></SCRIPT>
--->
 <SCRIPT type=text/javascript src="ajax.js"></SCRIPT>
 <META name=GENERATOR content="MSHTML 8.00.7600.16535">
 <script>
