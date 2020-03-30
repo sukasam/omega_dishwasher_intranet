@@ -7,17 +7,6 @@
 	if($_GET['action'] == 'getcusfirsh'){
 		$fpid = $_GET['pid'];
 		$rowcus  = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM s_first_order WHERE fo_id  = '".$fpid."'"));
-		
-//		$prolist = get_profirstorder($conn,$fpid);
-//		//$lispp = explode(",",$prolist);
-//		$plid = "<select name=\"bbfpro\" id=\"bbfpro\" onchange=\"get_podsn(this.value,'lpa1','lpa2','lpa3','".$fpid."')\">
-//						<option value=\"\"><<== Select ==>></option>       
-//					 ";
-//		for($i=0;$i<count($prolist);$i++){
-//			$plid .= "<option value=".$i.">".get_proname($conn,$prolist[$i])."</option>";
-//		}	
-//		$plid .=	 "</select>";
-//		
 		$ctyp = '';
 		$qu_province = @mysqli_query($conn,"SELECT * FROM s_province ORDER BY province_name ASC");
 			while($row_province = @mysqli_fetch_array($qu_province)){
@@ -26,8 +15,8 @@
 					$ctyp .= ">".$row_province['province_name']."</option>";
 					
 			}
-
-		$displ = "|".$rowcus['cd_address']."|".$ctyp."|".$rowcus['cd_tel']."|".$rowcus['cd_fax']."|".$rowcus['c_contact']."|".$rowcus['c_tel'];
+		
+		$displ = "|".$rowcus['cd_address']."|".$ctyp."|".$rowcus['cd_tel']."|".$rowcus['cd_fax']."|".$rowcus['c_contact']."|".$rowcus['c_tel']."|".$rowcus['ctype']."|".custype_name($conn,$rowcus['ctype'])."|".$rowcus['loc_name2']."|".$rowcus['loc_address2'];
 		echo $displ;
 	}
 
@@ -127,6 +116,8 @@
 
 		//echo "SELECT * FROM s_group_typeproduct ORDER BY group_name ASC";
 	}
+
+	
 
 ?>
 

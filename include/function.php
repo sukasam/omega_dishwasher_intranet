@@ -3040,5 +3040,45 @@ function getShowNoti($conn,$res){
 	}
 }
 
+function getStatusSolution($res){
+	$nameStatus = '';
+	if($res == 1){
+		$nameStatus = 'รอจัดส่ง';
+	}else if($res == 2){
+		$nameStatus = 'อยู่ระหว่างการจัดส่ง';
+	}else if($res == 3){
+		$nameStatus = 'ค้างชำระ';
+	}else if($res == 4){
+		$nameStatus = 'รอสินค้าเข้าสต็อค';
+	}else if($res == 5){
+		$nameStatus = 'จัดส่งเรียบร้อย';
+	}else if($res == 6){
+		$nameStatus = 'ยกเลิก';
+	}else{
+		$nameStatus = 'รายการใหม่';
+	}
+	return $nameStatus;
+}
+
+function getStatusSolutionColor($res){
+	$nameStatus = '';
+	if($res == 1){
+		$nameStatus = '#DAF';
+	}else if($res == 2){
+		$nameStatus = '#ADA';
+	}else if($res == 3){
+		$nameStatus = '#FA0';
+	}else if($res == 4){
+		$nameStatus = '#D88';
+	}else if($res == 5){
+		$nameStatus = '#FD4';
+	}else if($res == 6){
+		$nameStatus = '#F44';
+	}else{
+		$nameStatus = '#FFF';
+	}
+	return $nameStatus;
+}
+
 ?>
 

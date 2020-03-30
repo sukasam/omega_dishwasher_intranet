@@ -56,12 +56,13 @@ $form = '
             ที่อยู่ :</strong> '.$_POST["cd_address"].'<br />
             <br />
             <strong>โทรศัพท์ :</strong> '.$_POST["cd_tel"].'<strong>&nbsp;&nbsp;&nbsp; แฟกซ์ :</strong> '.$_POST["cd_fax"].'<br /><br />
+            <strong>ชื่อผู้ติดต่อ : </strong>'.$_POST["c_contact"].'<strong>&nbsp;&nbsp;&nbsp;เบอร์โทร :</strong> '.$_POST["c_tel"].' 
             </td>
             <td width="43%" valign="top" style="font-size:11px;font-family:Verdana, Geneva, sans-serif;padding:9px 5px;">
-            <strong>วันที่สั่งซื้อ : </strong> '.format_date($_POST["date_forder"]).'&nbsp;&nbsp;&nbsp;<strong>ประเภทลูกค้า :</strong> '.getCustomerTypeSolution($_POST['type_service']).'<br /><br />
-            <strong>เลขที่ใบสั่งน้ำยา : </strong>'.$_POST["fs_id"].'<br /><br />
-			<strong>ชื่อผู้ติดต่อ : </strong>'.$_POST["c_contact"].'<strong>&nbsp;&nbsp;&nbsp;เบอร์โทร :</strong> '.$_POST["c_tel"].' 
-            <br /><br />
+            <strong>วันที่สั่งซื้อ : </strong> '.format_date($_POST["date_forder"]).'&nbsp;&nbsp;&nbsp;<strong>ประเภทลูกค้า :</strong> '.custype_name($conn,$_POST['type_service']).'<br /><br />
+            <strong>เลขที่ใบสั่งน้ำยา : </strong>'.$_POST["fs_id"].'&nbsp;&nbsp;<strong>เลขที่ PO : </strong>'.$_POST["po_id"].'<br /><br />
+            <strong>สถานที่จัดส่ง : </strong>'.$_POST["ship_name"].'<br /><br />
+            <strong>ที่อยู่ : </strong>'.$_POST["ship_address"].'
 			</td>
           </tr>
 </table>
@@ -72,7 +73,6 @@ $form = '
       <td width="10%" style="border:1px solid #003399;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>รหัส</strong></td>
       <td width="40%" style="border:1px solid #003399;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>รายการ</strong></td>
       <td width="10%" style="border:1px solid #003399;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>จำนวน</strong></td>
-      <td width="10%" style="border:1px solid #003399;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>ราคา/หน่วย</strong></td>
     </tr>';
 
     $nrow = 1;
@@ -99,13 +99,10 @@ $form = '
           <td style="border:1px solid #003399;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;">
           '.number_format($_POST['chkAmount'][$a]).'
           </td>
-          <td style="border:1px solid #003399;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:right;">
-          '.number_format($_POST['chkPrice'][$a],2).'&nbsp;&nbsp;
-          </td>
         </tr>';
-        $sumprice =  $sumprice + ($_POST['chkAmount'][$a]*$_POST['chkPrice'][$a]);
-        $sumpricevat = ($sumprice * 7) / 100;
-        $sumtotals = $sumprice + $sumpricevat;
+        // $sumprice =  $sumprice + ($_POST['chkAmount'][$a]*$_POST['chkPrice'][$a]);
+        // $sumpricevat = ($sumprice * 7) / 100;
+        // $sumtotals = $sumprice + $sumpricevat;
         $nrow++;
       }
     }
@@ -125,29 +122,27 @@ $form = '
           <td style="border:1px solid #003399;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;">
           &nbsp;&nbsp;
           </td>
-          <td style="border:1px solid #003399;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:right;">
-          &nbsp;&nbsp;
-          </td>
         </tr>';
       }
     }
 
-    $form .='<tr>
-      <td colspan="3" style="border:0px solid #003399;padding:9px 5px;"></td>
-      <td style="border:1px solid #003399;padding:9px 5px;"><strong>รวมทั้งหมด</strong></td>
-      <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">'.number_format($sumprice,2).'&nbsp;&nbsp;</td>
-    </tr>
-    <tr>
-      <td colspan="3" style="border:0px solid #003399;padding:9px 5px;"></td>
-      <td style="border:1px solid #003399;padding:9px 5px;"><strong>VAT 7 %</strong></td>
-      <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">'.number_format($sumpricevat,2).'&nbsp;&nbsp;</td>
-    </tr>
-    <tr>
-      <td colspan="3" style="text-align:center;border:0px solid #003399;padding:9px 5px;background-color: #ddebf7;"><strong>'.baht_text($sumtotals).'</strong></td>
-      <td style="border:1px solid #003399;padding:9px 5px;"><strong>ราคารวมทั้งสิ้น</strong></td>
-      <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">'.number_format($sumtotals,2).'&nbsp;&nbsp;</td>
-    </tr>
-</table><br>
+    // $form .='<tr>
+    //   <td colspan="3" style="border:0px solid #003399;padding:9px 5px;"></td>
+    //   <td style="border:1px solid #003399;padding:9px 5px;"><strong>รวมทั้งหมด</strong></td>
+    //   <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">'.number_format($sumprice,2).'&nbsp;&nbsp;</td>
+    // </tr>
+    // <tr>
+    //   <td colspan="3" style="border:0px solid #003399;padding:9px 5px;"></td>
+    //   <td style="border:1px solid #003399;padding:9px 5px;"><strong>VAT 7 %</strong></td>
+    //   <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">'.number_format($sumpricevat,2).'&nbsp;&nbsp;</td>
+    // </tr>
+    // <tr>
+    //   <td colspan="3" style="text-align:center;border:0px solid #003399;padding:9px 5px;background-color: #ddebf7;"><strong>'.baht_text($sumtotals).'</strong></td>
+    //   <td style="border:1px solid #003399;padding:9px 5px;"><strong>ราคารวมทั้งสิ้น</strong></td>
+    //   <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">'.number_format($sumtotals,2).'&nbsp;&nbsp;</td>
+    // </tr>';
+
+    $form .='</table><br>
 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tb1" >
     <tr>
       <td style="border:1px solid #003399;font-size:11px;font-family:Verdana, Geneva, sans-serif;padding:15px;"><strong>หมายเหตุ : </strong>'.$_POST["remark"].'</td>

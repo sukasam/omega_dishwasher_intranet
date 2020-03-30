@@ -48,7 +48,7 @@
 		
 	var sCustomerName = self.opener.document.getElementById("cd_name");
 		sCustomerName.value = cname;
-		self.opener.checkfirstorder(cid,'cd_address','cd_province','cd_tel','cd_fax','c_contact','c_tel');
+		self.opener.checkfirstorder(cid,'cd_address','cd_province','cd_tel','cd_fax','c_contact','c_tel','type_service');
 		self.opener.document.getElementById("rsnameid").innerHTML="<input type=\"hidden\" name=\"cus_id\" value=\""+cid+"\">";
 
 		window.close();

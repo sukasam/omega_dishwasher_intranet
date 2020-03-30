@@ -132,7 +132,7 @@ $form = '
 </table>
 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tb2" style="border:1px solid #000000;margin-top: 10px;">
           <tr>
-            <td style="font-size:10px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>สถานที่ติดตั้ง / ส่งสินค้า :</strong> '.$_POST["loc_name"].'<br />
+            <td style="font-size:10px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>สถานที่ติดตั้ง :</strong> '.$_POST["loc_name"].'<br />
             <br />              <strong>ที่อยู่ :</strong> '.$_POST["loc_address"].'<strong><br />
             <br />
             ขนส่งโดย :</strong> '.$_POST["loc_shopping"].'</td>

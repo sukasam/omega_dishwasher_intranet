@@ -40,7 +40,7 @@
         
         foreach($_POST['chkCode'] as $a => $b){
 				
-          if($_POST['chkAmount'][$a] != "" && $_POST['chkPrice'][$a] != ""){
+          if($_POST['chkAmount'][$a] != ""){
 
             $_POST['chkPrice'][$a] = str_replace($vowels,"",$_POST['chkPrice'][$a]);
 
@@ -48,6 +48,8 @@
           }
           //echo $a ." ". $b." ".$_POST['chkOrder'][$a]." ".$_POST['chkAmount'][$a]." ".$_POST['chkPrice'][$a]."<br>";
         }	
+
+        @mysqli_query($conn,"UPDATE `s_order_solution` SET `who_sale` = '".$_SESSION["login_id"]."' WHERE `order_id` = ".$id.";");
 
 				//require_once("genpdf.php");
 
@@ -209,11 +211,15 @@ function submitForm() {
             <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;">
             	<strong>เลขที่ใบสั่งน้ำยา:</strong> 
             <input type="text" name="fs_id" value="<?php  if($fs_id == ""){echo check_ordersolution($conn);}else{echo $fs_id;};?>" id="fs_id" class="inpfoder" style="border: 0px;"> 
+            &nbsp;&nbsp;<strong>เลขที่ PO:</strong> 
+            <input type="text" name="po_id" value="<?php echo $po_id;?>" id="po_id" class="inpfoder"> 
+
             </td>
 
           </tr>
           <tr>
-            <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>ที่อยู่ :</strong> <input type="text" name="cd_address" value="<?php  echo $cd_address;?>" id="cd_address" class="inpfoder" style="width:80%;border: 0px;"></td>
+            <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;">
+            <strong>ที่อยู่ :</strong> <input type="text" name="cd_address" value="<?php  echo $cd_address;?>" id="cd_address" class="inpfoder" style="width:80%;border: 0px;"></td>
             <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;">
             <strong> วันที่สั่งซื้อ :</strong> <input type="text" name="date_forder" readonly value="<?php  if($date_forder==""){echo date("d/m/Y");}else{ echo $date_forder;}?>" class="inpfoder"/><script language="JavaScript">new tcal ({'formname': 'form1','controlname': 'date_forder'});</script>
             </td>
@@ -232,9 +238,7 @@ function submitForm() {
             </select>
            	</td>
             <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;">
-            	<strong>ประเภทลูกค้า :</strong> <input type="radio" name="type_service" value="1" <?php if($type_service == '1' || $type_service == '0' || $type_service == ''){echo 'checked';}?>> ลูกค้าน้ำยา
-				&nbsp;&nbsp;<input type="radio" name="type_service" value="2" <?php if($type_service == '2'){echo 'checked';}?>> เช่ารวมน้ำยา
-				&nbsp;&nbsp;<input type="radio" name="type_service" value="3" <?php if($type_service == '3'){echo 'checked';}?>> เช่าแยกน้ำยา
+              <strong>ประเภทลูกค้า :</strong> <span id="type_servicetxt"><?php if($cd_name != ""){echo custype_name($conn,$type_service);}?></span><input type="hidden" name="type_service" id="type_service" value="<?php echo $type_service;?>">
             </td>
           </tr>
           <tr>
@@ -242,10 +246,18 @@ function submitForm() {
               <strong>แฟกซ์ :</strong>
               <input type="text" name="cd_fax" value="<?php  echo $cd_fax;?>" id="cd_fax" class="inpfoder" style="border: 0px;"></td>
             <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;">
-            	<strong>ชื่อผู้ติดต่อ :</strong>
+             <strong>สถานที่จัดส่ง :</strong><input type="text" name="ship_name" value="<?php  echo $ship_name;?>" id="ship_name" class="inpfoder" style="width:80%;border: 0px;">
+            </td>
+          </tr>
+          <tr>
+            <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;">
+            <strong>ชื่อผู้ติดต่อ :</strong>
               <input type="text" name="c_contact" value="<?php  echo $c_contact;?>" id="c_contact" class="inpfoder" style="border: 0px;">
               <strong>เบอร์โทร :</strong>
               <input type="text" name="c_tel" value="<?php  echo $c_tel;?>" id="c_tel" class="inpfoder" style="border: 0px;">
+          </td>
+            <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;">
+            <strong>ที่อยู่ :</strong><input type="text" name="ship_address" value="<?php  echo $ship_address;?>" id="ship_address" class="inpfoder" style="width:80%;border: 0px;">
             </td>
           </tr>
 </table>
@@ -258,7 +270,7 @@ function submitForm() {
       <td width="10%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>รหัส</strong></td>
       <td width="40%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>รายการ</strong></td>
       <td width="10%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>จำนวน</strong></td>
-      <td width="10%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>ราคา/หน่วย</strong></td>
+      <td width="10%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;display:none;"><strong>ราคา/หน่วย</strong></td>
     </tr>
     <?php
 
@@ -303,7 +315,7 @@ function submitForm() {
       <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;">
         <input type="text" name="chkAmount[]" id="chkAmount<?php echo $nRow-1;?>" value="<?php if(in_array($rowOrder['group_id'], $pro_id)){$key = array_search($rowOrder['group_id'], $pro_id);echo number_format($pro_amount[$key]);}?>" style="text-align:center;" onkeypress="return isNumberKey(event);">
       </td>
-      <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;">
+      <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;display:none;">
         <input type="text" name="chkPrice[]" id="chkPrice<?php echo $nRow-1;?>" value="<?php if(in_array($rowOrder['group_id'], $pro_id)){$key = array_search($rowOrder['group_id'], $pro_id);echo number_format($pro_price[$key]);}?>" style="text-align:center;" onkeypress="return isNumberKey(event);">
       </td>
     </tr>
@@ -320,7 +332,7 @@ function submitForm() {
         $sumtotals = $sumprice + $sumpricevat;
       }
     ?>
-    <tr>
+    <!-- <tr>
       <td colspan="4" style="border:0px solid #003399;padding:9px 5px;"></td>
       <td style="border:1px solid #003399;padding:9px 5px;"><strong>รวมทั้งหมด</strong></td>
       <td style="border:1px solid #003399;padding:9px 5px;text-align:right;"><?php echo number_format($sumprice,2);?>&nbsp;&nbsp;</td>
@@ -334,7 +346,7 @@ function submitForm() {
       <td colspan="4" style="text-align:center;border:0px solid #003399;padding:9px 5px;background-color: #ddebf7;"><strong><?php echo baht_text($sumtotals);?></strong></td>
       <td style="border:1px solid #003399;padding:9px 5px;"><strong>ราคารวมทั้งสิ้น</strong></td>
       <td style="border:1px solid #003399;padding:9px 5px;text-align:right;"><?php echo number_format($sumtotals,2);?>&nbsp;&nbsp;</td>
-    </tr>
+    </tr> -->
     </table><br>
 
     <table width="100%" cellspacing="0" cellpadding="0" style="text-align:center;">
