@@ -43,8 +43,8 @@
           if($_POST['chkAmount'][$a] != ""){
 
             $_POST['chkPrice'][$a] = str_replace($vowels,"",$_POST['chkPrice'][$a]);
-
-            @mysqli_query($conn,"INSERT INTO `s_order_solution_pro` (`id`, `order_id`, `pro_id`, `pro_code`, `pro_amount`, `pro_price`) VALUES (NULL, '".$id."', '".$_POST['chkCode'][$a]."', '".$_POST['chkSproid'][$a]."', '".$_POST['chkAmount'][$a]."', '".$_POST['chkPrice'][$a]."');");
+            //echo "INSERT INTO `s_order_solution_pro` (`id`, `order_id`, `pro_id`, `pro_code`, `pro_amount`) VALUES (NULL, '".$id."', '".$_POST['chkCode'][$a]."', '".$_POST['chkSproid'][$a]."', '".$_POST['chkAmount'][$a]."');"."<br>";
+            @mysqli_query($conn,"INSERT INTO `s_order_solution_pro` (`id`, `order_id`, `pro_id`, `pro_code`, `pro_amount`) VALUES (NULL, '".$id."', '".$_POST['chkCode'][$a]."', '".$_POST['chkSproid'][$a]."', '".$_POST['chkAmount'][$a]."');");
           }
           //echo $a ." ". $b." ".$_POST['chkOrder'][$a]." ".$_POST['chkAmount'][$a]." ".$_POST['chkPrice'][$a]."<br>";
         }	
@@ -77,9 +77,9 @@
         
         foreach($_POST['chkCode'] as $a => $b){
 				
-          if($_POST['chkAmount'][$a] != "" && $_POST['chkPrice'][$a] != ""){
+          if($_POST['chkAmount'][$a] != ""){
             $_POST['chkPrice'][$a] = str_replace($vowels,"",$_POST['chkPrice'][$a]);
-            @mysqli_query($conn,"INSERT INTO `s_order_solution_pro` (`id`, `order_id`, `pro_id`, `pro_code`, `pro_amount`, `pro_price`) VALUES (NULL, '".$id."', '".$_POST['chkCode'][$a]."', '".$_POST['chkSproid'][$a]."', '".$_POST['chkAmount'][$a]."', '".$_POST['chkPrice'][$a]."');");
+            @mysqli_query($conn,"INSERT INTO `s_order_solution_pro` (`id`, `order_id`, `pro_id`, `pro_code`, `pro_amount`) VALUES (NULL, '".$id."', '".$_POST['chkCode'][$a]."', '".$_POST['chkSproid'][$a]."', '".$_POST['chkAmount'][$a]."');");
           }
           //echo $a ." ". $b." ".$_POST['chkOrder'][$a]." ".$_POST['chkAmount'][$a]." ".$_POST['chkPrice'][$a]."<br>";
         }	
