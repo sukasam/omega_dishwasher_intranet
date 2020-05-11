@@ -27,6 +27,7 @@
             <?php if($sumApp != 0){?><div class="appAlrLeft"><?php echo $sumApp;?></div><?php }?>
             <a href="../approved1"><img src="../images/menu/approved.png" width="129" border="0" alt=""></a></li>
             <li style="padding-top:20px;"><a href="../scanqr/index.php"><img src="../images/menu/scan_qrcode.png" width="125" height="100" border="0" alt=""></a></li>
+            <li style="padding-top:20px;"><a href="../order_solution"><img src="../images/menu/camical-solution.png" width="129" height="103" border="0" alt=""></a></li>
             <li style="padding-top:20px;"><a href="../setting"><img src="../images/menu/setting.png" width="75" height="105" border="0" alt=""></a></li>
             <li style="padding-top:20px;padding-bottom:20px;"><a href="../logout.php"><img src="../images/menu/logout.png" width="70" height="97" border="0" /></a></li>
         </ul>

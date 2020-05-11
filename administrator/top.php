@@ -67,6 +67,7 @@ if(chkBrowser("Opera")==1){
 <!-- <SCRIPT type=text/javascript src="../js/jquery-1.12.2.min.js"></SCRIPT> -->
 
 <?php
+  //echo "SELECT * FROM s_notification WHERE user_account = '".$_SESSION["login_id"]."' AND view = '0'";
   $resultNoti = mysqli_query($conn, "SELECT * FROM s_notification WHERE user_account = '".$_SESSION["login_id"]."' AND view = '0'");
   while ($rowNoti = mysqli_fetch_array($resultNoti, MYSQLI_ASSOC)) {
       //printf("ID: %s  Name: %s", $row["id"], $row["name"]);
