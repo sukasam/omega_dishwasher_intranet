@@ -9,7 +9,11 @@
 	if ($_POST['mode'] <> "") {
 		$param = "";
 		$a_not_exists = array();
-		$param = get_param($a_param,$a_not_exists);
+    $param = get_param($a_param,$a_not_exists);
+    
+    $_POST['cd_name'] = addslashes($_POST['cd_name']);
+    $_POST['cd_address'] = addslashes($_POST['cd_address']);
+    $_POST['c_contact'] = addslashes($_POST['c_contact']);
 		
 		
 		$a_sdate=explode("/",$_POST['pay_apv']);
@@ -47,7 +51,7 @@
 		
 		$_POST['cpro1'] = nl2br($_POST['cpro1']);
 		$_POST['cpro2'] = nl2br($_POST['cpro2']);
-		$_POST['remark'] = nl2br($_POST['remark']);
+		$_POST['remark'] = nl2br(addslashes($_POST['remark']));
 
 		$_POST['separate'] = 0;
 
