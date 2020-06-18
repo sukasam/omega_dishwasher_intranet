@@ -102,12 +102,13 @@ if($_POST['typegaruntree'] == 2){
 	$typegaruntreeTxt = 'เงินค่าประกัน';
 }
 
-
+$userCreate = getCreatePaper($conn,$tbl_name," AND `fo_id`=".$_POST['fo_id']);
+$headerIMG = get_headerPaper($conn,"FO",$userCreate);
 
 $form = '
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td style="padding-bottom:5px;"><img src="../images/form/header-first-order.png" width="100%" border="0" /></td>
+    <td style="padding-bottom:5px;"><img src="'.$headerIMG.'" width="100%" border="0" /></td>
   </tr>
 </table>
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border:1px solid #000000;">

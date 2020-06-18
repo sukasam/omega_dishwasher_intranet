@@ -91,10 +91,13 @@ if($chkProcess == '5'){
 
 }
 
+$userCreate = getCreatePaper($conn, $tbl_name, " AND `qu_id`=" . $_POST['qu_id']);
+$headerIMG = get_headerPaper($conn, "QAB", $userCreate);
+
 $form = '
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td style="padding-bottom:5px;"><img src="../images/form/header-qab.png" width="100%" border="0" /></td>
+    <td style="padding-bottom:5px;"><img src="'.$headerIMG.'" width="100%" border="0" /></td>
   </tr>
 </table>
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border:1px solid #003399;">
@@ -233,7 +236,7 @@ $form = '
   <br><br><br>
   <table width="100%" border="0" cellspacing="0" cellpadding="0">
     <tr>
-      <td style="padding-bottom:5px;"><img src="../images/form/header-qab.png" width="100%" border="0" /></td>
+      <td style="padding-bottom:5px;"><img src="'.$headerIMG.'" width="100%" border="0" /></td>
     </tr>
   </table>
   <p style="font-size:12px;"><strong><u>เงื่อนไขการชำระเงิน</u></strong></p>';

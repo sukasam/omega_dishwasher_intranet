@@ -285,8 +285,13 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
         <?php  
 					if($orderby=="") $orderby = $tbl_name.".".$PK_field;
 					if ($sortby =="") $sortby ="DESC";
+
+					$conDealer = "";
+					if(userGroup($conn,$_SESSION['login_id']) === "Dealer"){
+						$conDealer = " AND `create_by` = '".$_SESSION['login_id']."'";
+					}
 					
-				   	$sql = " select *,$tbl_name.create_date as c_date from $tbl_name  where 1 ";
+				   	$sql = " select *,$tbl_name.create_date as c_date from $tbl_name  where 1 ".$conDealer;
 					if ($_GET[$PK_field] <> "") $sql .= " and ($PK_field  = '" . $_GET[$PK_field] . " ' ) ";					
 					if ($_GET[$FR_field] <> "") $sql .= " and ($FR_field  = '" . $_GET[$FR_field] . " ' ) ";					
  					if ($_GET['keyword'] <> "") { 
@@ -355,7 +360,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 			  	<center><a href="../quotation_jobcard/?tab=1&id=<?php  echo $rec[$PK_field]; ?>"><img src="../images/hammer_screwdriver.png" width="20" height="20"></a></center>
 			  </td>
 					<TD style="text-align: center;"><?php
-						if($rec["quotation"] != ""){
+						if($rec["quotation"] != "" && $rec["quotation"] != "0"){
 							$chafQA = preg_replace("/","-",getQaHNumber($conn,$rec["quotation"]))
 							?>
 							<a href="../quotation2/update.php?mode=update&qu_id=<?php echo $rec["quotation"];?>"><?php echo getQaHNumber($conn,$rec["quotation"]);?></a> 

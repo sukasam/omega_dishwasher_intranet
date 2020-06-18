@@ -32,6 +32,7 @@
 		if ($_POST['mode'] == "update" ) {
 			
 			$_POST['approve'] = 1;
+			$_POST['st_setting'] = 1;
 			
 			$_POST['detail_recom'] = nl2br($_POST['detail_recom']);
 			$_POST['detail_recom2'] = nl2br($_POST['detail_recom2']);

@@ -7,7 +7,7 @@
 		$valuename = substr ($valuename,1, strlen ($fieldname));
 		$sqlIns .= $fieldname  ;
 		$sqlIns .= ", update_date = '" . date ("Y-m-d H:m:s") . "'";
-		$sqlIns .= ", update_by = '" . $_SESSION["login_name"] .  "'";
+		$sqlIns .= ", update_by = '" . $_SESSION["login_id"] .  "'";
 		$sqlIns .= " where $PK_field = '" . $_REQUEST[$PK_field] . "'";
 		//  echo $sql;
 		//  exit();

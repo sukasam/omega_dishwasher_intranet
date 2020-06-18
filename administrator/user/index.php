@@ -94,8 +94,8 @@ function check_select(frm){
     <TABLE>
       <THEAD>
         <TR>
-          <TH width="5%"><INPUT class=check-all type=checkbox name="ca" value="true" onClick="chkAll(this.form, 'del[]', this.checked)"></TH>
-          <TH width="5%" <?php  Show_Sort_bg ("user_id", $orderby) ?>> <?php 
+          <!-- <TH width="5%"><INPUT class=check-all type=checkbox name="ca" value="true" onClick="chkAll(this.form, 'del[]', this.checked)"></TH> -->
+          <TH width="10%" <?php  Show_Sort_bg ("user_id", $orderby) ?> > <?php 
 		$a_not_exists = array('orderby','sortby');
 		$param2 = get_param($a_param,$a_not_exists);
 	?>
@@ -107,6 +107,7 @@ function check_select(frm){
             &nbsp;</TH>
           <TH width="17%" <?php  Show_Sort_bg ("password", $orderby) ?>> <?php   Show_Sort_new ("password", "รหัสผ่าน", $orderby, $sortby,$page,$param2);?>
             &nbsp;</TH>
+          <TH width="10%"><div align="center"><a>หัวกระดาษ</a></div></TH>
           <TH width="14%"><div align="center"><a>กลุ่มผู้ใช้งาน</a></div></TH>
           <TH width="12%" nowrap><div align="center"><a>การอนุญาต</a></div></TH>
           <TH width="7%"><a>แก้ไข</a></TH>
@@ -117,8 +118,8 @@ function check_select(frm){
         </TFOOT>
       <TBODY>
         <?php  
-					if($orderby=="") $orderby = $tbl_name.".".$PK_field;
-					if ($sortby =="") $sortby ="desc";
+					if($orderby=="") $orderby = $tbl_name.".name";
+					if ($sortby =="") $sortby ="ASC";
 					
 				   	$sql = " select *,$tbl_name.create_date as c_date from $tbl_name  where 1 ";
 					if ($_GET[$PK_field] <> "") $sql .= " and ($PK_field  = '" . $_GET[$PK_field] . " ' ) ";					
@@ -145,12 +146,13 @@ function check_select(frm){
 					$counter++;
 				   ?>
         <TR>
-          <TD><INPUT type=checkbox name="del[]" value="<?php  echo $rec[$PK_field]; ?>" ></TD>
+          <!-- <TD><INPUT type=checkbox name="del[]" value="<?php  echo $rec[$PK_field]; ?>" ></TD> -->
           <TD><span class="text"><?php  echo $counter ; ?></span></TD>
           <TD><span class="text"><?php  echo $rec["name"] ; ?></span></TD>
           <TD><span class="text"><?php  echo $rec["username"] ; ?></span></TD>
           <TD><span class="text"><?php  echo $rec["password"] ; ?></span></TD>
-          <TD><div align="center"><a href="../user_group/update.php?mode=update&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field]; ?>&<?php  echo $param2; ?>">Group</a></div></TD>
+          <TD><span class="text"><?php  if(userGroup($conn,$rec[$PK_field]) === 'Dealer'){?><center><a href="../headpaper/?user_id=<?php echo $rec[$PK_field];?>"><img src="../images/menu/head-paper.png" width="30"></a></center><?php }?></span></TD>
+          <TD><div align="center"><a href="../user_group/update.php?mode=update&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field]; ?>&<?php  echo $param2; ?>"><?php if(userGroup($conn,$rec[$PK_field]) != ""){echo userGroup($conn,$rec[$PK_field]);}else{echo "Group";}?></a></div></TD>
           <TD align="center"><div align="center"><a href="../user_p/update.php?mode=update&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field]; ?><?php  echo get_pre_param($a_param); ?>"><img src="../images/icons/hammer_screwdriver.png" width="16" height="16" border="0"></a></div></TD>
           <TD><!-- Icons -->
             <A title=Edit href="update.php?mode=update&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field]; if($param <> "") {?>&<?php  echo $param; }?>"><IMG alt=Edit src="../images/pencil.png"></A> <A title=Delete  href="#"></A></TD>
@@ -161,15 +163,15 @@ function check_select(frm){
     </TABLE>
     <br><br>
     <DIV class="bulk-actions align-left">
-            <SELECT name="choose_action" id="choose_action">
+            <!-- <SELECT name="choose_action" id="choose_action">
               <OPTION selected value="">กรุณาเลือก...</OPTION>
               <OPTION value="del">ลบ</OPTION>
-            </SELECT>            
+            </SELECT>             -->
             <?php 
 				$a_not_exists = array();
 				post_param($a_param,$a_not_exists); 
 			?>
-            <input class=button name="Action2" type="submit" id="Action2" value="ยืนยัน">
+            <!-- <input class=button name="Action2" type="submit" id="Action2" value="ยืนยัน"> -->
           </DIV> <DIV class=pagination> <?php  include("../include/page_show.php");?> </DIV>
   </form>  
 </DIV><!-- End #tab1 -->

@@ -42,11 +42,13 @@ if($_POST["type_service"] == '2'){
 	$typeS = "เครื่องล้างจาน";
 }
 
+$userCreate = getCreatePaper($conn, $tbl_name, " AND `qu_id`= " . $_POST['qu_id']);
+$headerIMG = get_headerPaper($conn, "QARC", $userCreate);
 
 $form = '
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td style="padding-bottom:5px;"><img src="../images/form/header-qarc.png" width="100%" border="0" /></td>
+    <td style="padding-bottom:5px;"><img src="'.$headerIMG.'" width="100%" border="0" /></td>
   </tr>
 </table>
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="border:1px solid #003399;">

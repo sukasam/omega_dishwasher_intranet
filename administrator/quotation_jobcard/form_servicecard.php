@@ -79,6 +79,10 @@ if($chkProcess == '5' || $chkProcess == '4'){
 
 }
 
+$userCreate = getCreatePaper($conn,$tbl_name," AND `qc_id`=".$_POST['qc_id']);
+$headerIMG = get_headerPaper($conn,"SC",$userCreate);
+
+
 	$form = '<style>
 	.bgheader{
 		font-size:10px;
@@ -169,7 +173,7 @@ if($chkProcess == '5' || $chkProcess == '4'){
 	<table width="100%" border="0" cellspacing="0" cellpadding="0">
 	  <tr>
 		<td style="text-align:right;font-size:12px;">
-			<img src="../images/form/header_service_card.jpg" width="100%" border="0" />
+			<img src="'.$headerIMG.'" width="100%" border="0" />
 			<div class="bgheader"><strong>'.$_POST['sv_id'].'</strong></div>
 		</td>
 	  </tr>

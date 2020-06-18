@@ -155,8 +155,13 @@ function check_select(frm){
         <?php  
 					if($orderby=="") $orderby = $tbl_name.".".$PK_field;
 					if ($sortby =="") $sortby ="DESC";
+
+					$conDealer = "";
+					if(userGroup($conn,$_SESSION['login_id']) === "Dealer"){
+						$conDealer = " AND `create_by` = '".$_SESSION['login_id']."'";
+					}
 					
-				   	$sql = " select *,$tbl_name.create_date as c_date from $tbl_name  where 1 AND separate = 1 ";
+				   	$sql = " select *,$tbl_name.create_date as c_date from $tbl_name  where 1 ".$conDealer." AND separate = 1 ";
 					if ($_GET[$PK_field] <> "") $sql .= " and ($PK_field  = '" . $_GET[$PK_field] . " ' ) ";					
 					if ($_GET[$FR_field] <> "") $sql .= " and ($FR_field  = '" . $_GET[$FR_field] . " ' ) ";					
  					if ($_GET['keyword'] <> "") { 

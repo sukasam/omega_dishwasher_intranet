@@ -464,7 +464,12 @@ function submitForm() {
       <legend><?php  echo $page_name; ?> </legend>
         <table width="100%" cellspacing="0" cellpadding="0" border="0">
   <tr>
-    <td style="padding-bottom:5px;"><img src="../images/form/header-qar.png" width="100%" /></td>
+    <td style="padding-bottom:5px;">
+    <?php 
+    $userCreate = getCreatePaper($conn, $tbl_name, " AND `qu_id`= ".$qu_id);
+    $headerIMG = get_headerPaper($conn, "QAR", $userCreate);
+    ?>
+    <img src="<?php echo $headerIMG;?>" width="100%" /></td>
   </tr>
 </table>
   

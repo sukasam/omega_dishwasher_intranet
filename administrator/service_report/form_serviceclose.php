@@ -1,101 +1,97 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<?php 
-	
-	$finfos = get_firstorder($conn,$_POST['cus_id']);
-	
-	$tecinfos = get_technician($conn,$_POST['loc_contact']);
-	
-	$spaimfo1 = get_sparpart($conn,$_POST['cpro1']);
-	$spaimfo2 = get_sparpart($conn,$_POST['cpro2']);
-	$spaimfo3 = get_sparpart($conn,$_POST['cpro3']);
-	$spaimfo4 = get_sparpart($conn,$_POST['cpro4']);
-	$spaimfo5 = get_sparpart($conn,$_POST['cpro5']);
-	
-	
-	
-	$chk = get_fixlist($_POST['ckf_list']);
-	
-	foreach($chk as $vals){
-		if(get_fixname($conn,$vals) != ""){
-			$sfix .= '
+<?php
+
+$finfos = get_firstorder($conn, $_POST['cus_id']);
+
+$tecinfos = get_technician($conn, $_POST['loc_contact']);
+
+$spaimfo1 = get_sparpart($conn, $_POST['cpro1']);
+$spaimfo2 = get_sparpart($conn, $_POST['cpro2']);
+$spaimfo3 = get_sparpart($conn, $_POST['cpro3']);
+$spaimfo4 = get_sparpart($conn, $_POST['cpro4']);
+$spaimfo5 = get_sparpart($conn, $_POST['cpro5']);
+
+$chk = get_fixlist($_POST['ckf_list']);
+
+foreach ($chk as $vals) {
+    if (get_fixname($conn, $vals) != "") {
+        $sfix .= '
 		  <tr>
-			<td ><img src="../images/aroow_ch.png" width="10" height="10" border="0" alt="" />&nbsp;'.get_fixname($conn,$vals).'</td>
+			<td ><img src="../images/aroow_ch.png" width="10" height="10" border="0" alt="" />&nbsp;' . get_fixname($conn, $vals) . '</td>
 		  </tr>
-		';	
-		}
-		
-	}
-	
-	$chl = $_POST['ckl_list'];
-	$chllist = explode(",",$chl);
-	
-	if(in_array(1,$chllist)){$chl_ch1 = 'aroow_ch.png';}else{$chl_ch1 = 'aroow_nch.png';}
-	if(in_array(2,$chllist)){$chl_ch2 = 'aroow_ch.png';}else{$chl_ch2 = 'aroow_nch.png';}
-	if(in_array(3,$chllist)){$chl_ch3 = 'aroow_ch.png';}else{$chl_ch3 = 'aroow_nch.png';}
-	if(in_array(4,$chllist)){$chl_ch4 = 'aroow_ch.png';}else{$chl_ch4 = 'aroow_nch.png';}
-	if(in_array(5,$chllist)){$chl_ch5 = 'aroow_ch.png';}else{$chl_ch5 = 'aroow_nch.png';}
+		';
+    }
 
-	$chw = $_POST['ckw_list'];
-	$chwlist = explode(",",$chw);
-	
-	if(in_array(1,$chwlist)){$chw_ch1 = 'aroow_ch.png';}else{$chw_ch1 = 'aroow_nch.png';}
-	if(in_array(2,$chwlist)){$chw_ch2 = 'aroow_ch.png';}else{$chw_ch2 = 'aroow_nch.png';}
-	if(in_array(3,$chwlist)){$chw_ch3 = 'aroow_ch.png';}else{$chw_ch3 = 'aroow_nch.png';}
-	if(in_array(4,$chwlist)){$chw_ch4 = 'aroow_ch.png';}else{$chw_ch4 = 'aroow_nch.png';}
-	if(in_array(5,$chwlist)){$chw_ch5 = 'aroow_ch.png';}else{$chw_ch5 = 'aroow_nch.png';}
-	
-	
-	if($_POST['cprice1'] != ""){$proprice1 = number_format($_POST['cprice1']);}
-	if($_POST['cprice2'] != ""){$proprice2 = number_format($_POST['cprice2']);}
-	if($_POST['cprice3'] != ""){$proprice3 = number_format($_POST['cprice3']);}
-	if($_POST['cprice4'] != ""){$proprice4 = number_format($_POST['cprice4']);}
-	if($_POST['cprice5'] != ""){$proprice5 = number_format($_POST['cprice5']);}
-	
-	
-	
-	if(($_POST['camount1'] * $_POST['cprice1']) != 0){$suprice1 = number_format($_POST['camount1'] * $_POST['cprice1']);}else{$suprice1 = " ";}
-	if(($_POST['camount2'] * $_POST['cprice2']) != 0){$suprice2 = number_format($_POST['camount2'] * $_POST['cprice2']);}else{$suprice2 = " ";}
-	if(($_POST['camount3'] * $_POST['cprice3']) != 0){$suprice3 = number_format($_POST['camount3'] * $_POST['cprice3']);}else{$suprice3 = " ";}
-	if(($_POST['camount4'] * $_POST['cprice4']) != 0){$suprice4 = number_format($_POST['camount4'] * $_POST['cprice4']);}else{$suprice4 = " ";}
-	if(($_POST['camount5'] * $_POST['cprice5']) != 0){$suprice5 = number_format($_POST['camount5'] * $_POST['cprice5']);}else{$suprice5 = " ";}
+}
 
-	
-	$totalprice = ($_POST['camount1'] * $_POST['cprice1']) + ($_POST['camount2'] * $_POST['cprice2']) + ($_POST['camount3'] * $_POST['cprice3']) + ($_POST['camount4'] * $_POST['cprice4']) + ($_POST['camount5'] * $_POST['cprice5']);
-	
-	$serviceID = substr($_POST['sv_id'],3);
-	$row_service2 = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM s_service_report2 WHERE srid = '".trim($serviceID)."'"));
-		
-	$qu_sr2 = @mysqli_query($conn,"SELECT * FROM s_service_report2sub WHERE sr_id = '".$row_service2['sr_id']."' AND codes != ''");
-	$brf = 1;
+$chl = $_POST['ckl_list'];
+$chllist = explode(",", $chl);
 
-	$chkProcess = checkProcess($conn,"s_service_report",$PK_field,$id);
+if (in_array(1, $chllist)) {$chl_ch1 = 'aroow_ch.png';} else { $chl_ch1 = 'aroow_nch.png';}
+if (in_array(2, $chllist)) {$chl_ch2 = 'aroow_ch.png';} else { $chl_ch2 = 'aroow_nch.png';}
+if (in_array(3, $chllist)) {$chl_ch3 = 'aroow_ch.png';} else { $chl_ch3 = 'aroow_nch.png';}
+if (in_array(4, $chllist)) {$chl_ch4 = 'aroow_ch.png';} else { $chl_ch4 = 'aroow_nch.png';}
+if (in_array(5, $chllist)) {$chl_ch5 = 'aroow_ch.png';} else { $chl_ch5 = 'aroow_nch.png';}
 
-	$techniSignature = '<img src="../../upload/user/signature/'.get_technician_signature($conn,$_POST['loc_contact']).'" height="50" border="0" />';
+$chw = $_POST['ckw_list'];
+$chwlist = explode(",", $chw);
 
-	$chkHTecAP = checkHTecnicalApplove($conn,$tbl_name,$id);
-		
-	$hTecSignature = '';
+if (in_array(1, $chwlist)) {$chw_ch1 = 'aroow_ch.png';} else { $chw_ch1 = 'aroow_nch.png';}
+if (in_array(2, $chwlist)) {$chw_ch2 = 'aroow_ch.png';} else { $chw_ch2 = 'aroow_nch.png';}
+if (in_array(3, $chwlist)) {$chw_ch3 = 'aroow_ch.png';} else { $chw_ch3 = 'aroow_nch.png';}
+if (in_array(4, $chwlist)) {$chw_ch4 = 'aroow_ch.png';} else { $chw_ch4 = 'aroow_nch.png';}
+if (in_array(5, $chwlist)) {$chw_ch5 = 'aroow_ch.png';} else { $chw_ch5 = 'aroow_nch.png';}
 
-	if($chkHTecAP == 1){
-		$hTecSignature = '<img src="../../upload/user/signature/'.get_htecnic_signature($conn).'" height="50" border="0" />';
-	}else{
-		$hTecSignature = '<img src="../../upload/user/signature/none.png" height="50" border="0" />';
-	}
+if ($_POST['cprice1'] != "") {$proprice1 = number_format($_POST['cprice1']);}
+if ($_POST['cprice2'] != "") {$proprice2 = number_format($_POST['cprice2']);}
+if ($_POST['cprice3'] != "") {$proprice3 = number_format($_POST['cprice3']);}
+if ($_POST['cprice4'] != "") {$proprice4 = number_format($_POST['cprice4']);}
+if ($_POST['cprice5'] != "") {$proprice5 = number_format($_POST['cprice5']);}
 
+if (($_POST['camount1'] * $_POST['cprice1']) != 0) {$suprice1 = number_format($_POST['camount1'] * $_POST['cprice1']);} else { $suprice1 = " ";}
+if (($_POST['camount2'] * $_POST['cprice2']) != 0) {$suprice2 = number_format($_POST['camount2'] * $_POST['cprice2']);} else { $suprice2 = " ";}
+if (($_POST['camount3'] * $_POST['cprice3']) != 0) {$suprice3 = number_format($_POST['camount3'] * $_POST['cprice3']);} else { $suprice3 = " ";}
+if (($_POST['camount4'] * $_POST['cprice4']) != 0) {$suprice4 = number_format($_POST['camount4'] * $_POST['cprice4']);} else { $suprice4 = " ";}
+if (($_POST['camount5'] * $_POST['cprice5']) != 0) {$suprice5 = number_format($_POST['camount5'] * $_POST['cprice5']);} else { $suprice5 = " ";}
 
-	$chkHCustomerAP = checkHCustomerApplove($conn,$id);
-		
-	$hCustomerSignature = '';
+$totalprice = ($_POST['camount1'] * $_POST['cprice1']) + ($_POST['camount2'] * $_POST['cprice2']) + ($_POST['camount3'] * $_POST['cprice3']) + ($_POST['camount4'] * $_POST['cprice4']) + ($_POST['camount5'] * $_POST['cprice5']);
 
-	if($chkHCustomerAP !== '' && $chkHCustomerAP != NULL){
-		$hCustomerSignature = '<img src="../../upload/customer/signature/'.$chkHCustomerAP.'" height="50" border="0" />';
-	}else{
-		$hCustomerSignature = '<img src="../../upload/customer/signature/none.png" height="50" border="0" />';
-	}
+$serviceID = substr($_POST['sv_id'], 3);
+$row_service2 = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM s_service_report2 WHERE srid = '" . trim($serviceID) . "'"));
 
-	$dateTimeCusSignature = getCustomerSignatureDateTime($conn,$id);
+$qu_sr2 = @mysqli_query($conn, "SELECT * FROM s_service_report2sub WHERE sr_id = '" . $row_service2['sr_id'] . "' AND codes != ''");
+$brf = 1;
 
-	$form = '<style>
+$chkProcess = checkProcess($conn, "s_service_report", $PK_field, $id);
+
+$techniSignature = '<img src="../../upload/user/signature/' . get_technician_signature($conn, $_POST['loc_contact']) . '" height="50" border="0" />';
+
+$chkHTecAP = checkHTecnicalApplove($conn, $tbl_name, $id);
+
+$hTecSignature = '';
+
+if ($chkHTecAP == 1) {
+    $hTecSignature = '<img src="../../upload/user/signature/' . get_htecnic_signature($conn) . '" height="50" border="0" />';
+} else {
+    $hTecSignature = '<img src="../../upload/user/signature/none.png" height="50" border="0" />';
+}
+
+$chkHCustomerAP = checkHCustomerApplove($conn, $id);
+
+$hCustomerSignature = '';
+
+if ($chkHCustomerAP !== '' && $chkHCustomerAP != null) {
+    $hCustomerSignature = '<img src="../../upload/customer/signature/' . $chkHCustomerAP . '" height="50" border="0" />';
+} else {
+    $hCustomerSignature = '<img src="../../upload/customer/signature/none.png" height="50" border="0" />';
+}
+
+$dateTimeCusSignature = getCustomerSignatureDateTime($conn, $id);
+
+$userCreate = getCreatePaper($conn, $tbl_name, " AND `sr_id`=" . $_POST['sr_id']);
+$headerIMG = get_headerPaper($conn, "SR", $userCreate);
+
+$form = '<style>
 	.bgheader{
 		font-size:10px;
 		position:absolute;
@@ -105,7 +101,7 @@
 	table tr td{
 		vertical-align:top;
 		padding:5px;
-	}	
+	}
 	.tb1{
 		margin-top:5px;
 	}
@@ -113,45 +109,45 @@
 		border:1px solid #000000;
 		font-size:10px;
 		font-family:Verdana, Geneva, sans-serif;
-		padding:5px;	
+		padding:5px;
 	}
 	.tb2,.tb3{
-		border:1px solid #000000;	
+		border:1px solid #000000;
 		margin-top:5px;
 	}
 	.tb2 tr td{
 		font-size:10px;
 		font-family:Verdana, Geneva, sans-serif;
-		padding:5px;		
+		padding:5px;
 	}
-	
+
 	.tb3 tr td{
 		font-size:10px;
 		font-family:Verdana, Geneva, sans-serif;
-		padding:5px;		
+		padding:5px;
 	}
 	.tb3 img{
 		vertical-align:bottom;
 	}
-	
+
 	.ccontact{
 		font-size:10px;
 		font-family:Verdana, Geneva, sans-serif;
 	}
 	.ccontact tr td{
-		
+
 	}
-	
+
 	.cdetail{
 		border: 1px solid #000000;
 		padding:5px;
 		font-size:10px;
 		font-family:Verdana, Geneva, sans-serif;
 		margin-top:5px;
-  	}	
+  	}
 	.cdetail ul li{
 		list-style:none;
-		
+
 	}
 	.cdetail2 ul li{
 		list-style:none;
@@ -160,9 +156,9 @@
 	.clear{
 		margin:0;
 		padding:0;
-		clear:both;	
+		clear:both;
 	}
-	
+
 	.tblf5{
 		border: 1px solid #000000;
 		font-size:10px;
@@ -173,59 +169,59 @@
 		font-size:12px;
 		font-weight:bold;
 		padding-top:2px;
-		padding-bottom:2px;	
+		padding-bottom:2px;
 	}
-	
+
 	</style>
 
 	<table width="100%" border="0" cellspacing="0" cellpadding="0">
 	  <tr>
 		<td style="text-align:right;font-size:12px;">
-			<img src="../images/form/header_service_report.png" width="100%" border="0" />
-			<div class="bgheader"><strong>'.$_POST['sv_id'].'</strong></div>
+			<img src="'.$headerIMG.'" width="100%" border="0" />
+			<div class="bgheader"><strong>' . $_POST['sv_id'] . '</strong></div>
 		</td>
 	  </tr>
 	</table>
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tb1">
           <tr>
-            <td width="57%" valign="top"><strong>ชื่อลูกค้า :</strong> '.$finfos['cd_name'].' <br />              <strong><br />
-            ที่อยู่ :</strong> '.$finfos['cd_address'].'&nbsp;'.province_name($conn,$finfos['cd_province']).'<strong><br />
+            <td width="57%" valign="top"><strong>ชื่อลูกค้า :</strong> ' . $finfos['cd_name'] . ' <br />              <strong><br />
+            ที่อยู่ :</strong> ' . $finfos['cd_address'] . '&nbsp;' . province_name($conn, $finfos['cd_province']) . '<strong><br />
             <br />
-            โทรศัพท์ :</strong> '.$finfos['cd_tel'].'&nbsp;&nbsp;&nbsp;&nbsp;<strong>แฟกซ์ :</strong> '.$finfos['cd_fax'].'<br />
+            โทรศัพท์ :</strong> ' . $finfos['cd_tel'] . '&nbsp;&nbsp;&nbsp;&nbsp;<strong>แฟกซ์ :</strong> ' . $finfos['cd_fax'] . '<br />
             <br />
-            <strong>ชื่อผู้ติดต่อ :</strong> '.$finfos['c_contact'].' <strong>&nbsp;&nbsp;&nbsp;&nbsp;เบอร์โทร :</strong> '.$finfos['c_tel'].'</td>
-            <td width="43%"><strong>ประเภทบริการลูกค้า :</strong> '.get_servicename($conn,$_POST['sr_ctype']).'&nbsp;&nbsp;&nbsp;'.custype_name($conn,$_POST['sr_ctype2']).'<br />
+            <strong>ชื่อผู้ติดต่อ :</strong> ' . $finfos['c_contact'] . ' <strong>&nbsp;&nbsp;&nbsp;&nbsp;เบอร์โทร :</strong> ' . $finfos['c_tel'] . '</td>
+            <td width="43%"><strong>ประเภทบริการลูกค้า :</strong> ' . get_servicename($conn, $_POST['sr_ctype']) . '&nbsp;&nbsp;&nbsp;' . custype_name($conn, $_POST['sr_ctype2']) . '<br />
               <br />
-            เลขที่สัญญา  :</strong> '.$finfos['fs_id'].'&nbsp;&nbsp;&nbsp;&nbsp;<strong>วันที่  :</strong> '.format_date($_POST['job_open']).' <strong>&nbsp;&nbsp;<br />
+            เลขที่สัญญา  :</strong> ' . $finfos['fs_id'] . '&nbsp;&nbsp;&nbsp;&nbsp;<strong>วันที่  :</strong> ' . format_date($_POST['job_open']) . ' <strong>&nbsp;&nbsp;<br />
             <br />
-            วันครบกำหนดบริการ :</strong> '.format_date($_POST['job_balance']).'<br /><br /><strong>บริการครั้งก่อน : </strong>'.$_POST['job_last'].'&nbsp;&nbsp;<strong>บริการครั้งต่อไป  :</strong> '.format_date($_POST['sr_stime']).'</td>
+            วันครบกำหนดบริการ :</strong> ' . format_date($_POST['job_balance']) . '<br /><br /><strong>บริการครั้งก่อน : </strong>' . $_POST['job_last'] . '&nbsp;&nbsp;<strong>บริการครั้งต่อไป  :</strong> ' . format_date($_POST['sr_stime']) . '</td>
           </tr>
     </table>
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tb2">
 	  <tr>
-	    <td width="57%"><strong>สถานที่ติดตั้ง / ส่งสินค้า : </strong>'.$finfos['loc_name'].'<br />
+	    <td width="57%"><strong>สถานที่ติดตั้ง / ส่งสินค้า : </strong>' . $finfos['loc_name'] . '<br />
 	      <br />
-	      <strong>เครื่องล้างจาน / ยี่ห้อ : </strong> '.$_POST['loc_pro'].'<br />
+	      <strong>เครื่องล้างจาน / ยี่ห้อ : </strong> ' . $_POST['loc_pro'] . '<br />
 	      <br />
-	      <strong>รุ่นเครื่อง : </strong> '.$_POST['loc_seal'].' <strong> S/N : </strong> '.$_POST['loc_sn'].'<br />
+	      <strong>รุ่นเครื่อง : </strong> ' . $_POST['loc_seal'] . ' <strong> S/N : </strong> ' . $_POST['loc_sn'] . '<br />
 	      <br />
-	      <strong>เครื่องป้อนน้ำยา : </strong> '.$_POST['loc_clean'].'<br />
+	      <strong>เครื่องป้อนน้ำยา : </strong> ' . $_POST['loc_clean'] . '<br />
 	      <br />
-	      <strong>ช่างบริการประจำ : </strong> '.$tecinfos['group_name'].'&nbsp;&nbsp;&nbsp;<strong> เบอร์โทร : </strong> '.$tecinfos['group_tel'].'</td>
+	      <strong>ช่างบริการประจำ : </strong> ' . $tecinfos['group_name'] . '&nbsp;&nbsp;&nbsp;<strong> เบอร์โทร : </strong> ' . $tecinfos['group_tel'] . '</td>
 	    <td width="43%"><strong>ปริมาณน้ำยา</strong><br />
 	      <br />
-	      <strong>ปริมาณน้ำยาล้าง : </strong> '.$_POST['cl_01'].' <strong> ml / rack</strong><br />
+	      <strong>ปริมาณน้ำยาล้าง : </strong> ' . $_POST['cl_01'] . ' <strong> ml / rack</strong><br />
 	      <br />
-	      <strong>ปริมาณน้ำยาช่วยแห้ง : </strong> '.$_POST['cl_02'].' <strong>ml / rack</strong><br />
+	      <strong>ปริมาณน้ำยาช่วยแห้ง : </strong> ' . $_POST['cl_02'] . ' <strong>ml / rack</strong><br />
 	      <br />
-	      <strong>ความเข้มข้น : </strong> '.$_POST['cl_03'].' <strong>%</strong><br />
+	      <strong>ความเข้มข้น : </strong> ' . $_POST['cl_03'] . ' <strong>%</strong><br />
 	      <br />
-	      <strong>สต๊อกน้ำยา C =</strong> '.$_POST['cl_04'].' <strong>ถัง R = </strong> '.$_POST['cl_05'].' <strong>ถัง A =</strong> '.$_POST['cl_06'].' <strong>ถัง</strong><br />
+	      <strong>สต๊อกน้ำยา C =</strong> ' . $_POST['cl_04'] . ' <strong>ถัง R = </strong> ' . $_POST['cl_05'] . ' <strong>ถัง A =</strong> ' . $_POST['cl_06'] . ' <strong>ถัง</strong><br />
 	      <strong><br />
-	        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WG = </span></strong> '.$_POST['cl_07'].' <strong>ถัง RG = </strong> '.$_POST['cl_08'].' <strong>ถัง</strong></td>
+	        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WG = </span></strong> ' . $_POST['cl_07'] . ' <strong>ถัง RG = </strong> ' . $_POST['cl_08'] . ' <strong>ถัง</strong></td>
       </tr>
     </table>
-	
+
 	<table width="100%" border="0">
 	  <tr>
 		<td width="52%" style="font-size:11px;"><strong>รายการตรวจเช็ค</strong></td>
@@ -234,7 +230,7 @@
 	  </tr>
 	</table>
 
-	
+
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tb3">
   <tr>
     <td width="52%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -243,35 +239,35 @@
         <td width="49%"><strong>ระบบประปา</strong></td>
       </tr>
       <tr>
-        <td ><img src="../images/'.$chl_ch1.'" width="10"  border="0" alt="" />&nbsp;ตรวจเช็คชุดควบคุม</td>
-        <td ><img src="../images/'.$chw_ch1.'" width="10"  border="0" alt="" />&nbsp;ตรวจเช็คน้ำรั่ว/ซึมภายนอก</td>
+        <td ><img src="../images/' . $chl_ch1 . '" width="10"  border="0" alt="" />&nbsp;ตรวจเช็คชุดควบคุม</td>
+        <td ><img src="../images/' . $chw_ch1 . '" width="10"  border="0" alt="" />&nbsp;ตรวจเช็คน้ำรั่ว/ซึมภายนอก</td>
       </tr>
       <tr>
-        <td ><img src="../images/'.$chl_ch2.'" width="10"  border="0" alt="" />&nbsp;ตรวจเช็ค/ขัน Terminal</td>
-        <td ><img src="../images/'.$chw_ch2.'" width="10"  border="0" alt="" />&nbsp;ถอดล้างตะแกรงกรองเศษอาหาร</td>
+        <td ><img src="../images/' . $chl_ch2 . '" width="10"  border="0" alt="" />&nbsp;ตรวจเช็ค/ขัน Terminal</td>
+        <td ><img src="../images/' . $chw_ch2 . '" width="10"  border="0" alt="" />&nbsp;ถอดล้างตะแกรงกรองเศษอาหาร</td>
       </tr>
       <tr>
-        <td ><img src="../images/'.$chl_ch3.'" width="10"  border="0" alt="" />&nbsp;วัดแรงดันไฟฟ้า และกระแสไฟฟ้า</td>
-        <td ><img src="../images/'.$chw_ch3.'" width="10"  border="0" alt="" />&nbsp;ถอดล้างสแตนเนอร์ Solinoid Value</td>
+        <td ><img src="../images/' . $chl_ch3 . '" width="10"  border="0" alt="" />&nbsp;วัดแรงดันไฟฟ้า และกระแสไฟฟ้า</td>
+        <td ><img src="../images/' . $chw_ch3 . '" width="10"  border="0" alt="" />&nbsp;ถอดล้างสแตนเนอร์ Solinoid Value</td>
       </tr>
       <tr>
-        <td ><img src="../images/'.$chl_ch4.'" width="10"  border="0" alt="" />&nbsp;ตรวจเช็ค Heater</td>
-        <td ><img src="../images/'.$chw_ch4.'" width="10"  border="0" alt="" />&nbsp;ถอดล้างแขนฉีด/หัวฉีดน้ำ</td>
+        <td ><img src="../images/' . $chl_ch4 . '" width="10"  border="0" alt="" />&nbsp;ตรวจเช็ค Heater</td>
+        <td ><img src="../images/' . $chw_ch4 . '" width="10"  border="0" alt="" />&nbsp;ถอดล้างแขนฉีด/หัวฉีดน้ำ</td>
       </tr>
       <tr>
-        <td ><img src="../images/'.$chl_ch5.'" width="10"  border="0" alt="" />&nbsp;ตรวจเช็คมอเตอร์</td>
-        <td ><img src="../images/'.$chw_ch5.'" width="10"  border="0" alt="" />&nbsp;ทำความสะอาดภายใน/ภายนอก</td>
+        <td ><img src="../images/' . $chl_ch5 . '" width="10"  border="0" alt="" />&nbsp;ตรวจเช็คมอเตอร์</td>
+        <td ><img src="../images/' . $chw_ch5 . '" width="10"  border="0" alt="" />&nbsp;ทำความสะอาดภายใน/ภายนอก</td>
       </tr>
     </table></td>
     <td width="23%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-      '.$sfix.'
+      ' . $sfix . '
     </table></td>
      <td width="25%"><table width="100%" border="0" cellspacing="0" cellpadding="0">
        <tr>
          <td style="text-align:center;"><strong>รายละเอียดการให้บริการ / ข้อเสนอแนะ</strong></td>
        </tr>
        <tr>
-         <td style="text-align:left;">'.$_POST['detail_recom2'].'</td>
+         <td style="text-align:left;">' . $_POST['detail_recom2'] . '</td>
        </tr>
      </table></td>
   </tr>
@@ -286,27 +282,27 @@
       <td width="15%" style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>ราคา / หน่วย</strong></td>
       <td width="15%" style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>ราคารวม (บาท)</strong></td>
     </tr>';
-    
-    while($rowSRV = @mysqli_fetch_array($qu_sr2)){
-		$form.= '<tr>
-      <td style="border:1px solid #000000;padding:5;">'.$brf.'</td>
-      <td style="border:1px solid #000000;padding:5;">'.$rowSRV['codes'].'</td>
-      <td style="border:1px solid #000000;text-align:left;padding:5;">'.get_sparpart_name($conn,$rowSRV['lists']).'</td>
-      <td style="border:1px solid #000000;padding:5;">'.$rowSRV['opens'].'</td>
-      <td style="border:1px solid #000000;padding:5;">'.$rowSRV['prices'].'</td>
-      <td style="border:1px solid #000000;padding:5;">'.($rowSRV['opens']*$rowSRV['prices']).'</td>
+
+while ($rowSRV = @mysqli_fetch_array($qu_sr2)) {
+    $form .= '<tr>
+      <td style="border:1px solid #000000;padding:5;">' . $brf . '</td>
+      <td style="border:1px solid #000000;padding:5;">' . $rowSRV['codes'] . '</td>
+      <td style="border:1px solid #000000;text-align:left;padding:5;">' . get_sparpart_name($conn, $rowSRV['lists']) . '</td>
+      <td style="border:1px solid #000000;padding:5;">' . $rowSRV['opens'] . '</td>
+      <td style="border:1px solid #000000;padding:5;">' . $rowSRV['prices'] . '</td>
+      <td style="border:1px solid #000000;padding:5;">' . ($rowSRV['opens'] * $rowSRV['prices']) . '</td>
     </tr>
     <tr>';
-	$totalprice += ($rowSRV['opens']*$rowSRV['prices']);
-	$brf++;
-	}
-    
-    $form.= '<tr>
+    $totalprice += ($rowSRV['opens'] * $rowSRV['prices']);
+    $brf++;
+}
+
+$form .= '<tr>
       <td colspan="4" rowspan="1" style="text-align:left;border:1px solid #000000;padding:5;vertical-align:top;padding-top:15px;"><br>
 </td>
       <td style="border:1px solid #000000;padding:5;vertical-align:middle;"><strong>ค่าใช้จ่ายรวม<br />
 (ทั้งหมด)</strong></td>
-      <td style="border:1px solid #000000;padding:5;vertical-align:middle;">'.number_format($totalprice,2).'</td>
+      <td style="border:1px solid #000000;padding:5;vertical-align:middle;">' . number_format($totalprice, 2) . '</td>
     </tr>
   </table>
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" style="text-align:center;margin-top:5px;">
@@ -314,10 +310,10 @@
         <td width="33%" style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
         	<table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong >'.$techniSignature.'</strong></td>
+                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong >' . $techniSignature . '</strong></td>
               </tr>
               <tr>
-                <td style="padding-top:10px;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>( '.get_technician_name($conn,$_POST['loc_contact']).' )<br>ช่างบริการ</strong></td>
+                <td style="padding-top:10px;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>( ' . get_technician_name($conn, $_POST['loc_contact']) . ' )<br>ช่างบริการ</strong></td>
               </tr>
               <tr>
                 <td style="font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>วันที่............./.............../..............<br />
@@ -331,23 +327,23 @@
         <td width="33%" style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
         	<table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;">'.$hCustomerSignature.'</td>
+                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;">' . $hCustomerSignature . '</td>
               </tr>
               <tr>
                 <td style="padding-top:10px;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>ผู้รับบริการ</strong></td>
               </tr>
               <tr>
-                <td style="font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>'.$dateTimeCusSignature.'</strong></td>
+                <td style="font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>' . $dateTimeCusSignature . '</strong></td>
               </tr>
             </table>
         </td>
         <td width="33%" style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;padding-top:10px;padding-bottom:10px;">
         	<table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
-                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;">'.$hTecSignature.'</td>
+                <td style="border-bottom:1px solid #000000;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;">' . $hTecSignature . '</td>
               </tr>
               <tr>
-                <td style="padding-top:10px;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>( '.getNameTecApprove($conn).' )<br>ผู้ตรวจสอบ</strong></td>
+                <td style="padding-top:10px;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>( ' . getNameTecApprove($conn) . ' )<br>ผู้ตรวจสอบ</strong></td>
               </tr>
               <tr>
                 <td style="font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>วันที่............./.............../..............<br />
@@ -370,4 +366,4 @@
 
 
 
-	
+

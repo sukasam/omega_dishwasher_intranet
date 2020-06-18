@@ -53,9 +53,13 @@
 	if($_GET['action'] == 'getcus'){
 		$cd_name = $_REQUEST['pval'];
 		if($cd_name != ""){
-			$consd = "WHERE cd_name LIKE '%".$cd_name."%'";
+			$consd = " AND cd_name LIKE '%".$cd_name."%'";
 		}
-		$qu_cus = mysqli_query($conn,"SELECT fo_id,cd_name,loc_name FROM s_first_order ".$consd." ORDER BY cd_name ASC");
+		$conDealer = "";
+		if (userGroup($conn, $_SESSION['login_id']) === "Dealer") {
+			$conDealer = " AND `create_by` = '" . $_SESSION['login_id'] . "'";
+		}
+		$qu_cus = mysqli_query($conn,"SELECT fo_id,cd_name,loc_name FROM s_first_order WHERE 1 ".$conDealer.$consd." ORDER BY cd_name ASC");
 		while($row_cusx = @mysqli_fetch_array($qu_cus)){
 			?>
 			 <tr>

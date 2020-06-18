@@ -13,6 +13,9 @@
 		$a_not_exists = array();
 		$param = get_param($a_param,$a_not_exists);
 
+		$_POST['name'] = addslashes($_POST['name']);
+		$_POST['address'] = addslashes($_POST['address']);
+
 		if ($_POST['mode'] == "add") { 
 			include "../include/m_add.php";
 			header ("location:index.php?" . $param); 
@@ -132,6 +135,16 @@ function submitForm() {
 <UL class=shortcut-buttons-set>
   <LI><A class=shortcut-button href="javascript:history.back()"><SPAN><IMG  alt=icon src="../images/btn_back.gif"><BR>
   กลับ</SPAN></A></LI>
+  <?php 
+	if(checkDealer($conn,$_SESSION['login_id']) == 1){
+?>
+<!-- <LI><A class=shortcut-button href="#"><SPAN><IMG  alt=icon src="../images/menu/head-paper.png" width="46"><BR>
+	กำหนดหัวกระดาษ</SPAN></A></LI> -->
+<?php
+	}
+  ?>
+  
+	
 </UL>
 <!-- End .clear -->
 <DIV class=clear></DIV><!-- End .clear -->
@@ -175,7 +188,19 @@ function submitForm() {
                 <td class="name">รหัสผ่านใหม่</td>
                 <td><input name="new_p" type="password" id="new_p"  style="width:200px;" value="<?php  echo $password;?>"></td>
               </tr>
-              <?php  } ?>
+			  <?php  } ?>
+			  <tr>
+                <td class="name" style="vertical-align: top;">ที่อยู่</td>
+                <td><textarea name="address" id="address" rows="4" cols="20"><?php  echo $address;?></textarea></td>
+			  </tr>
+			  <tr >
+                <td class="name">เบอร์โทรศัพท์</td>
+                <td><input name="telephone" type="text" id="telephone"  style="width:200px;" value="<?php  echo $telephone;?>"></td>
+			  </tr>
+			  <tr >
+                <td class="name">อีเมล์</td>
+                <td><input name="email" type="text" id="email"  style="width:200px;" value="<?php  echo $email;?>"></td>
+              </tr>
               <tr>
                 <td nowrap class="name">รูปภาพ<br>
                   <small>Size 155px x 136px</small></td>

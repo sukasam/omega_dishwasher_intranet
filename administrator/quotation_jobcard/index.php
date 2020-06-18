@@ -199,7 +199,12 @@ function selectProcess(evt){
 					if($orderby=="") $orderby = "sc.".$PK_field;
 					if ($sortby =="") $sortby ="DESC";
 
-				   	$sql = "SELECT * FROM $tbl_name AS sc WHERE qu_id =".$_GET['id'];
+					$conDealer = "";
+					if(userGroup($conn,$_SESSION['login_id']) === "Dealer"){
+						$conDealer = " AND `create_by` = '".$_SESSION['login_id']."'";
+					}
+
+				   	$sql = "SELECT * FROM $tbl_name AS sc WHERE qu_id =".$_GET['id']. $conDealer;
 					if ($_GET[$PK_field] <> "") $sql .= " and ($PK_field  = '" . $_GET[$PK_field] . " ' ) ";
 					if ($_GET[$FR_field] <> "") $sql .= " and ($FR_field  = '" . $_GET[$FR_field] . " ' ) ";
  					if ($_GET['keyword'] <> "") {

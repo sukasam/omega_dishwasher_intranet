@@ -160,7 +160,12 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 					if($orderby=="") $orderby = "ct.".$PK_field;
 					if ($sortby =="") $sortby ="DESC";
 
-				   	$sql = "SELECT ct . * , fd.cd_name FROM $tbl_name AS ct, s_first_order AS fd WHERE ct.cus_id = fd.fo_id";
+					$conDealer = "";
+					if(userGroup($conn,$_SESSION['login_id']) === "Dealer"){
+						$conDealer = " AND ct.create_by = '".$_SESSION['login_id']."'";
+					}
+
+				   	$sql = "SELECT ct . * , fd.cd_name FROM $tbl_name AS ct, s_first_order AS fd WHERE ct.cus_id = fd.fo_id".$conDealer;
 					if ($_GET[$PK_field] <> "") $sql .= " and ($PK_field  = '" . $_GET[$PK_field] . " ' ) ";
 					if ($_GET[$FR_field] <> "") $sql .= " and ($FR_field  = '" . $_GET[$FR_field] . " ' ) ";
  					if ($_GET['keyword'] <> "") {

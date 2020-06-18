@@ -9,16 +9,25 @@
 		$a_not_exists = array();
 		$param = get_param($a_param,$a_not_exists);
 
+		$_POST['name'] = addslashes($_POST['name']);
+		$_POST['address'] = addslashes($_POST['address']);
+
+		
 		if ($_POST['mode'] == "add") { 
+
 			$sql = "select * from $tbl_name where username = '".$_POST['username']."' ";
 			$query = @mysqli_query($conn,$sql);
 			
+
 			if(@mysqli_num_rows($query) == 0) {
+
 				
 				$_POST['admin_flag'] = 0;
-				
+
 				include "../include/m_add.php";
 				$id=@mysqli_insert_id($conn);
+
+				// exit();
 				
 				if ($_FILES['ufimages']['name'] != "") { 
 				$mname="";
@@ -213,7 +222,19 @@ function check(frm){
                 <td class="name">รหัสผ่านใหม่</td>
                 <td><input name="new_p" type="password" id="new_p"  style="width:200px;"></td>
               </tr>
-              <?php  } ?>
+			  <?php  } ?>
+			  <tr>
+                <td class="name" style="vertical-align: top;">ที่อยู่</td>
+                <td><textarea name="address" id="address" rows="4" cols="20"><?php  echo $address;?></textarea></td>
+			  </tr>
+			  <tr >
+                <td class="name">เบอร์โทรศัพท์</td>
+                <td><input name="telephone" type="text" id="telephone"  style="width:200px;" value="<?php  echo $telephone;?>"></td>
+			  </tr>
+			  <tr >
+                <td class="name">อีเมล์</td>
+                <td><input name="email" type="text" id="email"  style="width:200px;" value="<?php  echo $email;?>"></td>
+              </tr>
               <tr>
                 <td nowrap class="name">รูปภาพ<br>
                   <small>Size 155px x 136px</small></td>

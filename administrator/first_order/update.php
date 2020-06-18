@@ -295,7 +295,12 @@ function submitForm() {
       <legend><?php  echo $page_name; ?> </legend>
         <table width="100%" cellspacing="0" cellpadding="0" border="0">
   <tr>
-    <td style="padding-bottom:5px;"><img src="../images/form/header-first-order.png" width="100%" border="0" /></td>
+    <td style="padding-bottom:5px;">
+    <?php
+    $userCreate = getCreatePaper($conn,$tbl_name," AND `fo_id`=".$fo_id);
+    $headerIMG = get_headerPaper($conn,"FO",$userCreate);
+    ?>
+    <img src="<?php echo $headerIMG;?>" width="100%" border="0" /></td>
   </tr>
 </table>
 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tb1">
