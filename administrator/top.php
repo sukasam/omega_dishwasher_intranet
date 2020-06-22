@@ -1,5 +1,11 @@
 <?php  
-	if($_SESSION['login_name'] == ""){header("Location:../index.php");}
+  if($_SESSION['login_name'] == ""){header("Location:../index.php");}
+  if($_GET['actionSet'] == 'setCloseNoti'){
+    @mysqli_query($conn, "UPDATE `s_notification` SET `view` = '1' WHERE `s_notification`.`user_account` = '".$_SESSION["login_id"]."';");
+    $pathSet = curPageURL();
+    $chkPathSet = explode('actionSet=setCloseNoti',$pathSet);
+    header('Location:'.$chkPathSet[0]);
+  }
 ?>
 <!--<div style="font-size:20px; font-weight:bold; padding-bottom:20px;">Welcome <?php  echo $_SESSION["login_name"];?></div>-->
 <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" />
@@ -68,15 +74,29 @@ if(chkBrowser("Opera")==1){
 
 <?php
   //echo "SELECT * FROM s_notification WHERE user_account = '".$_SESSION["login_id"]."' AND view = '0'";
-  $resultNoti = mysqli_query($conn, "SELECT * FROM s_notification WHERE user_account = '".$_SESSION["login_id"]."' AND view = '0'");
+  $resultNoti = mysqli_query($conn, "SELECT * FROM s_notification WHERE user_account = '".$_SESSION["login_id"]."' AND view = '0' ORDER BY id DESC");
+  $rowcount=mysqli_num_rows($resultNoti);
+  if($rowcount >= 1){
+    $pathSet = curPageURL();
+    $chkPathSet = explode('?',$pathSet);
+    if(count($chkPathSet) >= 2){
+      $pathSet .= '&actionSet=setCloseNoti';
+    }else{
+      $pathSet .= '?actionSet=setCloseNoti';
+    }
+    echo '<a href="'.$pathSet.'" class="closeNotiBT" onclick="return confirm(\'คุณแน่ใจต้องการปิดการแจ้งเตือนทั้งหมด?\');">ปิดการแจ้งเตือนทั้งหมด</a><br><br><br>';
+  }
+  $kepNotiTBID = array();
   while ($rowNoti = mysqli_fetch_array($resultNoti, MYSQLI_ASSOC)) {
-      //printf("ID: %s  Name: %s", $row["id"], $row["name"]);
-      ?>
-      <div class="alert alert-success">
-        <a href="#" onclick="notiChange(<?php echo $rowNoti['id'];?>)" class="close" data-dismiss="alert" aria-label="close">×</a>
-        <?php echo getShowNoti($conn,$rowNoti);?>
-      </div>
+      if(!in_array($rowNoti['tag_db'].$rowNoti['t_id'],$kepNotiTBID)){
+         ?>
+        <div class="alert alert-success processAlert<?php echo ($rowNoti['process']);?>">
+          <a href="#" onclick="notiChange(<?php echo $rowNoti['id'];?>)" class="close" data-dismiss="alert" aria-label="close">×</a>
+          <?php echo getShowNoti($conn,$rowNoti);?>
+        </div>
       <?php
+      array_push($kepNotiTBID,$rowNoti['tag_db'].$rowNoti['t_id']);
+      }
   }
 ?>
 
