@@ -1,13 +1,13 @@
 ﻿<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <?php
 
-if($_POST["cprice1"] != ""){$prpro1 = number_format($_POST["cprice1"]);}
-if($_POST["cprice2"] != ""){$prpro2 = number_format($_POST["cprice2"]);}
-if($_POST["cprice3"] != ""){$prpro3 = number_format($_POST["cprice3"]);}
-if($_POST["cprice4"] != ""){$prpro4 = number_format($_POST["cprice4"]);}
-if($_POST["cprice5"] != ""){$prpro5 = number_format($_POST["cprice5"]);}
-if($_POST["cprice6"] != ""){$prpro6 = number_format($_POST["cprice6"]);}
-if($_POST["cprice7"] != ""){$prpro7 = number_format($_POST["cprice7"]);}
+if($_POST["cprice1"] != ""){$prpro1 = number_format($_POST["cprice1"],2);}
+if($_POST["cprice2"] != ""){$prpro2 = number_format($_POST["cprice2"],2);}
+if($_POST["cprice3"] != ""){$prpro3 = number_format($_POST["cprice3"],2);}
+if($_POST["cprice4"] != ""){$prpro4 = number_format($_POST["cprice4"],2);}
+if($_POST["cprice5"] != ""){$prpro5 = number_format($_POST["cprice5"],2);}
+if($_POST["cprice6"] != ""){$prpro6 = number_format($_POST["cprice6"],2);}
+if($_POST["cprice7"] != ""){$prpro7 = number_format($_POST["cprice7"],2);}
 
 
 

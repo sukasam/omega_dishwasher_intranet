@@ -83,7 +83,7 @@ if($_POST['cpro1'] != ""){
   }else{$_POST['cprice1'] = "";}
   $sumTotal = $sumTotal+$totalSub1;
   if($totalSub1 != "" || $totalSub1 != 0){
-    $totalSub1s = number_format($totalSub1);
+    $totalSub1s = number_format($totalSub1,2);
   }
 }
 
@@ -96,7 +96,7 @@ if($_POST['cpro2'] != ""){
   }else{$_POST['cprice2'] = "";}
   $sumTotal = $sumTotal+$totalSub2;
   if($totalSub2 != "" || $totalSub2 != 0){
-    $totalSub2s = number_format($totalSub2);
+    $totalSub2s = number_format($totalSub2,2);
   }
 }
 
@@ -109,7 +109,7 @@ if($_POST['cpro3'] != ""){
   }else{$_POST['cprice3'] = "";}
   $sumTotal = $sumTotal+$totalSub3;
   if($totalSub3 != "" || $totalSub3 != 0){
-    $totalSub3s = number_format($totalSub3);
+    $totalSub3s = number_format($totalSub3,2);
   }
 }
 
@@ -122,7 +122,7 @@ if($_POST['cpro4'] != ""){
   }else{$_POST['cprice4'] = "";}
   $sumTotal = $sumTotal+$totalSub4;
   if($totalSub4 != "" || $totalSub4 != 0){
-    $totalSub4s = number_format($totalSub4);
+    $totalSub4s = number_format($totalSub4,2);
   }
 }
 
@@ -135,7 +135,7 @@ if($_POST['cpro5'] != ""){
   }else{$_POST['cprice5'] = "";}
   $sumTotal = $sumTotal+$totalSub5;
   if($totalSub5 != "" || $totalSub5 != 0){
-    $totalSub5s = number_format($totalSub5);
+    $totalSub5s = number_format($totalSub5,2);
   }
 }
 
