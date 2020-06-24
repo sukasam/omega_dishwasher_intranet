@@ -150,6 +150,8 @@ if ($_GET['action'] == "chksum") {
                     <strong>รายงานสรุป</strong><br><br></SPAN></A></LI>
               <LI><A class=shortcut-button href="../report/?mid=16&act=13"><SPAN><IMG alt=icon src="../images/icons/icon-48-category.png"><BR>
                     <strong>รายงาน<br>ใบสั่งน้ำยา</strong></SPAN></A></LI>
+              <LI><A class=shortcut-button href="../report/?mid=16&act=14"><SPAN><IMG alt=icon src="../images/icons/icon-48-category.png"><BR>
+                    <strong>รายงาน<br>วันหมดสัญญา</strong></SPAN></A></LI>
             </UL>
             <div class="clear"></div>
           </DIV><!-- End #tab1 -->
@@ -1823,6 +1825,109 @@ if ($_GET['action'] == "chksum") {
         </DIV>
       <?php
       }
+
+      if ($_GET['act'] == 14) {
+        ?>
+          <DIV class=content-box>
+            <!-- Start Content Box -->
+            <DIV class=content-box-header align="right" style="padding-right:15px;">
+  
+              <H3 align="left">รายงานวันหมดอายุสัญญา</H3>
+              <DIV class=clear>
+  
+              </DIV>
+            </DIV><!-- End .content-box-header -->
+            <DIV class=content-box-content>
+              <DIV id=tab1 class="tab-content default-tab">
+                <!-- This is the target div. id must match the href of this div's tab -->
+                <form action="report14.php" method="post" name="form1" id="form1" target="_blank" onSubmit="return check2(this)">
+                  <div class="formArea">
+                    <fieldset>
+                      <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                        <tr>
+                          <td>
+                            <table class="formFields" cellspacing="0" width="100%">
+                              <tr>
+                                <td width="10%" nowrap class="name">ประเภทสัญญา</td>
+                                <td width="90%">
+                                  <select name="contact_status">
+                                    <option value="1">สัญญาเช่า</option>
+                                    <option value="2">สัญญาบริการ</option>
+                                  </select>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td nowrap class="name">&nbsp;</td>
+                                <td><span class="name">
+                                    <input name="priod" type="radio" value="0" checked>
+                                    กำหนดช่วงเวลา&nbsp;
+                                    <!-- <input name="priod" type="radio" value="1">
+                                    ไม่กำหนดช่วงเวลา</span></td> -->
+                              </tr>
+                              <tr>
+                                <td width="10%" nowrap class="name">เริ่มวันที่</td>
+                                <td width="90%"><input type="text" name="date_fm" readonly value="<?php echo date("d/m/Y", strtotime("-1 months")); ?>" class="inpfoder" />
+                                  <script language="JavaScript">
+                                    new tcal({
+                                      'formname': 'form1',
+                                      'controlname': 'date_fm'
+                                    });
+                                  </script>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td width="10%" nowrap class="name">ถึงวันที่</td>
+                                <td width="90%"><input type="text" name="date_to" readonly value="<?php echo date("d/m/Y"); ?>" class="inpfoder" />
+                                  <script language="JavaScript">
+                                    new tcal({
+                                      'formname': 'form1',
+                                      'controlname': 'date_to'
+                                    });
+                                  </script>
+                                </td>
+                              </tr>
+                              <!-- <tr>
+                                <td nowrap class="name">รายการแสดง</td>
+                                <td><input name="sh1" type="checkbox" id="sh31" value="1" checked>
+                                  ชื่อลูกค้า / บริษัท + เบอร์โทร
+                                  <input name="sh2" type="checkbox" id="sh32" value="1" checked>
+                                  ชื่อร้าน / สถานที่จัดส่ง
+                                  <input name="sh4" type="checkbox" id="sh34" value="1" checked>
+                                  ประเภทลูกค้า <br>
+                                  <input name="sh5" type="checkbox" id="sh35" value="1" checked>
+                                  สถานะใบสั่งน้ำยา
+                                  <input name="sh6" type="checkbox" id="sh36" value="1" checked>
+                                  รหัสสินค้า
+                                  <input name="sh7" type="checkbox" id="sh37" value="1" checked>
+                                  ชื่อสินค้า
+                                  <input name="sh8" type="checkbox" id="sh38" value="1" checked>
+                                  จำนวน
+                                  <input name="sh9" type="checkbox" id="sh39" value="1" checked>
+                                  วันที่สั่งน้ำยา
+                                  <input name="sh10" type="checkbox" id="sh40" value="1" checked>
+                                  ผู้ขาย</td>
+                              </tr> -->
+                              <tr>
+                                <td nowrap class="name">&nbsp;</td>
+                                <td>&nbsp;</td>
+                              </tr>
+                            </table>
+                          </td>
+                        </tr>
+                      </table>
+                    </fieldset>
+                  </div><br>
+                  <div class="formArea">
+                    <input type="submit" name="Submit" value="Submit" class="button">
+                  </div>
+                </form>
+              </DIV><!-- End #tab1 -->
+  
+  
+            </DIV><!-- End .content-box-content -->
+          </DIV>
+        <?php
+        }
       ?>
 
       <!-- End .content-box -->
