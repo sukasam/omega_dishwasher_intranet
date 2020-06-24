@@ -1258,6 +1258,18 @@ div.validateresult {
     color: #000 !important;
 }
 
+.processAlert7,
+.processAlert8 {
+    background-color: #ff1100 !important;
+    color: #000 !important;
+}
+
+.processAlert7 strong,
+.processAlert8 strong {
+    background-color: #ff1100 !important;
+    color: #000 !important;
+}
+
 a.closeNotiBT {
     height: 40px;
     background-color: #100000;

@@ -3217,7 +3217,11 @@ function get_typeNoti($val)
         return "อนุมัติเอกสาร (ใบเสนอราคาเช่า)";
     } else if ($val == 6) {
         return "อนุมัติเอกสาร (ใบงานบริการ)";
-    } else {
+    } else if ($val == 7) {
+        return "วันหมดสัญญา (สัญญาเข่า)";
+    } else if ($val == 8) {
+        return "วันหมดสัญญา (สัญญาบริการ)";
+    }else {
         return "";
     }
 }
@@ -3243,7 +3247,15 @@ function addNotification($conn, $typenoti, $tbl_name, $PK_field, $process)
 {
     $qu_forder = @mysqli_query($conn, "SELECT * FROM `s_group_notification` WHERE group_name = '" . $typenoti . "'");
     while ($row_forder = @mysqli_fetch_array($qu_forder)) {
-        @mysqli_query($conn, "INSERT INTO `s_notification` (`id`, `tag_db`, `t_id`, `process`, `process_date`, `user_account`, `view`, `type_noti`) VALUES (NULL, '" . $tbl_name . "', '" . $PK_field . "', '" . $process . "','" . date("Y-m-d H:i:s") . "', '" . $row_forder['user_account'] . "', '0', '" . $typenoti . "');");
+        if($typenoti == 7 || $typenoti == 8 || $typenoti == 9){
+            $rowConTr = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM s_notification WHERE tag_db = '".$tbl_name."' AND t_id = '".$PK_field."' AND `user_account` = '".$row_forder['user_account']."'"));
+            if($rowConTr['id'] == ""){
+                @mysqli_query($conn, "INSERT INTO `s_notification` (`id`, `tag_db`, `t_id`, `process`, `process_date`, `user_account`, `view`, `type_noti`) VALUES (NULL, '" . $tbl_name . "', '" . $PK_field . "', '" . $process . "','" . date("Y-m-d H:i:s") . "', '" . $row_forder['user_account'] . "', '0', '" . $typenoti . "');");
+            }
+        }else{
+            @mysqli_query($conn, "INSERT INTO `s_notification` (`id`, `tag_db`, `t_id`, `process`, `process_date`, `user_account`, `view`, `type_noti`) VALUES (NULL, '" . $tbl_name . "', '" . $PK_field . "', '" . $process . "','" . date("Y-m-d H:i:s") . "', '" . $row_forder['user_account'] . "', '0', '" . $typenoti . "');");
+        }
+        
     }
 }
 
@@ -3286,6 +3298,7 @@ function getShowNoti($conn, $res)
     } else if ($res['process'] == '5') {
         $processType = 'จากผ่านการอนุมัติเรียบร้อย';
     }
+    
     if ($res['type_noti'] == '1') {
         $rownoti = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM " . $res['tag_db'] . " WHERE fo_id = '" . $res['t_id'] . "'"));
         return "<img src=\"../images/notifications-icon.png\" style=\"width: 24px;
@@ -3310,6 +3323,14 @@ function getShowNoti($conn, $res)
         $rownoti = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM " . $res['tag_db'] . " WHERE sr_id = '" . $res['t_id'] . "'"));
         return "<img src=\"../images/notifications-icon.png\" style=\"width: 24px;
 		vertical-align: middle;\"> <strong>มีการอนุมัติเอกสาร (ใบงานบริการ)</strong> เลขที่ " . $rownoti['sv_id'] . " " . $processType;
+    }else if ($res['type_noti'] == '7') {
+        $rownoti = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM " . $res['tag_db'] . " WHERE ct_id = '" . $res['t_id'] . "'"));
+        return "<a href=\"../../upload/contract/".str_replace("/","-",$rownoti['con_id']).".pdf\" target=\"_blank\"><img src=\"../images/notifications-icon.png\" style=\"width: 24px;
+		vertical-align: middle;\"> <strong>แจ้งต่ออายุ (สัญญาเข่า)</strong> เลขที่ " . $rownoti['con_id'] . " " . "| สัญญาสิ้นสุดวันที่ ".format_date_th($rownoti['con_enddate'], 1)."</a>";
+    }else if ($res['type_noti'] == '8') {
+        $rownoti = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM " . $res['tag_db'] . " WHERE ct_id = '" . $res['t_id'] . "'"));
+        return "<a href=\"../../upload/contract2/".str_replace("/","-",$rownoti['con_id']).".pdf\" target=\"_blank\"><img src=\"../images/notifications-icon.png\" style=\"width: 24px;
+		vertical-align: middle;\"> <strong>แจ้งต่ออายุ (สัญญาบริการ)</strong> เลขที่ " . $rownoti['con_id'] . " " . "| สัญญาสิ้นสุดวันที่ ".format_date_th($rownoti['con_enddate'], 1)."</a>";
     } else {
         return "";
     }
@@ -3406,24 +3427,24 @@ function checkHeadPaper($conn, $group_id, $user_id, $mode)
 
 function getCreatePaper($conn, $tbDB, $condi)
 {
-	//echo "SELECT create_by FROM $tbDB WHERE 1 ".$condi;
-	$row_header = @mysqli_fetch_array(@mysqli_query($conn, "SELECT create_by FROM $tbDB WHERE 1 " . $condi));
-	return $row_header['create_by'];
-    
+    //echo "SELECT create_by FROM $tbDB WHERE 1 ".$condi;
+    $row_header = @mysqli_fetch_array(@mysqli_query($conn, "SELECT create_by FROM $tbDB WHERE 1 " . $condi));
+    return $row_header['create_by'];
+
 }
 
 function get_headerPaper($conn, $keys, $user_id)
 {
-	if($user_id == ""){
-		$user_id = $_SESSION["login_id"];
-	}
+    if ($user_id == "") {
+        $user_id = $_SESSION["login_id"];
+    }
 
     if (userGroup($conn, $user_id) === "Dealer") {
 
         $row_header = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM  s_group_headpaper WHERE `group_key` = '" . $keys . "'"));
         $row_headerImg = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM  s_header_paper WHERE `key_head` = '" . $row_header['group_id'] . "' AND `user_id` = '" . $user_id . "'"));
 
-		return "../../upload/headerpaper/" . $row_headerImg['u_images'];
+        return "../../upload/headerpaper/" . $row_headerImg['u_images'];
 
     } else {
         switch ($keys) {
@@ -3432,32 +3453,52 @@ function get_headerPaper($conn, $keys, $user_id)
                 break;
             case "SR":
                 return "../images/form/header_service_report.png";
-				break;
-			case "SC":
-				return "../images/form/header_service_card.jpg";
-			break;
-			case "DH":
-				return "../images/contract_header.jpg";
-			break;
-			case "DF":
-				return "../images/contract_footer.jpg";
-			break;
-			case "QAB":
-				return "../images/form/header-qab.png";
-			break;
-			case "QAH":
-				return "../images/form/header-qah.png";
-			break;
-			case "QAR":
-				return "../images/form/header-qar.png";
-			break;
-			case "QARC":
-				return "../images/form/header-qarc.png";
-			break;
-			case "OS":
-				return "../images/form/header-order_solution.jpg";
-			break;			
-			
+                break;
+            case "SC":
+                return "../images/form/header_service_card.jpg";
+                break;
+            case "DH":
+                return "../images/contract_header.jpg";
+                break;
+            case "DF":
+                return "../images/contract_footer.jpg";
+                break;
+            case "QAB":
+                return "../images/form/header-qab.png";
+                break;
+            case "QAH":
+                return "../images/form/header-qah.png";
+                break;
+            case "QAR":
+                return "../images/form/header-qar.png";
+                break;
+            case "QARC":
+                return "../images/form/header-qarc.png";
+                break;
+            case "OS":
+                return "../images/form/header-order_solution.jpg";
+                break;
+
         }
+    }
+}
+
+function chkContrac($conn,$typeC){
+    switch ($typeC) {
+        case "R":
+            
+            $quCR = mysqli_query($conn,"SELECT * FROM `s_contract` WHERE `con_enddate` BETWEEN NOW() AND DATE(NOW() + INTERVAL 30 DAY)");
+            while($rowCR = mysqli_fetch_array($quCR)){
+             addNotification($conn,7,'s_contract',$rowCR['ct_id'],7);
+            }
+            return "";
+        break;
+        case "S":
+            $quCR = mysqli_query($conn,"SELECT * FROM `s_contract2` WHERE `con_enddate` BETWEEN NOW() AND DATE(NOW() + INTERVAL 30 DAY)");
+            while($rowCR = mysqli_fetch_array($quCR)){
+             addNotification($conn,8,'s_contract2',$rowCR['ct_id'],8);
+            }
+            return "";
+        break;
     }
 }

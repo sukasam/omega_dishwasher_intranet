@@ -6,6 +6,10 @@
     $chkPathSet = explode('actionSet=setCloseNoti',$pathSet);
     header('Location:'.$chkPathSet[0]);
   }
+
+  $conTR = chkContrac($conn,"R");
+  $conTS = chkContrac($conn,"S");
+
 ?>
 <!--<div style="font-size:20px; font-weight:bold; padding-bottom:20px;">Welcome <?php  echo $_SESSION["login_name"];?></div>-->
 <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" />
