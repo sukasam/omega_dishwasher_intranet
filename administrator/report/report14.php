@@ -46,6 +46,7 @@
 	padding:5;
 	text-align: center;
 	/* white-space: nowrap; */
+	vertical-align: middle;
 	
  }
  .tbreport td{
@@ -54,6 +55,7 @@
 	 border-bottom:1px solid #000000;
 	 /* white-space: nowrap; */
 	 text-align: center;
+	 vertical-align: middle;
  }
 </style>
 </head>
@@ -73,7 +75,7 @@
 		<th>เครื่องรุ่น</th>
 		<th>S/N</th>
 		<th>ค่าขนส่ง/ค่าติดตั้ง</th>
-		<th>เงินประกัน</th>
+		<th>เงินประกัน/ค่าเช่าล่วงหน้า</th>
 		<!-- <th>VAT</th> -->
 		<th>ค่าเช่า</th>
 		<th>จำนวนเครื่อง</th>
