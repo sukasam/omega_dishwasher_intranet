@@ -3502,3 +3502,63 @@ function chkContrac($conn,$typeC){
         break;
     }
 }
+
+function getCatSparev1($conn,$gid){
+    $row_dea = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM s_group_catspare WHERE group_id = '" . $gid . "'"));
+    return $row_dea['group_name'];
+}
+function getCatSparev2($conn,$gid){
+    $row_dea = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM s_group_catspare2 WHERE group_id = '" . $gid . "'"));
+    return $row_dea['group_name'];
+}
+function getCatSparev3($conn,$gid){
+    $row_dea = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM s_group_catspare3 WHERE group_id = '" . $gid . "'"));
+    return $row_dea['group_name'];
+}
+
+function getCatSparev4($conn,$gid){
+    $row_dea = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM s_group_catspare4 WHERE group_id = '" . $gid . "'"));
+    return $row_dea['group_name'];
+}
+
+function getCatProv1($conn,$gid){
+    $row_dea = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM s_group_catpro WHERE group_id = '" . $gid . "'"));
+    return $row_dea['group_name'];
+}
+function getCatProv2($conn,$gid){
+    $row_dea = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM s_group_catpro2 WHERE group_id = '" . $gid . "'"));
+    return $row_dea['group_name'];
+}
+function getCatProv3($conn,$gid){
+    $row_dea = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM s_group_catpro3 WHERE group_id = '" . $gid . "'"));
+    return $row_dea['group_name'];
+}
+
+function getCatProv4($conn,$gid){
+    $row_dea = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM s_group_catpro4 WHERE group_id = '" . $gid . "'"));
+    return $row_dea['group_name'];
+}
+
+
+function getCatProAllName($conn,$catv1,$catv2,$catv3,$catv4){
+
+    if($catv1 == 0 && $catv2 == 0 && $catv3 == 0 && $catv4 == 0){
+        return "-";
+    }else{
+        $shwCat = '';
+        if($catv1 !== "0"){
+            $shwCat .= getCatProv1($conn,$catv1);
+        }
+        if($catv2 !== "0"){
+            $shwCat .= "> ".getCatProv2($conn,$catv2);
+        }
+        if($catv3 !== "0"){
+            $shwCat .= "> ".getCatProv3($conn,$catv3);
+        }
+        if($catv4 !== "0"){
+            $shwCat .= "> ".getCatProv4($conn,$catv4);
+        }
+        return $shwCat;
+    }
+   
+}

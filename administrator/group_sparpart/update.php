@@ -72,6 +72,52 @@ function submitForm() {
 		document.getElementById("resetF").disabled = true;
 		document.form1.submit()
 	}
+
+  function setCatV1(){
+    var catv1 = document.getElementById("catv1").value;
+    $.ajax({
+        type: "GET",
+        url: "callAPI.php?action=getcatv1&catv1="+catv1,
+        //async: false,
+        success: function(result) {
+          var obj = result.split("|")
+          //console.log(obj[1]);
+          document.getElementById("catv2").innerHTML = obj[1];
+          document.getElementById("catv3").innerHTML = '<option value="0">กรุณาเลือก</option>';
+          document.getElementById("catv4").innerHTML = '<option value="0">กรุณาเลือก</option>';
+        }
+    });
+  }
+  function setCatV2(){
+    var catv1 = document.getElementById("catv1").value;
+    var catv2 = document.getElementById("catv2").value;
+    $.ajax({
+        type: "GET",
+        url: "callAPI.php?action=getcatv2&catv1="+catv1+"&catv2="+catv2,
+        //async: false,
+        success: function(result) {
+          var obj = result.split("|")
+          //console.log(obj[1]);
+          document.getElementById("catv3").innerHTML = obj[1];
+          document.getElementById("catv4").innerHTML = '<option value="0">กรุณาเลือก</option>';
+        }
+    });
+  }
+  function setCatV3(){
+    var catv1 = document.getElementById("catv1").value;
+    var catv2 = document.getElementById("catv2").value;
+    var catv3 = document.getElementById("catv3").value;
+    $.ajax({
+        type: "GET",
+        url: "callAPI.php?action=getcatv3&catv1="+catv1+"&catv2="+catv2+"&catv3="+catv3,
+        //async: false,
+        success: function(result) {
+          var obj = result.split("|")
+          //console.log(obj[1]);
+          document.getElementById("catv4").innerHTML = obj[1];
+        }
+    });
+  }
 </script>
 </HEAD>
 <?php  include ("../../include/function_script.php"); ?>
@@ -105,6 +151,89 @@ function submitForm() {
         <table width="100%" cellspacing="0" cellpadding="0" border="0">
           <tr>
             <td><table class="formFields" cellspacing="0" width="100%">
+            <tr>
+                <td nowrap class="name">หมวดหมู่อะไหล่ V1</td>
+				        <td>
+                <select name="catv1" id="catv1" class="inputselect" onchange="setCatV1()" style="width: 200px;">
+										<option value="0">กรุณาเลือก</option>
+                  <?php
+                  $qucatv1 = @mysqli_query($conn, "SELECT * FROM s_group_catspare ORDER BY group_name ASC");
+                  while ($row_catv1 = @mysqli_fetch_array($qucatv1)) {
+                  ?>
+                      <option value="<?php echo $row_catv1['group_id']; ?>" <?php if ($catv1 == $row_catv1['group_id']) {
+                                                    echo 'selected';
+                                                  } ?>><?php echo $row_catv1['group_name']; ?></option>
+                  <?php
+                    }
+                  ?>
+                </select>
+                </td>
+              </tr>
+              <tr>
+                <td nowrap class="name">หมวดหมู่อะไหล่ V2</td>
+				        <td>
+                <select name="catv2" id="catv2" class="inputselect" onchange="setCatV2()" style="width: 200px;">
+										<option value="0">กรุณาเลือก</option>
+                  <?php
+                  if($catv1 != "" && $catv1 != '0'){
+                    
+                    $condi2 = ' AND group_cat_id ='.$catv1;
+                    $qucatv2 = @mysqli_query($conn, "SELECT * FROM s_group_catspare2 WHERE 1 ".$condi2." ORDER BY group_name ASC");
+                    while ($row_catv2 = @mysqli_fetch_array($qucatv2)) {
+                    ?>
+                        <option value="<?php echo $row_catv2['group_id']; ?>" <?php if ($catv2 == $row_catv2['group_id']) {
+                                                      echo 'selected';
+                                                    } ?>><?php echo $row_catv2['group_name']; ?></option>
+                    <?php
+                   }
+                  
+                  }
+                  ?>
+                </select>
+                </td>
+              </tr>
+              <tr>
+                <td nowrap class="name">หมวดหมู่อะไหล่ V3</td>
+				        <td>
+                <select name="catv3" id="catv3" class="inputselect" onchange="setCatV3()" style="width: 200px;">
+										<option value="0">กรุณาเลือก</option>
+                  <?php
+                  if($catv2 != "" && $catv2 != '0'){
+                    $condi3 = ' AND group_cat2_id ='.$catv2;
+                  $qucatv3 = @mysqli_query($conn, "SELECT * FROM s_group_catspare3 WHERE 1 ".$condi3." ORDER BY group_name ASC");
+                  while ($row_catv3 = @mysqli_fetch_array($qucatv3)) {
+                  ?>
+                      <option value="<?php echo $row_catv3['group_id']; ?>" <?php if ($catv3 == $row_catv3['group_id']) {
+                                                    echo 'selected';
+                                                  } ?>><?php echo $row_catv3['group_name']; ?></option>
+                  <?php
+                    }
+                  }
+                  ?>
+                </select>
+                </td>
+              </tr>
+              <tr>
+                <td nowrap class="name">หมวดหมู่อะไหล่ V4</td>
+				        <td>
+                <select name="catv4" id="catv4" class="inputselect" style="width: 200px;">
+										<option value="0">กรุณาเลือก</option>
+                  <?php
+                  if($catv3 != "" && $catv3 != '0'){
+                    $condi4 = ' AND group_cat3_id ='.$catv3;
+                  $qucatv4 = @mysqli_query($conn, "SELECT * FROM s_group_catspare4 WHERE 1 ".$condi4." ORDER BY group_name ASC");
+                  while ($row_catv4 = @mysqli_fetch_array($qucatv4)) {
+                  ?>
+                      <option value="<?php echo $row_catv4['group_id']; ?>" <?php if ($catv4 == $row_catv4['group_id']) {
+                                                    echo 'selected';
+                                                  } ?>><?php echo $row_catv4['group_name']; ?></option>
+                  <?php
+                    }
+                  }
+                  ?>
+                </select>
+                </td>
+              </tr>
             <tr >
                 <td nowrap class="name">รหัสอะไหล่</td>
 				  <td><span id="chkDupID" class="hide" style="color: red;">รหัสอะไหล่ซ้ำ<br></span><input name="group_spar_id" type="text" id="group_spar_id"  value="<?php     echo $group_spar_id; ?>" size="60"> <span class="editIDPro hide"><input type="checkbox" name="edit_spar_id" id="edit_spar_id" value="1" disabled> แก้ไขรหัสอะไหล่</span>

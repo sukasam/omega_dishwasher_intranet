@@ -9,7 +9,7 @@
 		$sqlIns .= ", update_date = '" . date ("Y-m-d H:m:s") . "'";
 		$sqlIns .= ", update_by = '" . $_SESSION["login_id"] .  "'";
 		$sqlIns .= " where $PK_field = '" . $_REQUEST[$PK_field] . "'";
-		//  echo $sql;
+		//  echo $sqlIns;
 		//  exit();
 		@mysqli_query($conn,$sqlIns);
 		$id = $$PK_field;

@@ -42,6 +42,12 @@ function check_select(frm){
 			frm.choose_action.focus(); return false;
 		}
 }	
+
+function MM_jumpMenu(targ,selObj,restore){ //v3.0
+  eval(targ+".location='"+selObj.options[selObj.selectedIndex].value+"'");
+  if (restore) selObj.selectedIndex=0;
+}
+
 </script>
 </HEAD>
 <?php  include ("../../include/function_script.php"); ?>
@@ -74,6 +80,78 @@ function check_select(frm){
   
   <!-- End .shortcut-buttons-set -->
 <DIV class=clear></DIV><!-- End .clear -->
+
+<div>
+<strong>หมวดหมู่ V1 : </strong><select name="catv1" id="catv1" id="jumpMenu" onchange="MM_jumpMenu('parent',this,0)" style="height:30px;">
+  <option value="index.php"><== กรุณาเลือก ==></option>
+      <?php  
+          $qucatv1 = @mysqli_query($conn, "SELECT * FROM s_group_catspare ORDER BY group_name ASC");
+          while ($row_catv1 = @mysqli_fetch_array($qucatv1)) {
+          ?>
+              <option value="index.php?catv1=<?php echo $row_catv1['group_id']; ?>" <?php  if($row_catv1['group_id'] == $_GET['catv1']){echo 'selected';}?>><?php echo $row_catv1['group_name']; ?></option>
+          <?php
+            }
+      ?>
+  </select>
+<br><br>
+<?php
+if($_GET['catv1'] != ""){
+?>
+<strong>หมวดหมู่ V2 : </strong>
+<select name="catv2" id="catv2" id="jumpMenu" onchange="MM_jumpMenu('parent',this,0)" style="height:30px;">
+  <option value="index.php"><== กรุณาเลือก ==></option>
+      <?php  
+         $condi2 = ' AND group_cat_id ='.$_GET['catv1'];
+         $qucatv2 = @mysqli_query($conn, "SELECT * FROM s_group_catspare2 WHERE 1 ".$condi2." ORDER BY group_name ASC");
+         while ($row_catv2 = @mysqli_fetch_array($qucatv2)) {
+          ?>
+              <option value="index.php?catv1=<?php echo $_GET['catv1']; ?>&catv2=<?php echo $row_catv2['group_id']; ?>" <?php  if($row_catv2['group_id'] == $_GET['catv2']){echo 'selected';}?>><?php echo $row_catv2['group_name']; ?></option>
+          <?php
+            }
+      ?>
+  </select>
+<br><br>
+<?php
+}
+if($_GET['catv2'] != ""){
+  ?>
+  <strong>หมวดหมู่ V3 : </strong>
+  <select name="catv3" id="catv3" id="jumpMenu" onchange="MM_jumpMenu('parent',this,0)" style="height:30px;">
+    <option value="index.php"><== กรุณาเลือก ==></option>
+        <?php  
+           $condi3 = ' AND group_cat2_id ='.$_GET['catv2'];
+           $qucatv3 = @mysqli_query($conn, "SELECT * FROM s_group_catspare3 WHERE 1 ".$condi3." ORDER BY group_name ASC");
+           while ($row_catv3 = @mysqli_fetch_array($qucatv3)) {
+            ?>
+                <option value="index.php?catv1=<?php echo $_GET['catv1']; ?>&catv2=<?php echo $_GET['catv2']; ?>&catv3=<?php echo $row_catv3['group_id']; ?>" <?php  if($row_catv3['group_id'] == $_GET['catv3']){echo 'selected';}?>><?php echo $row_catv3['group_name']; ?></option>
+            <?php
+              }
+        ?>
+    </select>
+  <br><br>
+  <?php
+  }
+  if($_GET['catv3'] != ""){
+    ?>
+    <strong>หมวดหมู่ V4 : </strong>
+    <select name="catv4" id="catv4" id="jumpMenu" onchange="MM_jumpMenu('parent',this,0)" style="height:30px;">
+      <option value="index.php"><== กรุณาเลือก ==></option>
+          <?php  
+             $condi4 = ' AND group_cat3_id ='.$_GET['catv3'];
+             $qucatv4 = @mysqli_query($conn, "SELECT * FROM s_group_catspare4 WHERE 1 ".$condi4." ORDER BY group_name ASC");
+             while ($row_catv4 = @mysqli_fetch_array($qucatv4)) {
+              ?>
+                  <option value="index.php?catv1=<?php echo $_GET['catv1']; ?>&catv2=<?php echo $_GET['catv2']; ?>&catv3=<?php echo $_GET['catv3']; ?>&catv4=<?php echo $row_catv4['group_id']; ?>" <?php  if($row_catv4['group_id'] == $_GET['catv4']){echo 'selected';}?>><?php echo $row_catv4['group_name']; ?></option>
+              <?php
+                }
+          ?>
+      </select>
+    <br><br>
+    <?php
+    }
+?>
+</div><br><br>
+
 <DIV class=content-box><!-- Start Content Box -->
 <DIV class=content-box-header align="right" style="padding-right:15px;">
 
@@ -134,7 +212,21 @@ function check_select(frm){
 							}	
 						}
 						$sql .=  $subtext . " ) ";
-					} 
+          } 
+          
+          if ($_REQUEST['catv1'] <> "") { 
+						$sql .= " and catv1 = '".$_REQUEST['catv1']."'";
+          }
+          if ($_REQUEST['catv2'] <> "") { 
+						$sql .= " and catv2 = '".$_REQUEST['catv2']."'";
+          }
+          if ($_REQUEST['catv3'] <> "") { 
+						$sql .= " and catv3 = '".$_REQUEST['catv3']."'";
+          }
+          if ($_REQUEST['catv4'] <> "") { 
+						$sql .= " and catv4 = '".$_REQUEST['catv4']."'";
+          }
+          
 					if ($orderby <> "") $sql .= " order by " . $orderby;
 					if ($sortby <> "") $sql .= " " . $sortby;
 					include ("../include/page_init.php");

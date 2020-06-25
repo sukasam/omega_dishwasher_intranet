@@ -114,10 +114,10 @@ include("../../include/function.php");
           <div align="center"><a href="../group_headpaper/"><img src="../images/menu/head-paper.png" width="89" height="61" border="0" alt=""><br><br><strong>ประเภทหัวกระดาษ</strong></a></div>
         </td>
         <td>
-          <div align="center"></div>
+          <div align="center"><a href="../group_cat_pro/"><img src="../images/menu/icon-catpro.png" width="89" height="61" border="0" alt=""><br><br><strong>หมวดหมู่สินค้า</strong></a></div>
         </td>
         <td>
-          <div align="center"></div>
+          <div align="center"><a href="../group_cat_spare/"><img src="../images/menu/icon-catspare.png" width="89" height="61" border="0" alt=""><br><br><strong>หมวดหมู่อะไหล่</strong></a></div>
         </td>
         <td>
           <div align="center"></div>
