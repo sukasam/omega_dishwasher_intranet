@@ -98,9 +98,30 @@
         //header("Location:update.php?mode=update&order_id=".$id);
 			header ("location:index.php?" . $param);
 		}
-	}
+  }
+  
 	if ($_GET['mode'] == "add") {
-		 Check_Permission($conn,$check_module,$_SESSION['login_id'],"add");
+     Check_Permission($conn,$check_module,$_SESSION['login_id'],"add");
+     
+     if(isset($_GET['cus_id']) && $_GET['cus_id'] != ""){
+     
+      $foInfo = get_firstorder($conn, $_GET['cus_id']);
+      $cd_name = $foInfo['cd_name'];
+      $cd_address = $foInfo['cd_address'];
+      $cd_tel = $foInfo['cd_tel'];
+      $cd_fax = $foInfo['cd_fax'];
+      $c_contact = $foInfo['c_contact'];
+      $c_tel = $foInfo['c_tel'];
+      $ship_name = $foInfo['loc_name2'];
+      $ship_address = $foInfo['loc_address2'];
+      $type_service = $foInfo['ctype'];
+      $cd_province = $foInfo['cd_province'];
+      
+    
+      $a_sdate=explode("-",date("Y-m-d"));
+      $date_forder=$a_sdate[2]."/".$a_sdate[1]."/".$a_sdate[0];
+     }
+
 	}
 	if ($_GET['mode'] == "update") {
 		 Check_Permission($conn,$check_module,$_SESSION['login_id'],"update");
