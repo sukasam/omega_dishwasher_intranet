@@ -3250,17 +3250,27 @@ function chkServerFormGen($conn)
 function addNotification($conn, $typenoti, $tbl_name, $PK_field, $process)
 {
     
-    if($typenoti == 10){
+    if($typenoti == 10){ ///ใบสั่งน้ำยา
+
         $rowOrdTr = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM s_order_solution WHERE order_id = '".$PK_field."'"));
         @mysqli_query($conn, "INSERT INTO `s_notification` (`id`, `tag_db`, `t_id`, `process`, `process_date`, `user_account`, `view`, `type_noti`) VALUES (NULL, '" . $tbl_name . "', '" . $PK_field . "', '" . $process . "','" . date("Y-m-d H:i:s") . "', '" . $rowOrdTr['create_by'] . "', '0', '" . $typenoti . "');");
        
         $rowFOTr = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM s_first_order WHERE fo_id = '".$rowOrdTr['cus_id']."'"));
         $rowSaleTr = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM s_group_sale WHERE group_id = '".$rowFOTr['cs_sell']."'"));
         @mysqli_query($conn, "INSERT INTO `s_notification` (`id`, `tag_db`, `t_id`, `process`, `process_date`, `user_account`, `view`, `type_noti`) VALUES (NULL, '" . $tbl_name . "', '" . $PK_field . "', '" . $process . "','" . date("Y-m-d H:i:s") . "', '" . $rowSaleTr['user_account'] . "', '0', '" . $typenoti . "');");
+        
+        $qu_forder = @mysqli_query($conn, "SELECT * FROM `s_group_notification` WHERE group_name = '" . $typenoti . "'");
+        while ($row_forder = @mysqli_fetch_array($qu_forder)) {
+            if(($rowOrdTr['create_by'] != $row_forder['user_account']) && ($rowSaleTr['user_account'] != $row_forder['user_account'])){
+                @mysqli_query($conn, "INSERT INTO `s_notification` (`id`, `tag_db`, `t_id`, `process`, `process_date`, `user_account`, `view`, `type_noti`) VALUES (NULL, '" . $tbl_name . "', '" . $PK_field . "', '" . $process . "','" . date("Y-m-d H:i:s") . "', '" . $row_forder['user_account'] . "', '0', '" . $typenoti . "');");
+            }
+            
+        }
+
     }else{
         $qu_forder = @mysqli_query($conn, "SELECT * FROM `s_group_notification` WHERE group_name = '" . $typenoti . "'");
         while ($row_forder = @mysqli_fetch_array($qu_forder)) {
-            if($typenoti == 7 || $typenoti == 8 || $typenoti == 9){
+            if($typenoti == 7 || $typenoti == 8 || $typenoti == 9){ ///หมดอายุสัญญา เช่า บริการ
                 $rowConTr = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM s_notification WHERE tag_db = '".$tbl_name."' AND t_id = '".$PK_field."' AND `user_account` = '".$row_forder['user_account']."'"));
                 if($rowConTr['id'] == ""){
                     @mysqli_query($conn, "INSERT INTO `s_notification` (`id`, `tag_db`, `t_id`, `process`, `process_date`, `user_account`, `view`, `type_noti`) VALUES (NULL, '" . $tbl_name . "', '" . $PK_field . "', '" . $process . "','" . date("Y-m-d H:i:s") . "', '" . $row_forder['user_account'] . "', '0', '" . $typenoti . "');");
