@@ -1259,14 +1259,51 @@ div.validateresult {
 }
 
 .processAlert7,
-.processAlert8 {
+.processAlert8,
+.processAlert9 {
     background-color: #ff1100 !important;
     color: #000 !important;
 }
 
 .processAlert7 strong,
-.processAlert8 strong {
+.processAlert8 strong,
+.processAlert9 strong {
     background-color: #ff1100 !important;
+    color: #000 !important;
+}
+
+.processOrderAlert1 {
+    background-color: #DAF !important;
+    color: #000 !important;
+}
+
+.processOrderAlert2 {
+    background-color: #ADA !important;
+    color: #000 !important;
+}
+
+.processOrderAlert3 {
+    background-color: #FA0 !important;
+    color: #000 !important;
+}
+
+.processOrderAlert4 {
+    background-color: #D88 !important;
+    color: #000 !important;
+}
+
+.processOrderAlert5 {
+    background-color: #FD4 !important;
+    color: #000 !important;
+}
+
+.processOrderAlert6 {
+    background-color: #00ff0c !important;
+    color: #000 !important;
+}
+
+.processOrderAlert7 {
+    background-color: #F44 !important;
     color: #000 !important;
 }
 

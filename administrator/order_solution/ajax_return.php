@@ -37,7 +37,7 @@
 	if($_GET['action'] == 'getcus2'){
 			$cd_name =  iconv( 'UTF-8', 'TIS-620', $_REQUEST['pval']);
 			if($cd_name != ""){
-				$consd = " AND cd_name LIKE '%".$cd_name."%'";
+				$consd = " AND (cd_name LIKE '%" . $cd_name . "%' OR loc_name LIKE '%" . $cd_name . "%')";
 			}
 			$conDealer = "";
 			if (userGroup($conn, $_SESSION['login_id']) === "Dealer") {

@@ -151,7 +151,7 @@ function submitForm() {
               <tr>
             <td><table class="formFields" cellspacing="0" width="100%">
               <tr>
-                <td nowrap class="name">หมวดหมู่สินค้า V1</td>
+                <td nowrap class="name">ประเภทของสินค้า</td>
 				        <td>
                 <select name="catv1" id="catv1" class="inputselect" onchange="setCatV1()" style="width: 200px;">
 										<option value="0">กรุณาเลือก</option>
@@ -169,7 +169,7 @@ function submitForm() {
                 </td>
               </tr>
               <tr>
-                <td nowrap class="name">หมวดหมู่สินค้า V2</td>
+                <td nowrap class="name">ชนิดของสินค้า</td>
 				        <td>
                 <select name="catv2" id="catv2" class="inputselect" onchange="setCatV2()" style="width: 200px;">
 										<option value="0">กรุณาเลือก</option>
@@ -192,7 +192,7 @@ function submitForm() {
                 </td>
               </tr>
               <tr>
-                <td nowrap class="name">หมวดหมู่สินค้า V3</td>
+                <td nowrap class="name">Model</td>
 				        <td>
                 <select name="catv3" id="catv3" class="inputselect" onchange="setCatV3()" style="width: 200px;">
 										<option value="0">กรุณาเลือก</option>
@@ -213,7 +213,7 @@ function submitForm() {
                 </td>
               </tr>
               <tr>
-                <td nowrap class="name">หมวดหมู่สินค้า V4</td>
+                <td nowrap class="name">อื่นๆ</td>
 				        <td>
                 <select name="catv4" id="catv4" class="inputselect" style="width: 200px;">
 										<option value="0">กรุณาเลือก</option>

@@ -93,8 +93,17 @@ if(chkBrowser("Opera")==1){
   $kepNotiTBID = array();
   while ($rowNoti = mysqli_fetch_array($resultNoti, MYSQLI_ASSOC)) {
       if(!in_array($rowNoti['tag_db'].$rowNoti['t_id'],$kepNotiTBID)){
+
+          $cssProcess = '';
+
+          if($rowNoti['tag_db'] == 's_order_solution'){
+            $cssProcess = 'processOrderAlert'.$rowNoti['process'];
+          }else{
+            $cssProcess = 'processAlert'.$rowNoti['process'];
+          }
+
          ?>
-        <div class="alert alert-success processAlert<?php echo ($rowNoti['process']);?>">
+        <div class="alert alert-success <?php echo $cssProcess;?>">
           <a href="#" onclick="notiChange(<?php echo $rowNoti['id'];?>)" class="close" data-dismiss="alert" aria-label="close">×</a>
           <?php echo getShowNoti($conn,$rowNoti);?>
         </div>

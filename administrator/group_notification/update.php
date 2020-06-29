@@ -122,7 +122,8 @@ function submitForm() {
 						<option value="6" <?php if($group_name == '6'){echo 'selected';}?>>อนุมัติเอกสาร (ใบงานบริการ)</option>
 						<option value="7" <?php if($group_name == '7'){echo 'selected';}?>>วันหมดสัญญา (สัญญาเข่า)</option>
 						<option value="8" <?php if($group_name == '8'){echo 'selected';}?>>วันหมดสัญญา (สัญญาบริการ)</option>
-						<!-- <option value="9" <?php if($group_name == '9'){echo 'selected';}?>>วันหมดสัญญา (สัญญาซื้อ-ขาย)</option> -->
+						<option value="9" <?php if($group_name == '9'){echo 'selected';}?>>วันหมดสัญญา (สัญญาซื้อ-ขาย)</option>
+						<option value="10" <?php if($group_name == '10'){echo 'selected';}?>>สถานะใบสั่งน้ำยา</option>
 				</select>
             	 </td>
               </tr>

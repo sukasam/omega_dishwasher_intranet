@@ -7,5 +7,7 @@
 		 $sql = "UPDATE `s_order_solution` SET `st_setting` = '".$_GET['process']."' WHERE `order_id` = ".$_GET['id'].";";
 		mysqli_query($conn,$sql);
 		echo getStatusSolutionColor($_GET['process']);
+		
+		addNotification($conn,10,"s_order_solution",$_GET['id'],$_GET['process']);
 	}
 ?>

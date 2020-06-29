@@ -3221,6 +3221,10 @@ function get_typeNoti($val)
         return "วันหมดสัญญา (สัญญาเข่า)";
     } else if ($val == 8) {
         return "วันหมดสัญญา (สัญญาบริการ)";
+    }else if ($val == 9) {
+        return "วันหมดสัญญา (สัญญาซื้อ-ขาย)";
+    }else if ($val == 10) {
+        return "สถานะใบสั่งน้ำยา";
     }else {
         return "";
     }
@@ -3245,17 +3249,28 @@ function chkServerFormGen($conn)
 
 function addNotification($conn, $typenoti, $tbl_name, $PK_field, $process)
 {
-    $qu_forder = @mysqli_query($conn, "SELECT * FROM `s_group_notification` WHERE group_name = '" . $typenoti . "'");
-    while ($row_forder = @mysqli_fetch_array($qu_forder)) {
-        if($typenoti == 7 || $typenoti == 8 || $typenoti == 9){
-            $rowConTr = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM s_notification WHERE tag_db = '".$tbl_name."' AND t_id = '".$PK_field."' AND `user_account` = '".$row_forder['user_account']."'"));
-            if($rowConTr['id'] == ""){
+    
+    if($typenoti == 10){
+        $rowOrdTr = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM s_order_solution WHERE order_id = '".$PK_field."'"));
+        @mysqli_query($conn, "INSERT INTO `s_notification` (`id`, `tag_db`, `t_id`, `process`, `process_date`, `user_account`, `view`, `type_noti`) VALUES (NULL, '" . $tbl_name . "', '" . $PK_field . "', '" . $process . "','" . date("Y-m-d H:i:s") . "', '" . $rowOrdTr['create_by'] . "', '0', '" . $typenoti . "');");
+       
+        $rowFOTr = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM s_first_order WHERE fo_id = '".$rowOrdTr['cus_id']."'"));
+        $rowSaleTr = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM s_group_sale WHERE group_id = '".$rowFOTr['cs_sell']."'"));
+        @mysqli_query($conn, "INSERT INTO `s_notification` (`id`, `tag_db`, `t_id`, `process`, `process_date`, `user_account`, `view`, `type_noti`) VALUES (NULL, '" . $tbl_name . "', '" . $PK_field . "', '" . $process . "','" . date("Y-m-d H:i:s") . "', '" . $rowSaleTr['user_account'] . "', '0', '" . $typenoti . "');");
+    }else{
+        $qu_forder = @mysqli_query($conn, "SELECT * FROM `s_group_notification` WHERE group_name = '" . $typenoti . "'");
+        while ($row_forder = @mysqli_fetch_array($qu_forder)) {
+            if($typenoti == 7 || $typenoti == 8 || $typenoti == 9){
+                $rowConTr = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM s_notification WHERE tag_db = '".$tbl_name."' AND t_id = '".$PK_field."' AND `user_account` = '".$row_forder['user_account']."'"));
+                if($rowConTr['id'] == ""){
+                    @mysqli_query($conn, "INSERT INTO `s_notification` (`id`, `tag_db`, `t_id`, `process`, `process_date`, `user_account`, `view`, `type_noti`) VALUES (NULL, '" . $tbl_name . "', '" . $PK_field . "', '" . $process . "','" . date("Y-m-d H:i:s") . "', '" . $row_forder['user_account'] . "', '0', '" . $typenoti . "');");
+                }
+            }else{
+                //echo "INSERT INTO `s_notification` (`id`, `tag_db`, `t_id`, `process`, `process_date`, `user_account`, `view`, `type_noti`) VALUES (NULL, '" . $tbl_name . "', '" . $PK_field . "', '" . $process . "','" . date("Y-m-d H:i:s") . "', '" . $row_forder['user_account'] . "', '0', '" . $typenoti . "');";
                 @mysqli_query($conn, "INSERT INTO `s_notification` (`id`, `tag_db`, `t_id`, `process`, `process_date`, `user_account`, `view`, `type_noti`) VALUES (NULL, '" . $tbl_name . "', '" . $PK_field . "', '" . $process . "','" . date("Y-m-d H:i:s") . "', '" . $row_forder['user_account'] . "', '0', '" . $typenoti . "');");
             }
-        }else{
-            @mysqli_query($conn, "INSERT INTO `s_notification` (`id`, `tag_db`, `t_id`, `process`, `process_date`, `user_account`, `view`, `type_noti`) VALUES (NULL, '" . $tbl_name . "', '" . $PK_field . "', '" . $process . "','" . date("Y-m-d H:i:s") . "', '" . $row_forder['user_account'] . "', '0', '" . $typenoti . "');");
+            
         }
-        
     }
 }
 
@@ -3286,43 +3301,50 @@ function getShowNoti($conn, $res)
     <option value="index.php?process=3" <?php  if($_GET['process'] == '3'){echo "selected";}?>>รอผู้มีอำนาจลงนาม</option>
     <option value="index.php?process=4" <?php  if($_GET['process'] == '4'){echo "selected";}?>>รอผู้อนุมัติฝ่ายช่าง</option>
     <option value="index.php?process=5" <?php  if($_GET['process'] == '5'){echo "selected";}?>>ผ่านการอนุมัติ</option>*/
+
     $processType = '';
-    if ($res['process'] == '1') {
-        $processType = 'จากผู้อนุมัติฝ่ายขายเรียบร้อย';
-    } else if ($res['process'] == '2') {
-        $processType = 'จากผู้อนุมัติฝ่ายการเงินเรียบร้อย';
-    } else if ($res['process'] == '3') {
-        $processType = 'จากผู้มีอำนาจลงนามเรียบร้อย';
-    } else if ($res['process'] == '4') {
-        $processType = 'จากผู้อนุมัติฝ่ายช่างเรียบร้อย';
-    } else if ($res['process'] == '5') {
-        $processType = 'จากผ่านการอนุมัติเรียบร้อย';
+    if($res['tag_db'] == "s_order_solution"){
+        $processType = "(".getStatusSolution($res['process']).")";
+    }else{
+        if ($res['process'] == '1') {
+            $processType = 'จากผู้อนุมัติฝ่ายขายเรียบร้อย';
+        } else if ($res['process'] == '2') {
+            $processType = 'จากผู้อนุมัติฝ่ายการเงินเรียบร้อย';
+        } else if ($res['process'] == '3') {
+            $processType = 'จากผู้มีอำนาจลงนามเรียบร้อย';
+        } else if ($res['process'] == '4') {
+            $processType = 'จากผู้อนุมัติฝ่ายช่างเรียบร้อย';
+        } else if ($res['process'] == '5') {
+            $processType = 'จากผ่านการอนุมัติเรียบร้อย';
+        }
     }
+    
+    
     
     if ($res['type_noti'] == '1') {
         $rownoti = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM " . $res['tag_db'] . " WHERE fo_id = '" . $res['t_id'] . "'"));
-        return "<img src=\"../images/notifications-icon.png\" style=\"width: 24px;
-		vertical-align: middle;\"> <strong>มีการอนุมัติเอกสาร (First Order)</strong> เลขที่ " . $rownoti['fs_id'] . " " . $processType;
+        return "<a href=\"../../upload/first_order/".str_replace("/","-",$rownoti['fs_id']).".pdf\" target=\"_blank\"><img src=\"../images/notifications-icon.png\" style=\"width: 24px;
+		vertical-align: middle;\"> <strong>มีการอนุมัติเอกสาร (First Order)</strong> เลขที่ " . $rownoti['fs_id'] . " " . $processType."</a>";
     } else if ($res['type_noti'] == '2') {
         $rownoti = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM " . $res['tag_db'] . " WHERE qc_id = '" . $res['t_id'] . "'"));
-        return "<img src=\"../images/notifications-icon.png\" style=\"width: 24px;
-		vertical-align: middle;\"> <strong>มีการอนุมัติเอกสาร (ใบแจ้งงาน)</strong> เลขที่ " . $rownoti['sv_id'] . " " . $processType;
+        return "<a href=\"../../upload/quotation_jobcard/".str_replace("/","-",$rownoti['sv_id']).".pdf\" target=\"_blank\"><img src=\"../images/notifications-icon.png\" style=\"width: 24px;
+		vertical-align: middle;\"> <strong>มีการอนุมัติเอกสาร (ใบแจ้งงาน)</strong> เลขที่ " . $rownoti['sv_id'] . " " . $processType."</a>";
     } else if ($res['type_noti'] == '3') {
         $rownoti = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM " . $res['tag_db'] . " WHERE id = '" . $res['t_id'] . "'"));
-        return "<img src=\"../images/notifications-icon.png\" style=\"width: 24px;
-		vertical-align: middle;\"> <strong>มีการอนุมัติเอกสาร (Memo)</strong> เลขที่ " . $rownoti['mo_id'] . " " . $processType;
+        return "<a href=\"../../upload/memo/".str_replace("/","-",$rownoti['mo_id']).".pdf\" target=\"_blank\"><img src=\"../images/notifications-icon.png\" style=\"width: 24px;
+		vertical-align: middle;\"> <strong>มีการอนุมัติเอกสาร (Memo)</strong> เลขที่ " . $rownoti['mo_id'] . " " . $processType."</a>";
     } else if ($res['type_noti'] == '4') {
         $rownoti = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM " . $res['tag_db'] . " WHERE qu_id = '" . $res['t_id'] . "'"));
-        return "<img src=\"../images/notifications-icon.png\" style=\"width: 24px;
-		vertical-align: middle;\"> <strong>มีการอนุมัติเอกสาร (ใบเสนอราคาซื้อ)</strong> เลขที่ " . $rownoti['fs_id'] . " " . $processType;
+        return "<a href=\"../../upload/quotation/".str_replace("/","-",$rownoti['fs_id']).".pdf\" target=\"_blank\"><img src=\"../images/notifications-icon.png\" style=\"width: 24px;
+		vertical-align: middle;\"> <strong>มีการอนุมัติเอกสาร (ใบเสนอราคาซื้อ)</strong> เลขที่ " . $rownoti['fs_id'] . " " . $processType."</a>";
     } else if ($res['type_noti'] == '5') {
         $rownoti = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM " . $res['tag_db'] . " WHERE qu_id = '" . $res['t_id'] . "'"));
-        return "<img src=\"../images/notifications-icon.png\" style=\"width: 24px;
-		vertical-align: middle;\"> <strong>มีการอนุมัติเอกสาร (ใบเสนอราคาเช่า)</strong> เลขที่ " . $rownoti['fs_id'] . " " . $processType;
+        return "<a href=\"../../upload/quotation/".str_replace("/","-",$rownoti['fs_id']).".pdf\" target=\"_blank\"><img src=\"../images/notifications-icon.png\" style=\"width: 24px;
+		vertical-align: middle;\"> <strong>มีการอนุมัติเอกสาร (ใบเสนอราคาเช่า)</strong> เลขที่ " . $rownoti['fs_id'] . " " . $processType."</a>";
     } else if ($res['type_noti'] == '6') {
         $rownoti = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM " . $res['tag_db'] . " WHERE sr_id = '" . $res['t_id'] . "'"));
-        return "<img src=\"../images/notifications-icon.png\" style=\"width: 24px;
-		vertical-align: middle;\"> <strong>มีการอนุมัติเอกสาร (ใบงานบริการ)</strong> เลขที่ " . $rownoti['sv_id'] . " " . $processType;
+        return "<a href=\"../../upload/service_report_close/".str_replace("/","-",$rownoti['sv_id']).".pdf\" target=\"_blank\"><img src=\"../images/notifications-icon.png\" style=\"width: 24px;
+		vertical-align: middle;\"> <strong>มีการอนุมัติเอกสาร (ใบงานบริการ)</strong> เลขที่ " . $rownoti['sv_id'] . " " . $processType."</a>";
     }else if ($res['type_noti'] == '7') {
         $rownoti = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM " . $res['tag_db'] . " WHERE ct_id = '" . $res['t_id'] . "'"));
         return "<a href=\"../../upload/contract/".str_replace("/","-",$rownoti['con_id']).".pdf\" target=\"_blank\"><img src=\"../images/notifications-icon.png\" style=\"width: 24px;
@@ -3331,6 +3353,14 @@ function getShowNoti($conn, $res)
         $rownoti = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM " . $res['tag_db'] . " WHERE ct_id = '" . $res['t_id'] . "'"));
         return "<a href=\"../../upload/contract2/".str_replace("/","-",$rownoti['con_id']).".pdf\" target=\"_blank\"><img src=\"../images/notifications-icon.png\" style=\"width: 24px;
 		vertical-align: middle;\"> <strong>แจ้งต่ออายุ (สัญญาบริการ)</strong> เลขที่ " . $rownoti['con_id'] . " " . "| สัญญาสิ้นสุดวันที่ ".format_date_th($rownoti['con_enddate'], 1)."</a>";
+    }else if ($res['type_noti'] == '9') {
+        $rownoti = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM " . $res['tag_db'] . " WHERE ct_id = '" . $res['t_id'] . "'"));
+        return "<a href=\"../../upload/contract2/".str_replace("/","-",$rownoti['con_id']).".pdf\" target=\"_blank\"><img src=\"../images/notifications-icon.png\" style=\"width: 24px;
+		vertical-align: middle;\"> <strong>แจ้งต่ออายุ (สัญญาบริการ)</strong> เลขที่ " . $rownoti['con_id'] . " " . "| สัญญาสิ้นสุดวันที่ ".format_date_th($rownoti['con_enddate'], 1)."</a>";
+    } else if ($res['type_noti'] == '10') {
+        $rownoti = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM " . $res['tag_db'] . " WHERE order_id = '" . $res['t_id'] . "'"));
+        return "<a href=\"../../upload/order_solution/".str_replace("/","-",$rownoti['fs_id']).".pdf\" target=\"_blank\"><img src=\"../images/notifications-icon.png\" style=\"width: 24px;
+		vertical-align: middle;\"> <strong>สถานะใบสั่งน้ำยา</strong> เลขที่ " . $rownoti['fs_id'] . " " .$processType."</a>";
     } else {
         return "";
     }
@@ -3350,6 +3380,8 @@ function getStatusSolution($res)
     } else if ($res == 5) {
         $nameStatus = 'จัดส่งเรียบร้อย';
     } else if ($res == 6) {
+        $nameStatus = 'ชำระเงินเรียบร้อย';
+    } else if ($res == 7) {
         $nameStatus = 'ยกเลิก';
     } else {
         $nameStatus = 'รายการใหม่';
@@ -3371,6 +3403,8 @@ function getStatusSolutionColor($res)
     } else if ($res == 5) {
         $nameStatus = '#FD4';
     } else if ($res == 6) {
+        $nameStatus = '#00ff0c';
+    } else if ($res == 7) {
         $nameStatus = '#F44';
     } else {
         $nameStatus = '#FFF';
