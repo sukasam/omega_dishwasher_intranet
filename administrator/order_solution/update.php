@@ -320,6 +320,10 @@ function submitForm() {
       $sumtotals = 0;
       $sumprice = 0;
 
+      if($_GET['mode'] == 'add'){
+        $pro_id = array();
+      }
+
       $quOrder = mysqli_query($conn,"SELECT * FROM s_group_typeproduct WHERE 1 AND group_spro_id LIKE '04-%' ORDER BY group_spro_id ASC");
       while($rowOrder = mysqli_fetch_array($quOrder)){
       ?>
