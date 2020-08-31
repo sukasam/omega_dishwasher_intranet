@@ -182,6 +182,7 @@ if($_GET['catv2'] != ""){
 <!--          <TH width="4%"><INPUT class=check-all type=checkbox name="ca" value="true" onClick="chkAll(this.form, 'del[]', this.checked)"></TH>-->
           <TH width="5%"><center><a>ลำดับ</a></center></TH>
           <TH width="10%"><center><a>รหัสอะไหล่</a></center></TH>
+          <TH width="10%"><center><a>รหัสบัญชี</a></center></TH>
           <TH width="20%"><a>ชื่ออะไหล่</a></TH>
           <TH width="5%"><a>นาม</a></TH>
 <!--          <TH width="10%"><a>สถานที่จัดเก็บ</a></TH>-->
@@ -243,6 +244,7 @@ if($_GET['catv2'] != ""){
 <!--          <TD><INPUT type=checkbox name="del[]" value="<?php     echo $rec[$PK_field]; ?>" ></TD>-->
           <TD><span class="text"><?php     echo sprintf("%04d",$counter); ?></span></TD>
           <TD style="text-align: center;"><span class="text"><?php     echo $rec["group_spro_id"] ; ?></span></TD>
+          <TD style="text-align: center;"><span class="text"><?php     echo $rec["group_spro_account_id"] ; ?></span></TD>
           <TD><span class="text"><?php     echo $rec["group_name"] ; ?></span></TD>
           <TD><span class="text"><?php     echo $rec["group_namecall"] ; ?></span></TD>
 <!--          <TD><span class="text"><?php     echo $rec["group_location"] ; ?></span></TD>-->

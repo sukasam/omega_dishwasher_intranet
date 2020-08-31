@@ -1056,7 +1056,7 @@ Vat 7%</strong></td>
       <select name="type_service" id="type_service" class="inputselect" style="width:50%;">
       		<option value="">กรุณาเลือกประเภทบริการ</option>
 		  <?php
-              $qusTec = @mysqli_query($conn,"SELECT * FROM  `s_group_service` WHERE  `group_ser_id` !=  '' ORDER BY `group_ser_id` ASC");
+              $qusTec = @mysqli_query($conn,"SELECT * FROM  `s_group_service` WHERE 1 AND (`group_id` = '1' OR `group_id` = '2' OR `group_id` = '3' OR `group_id` = '4' OR `group_id` = '5' OR `group_id` = '6' OR `group_id` = '31') ORDER BY `group_name` ASC");
               while($rowTec = @mysqli_fetch_array($qusTec)){
                 ?>
                   <option value="<?php  echo $rowTec['group_id'];?>" <?php  if($type_service == $rowTec['group_id']){echo 'selected';}?>><?php  echo $rowTec['group_name'];?></option>

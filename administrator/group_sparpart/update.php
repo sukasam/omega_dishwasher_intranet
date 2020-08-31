@@ -240,6 +240,10 @@ function submitForm() {
                 </td>
               </tr>
               <tr >
+                <td nowrap class="name">รหัสบัญชี</td>
+                <td><input name="group_spar_account_id" type="text" id="group_spar_account_id"  value="<?php echo $group_spar_account_id; ?>" size="60"></td>
+              </tr>
+              <tr >
                 <td nowrap class="name">ชื่ออะไหล่</td>
                 <td><input name="group_name" type="text" id="group_name"  value="<?php     echo $group_name; ?>" size="60"></td>
               </tr>
