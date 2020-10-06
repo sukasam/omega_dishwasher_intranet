@@ -20,7 +20,7 @@
 		
 		$proList .= "<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.".($key+1).".".get_proname($conn,$finfos['cpro'.$value]).' OMEGA &nbsp;&nbsp;รุ่น	'.$finfos['pro_pod'.$value].'  จำนวน '.$finfos['camount'.$value].' เครื่อง';
 		
-		$proList2 .= "<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.".($key+1)." ".get_proname($conn,$finfos['cpro'.$value]).' OMEGA &nbsp;&nbsp;รุ่น	'.$finfos['pro_pod'.$value];
+		$proList2 .= "<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.".($key+1)." ".get_proname($conn,$finfos['cpro'.$value]).' OMEGA &nbsp;&nbsp;รุ่น	'.$finfos['pro_pod'.$value].'&nbsp;&nbsp;S/N '.$finfos['pro_sn'.$value];
 		
 		$totalPrice += $priceP;
 	}
@@ -103,8 +103,8 @@
 	
 	
 	$form .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>ข้อ 1.</strong>  คู่สัญญาทั้งสองฝ่ายตกลงให้ถือเอาเอกสารที่แนบท้ายสัญญานี้เป็นส่วนหนึ่งแห่งสัญญานี้ด้วย คือ<br>
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.1 แบบฟอร์มใบเสนอราคาของผู้ขาย ลง'.format_date_th($_POST['con_qatime'],1).' จำนวน '.$_POST['con_qap'].' ฉบับ<br>
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.2 แบบฟอร์มใบสั่งซื้อของผู้ซื้อ ลง'.format_date_th($_POST['con_ortime'],1).' จำนวน '.$_POST['con_orp'].' ฉบับ<br><br>';
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.1 แบบฟอร์มใบเสนอราคาของผู้ขาย ลงวันที่ '.format_date_th($_POST['con_qatime'],1).' จำนวน '.$_POST['con_qap'].' ฉบับ<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.2 แบบฟอร์มใบสั่งซื้อของผู้ซื้อ ลงวันที่ '.format_date_th($_POST['con_ortime'],1).' จำนวน '.$_POST['con_orp'].' ฉบับ<br><br>';
 	
 //	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>ข้อ 2.</strong> ผู้ขายตกลงขาย และผู้ซื้อตกลงซื้อสินค้าของผู้ขาย คือ '.$proList.' ภาษีมูลค่าเพิ่ม 7% เป็นเงิน '.number_format($totalVat).' บาท ('.baht_text($totalVat).') <strong>รวมเป็นเงิน '.number_format($sumTotal).' บาท ('.baht_text($sumTotal).')</strong> โดยผู้ขายจะส่งของให้แก่ผู้ซื้อ ณ  '.$finfos['loc_name'].' ซึ่งมีค่าขนส่งและติดตั้ง เป็นเงิน '.number_format($setUpPrice).' บาท ('.baht_text($setUpPrice).') ภาษีมูลค่าเพิ่ม 7% เป็นเงิน '.number_format($setUpVat).' บาท ('.baht_text($setUpVat).') <strong>รวมเป็นเงิน '.number_format($setupTotal).' บาท ('.baht_text($setupTotal).')</strong> '.$finfos['qucomment'].' นับแต่วันทำสัญญานี้<br><br>
 
