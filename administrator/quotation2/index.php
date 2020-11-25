@@ -38,7 +38,7 @@
 									`cs_amount1`,`cs_amount2`,`cs_amount3`,`cs_amount4`,`cs_amount5`,
 									`cs_sell`,`cs_hsell`,`cs_account`,`remark`,`st_setting`,`type_service`,
 									`payc`,`paym`,`pay_apv`,`pays`,`paysa`,`paysad`,`type_electric`,`giveprice`,
-									`guaran2`,`date_sell`) 
+									`guaran2`,`date_sell`,`create_by`) 
 									VALUES 
 									('".$recQa['cd_name']."','".$recQa['cd_address']."','".$recQa['cd_province']."','".$recQa['cd_tel']."','".$recQa['cd_fax']."','".$fs_idQA."','".$recQa['date_forder']."','".$recQa['pro_type']."',
 									'".$recQa['pro_pod1']."','".$recQa['pro_pod2']."','".$recQa['pro_pod3']."','".$recQa['pro_pod4']."','".$recQa['pro_pod5']."','".$recQa['pro_pod6']."','".$recQa['pro_pod7']."',
@@ -50,7 +50,7 @@
 									'".$recQa['cs_amount1']."','".$recQa['cs_amount2']."','".$recQa['cs_amount3']."','".$recQa['cs_amount4']."','".$recQa['cs_amount5']."',
 									'".$recQa['cs_sell']."','".$recQa['cs_hsell']."','".$recQa['cs_account']."','".$recQa['remark']."','".$recQa['st_setting']."','".$recQa['type_service']."',
 									'".$recQa['payc']."','".$recQa['paym']."','".$recQa['pay_apv']."','".$recQa['pays']."','".$recQa['paysa']."','".$recQa['paysad']."','".$recQa['type_electric']."','".$recQa['giveprice']."',
-									'".$recQa['guaran2']."','".$recQa['date_sell']."'
+									'".$recQa['guaran2']."','".$recQa['date_sell']."','".$_SESSION['login_id']."'
 									);");
 		
 		$idQa = mysqli_insert_id($conn);

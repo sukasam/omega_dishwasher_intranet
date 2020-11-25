@@ -3,7 +3,9 @@
 	include ("../../include/connect.php");
 	include ("../../include/function.php");
 	include ("config.php");
+	
 	Check_Permission($conn,$check_module,$_SESSION['login_id'],"read");
+
 	if ($_GET['page'] == ""){$_REQUEST['page'] = 1;	}
 	$param = get_param($a_param,$a_not_exists);
 	
@@ -33,7 +35,7 @@
 	}
 	
 	//-------------------------------------------------------------------------------------
-	 if ($_GET['b'] <> "" and $_GET['s'] <> "") { 
+	 if ($_GET['b'] != "" && $_GET['s'] != "") { 
 		if ($_GET['s'] == 0) $status = 1;
 		if ($_GET['s'] == 1) $status = 0;
 		Check_Permission($conn,$check_module,$_SESSION['login_id'],"update");
@@ -44,7 +46,7 @@
 	}
 	
 	//-------------------------------------------------------------------------------------
-	 if ($_GET['bb'] <> "" and $_GET['ss'] <> "") { 
+	 if ($_GET['bb'] != "" && $_GET['ss'] != "") { 
 		if ($_GET['ss'] == 0) $status = 1;
 		if ($_GET['ss'] == 1) $status = 0;
 		Check_Permission($conn,$check_module,$_SESSION['login_id'],"update");
@@ -57,12 +59,10 @@
 	}
 	
 	//-------------------------------------------------------------------------------------
-	 if ($_GET['ff'] <> "" and $_GET['gg'] <> "") { 
-		 
+	 if ($_GET['ff'] != "" && $_GET['gg'] != "") { 
+	
 		if ($_GET['gg'] == 0) $status_use = 0;
 		if ($_GET['gg'] == 1) $status_use = 1;
-
-		Check_Permission($conn,$check_module,$_SESSION['login_id'],"update");
 		
 		if ($_GET['gg'] == 2) {
 			$status_use = 2;
@@ -71,10 +71,14 @@
 			$sql_status = "update $tbl_name set status_use = '".$status_use."' where $PK_field = '".$_GET['ff']."'";
 		}
 
-		@mysqli_query($conn,$sql_status);
+		$code = Check_Permission($conn,"First Order Star",$_SESSION['login_id'],"update");
+
+		if ($code == "1") {
+			@mysqli_query($conn,$sql_status);
+			if($_GET['page'] != ""){$conpage = "page=".$_GET['page'];}
+			header ("location:?".$conpage); 
+		}
 		
-		if($_GET['page'] != ""){$conpage = "page=".$_GET['page'];}
-		header ("location:?".$conpage); 
 	}
 	
 ?>
@@ -125,7 +129,7 @@ function selectProcess(evt){
       return;
    }
     xmlHttp.onreadystatechange=function (){
-        if (xmlHttp.readyState==4 || xmlHttp.readyState=="complete"){   
+        if (xmlHttp.readyState==4 != xmlHttp.readyState=="complete"){   
 			var ds = xmlHttp.responseText;
 			//console.log(ds);
         } else{
@@ -153,15 +157,15 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 <P id=page-intro><?php  echo $page_name; ?></P>
 
 <UL class=shortcut-buttons-set>
-  <LI><A class=shortcut-button href="update.php?mode=add<?php  if ($param <> "") echo "&".$param; ?>"><SPAN><IMG  alt=icon src="../images/pencil_48.png"><BR>
+  <LI><A class=shortcut-button href="update.php?mode=add<?php  if ($param != "") echo "&".$param; ?>"><SPAN><IMG  alt=icon src="../images/pencil_48.png"><BR>
     เพิ่ม</SPAN></A></LI>
   <LI><A class=shortcut-button href="../first_order2/index.php"><SPAN><IMG  alt=icon src="../images/icons/icon-48-section.png"><BR>
     Service Order</SPAN></A></LI>
     <?php  
-	if ($FR_module <> "") { 
+	if ($FR_module != "") { 
 	$param2 = get_return_param();
 	?>
-  <LI><A class=shortcut-button href="../<?php  echo $FR_module; ?>/?<?php  if($param2 <> "") echo $param2;?>"><SPAN><IMG  alt=icon src="../images/btn_back.gif"><BR>
+  <LI><A class=shortcut-button href="../<?php  echo $FR_module; ?>/?<?php  if($param2 != "") echo $param2;?>"><SPAN><IMG  alt=icon src="../images/btn_back.gif"><BR>
   กลับ</SPAN></A></LI>
   <?php  }?>
 
@@ -251,9 +255,9 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 					}
 					
 				   	$sql = " select *,$tbl_name.create_date as c_date from $tbl_name  where 1 ".$conDealer." AND separate = 0 ";
-					if ($_GET[$PK_field] <> "") $sql .= " and ($PK_field  = '" . $_GET[$PK_field] . " ' ) ";					
-					if ($_GET[$FR_field] <> "") $sql .= " and ($FR_field  = '" . $_GET[$FR_field] . " ' ) ";					
- 					if ($_GET['keyword'] <> "") { 
+					if ($_GET[$PK_field] != "") $sql .= " and ($PK_field  = '" . $_GET[$PK_field] . " ' ) ";					
+					if ($_GET[$FR_field] != "") $sql .= " and ($FR_field  = '" . $_GET[$FR_field] . " ' ) ";					
+ 					if ($_GET['keyword'] != "") { 
 						$sql .= "and ( " .  $PK_field  . " like '%".$_GET['keyword']."%' ";
 						if (count ($search_key) > 0) { 
 							$search_text = " and ( " ;
@@ -264,13 +268,13 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 						$sql .=  $subtext . " ) ";
 					} 
 		  
-		  			if ($_GET['process'] <> "") { 
+		  			if ($_GET['process'] != "") { 
 						$sql .= " and ( process = '".$_GET['process']."' ";
 						$sql .=  $subtext . " ) ";
 					}
 		  
-					if ($orderby <> "") $sql .= " order by " . $orderby;
-					if ($sortby <> "") $sql .= " " . $sortby;
+					if ($orderby != "") $sql .= " order by " . $orderby;
+					if ($sortby != "") $sql .= " " . $sortby;
 					include ("../include/page_init.php");
 					//echo $sql;
 					$query = @mysqli_query($conn,$sql);
@@ -404,7 +408,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
           	
           </div></TD>
           <TD><!-- Icons -->
-            <A title=Edit href="update.php?mode=update&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field]; if($param <> "") {?>&<?php  echo $param; }?>"><IMG alt=Edit src="../images/pencil.png"></A> <A title=Delete  href="#"></A></TD>
+            <A title=Edit href="update.php?mode=update&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field]; if($param != "") {?>&<?php  echo $param; }?>"><IMG alt=Edit src="../images/pencil.png"></A> <A title=Delete  href="#"></A></TD>
           <TD><A title=Delete  href="#"><IMG alt=Delete src="../images/cross.png" onClick="confirmDelete('?action=delete&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field];?>','Group  <?php  echo $rec[$PK_field];?> : <?php  echo $rec["group_name"];?>')"></A></TD>
         </TR>  
 		<?php  }?>

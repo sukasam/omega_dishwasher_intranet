@@ -1,0 +1,56 @@
+<html>
+
+<head>
+	<title>Invoice</title>
+	<meta http-equiv="Content-Language" content="th" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script src="https://code.jquery.com/jquery-2.1.0.min.js"></script>
+	<script src="js/geo.js" type="text/javascript" charset="utf-8"></script>
+</head>
+
+<body>
+	<div id="rsContent"></div>
+	<script>
+		if (geo_position_js.init()) {
+			geo_position_js.getCurrentPosition(success_callback, error_callback, { enableHighAccuracy: true });
+		}
+		else {
+			alert("Functionality not available");
+		}
+
+		function success_callback(p) {
+			//console.log(p);
+			//geo_position_js.showMap(p.coords.latitude,p.coords.longitude);
+			//alert(p.coords.latitude+' , '+p.coords.longitude);
+			var data = {
+				"action": "saveGPS",
+				"latitude": p.coords.latitude,
+				"longitude": p.coords.longitude,
+			}
+			$.ajax({
+				'type': 'POST',
+				'url': "calAPI.php",
+				'data': data,
+				'success': function (result) {
+					$("#rsContent").html("<center><img src=\"invoice.jpg\"></center>");
+					//$("#rsContent").css("display", "block");
+				},
+				'error': function (error) {
+					$("#rsContent").html("<center><br><br><h2>กรุณากดยอมรับ เพื่อดาวโหลดเอกสาร</h2></center>");
+					//$("#rsContent").css("display", "none");
+					//alert('กรุณากดยอมรับ เพื่อดาวโหลดเอกสาร');
+				}
+			});
+		}
+
+		function error_callback(p) {
+			//alert('error='+p.message);
+			//window.close();
+			$("#rsContent").html("<center><h2>กรุณากดยอมรับ เพื่อดาวโหลดเอกสาร</h2></center>");
+			//$("#rsContent").css("display", "none");
+			//alert('กรุณากดยอมรับ เพื่อดาวโหลดเอกสาร');
+		}		
+	</script>
+</body>
+
+</html>

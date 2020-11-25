@@ -964,9 +964,10 @@ function Get_Point($conn, $member_id)
 
 function Check_Permission($conn, $check_module, $user_id, $action)
 {
-    $sql = "select * from s_user_group where user_id = '$user_id'";
+    $sql = "select * from s_user_group where user_id = '".$user_id."'";
     $query = @mysqli_query($conn, $sql) or die("1");
     $groups = "";
+
 
     while ($rec = @mysqli_fetch_array($query)) {
         $groups .= "or group_id = '$rec[group_id]'";
@@ -975,24 +976,18 @@ function Check_Permission($conn, $check_module, $user_id, $action)
         $groups = substr($groups, 3);
         $groups = " and (" . $groups . ")";
     }
-    $sql = "select * from s_module where module_name like '$check_module'";
+    $sql = "select * from s_module where module_name like '".$check_module."'";
     $query = @mysqli_query($conn, $sql) or die("2");
     $module_id = 0;
     while ($rec = @mysqli_fetch_array($query)) {
         $module_id = $rec["module_id"];
     }
-    $sql = "select * from s_user where user_id = '$user_id'";
+    $sql = "select * from s_user where user_id = '".$user_id."'";
     $query = @mysqli_query($conn, $sql) or die("3");
     if ($rec = @mysqli_fetch_array($query)) {
         if ($rec["admin_flag"] == '1' or $_SESSION['s_group_all'] == "ALL") {
 
         } else {
-/*
-if ($action == "read") $sql .= " read_p like '1'";
-if ($action == "add") $sql .= " add_p like '1'";
-if ($action == "update") $sql .= " update_p like '1'";
-if ($action == "delete") $sql .= " delete_p like '1'";
- */
 
             $sql = "select * from s_user_p where user_id = '$user_id'  and  module_id like '$module_id'";
 
@@ -2253,37 +2248,52 @@ function get_prospapart($conn, $value)
 function get_lastservice_f($conn, $cusid, $sevid)
 {
 
-    $qu_lastservice = @mysqli_query($conn, "SELECT * FROM s_service_report WHERE cus_id = '" . $cusid . "' ORDER BY sv_id DESC");
+    $qu_lastservice = @mysqli_query($conn, "SELECT * FROM s_service_report WHERE cus_id = '" . $cusid . "' ORDER BY sv_id DESC LIMIT 1,1");
     $numlastservice = mysqli_num_rows($qu_lastservice);
-    while ($row_lasservice = @mysqli_fetch_array($qu_lastservice)) {
-        $ser_id[] = $row_lasservice['sv_id'];
-        $ser_job_balance[] = $row_lasservice['job_balance'];
-    }
+    //while ($row_lasservice = @mysqli_fetch_array($qu_lastservice)) {
+        // $ser_id[] = $row_lasservice['sv_id'];
+        // $ser_job_balance[] = $row_lasservice['job_balance'];
+    //}
 
-    $arraysearch = @array_search($sevid, $ser_id);
+    // $arraysearch = @array_search($sevid, $ser_id);
 
-    if ($ser_id[$arraysearch + 1] != "") {
-        return format_date($conn, $ser_job_balance[$arraysearch + 1]);
-    } else {
+    // if ($ser_id[$arraysearch + 1] != "") {
+    //     return format_date($conn, $ser_job_balance[$arraysearch + 1]);
+    // } else {
+    //     return " - ";
+    // }
+
+    $row_lasservice = @mysqli_fetch_array($qu_lastservice);
+    if($row_lasservice['job_balance'] != ""){
+        return format_date($row_lasservice['job_balance']);
+    }else{
         return " - ";
     }
+    
 }
 
 function get_lastservice_s($conn, $cusid, $sevid)
 {
 
-    $qu_lastservice = @mysqli_query($conn, "SELECT * FROM s_service_report WHERE cus_id = '" . $cusid . "' ORDER BY sv_id DESC");
+    $qu_lastservice = @mysqli_query($conn, "SELECT * FROM s_service_report WHERE cus_id = '" . $cusid . "' ORDER BY sv_id DESC LIMIT 1,1");
     $numlastservice = mysqli_num_rows($qu_lastservice);
-    while ($row_lasservice = @mysqli_fetch_array($qu_lastservice)) {
-        $ser_id[] = $row_lasservice['sv_id'];
-        $ser_job_balance[] = $row_lasservice['job_balance'];
-    }
+    // while ($row_lasservice = @mysqli_fetch_array($qu_lastservice)) {
+    //     $ser_id[] = $row_lasservice['sv_id'];
+    //     $ser_job_balance[] = $row_lasservice['job_balance'];
+    // }
 
-    $arraysearch = @array_search($sevid, $ser_id);
+    // $arraysearch = @array_search($sevid, $ser_id);
 
-    if ($ser_id[$arraysearch] != "") {
-        return format_date($conn, $ser_job_balance[$arraysearch]);
-    } else {
+    // if ($ser_id[$arraysearch] != "") {
+    //     return format_date($conn, $ser_job_balance[$arraysearch]);
+    // } else {
+    //     return " - ";
+    // }
+
+    $row_lasservice = @mysqli_fetch_array($qu_lastservice);
+    if($row_lasservice['job_balance'] != ""){
+        return format_date($row_lasservice['job_balance']);
+    }else{
         return " - ";
     }
 }
