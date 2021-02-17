@@ -87,7 +87,7 @@ $headerIMG = get_headerPaper($conn,"SC",$userCreate);
 	.bgheader{
 		font-size:10px;
 		position:absolute;
-		margin-top:94px;
+		margin-top:54px;
 		padding-left:582px;
 	}
 	table tr td{

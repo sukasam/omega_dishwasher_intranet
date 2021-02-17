@@ -165,7 +165,10 @@ if ($numContract >= 2) {
 }
 
 if ($_POST['con_img1']) {
-	$imgPro .= '<img src="../../upload/contract/img/' . $_POST['con_img1'] . '" height="500"><br>';
+	$imgPro = '<img src="../../upload/contract/img/' . $_POST['con_img1'] . '" height="500"><br>';
+}
+if ($_POST['con_img2']) {
+	$imgPro2 = '<br><br><img src="../../upload/contract/img/' . $_POST['con_img2'] . '" height="500"><br>';
 }
 
 if ($proCH == 1) {
@@ -378,8 +381,9 @@ $form .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>ข้อ ' . $numTop++ . '.   �
 		สัญญาเช่าเลขที่ ' . $_POST['con_id'] . '<br>
 	</p>
 	<div>
-		' . $imgPro . '
+		' . $imgPro . $imgPro2 . '
 	</div>
+	
 	<p class="hdTitle2">
 	' . $finfos['loc_name'] . '<br>
 	</p>

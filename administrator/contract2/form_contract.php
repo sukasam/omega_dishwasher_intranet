@@ -26,7 +26,8 @@
 	$type_service = '';
 
 	if(!empty($finfos['type_service'])){
-		$type_service = get_servicename($conn, $finfos['type_service']);
+		$type_service = str_replace("(คู่)","",get_servicename($conn, $finfos['type_service']));
+		$type_service = str_replace("(คี่)","",$type_service);
 	}else{
 		$type_service = 'ประจำทุกเดือน เดือนละ 1 ครั้ง';
 	}
@@ -67,6 +68,11 @@
 		$companyName = '';
 		$companyTax = ' เลขประจำตัวประชาชน <strong>'.$finfos['cd_tax'].'</strong>';
 	}
+
+	$cdf = convertDate($_POST['con_startdate'], 'Y-m-d');
+	$cdt = convertDate($_POST['con_enddate'], 'Y-m-d');
+
+	$monthDiff = diffMonth($cdf, $cdt);
 
 	$form = '<style>
 	.hdTitle{
@@ -115,7 +121,7 @@
 	โดยทั้งสองฝ่ายตกลงทำสัญญาบริการมีเงื่อนไขดังต่อไปนี้<br>
 	'.$productList.'
 โดย'.$nameConpro.'ดังกล่าว ตั้งอยู่ที่ '.$finfos['loc_name'].' เลขที่ '.$finfos['loc_address'].'<br>
-<strong>สัญญาบริการฉบับนี้ การบริการบำรุงรักษา 12 เดือน (สิบสองเดือน)</strong><br>
+<strong>สัญญาบริการฉบับนี้ การบริการบำรุงรักษา '.$monthDiff.' เดือน</strong><br>
 วันที่เริ่มสัญญาบริการ <mark>'.format_date_th($_POST['con_startdate'],1).'</mark>	วันสิ้นสุดสัญญาบริการ  <mark>'.format_date_th($_POST['con_enddate'],1).'</mark>
 
 	</p>

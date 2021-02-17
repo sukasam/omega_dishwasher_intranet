@@ -3241,6 +3241,8 @@ function get_typeNoti($val)
         return "วันหมดสัญญา (สัญญาซื้อ-ขาย)";
     }else if ($val == 10) {
         return "สถานะใบสั่งน้ำยา";
+    }else if ($val == 11) {
+        return "ว้นหมดอายุการใช้งานของเครื่อง (ล้างแก้ว/ล้างจาน/ทำน้ำแข็ง)";
     }else {
         return "";
     }

@@ -233,7 +233,7 @@ $form = '
       <td style="border:1px solid #003399;font-size:11px;font-family:Verdana, Geneva, sans-serif;padding:9px 5px;text-align:center;">'.$_POST["cs_amount5"].'</td>
     </tr>
   </table>
-  <br><br><br>
+  <br><br><br><br><br><br><br>
   <table width="100%" border="0" cellspacing="0" cellpadding="0">
     <tr>
       <td style="padding-bottom:5px;"><img src="'.$headerIMG.'" width="100%" border="0" /></td>

@@ -6,7 +6,7 @@
 	$page_name = "Contract (สัญญาเช่า)";
 	$tbl_name = "s_contract";
 	$field_confirm_showname= "cus_id";
-	$fieldlist = array('con_id','cus_id','con_stime','con_startdate','con_enddate','con_paymonth','con_chkpro','con_chktypepro','con_chkprofree','con_img1','csign','con_type_pro');
+	$fieldlist = array('con_id','cus_id','con_stime','con_startdate','con_enddate','con_paymonth','con_chkpro','con_chktypepro','con_chkprofree','con_img1','con_img2','csign','con_type_pro');
 	$search_key = array("con_id");
 	$pagesize = 50;
 	$pages="user";

@@ -72,9 +72,12 @@ if ($_POST['mode'] != "") {
 
         if ($_POST['mode'] == "cadd") {
             $_FILES['fimages1']['name'] = "";
+            $_FILES['fimages2']['name'] = "";
 
             @unlink("../../upload/contract/img/" . $_POST['con_img1']);
-            $sql = "update $tbl_name set con_img1 = '' where $PK_field = '" . $id . "' ";
+            @unlink("../../upload/contract/img/" . $_POST['con_img2']);
+
+            $sql = "update $tbl_name set con_img1 = '',con_img2 = '' where $PK_field = '" . $id . "' ";
             mysqli_query($conn, $sql);
         } else {
             if ($_FILES['fimages1']['name'] != "") {
@@ -106,6 +109,38 @@ if ($_POST['mode'] != "") {
 
                 }
                 $_POST['con_img1'] = $filename;
+
+            } // end if ($_FILES[fimages][name] != "")
+
+            if ($_FILES['fimages2']['name'] != "") {
+
+                @unlink("../../upload/contract/img/" . $_POST['con_img2']);
+
+                $mname = "";
+                $mname = gen_random_num(5);
+                $filename = "";
+                if ($filename == "") {
+                    $name_data = explode(".", $_FILES['fimages2']['name']);
+                }
+
+                $type = $name_data[1];
+                $filename = $mname . "." . $type;
+
+                $target_dir = "../../upload/contract/img/";
+                $target_file = $target_dir . basename($filename);
+                $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
+                // Check if image file is a actual image or fake image
+                $check = getimagesize($_FILES["fimages2"]["tmp_name"]);
+
+                if ($check !== false) {
+
+                    move_uploaded_file($_FILES["fimages2"]["tmp_name"], $target_file);
+                    $sql = "update $tbl_name set con_img2 = '" . $filename . "' where $PK_field = '" . $id . "' ";
+                    //exit();
+                    mysqli_query($conn, $sql);
+
+                }
+                $_POST['con_img2'] = $filename;
 
             } // end if ($_FILES[fimages][name] != "")
         }
@@ -160,11 +195,13 @@ if ($_POST['mode'] != "") {
         $id = $_POST[$PK_field];
 
         if ($_POST['mode'] == "cupdate") {
+            
             $_FILES['fimages1']['name'] = "";
-
+            $_FILES['fimages2']['name'] = "";
             @unlink("../../upload/contract/img/" . $_POST['con_img1']);
+            @unlink("../../upload/contract/img/" . $_POST['con_img2']);
 
-            $sql = "update $tbl_name set con_img1 = '' where $PK_field = '" . $id . "' ";
+            $sql = "update $tbl_name set con_img1 = '',con_img2 = '' where $PK_field = '" . $id . "' ";
             mysqli_query($conn, $sql);
 
         } else {
@@ -198,6 +235,38 @@ if ($_POST['mode'] != "") {
 
                 }
                 $_POST['con_img1'] = $filename;
+
+            } // end if ($_FILES[fimages][name] != "")
+
+            if ($_FILES['fimages2']['name'] != "") {
+
+                @unlink("../../upload/contract/img/" . $_POST['con_img2']);
+
+                $mname = "";
+                $mname = gen_random_num(5);
+                $filename = "";
+                if ($filename == "") {
+                    $name_data = explode(".", $_FILES['fimages2']['name']);
+                }
+
+                $type = $name_data[1];
+                $filename = $mname . "." . $type;
+
+                $target_dir = "../../upload/contract/img/";
+                $target_file = $target_dir . basename($filename);
+                $imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
+                // Check if image file is a actual image or fake image
+                $check = getimagesize($_FILES["fimages2"]["tmp_name"]);
+
+                if ($check !== false) {
+
+                    move_uploaded_file($_FILES["fimages2"]["tmp_name"], $target_file);
+                    $sql = "update $tbl_name set con_img2 = '" . $filename . "' where $PK_field = '" . $id . "' ";
+                    //exit();
+                    mysqli_query($conn, $sql);
+
+                }
+                $_POST['con_img2'] = $filename;
 
             } // end if ($_FILES[fimages][name] != "")
         }
@@ -534,15 +603,30 @@ while ($row_qupro1 = @mysqli_fetch_array($qupro1)) {
             </td>
           </tr>
           <tr>
-            <td><strong>ชื่อผู้ติดต่อ :</strong> <span id="cscont"><?php echo $finfo['c_contact']; ?></span>&nbsp;&nbsp;&nbsp;&nbsp;<strong>เบอร์โทร :</strong> <span id="cstel"><?php echo $finfo['c_tel']; ?></span></td>
-            <td>
-            	<input name="fimages1" type="file" id="fimages1"><br>
+            <td style="vertical-align: top;"><strong>ชื่อผู้ติดต่อ :</strong> <span id="cscont"><?php echo $finfo['c_contact']; ?></span>&nbsp;&nbsp;&nbsp;&nbsp;<strong>เบอร์โทร :</strong> <span id="cstel"><?php echo $finfo['c_tel']; ?></span></td>
+            <td style="vertical-align: top;">
+            	<table>
+                    <tr>
+                        <td style="vertical-align: top;">
+                        <input name="fimages1" type="file" id="fimages1"><br>
 			  <?php
 if ($con_img1) {
     ?>
                   <img src="../../upload/contract/img/<?php echo $con_img1 ?>" width="150">
                   <?php }?>
                   <input name="con_img1" type="hidden" value="<?php echo $con_img1; ?>">
+                        </td>
+                        <td style="vertical-align: top;">
+                        <input name="fimages2" type="file" id="fimages2"><br>
+			  <?php
+if ($con_img2) {
+    ?>
+                  <img src="../../upload/contract/img/<?php echo $con_img2 ?>" width="150">
+                  <?php }?>
+                  <input name="con_img2" type="hidden" value="<?php echo $con_img2; ?>">
+                  </td>
+                    </tr>
+                </table>
             </td>
           </tr>
 	</table><br><br>
