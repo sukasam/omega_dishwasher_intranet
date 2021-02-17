@@ -16,11 +16,17 @@
 	$date_to=$a_sdate[2]."-".$a_sdate[1]."-".$a_sdate[0];
 	
 	if($_REQUEST['priod'] == 0){
-		$daterriod = " AND `date_forder`  between '".$date_fm."' and '".$date_to."'"; 
+		// $daterriod = " AND `date_forder`  between '".$date_fm."' and '".$date_to."'"; 
+		$daterriod = " AND `status_use_date`  between '".$date_fm." 00:00:00' and '".$date_to." 23:59:59'"; 
 		$dateshow = "เริ่มวันที่ : ".format_date($date_fm)."&nbsp;&nbsp;ถึงวันที่ : ".format_date($date_to); 
 	}
 	else{
 		$dateshow = "วันที่ค้นหา : ".format_date(date("Y-m-d")); 
+	}
+
+	if($cd_name != ""){
+		$condition = " AND cd_name LIKE '%".$cd_name."%'"; 
+		
 	}
 	
 	if($_REQUEST['use'] == 0){
@@ -80,7 +86,7 @@
         <?php  if($_REQUEST['sh10'] == 1){?><th width="4%">ผู้ขาย</th><?php  }?>
       </tr>
       <?php  
-		$sql = "SELECT * FROM s_first_order WHERE cd_name LIKE '%".$cd_name."%'".$daterriod." ".$codi." ORDER BY date_forder ASC";
+		$sql = "SELECT * FROM s_first_order WHERE 1 ".$condition." ".$daterriod." ".$codi." ORDER BY status_use_date ASC";
 	  	$qu_fr = @mysqli_query($conn,$sql);
 		$sum = 0;
 		while($row_fr = @mysqli_fetch_array($qu_fr)){

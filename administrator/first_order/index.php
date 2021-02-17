@@ -66,9 +66,9 @@
 		
 		if ($_GET['gg'] == 2) {
 			$status_use = 2;
-			$sql_status = "update $tbl_name set status_use = '".$status_use."',technic_service='0',type_service='0' where $PK_field = '".$_GET['ff']."'";
+			$sql_status = "update $tbl_name set status_use = '".$status_use."',technic_service='0',type_service='0',status_use_date='".date("Y-m-d H:i:s")."' where $PK_field = '".$_GET['ff']."'";
 		}else{
-			$sql_status = "update $tbl_name set status_use = '".$status_use."' where $PK_field = '".$_GET['ff']."'";
+			$sql_status = "update $tbl_name set status_use = '".$status_use."',status_use_date='".date("Y-m-d H:i:s")."' where $PK_field = '".$_GET['ff']."'";
 		}
 
 		$code = Check_Permission($conn,"First Order Star",$_SESSION['login_id'],"update");

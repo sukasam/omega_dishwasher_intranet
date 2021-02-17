@@ -77,6 +77,7 @@
 //					@mysqli_query($conn,"UPDATE `s_first_order` SET `process` = '0' WHERE `s_first_order`.`fo_id` = ".$id.";");
 //				}
 			
+        $sql_status = "update $tbl_name set status_use_date='".date("Y-m-d H:i:s")."' WHERE `s_first_order`.`fo_id` = ".$id.";";
         $process = '0';
         @mysqli_query($conn,"UPDATE `s_first_order` SET `process` = '0' WHERE `s_first_order`.`fo_id` = ".$id.";");
 
