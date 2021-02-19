@@ -27,8 +27,15 @@ if ($_GET['b'] <> "" and $_GET['s'] <> "") {
   @mysqli_query($conn, $sql_status);
   /*$sql_fostatus = "update s_first_order set status = ".$status." where fo_id = '$_GET[cus_id]'";
 		@mysqli_query($conn,$sql_fostatus);*/
+    $conpage = '';
   if ($_GET['page'] != "") {
-    $conpage = "page=" . $_GET['page'];
+    $conpage .= "page=" . $_GET['page'];
+  }
+  if($_GET['ctype'] != ""){
+    if($_GET['page'] != "") {
+      $conpage .= "&ctype=" . $_GET['ctype'];
+    }else{
+      $conpage .= "ctype=" . $_GET['ctype'];}
   }
   header("location:?" . $conpage);
 }
@@ -42,8 +49,15 @@ if ($_GET['cc'] <> "" and $_GET['tt'] <> "") {
   @mysqli_query($conn, $sql_status);
   /*$sql_fostatus = "update s_first_order set status = ".$status." where fo_id = '$_GET[cus_id]'";
 		@mysqli_query($conn,$sql_fostatus);*/
+    $conpage = '';
   if ($_GET['page'] != "") {
-    $conpage = "page=" . $_GET['page'];
+    $conpage .= "page=" . $_GET['page'];
+  }
+  if($_GET['ctype'] != ""){
+    if($_GET['page'] != "") {
+      $conpage .= "&ctype=" . $_GET['ctype'];
+    }else{
+      $conpage .= "ctype=" . $_GET['ctype'];}
   }
   header("location:?" . $conpage);
 }
@@ -132,10 +146,17 @@ if ($_GET['cc'] <> "" and $_GET['tt'] <> "") {
         <DIV class=content-box-header align="right" style="padding-right:15px;">
 
           <H3 align="left"><?php echo $check_module; ?></H3>
-
-          <div style="float:right;padding-top:5px;">
+        
+          <div style="float:right;padding-top:7px;">
             <form name="form1" method="get" action="index.php">
-              <input name="keyword" type="text" id="keyword" value="<?php echo $keyword; ?>">
+              <input name="keyword" type="text" id="keyword" value="<?php echo $keyword; ?>" style="height: 25px;">
+              <?php
+              if($_GET['ctype'] != ""){
+              ?>
+              <input name="ctype" type="hidden" id="ctype" value="<?php echo $_GET['ctype']; ?>">
+              <?php
+              }
+              ?>
               <input name="Action" type="submit" id="Action" value="ค้นหา">
               <?php
               $a_not_exists = array('keyword');
@@ -147,6 +168,20 @@ if ($_GET['cc'] <> "" and $_GET['tt'] <> "") {
 			post_param($a_param,$a_not_exists);*/
               ?>
             </form>
+          </div>
+          <div style="float:right;margin-right: 10px;margin-top: 8px;">
+            <strong>ประเภทใบงาน :</strong>
+            <select name="ctype" id="ctype" id="jumpMenu" onchange="MM_jumpMenu('parent',this,0)" style="height: 25px;">
+                <option value="index.php">กรุณาเลือก</option>
+                <?php
+                $qu_cusftype = @mysqli_query($conn, "SELECT * FROM s_group_service ORDER BY group_name ASC");
+                while ($row_cusftype = @mysqli_fetch_array($qu_cusftype)) {
+              ?>
+                <option value="index.php?ctype=<?php echo $row_cusftype['group_id']; ?>" <?php if ($row_cusftype['group_id'] == $_GET['ctype']) {echo 'selected';}?>><?php echo $row_cusftype['group_name']; ?></option>
+                <?php
+              }
+              ?>
+	          </select>
           </div>
           <div style="float:right;margin-right:20px;padding-top:5px;display: none;">
             <label><strong>สถานะการยืนยัน : </strong></label>
@@ -242,7 +277,12 @@ if ($_GET['cc'] <> "" and $_GET['tt'] <> "") {
                         $subtext .= "or " . $value  . " like '%" . $_GET['keyword'] . "%'";
                       }
                     }
+
                     $sql .=  $subtext . " ) ";
+                  }
+
+                  if($_GET['ctype'] != ""){
+                    $sql .= " AND sr.sr_ctype = '".$_GET['ctype']."'";
                   }
 
                   //					if ($_GET['app_id'] <> "") {
@@ -256,7 +296,7 @@ if ($_GET['cc'] <> "" and $_GET['tt'] <> "") {
                   if ($orderby <> "") $sql .= " order by " . $orderby;
                   if ($sortby <> "") $sql .= " " . $sortby;
                   include("../include/page_init.php");
-                  // echo $sql;
+                  //echo $sql;
                   // exit();
                   $query = @mysqli_query($conn, $sql);
                   if ($_GET['page'] == "") $_GET['page'] = 1;
@@ -292,18 +332,18 @@ if ($_GET['cc'] <> "" and $_GET['tt'] <> "") {
                       <TD style="vertical-align:middle">
                         <div align="center">
                           <?php if ($rec["supply"] == 0) { ?>
-                            <a href="../service_report/?cc=<?php echo $rec[$PK_field]; ?>&tt=<?php echo $rec["supply"]; ?>&page=<?php echo $_GET['page']; ?>&<?php echo $FK_field; ?>=<?php echo $_REQUEST["$FK_field"]; ?>&cus_id=<?php echo $rec["cus_id"]; ?>"><img src="../images/icons/check0.gif" width="15" height="15"></a>
+                            <a href="../service_report/?cc=<?php echo $rec[$PK_field]; ?>&tt=<?php echo $rec["supply"]; ?>&page=<?php echo $_GET['page']; ?>&<?php echo $FK_field; ?>=<?php echo $_REQUEST["$FK_field"]; ?>&cus_id=<?php echo $rec["cus_id"]; ?>&ctype=<?php echo $_GET['ctype'];?>"><img src="../images/icons/check0.gif" width="15" height="15"></a>
                           <?php  } else { ?>
-                            <a href="../service_report/?cc=<?php echo $rec[$PK_field]; ?>&tt=<?php echo $rec["supply"]; ?>&page=<?php echo $_GET['page']; ?>&<?php echo $FK_field; ?>=<?php echo $_REQUEST["$FK_field"]; ?>&cus_id=<?php echo $rec["cus_id"]; ?>"><img src="../images/icons/check1.gif" width="15" height="15"></a>
+                            <a href="../service_report/?cc=<?php echo $rec[$PK_field]; ?>&tt=<?php echo $rec["supply"]; ?>&page=<?php echo $_GET['page']; ?>&<?php echo $FK_field; ?>=<?php echo $_REQUEST["$FK_field"]; ?>&cus_id=<?php echo $rec["cus_id"]; ?>&ctype=<?php echo $_GET['ctype'];?>"><img src="../images/icons/check1.gif" width="15" height="15"></a>
                           <?php  } ?>
                         </div>
                       </TD>
                       <TD style="vertical-align:middle">
                         <div align="center">
                           <?php if ($rec["st_setting"] == 0) { ?>
-                            <a href="../service_report/?b=<?php echo $rec[$PK_field]; ?>&s=<?php echo $rec["st_setting"]; ?>&page=<?php echo $_GET['page']; ?>&<?php echo $FK_field; ?>=<?php echo $_REQUEST["$FK_field"]; ?>&cus_id=<?php echo $rec["cus_id"]; ?>"><img src="../icons/status_on.gif" width="10" height="10"></a>
+                            <a href="../service_report/?b=<?php echo $rec[$PK_field]; ?>&s=<?php echo $rec["st_setting"]; ?>&page=<?php echo $_GET['page']; ?>&<?php echo $FK_field; ?>=<?php echo $_REQUEST["$FK_field"]; ?>&cus_id=<?php echo $rec["cus_id"]; ?>&ctype=<?php echo $_GET['ctype'];?>"><img src="../icons/status_on.gif" width="10" height="10"></a>
                           <?php  } else { ?>
-                            <a href="../service_report/?b=<?php echo $rec[$PK_field]; ?>&s=<?php echo $rec["st_setting"]; ?>&page=<?php echo $_GET['page']; ?>&<?php echo $FK_field; ?>=<?php echo $_REQUEST["$FK_field"]; ?>&cus_id=<?php echo $rec["cus_id"]; ?>"><img src="../icons/status_off.gif" width="10" height="10"></a>
+                            <a href="../service_report/?b=<?php echo $rec[$PK_field]; ?>&s=<?php echo $rec["st_setting"]; ?>&page=<?php echo $_GET['page']; ?>&<?php echo $FK_field; ?>=<?php echo $_REQUEST["$FK_field"]; ?>&cus_id=<?php echo $rec["cus_id"]; ?>&ctype=<?php echo $_GET['ctype'];?>"><img src="../icons/status_off.gif" width="10" height="10"></a>
                           <?php  } ?>
                         </div>
                       </TD>
