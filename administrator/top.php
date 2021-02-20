@@ -98,12 +98,14 @@ if(chkBrowser("Opera")==1){
 
           if($rowNoti['tag_db'] == 's_order_solution'){
             $cssProcess = 'processOrderAlert'.$rowNoti['process'];
+          }else if($rowNoti['tag_db'] == 's_service_report' && $rowNoti['type_noti'] == 11){
+            $cssProcess2 = 'color: #000;background-color: '.getServiceStatusColor($conn,$rowNoti['process']).';';
           }else{
             $cssProcess = 'processAlert'.$rowNoti['process'];
           }
 
          ?>
-        <div class="alert alert-success <?php echo $cssProcess;?>">
+        <div class="alert alert-success <?php echo $cssProcess;?>" style="<?php echo $cssProcess2;?>">
           <a href="#" onclick="notiChange(<?php echo $rowNoti['id'];?>)" class="close" data-dismiss="alert" aria-label="close">×</a>
           <?php echo getShowNoti($conn,$rowNoti);?>
         </div>

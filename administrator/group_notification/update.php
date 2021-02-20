@@ -123,9 +123,9 @@ function submitForm() {
 						<option value="7" <?php if($group_name == '7'){echo 'selected';}?>>วันหมดสัญญา (สัญญาเข่า)</option>
 						<option value="8" <?php if($group_name == '8'){echo 'selected';}?>>วันหมดสัญญา (สัญญาบริการ)</option>
 						<option value="9" <?php if($group_name == '9'){echo 'selected';}?>>วันหมดสัญญา (สัญญาซื้อ-ขาย)</option>
-						<option value="11" <?php if($group_name == '11'){echo 'selected';}?>>ว้นหมดอายุการใช้งานของเครื่อง (ล้างแก้ว/ล้างจาน/ทำน้ำแข็ง)</option>
+						<!-- <option value="12" <?php if($group_name == '12'){echo 'selected';}?>>ว้นหมดอายุการใช้งานของเครื่อง (ล้างแก้ว/ล้างจาน/ทำน้ำแข็ง)</option> -->
 						<option value="10" <?php if($group_name == '10'){echo 'selected';}?>>สถานะใบสั่งน้ำยา</option>
-						<!-- <option value="12" <?php if($group_name == '12'){echo 'selected';}?>>สถานะใบแจ้งซ่อม</option> -->
+						<option value="11" <?php if($group_name == '11'){echo 'selected';}?>>สถานะใบแจ้งซ่อม</option>
 				</select>
             	 </td>
               </tr>

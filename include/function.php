@@ -1043,6 +1043,88 @@ function Check_Permission($conn, $check_module, $user_id, $action)
     }
     return $code;
 }
+
+function Check_Permission3($conn, $check_module, $user_id, $action)
+{
+    $sql = "select * from s_user_group where user_id = '".$user_id."'";
+    $query = @mysqli_query($conn, $sql) or die("1");
+    $groups = "";
+
+
+    while ($rec = @mysqli_fetch_array($query)) {
+        $groups .= "or group_id = '$rec[group_id]'";
+    }
+    if ($groups != "") {
+        $groups = substr($groups, 3);
+        $groups = " and (" . $groups . ")";
+    }
+    $sql = "select * from s_module where module_name like '".$check_module."'";
+    $query = @mysqli_query($conn, $sql) or die("2");
+    $module_id = 0;
+    while ($rec = @mysqli_fetch_array($query)) {
+        $module_id = $rec["module_id"];
+    }
+    $sql = "select * from s_user where user_id = '".$user_id."'";
+    $query = @mysqli_query($conn, $sql) or die("3");
+    if ($rec = @mysqli_fetch_array($query)) {
+        if ($rec["admin_flag"] == '1' or $_SESSION['s_group_all'] == "ALL") {
+
+        } else {
+
+            $sql = "select * from s_user_p where user_id = '$user_id'  and  module_id like '$module_id'";
+
+            $query = @mysqli_query($conn, $sql) or die("4");
+            if (@mysqli_num_rows($query)) {
+
+                while ($rec = @mysqli_fetch_array($query)) {
+                    switch ($action) {
+                        case "read":$code = $rec["read_p"];
+                            break;
+                        case "add":$code = $rec["add_p"];
+                            break;
+                        case "update":$code = $rec["update_p"];
+                            break;
+                        case "delete":$code = $rec["delete_p"];
+                            break;
+                    }
+                } // end while
+                if (($code == "0") || ($code == "")) {
+                    return 0;
+                }
+
+            } else {
+                $code = "";
+                if ($groups != "") {
+                    $sql = "select sum(read_p) as s_read,sum(add_p) as s_add,sum(update_p) as s_update,sum(delete_p) as s_delete,module_id,group_id from s_user_p group by module_id,group_id having module_id like '$module_id' " . $groups;
+                    //echo $sql;
+                    $query = @mysqli_query($conn, $sql) or die("5");
+                    if (@mysqli_num_rows($query) == 0) {
+                        $code = "";
+                    }
+
+                    if ($rec = @mysqli_fetch_array($query)) {
+                        switch ($action) {
+                            case "read":$code = $rec["s_read"];
+                                break;
+                            case "add":$code = $rec["s_add"];
+                                break;
+                            case "update":$code = $rec["s_update"];
+                                break;
+                            case "delete":$code = $rec["s_delete"];
+                                break;
+                        } // end switch
+                    }
+                }
+                if (trim($code) == '' or $code == '0') {
+                    return 0;
+                }
+            }
+        }
+    } else {
+        return $code;
+    }
+    return $code;
+}
 //---------------------------------------------------------------------------------------------------------------------------------
 
 function Check_Permission_menu($conn, $check_module, $user_id, $action)
@@ -3242,6 +3324,8 @@ function get_typeNoti($val)
     }else if ($val == 10) {
         return "สถานะใบสั่งน้ำยา";
     }else if ($val == 11) {
+        return "สถานะใบแจ้งซ่อม";
+    }else if ($val == 12) {
         return "ว้นหมดอายุการใช้งานของเครื่อง (ล้างแก้ว/ล้างจาน/ทำน้ำแข็ง)";
     }else {
         return "";
@@ -3285,6 +3369,18 @@ function addNotification($conn, $typenoti, $tbl_name, $PK_field, $process)
             
         }
 
+    }else if($typenoti == 11){ ///ใบแจ้งงานซ่อม
+
+        $row_service = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM  s_service_report WHERE sr_id = '" . $PK_field . "'"));
+        $rowFOTr = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM s_first_order WHERE fo_id = '".$row_service['cus_id']."'"));
+        $rowSaleTr = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM s_group_sale WHERE group_id = '".$rowFOTr['cs_sell']."'"));
+        @mysqli_query($conn, "INSERT INTO `s_notification` (`id`, `tag_db`, `t_id`, `process`, `process_date`, `user_account`, `view`, `type_noti`) VALUES (NULL, '" . $tbl_name . "', '" . $PK_field . "', '" . $process . "','" . date("Y-m-d H:i:s") . "', '" . $rowSaleTr['user_account'] . "', '0', '" . $typenoti . "');");
+
+        $qu_forder = @mysqli_query($conn, "SELECT * FROM `s_group_notification` WHERE group_name = '" . $typenoti . "'");
+        while ($row_forder = @mysqli_fetch_array($qu_forder)) {
+            @mysqli_query($conn, "INSERT INTO `s_notification` (`id`, `tag_db`, `t_id`, `process`, `process_date`, `user_account`, `view`, `type_noti`) VALUES (NULL, '" . $tbl_name . "', '" . $PK_field . "', '" . $process . "','" . date("Y-m-d H:i:s") . "', '" . $row_forder['user_account'] . "', '0', '" . $typenoti . "');");
+        }
+
     }else{
         $qu_forder = @mysqli_query($conn, "SELECT * FROM `s_group_notification` WHERE group_name = '" . $typenoti . "'");
         while ($row_forder = @mysqli_fetch_array($qu_forder)) {
@@ -3301,6 +3397,7 @@ function addNotification($conn, $typenoti, $tbl_name, $PK_field, $process)
         }
     }
 }
+
 
 function getCustomerSignatureDateTime($conn, $val)
 {
@@ -3333,6 +3430,8 @@ function getShowNoti($conn, $res)
     $processType = '';
     if($res['tag_db'] == "s_order_solution"){
         $processType = "(".getStatusSolution($res['process']).")";
+    }else if($res['tag_db'] == "s_service_report" && $res['type_noti'] == 11){
+        $processType = "(".getServiceStatus($conn,$res['process']).")";
     }else{
         if ($res['process'] == '1') {
             $processType = 'จากผู้อนุมัติฝ่ายขายเรียบร้อย';
@@ -3389,6 +3488,16 @@ function getShowNoti($conn, $res)
         $rownoti = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM " . $res['tag_db'] . " WHERE order_id = '" . $res['t_id'] . "'"));
         return "<a href=\"../../upload/order_solution/".str_replace("/","-",$rownoti['fs_id']).".pdf\" target=\"_blank\"><img src=\"../images/notifications-icon.png\" style=\"width: 24px;
 		vertical-align: middle;\"> <strong>สถานะใบสั่งน้ำยา</strong> เลขที่ " . $rownoti['fs_id'] . " " .$processType."</a>";
+    }else if ($res['type_noti'] == '11') {
+        $rownoti = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM " . $res['tag_db'] . " WHERE sr_id = '" . $res['t_id'] . "'"));
+        if($rownoti['service_status'] == '5'){
+            return "<a href=\"../../upload/service_report_close/".str_replace("/","-",$rownoti['sv_id']).".pdf\" target=\"_blank\"><img src=\"../images/notifications-icon.png\" style=\"width: 24px;
+		vertical-align: middle;\"> <strong>สถานะใบงานซ่อม</strong> เลขที่ " . $rownoti['sv_id'] . " " . $processType."</a>";
+        }else{
+            $rowFOTr = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM s_first_order WHERE fo_id = '".$rownoti['cus_id']."'"));
+            return "<a href=\"../../upload/first_order/".str_replace("/","-",$rowFOTr['fs_id']).".pdf\" target=\"_blank\"><img src=\"../images/notifications-icon.png\" style=\"width: 24px;
+		vertical-align: middle;\"> <strong>สถานะใบงานซ่อม</strong> เลขที่ " . $rownoti['sv_id'] . " " . $processType."</a>";
+        }
     } else {
         return "";
     }
@@ -3415,6 +3524,24 @@ function getStatusSolution($res)
         $nameStatus = 'รายการใหม่';
     }
     return $nameStatus;
+}
+
+function getServiceStatus($conn,$id){
+    $gColor = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM `s_group_status_svfix` WHERE `group_id` = '" . $id . "'"));
+    if(!empty($gColor['group_id'])){
+        return $gColor['group_name'];
+    }else{
+        return "#FFFFFF";
+    }
+}
+
+function getServiceStatusColor($conn,$id){
+    $gColor = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM `s_group_status_svfix` WHERE `group_id` = '" . $id . "'"));
+    if(!empty($gColor['group_id'])){
+        return $gColor['group_color'];
+    }else{
+        return "#FFFFFF";
+    }
 }
 
 function getStatusSolutionColor($res)
