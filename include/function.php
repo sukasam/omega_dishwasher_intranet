@@ -3675,7 +3675,6 @@ function get_headerPaper($conn, $keys, $user_id)
 function chkContrac($conn,$typeC){
     switch ($typeC) {
         case "R":
-            
             $quCR = mysqli_query($conn,"SELECT * FROM `s_contract` WHERE `con_enddate` BETWEEN NOW() AND DATE(NOW() + INTERVAL 30 DAY)");
             while($rowCR = mysqli_fetch_array($quCR)){
              addNotification($conn,7,'s_contract',$rowCR['ct_id'],7);
