@@ -9,6 +9,7 @@
 
   $conTR = chkContrac($conn,"R");
   $conTS = chkContrac($conn,"S");
+  $expiredMaintenance = chkExpiredMaintenance($conn);
 
 ?>
 <!--<div style="font-size:20px; font-weight:bold; padding-bottom:20px;">Welcome <?php  echo $_SESSION["login_name"];?></div>-->
@@ -100,6 +101,8 @@ if(chkBrowser("Opera")==1){
             $cssProcess = 'processOrderAlert'.$rowNoti['process'];
           }else if($rowNoti['tag_db'] == 's_service_report' && $rowNoti['type_noti'] == 11){
             $cssProcess2 = 'color: #000;background-color: '.getServiceStatusColor($conn,$rowNoti['process']).';';
+          }else if($rowNoti['tag_db'] == 's_order_solution'){
+            $cssProcess = 'processOrderAlert'.$rowNoti['process'];
           }else{
             $cssProcess = 'processAlert'.$rowNoti['process'];
           }

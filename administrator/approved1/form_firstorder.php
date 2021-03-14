@@ -41,13 +41,13 @@ if ($_POST['notvat2'] == 2) {
 //break;
 if ($_POST["loc_clean"] != "") {$loc_clean = $_POST["loc_clean"];} else { $loc_clean = " - ";}
 if ($_POST["loc_clean_sn"] != "") {$loc_clean_sn = $_POST["loc_clean_sn"];} else { $loc_clean_sn = " - ";}
-if ($_POST["warter01"] != "") {$warter01 = number_format($_POST["warter01"]);} else { $warter01 = " - ";}
-if ($_POST["warter02"] != "") {$warter02 = number_format($_POST["warter02"]);} else { $warter02 = " - ";}
-if ($_POST["warter03"] != "") {$warter03 = number_format($_POST["warter03"]);} else { $warter03 = " - ";}
-if ($_POST["warter04"] != "") {$warter04 = number_format($_POST["warter04"]);} else { $warter04 = " - ";}
-if ($_POST["warter05"] != "") {$warter05 = number_format($_POST["warter05"]);} else { $warter05 = " - ";}
-if ($_POST["warter06"] != "") {$warter06 = number_format($_POST["warter06"]);} else { $warter06 = " - ";}
-if ($_POST["warter07"] != "") {$warter07 = number_format($_POST["warter07"]);} else { $warter07 = " - ";}
+// if($_POST["warter01"] != ""){$warter01 = $_POST["warter01"];}else{$warter01 = " - ";}
+// if($_POST["warter02"] != ""){$warter02 = $_POST["warter02"];}else{$warter02 = " - ";}
+// if($_POST["warter03"] != ""){$warter03 = $_POST["warter03"];}else{$warter03 = " - ";}
+// if($_POST["warter04"] != ""){$warter04 = $_POST["warter04"];}else{$warter04 = " - ";}
+// if($_POST["warter05"] != ""){$warter05 = $_POST["warter05"];}else{$warter05 = " - ";}
+// if($_POST["warter06"] != ""){$warter06 = $_POST["warter06"];}else{$warter06 = " - ";}
+// if($_POST["warter07"] != ""){$warter07 = $_POST["warter07"];}else{$warter07 = " - ";}
 
 $chkProcess = checkProcess($conn, $tbl_name, $PK_field, $id);
 
@@ -140,24 +140,36 @@ $form = '
 				  <tr>
 					<td width="60%"><strong>เครื่องป้อนน้ำยา :</strong> ' . $loc_clean . '</td>
 					<td width="40%"><strong>SN :</strong> ' . $loc_clean_sn . '</td>
-				  </tr>
-				  <tr>
-					<td><strong>DISH C :</strong> ' . $warter01 . '</td>
-					<td><strong>DISH CG :</strong> ' . $warter04 . '</td>
-				  </tr>
-				  <tr>
-					<td ><strong>DISH R :</strong> ' . $warter02 . '</td>
-					<td><strong>DISH RG :</strong> ' . $warter05 . '</td>
-				  </tr>
-				  <tr>
-					<td><strong>DISH A :</strong> ' . $warter03 . '</td>
-					<td><strong>DISH WB :</strong> ' . $warter06 . '</td>
-				  </tr>
-				  <tr>
-					<td>&nbsp;</td>
-					<td><strong>EXTRA GRILL :</strong> ' . $warter07 . '</td>
-				  </tr>
-				</table>
+				  </tr>';
+if(!empty($_POST["warter01"])){
+$form .= '<tr>
+            <td colspan="2"><strong>รายการน้ำยา</strong></td>
+          </tr>';
+$form .= '<tr>
+            <td colspan="2">01. '.get_product_name($conn, $_POST["warter01"]).'</td>
+          </tr>';
+  if(!empty($_POST["warter02"])){
+  $form .= '<tr>
+              <td colspan="2">02. '.get_product_name($conn, $_POST["warter02"]).'</td>
+            </tr>';
+  }
+  if(!empty($_POST["warter03"])){
+  $form .= '<tr>
+              <td colspan="2">03. '.get_product_name($conn, $_POST["warter03"]).'</td>
+            </tr>';
+  }
+  if(!empty($_POST["warter04"])){
+  $form .= '<tr>
+              <td colspan="2">04. '.get_product_name($conn, $_POST["warter04"]).'</td>
+            </tr>';
+  }
+  if(!empty($_POST["warter05"])){
+  $form .= '<tr>
+              <td colspan="2">05. '.get_product_name($conn, $_POST["warter05"]).'</td>
+            </tr>';
+  }
+}
+$form .= '</table>
             </td>
     </tr>
 </table>

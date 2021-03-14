@@ -80,6 +80,29 @@
 		}
 		
 	}
+
+	//-------------------------------------------------------------------------------------
+	if ($_GET['cc'] != "" and $_GET['tt'] != "") {
+		if ($_GET['tt'] == 0) {
+			$status = 1;
+		}
+
+		if ($_GET['tt'] == 1) {
+			$status = 0;
+		}
+
+		Check_Permission($conn, $check_module, $_SESSION['login_id'], "update");
+		$sql_status = "update $tbl_name set cuspay = " . $status . " where $PK_field = " . $_GET['cc'];
+		@mysqli_query($conn, $sql_status);
+		/*$sql_fostatus = "update s_first_order set status = ".$status." where fo_id = '$_GET[cus_id]'";
+		@mysqli_query($conn,$sql_fostatus);*/
+		$conpage = '';
+		if ($_GET['page'] != "") {
+			$conpage .= "page=" . $_GET['page'];
+		}
+		
+		header("location:?" . $conpage);
+	}
 	
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
@@ -229,17 +252,18 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 <!--          <TH width="12%"><center>QR Code</center></TH>-->
           <TH width="12%"><center>FO ID</center></TH>
           <TH width="35%">ชื่อลูกค้า</TH>
-          <TH width="18%"><strong>สถานที่ติดตั้ง</strong></TH>
+          <!-- <TH width="18%"><strong>สถานที่ติดตั้ง</strong></TH> -->
           <TH width="5%" nowrap ><div align="center"><a>แจ้งงาน</a></div></TH>
           <TH width="5%" nowrap ><div align="center"><a>Memo</a></div></TH>
           <TH width="5%" nowrap ><div align="center"><a>เอกสาร</a></div></TH>
           <TH width="10%" nowrap ><div align="center">สถานะ</TH>
+		  <TH width="8%" nowrap> <div align="center"><a>การจ่ายเงิน</a></div></TH>
 <!--          <TH width="5%" nowrap ><div align="center"><a> Open / </a><a> Close</a></div></TH>-->
 <!--          <TH width="5%" nowrap ><div align="center"><a>Setting</a></div></TH>-->
 <!--          <TH width="5%"><div align="center"><a>Download</a></div></TH>-->
           <TH width="5%"><a>Map</a></TH>
-          <TH width="5%"><a>แก้ไข</a></TH>
-          <TH width="5%"><a>ลบ</a></TH>
+          <!-- <TH width="5%"><a></a></TH> -->
+          <TH width="10%" style="white-space: nowrap;"><center><a>แก้ไข | ลบ</a></center></TH>
         </TR>
       </THEAD>
       <TFOOT>
@@ -356,8 +380,10 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
           <TD><center><?php  
           $chaf = str_replace("/","-",$rec["fs_id"]); ?>
           <span class="text"><a href="../../upload/first_order/<?php  echo $chaf;?>.pdf" target="_blank"><?php  echo $rec["fs_id"] ; ?></a></span></center></TD>
-          <TD>          <span class="text"><?php  echo $rec["cd_name"] ; ?></span></TD>
-          <TD><span class="text"><?php  echo $rec["loc_name"] ; ?></span></TD>
+          <TD><span class="text"><?php  echo $rec["cd_name"] ; ?></span><br>
+		  <strong>สถานที่ติดตั้ง : <span class="text"><?php  echo $rec["loc_name"] ; ?></span></strong>
+		</TD>
+          <!-- <TD></TD> -->
           <td style="vertical-align: middle;">
 			  <center><a href="../quotation_jobcard/?tab=3&id=<?php  echo $rec[$PK_field]; ?>"><img src="../images/hammer_screwdriver.png" width="20" height="20"></a></center>
 			  </td>
@@ -381,6 +407,15 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
             <a href="../first_order/?ff=<?php  echo $rec[$PK_field]; ?>&gg=2&page=<?php  echo $_GET['page']; ?>&<?php  echo $FK_field; ?>=<?php  echo $_REQUEST["$FK_field"];?>"><img src="../icons/favorites_close.png" width="15" height="15"></a>
             </div>
           </div></TD>
+		  <TD style="vertical-align:middle">
+			<div align="center">
+				<?php if ($rec["cuspay"] == 0) {?>
+				<a href="../first_order/?cc=<?php echo $rec[$PK_field]; ?>&tt=<?php echo $rec["cuspay"]; ?>&page=<?php echo $_GET['page']; ?>&<?php echo $FK_field; ?>=<?php echo $_REQUEST["$FK_field"]; ?>&cus_id=<?php echo $rec["cus_id"]; ?>"><img src="../images/icons/check0.gif" width="15" height="15"></a>
+				<?php } else {?>
+				<a href="../first_order/?cc=<?php echo $rec[$PK_field]; ?>&tt=<?php echo $rec["cuspay"]; ?>&page=<?php echo $_GET['page']; ?>&<?php echo $FK_field; ?>=<?php echo $_REQUEST["$FK_field"]; ?>&cus_id=<?php echo $rec["cus_id"]; ?>"><img src="../images/icons/check1.gif" width="15" height="15"></a>
+				<?php }?>
+			</div>
+			</TD>
 <!--
           <TD nowrap style="vertical-align:middle">
           <div align="center"><A href="service_close.php?fo_id=<?php  echo $rec["fo_id"];?>"><IMG  alt=icon src="../images/icons/icon-48-install.png"></A></div>
@@ -407,9 +442,9 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 				   }?>
           	
           </div></TD>
-          <TD><!-- Icons -->
-            <A title=Edit href="update.php?mode=update&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field]; if($param != "") {?>&<?php  echo $param; }?>"><IMG alt=Edit src="../images/pencil.png"></A> <A title=Delete  href="#"></A></TD>
-          <TD><A title=Delete  href="#"><IMG alt=Delete src="../images/cross.png" onClick="confirmDelete('?action=delete&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field];?>','Group  <?php  echo $rec[$PK_field];?> : <?php  echo $rec["group_name"];?>')"></A></TD>
+          <!-- <TD>
+            </TD> -->
+          <TD ><center><A title=Edit href="update.php?mode=update&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field]; if($param != "") {?>&<?php  echo $param; }?>"><IMG alt=Edit src="../images/pencil.png"></A> <A title=Delete  href="#"></A> | <A title=Delete  href="#"><IMG alt=Delete src="../images/cross.png" onClick="confirmDelete('?action=delete&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field];?>','Group  <?php  echo $rec[$PK_field];?> : <?php  echo $rec["group_name"];?>')"></A></center></TD>
         </TR>  
 		<?php  }?>
       </TBODY>

@@ -113,13 +113,15 @@ function check_select(frm){
           <!--<TH width="19%" <?php  Show_Sort_bg ("group_name", $orderby) ?>>
            <?php   Show_Sort_new ("group_name", "รหัสสินค้า", $orderby, $sortby,$page,$param2);?>
             &nbsp;</TH>-->
-          <TH width="30%" <?php  Show_Sort_bg ("group_name", $orderby) ?>> <?php   Show_Sort_new ("group_name", "รหัสซีรี่ย์สินค้า", $orderby, $sortby,$page,$param2);?>
+          <TH width="15%" <?php  Show_Sort_bg ("group_name", $orderby) ?>> <?php   Show_Sort_new ("group_name", "รหัสซีรี่ย์สินค้า", $orderby, $sortby,$page,$param2);?>
             &nbsp;</TH>
          <TH width="15%" <?php  Show_Sort_bg ("group_datetime_key", $orderby) ?>> <?php   Show_Sort_new ("group_datetime_key", "วันรับเข้า", $orderby, $sortby,$page,$param2);?>
   &nbsp;</TH>
   		<TH width="15%" <?php  Show_Sort_bg ("group_shipnumber", $orderby) ?>> <?php   Show_Sort_new ("group_shipnumber", "เลขที่ใบขน", $orderby, $sortby,$page,$param2);?>
   &nbsp;</TH>
           <TH width="15%" <?php  Show_Sort_bg ("group_invoicenumber", $orderby) ?>> <?php   Show_Sort_new ("group_invoicenumber", "เลขที่ Invoice", $orderby, $sortby,$page,$param2);?>
+            &nbsp;</TH>
+            <TH width="15%" <?php  Show_Sort_bg ("group_expired", $orderby) ?>> <?php   Show_Sort_new ("group_expired", "วันสิ้นสุดการใช้งาน", $orderby, $sortby,$page,$param2);?>
             &nbsp;</TH>
           <TH width="5%"><a>แก้ไข</a></TH>
           <TH width="4%"><a>ลบ</a></TH>
@@ -170,6 +172,7 @@ function check_select(frm){
           <TD><span class="text"><?php  echo format_date_th($rec["group_datetime_key"],6); ?></span></TD>
           <TD><span class="text"><?php  echo $rec["group_shipnumber"] ; ?></span></TD>
           <TD><span class="text"><?php  echo $rec["group_invoicenumber"] ; ?></span></TD>
+          <TD><span class="text"><?php  echo format_date_th($rec["group_expired"],6); ?></span></TD>
           <!--<TD><span class="text"><?php  echo $rec["group_stock"] ; ?></span></TD>-->
           <!--<TD><span class="text"><?php  echo $rec["group_pro_pod"] ; ?></span></TD>
           <TD><span class="text"><?php  echo $rec["group_pro_sn"] ; ?></span></TD>-->

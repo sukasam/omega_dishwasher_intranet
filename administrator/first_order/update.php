@@ -448,28 +448,118 @@ Vat 7%</strong></td>
             <td style="font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>เครื่องป้อนน้ำยา :</strong>
               <input type="text" name="loc_clean" value="<?php  echo $loc_clean;?>" id="loc_clean" class="inpfoder">&nbsp; <strong>S/N</strong> &nbsp;<input type="text" name="loc_clean_sn" value="<?php  echo $loc_clean_sn;?>" id="loc_clean_sn" class="inpfoder"></td>
     </tr>
-          <tr>
-            <td style="font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>DISH C :</strong>
-              <input type="text" name="warter01" value="<?php  echo $warter01;?>" id="warter01" class="inpfoder"></td>
-    </tr><tr>
-            <td style="font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>DISH R :</strong>
-              <input type="text" name="warter02" value="<?php  echo $warter02;?>" id="warter02" class="inpfoder"></td>
-    </tr><tr>
-            <td style="font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>DISH A :</strong>
-              <input type="text" name="warter03" value="<?php  echo $warter03;?>" id="warter03" class="inpfoder"></td>
-    </tr><tr>
-            <td style="font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>DISH CG :</strong>
-              <input type="text" name="warter04" value="<?php  echo $warter04;?>" id="warter04" class="inpfoder"></td>
-    </tr><tr>
-            <td style="font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>DISH RG :</strong>
-              <input type="text" name="warter05" value="<?php  echo $warter05;?>" id="warter05" class="inpfoder"></td>
-    </tr><tr>
-            <td style="font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>DISH WB :</strong>
-              <input type="text" name="warter06" value="<?php  echo $warter06;?>" id="warter06" class="inpfoder"></td>
-    </tr><tr>
-            <td style="font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>EXTRA GRILL :</strong>
-              <input type="text" name="warter07" value="<?php  echo $warter07;?>" id="warter07" class="inpfoder"></td>
+    <tr>
+            <td style="font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong><u>รายการน้ำยาลูกค้า</u></strong>
+              </td>
     </tr>
+          <tr>
+            <td style="font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>01. </strong>
+              <!-- <input type="text" name="warter01" value="<?php  echo $warter01;?>" id="warter01" class="inpfoder"> -->
+              <select name="warter01" id="warter01" class="inputselect">
+              <option value="">กรุณาเลือกน้ำยา</option>
+            <?php
+            $quOrder = mysqli_query($conn,"SELECT * FROM s_group_typeproduct WHERE 1 AND group_spro_id LIKE '04-%' ORDER BY group_spro_id ASC");
+            while($rowOrder = mysqli_fetch_array($quOrder)){
+              ?>
+              <option value="<?php  echo $rowOrder['group_id'];?>" <?php  if($warter01 == $rowOrder['group_id']){echo 'selected';}?>><?php  echo $rowOrder['group_spro_id']." | ".$rowOrder['group_name'];?></option>
+              <?php
+            }
+            ?>
+            </select>
+            </td>
+    </tr><tr>
+            <td style="font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>02. </strong>
+              <!-- <input type="text" name="warter02" value="<?php  echo $warter02;?>" id="warter02" class="inpfoder">-->
+              <select name="warter02" id="warter02" class="inputselect">
+              <option value="">กรุณาเลือกน้ำยา</option>
+            <?php
+            $quOrder = mysqli_query($conn,"SELECT * FROM s_group_typeproduct WHERE 1 AND group_spro_id LIKE '04-%' ORDER BY group_spro_id ASC");
+            while($rowOrder = mysqli_fetch_array($quOrder)){
+              ?>
+              <option value="<?php  echo $rowOrder['group_id'];?>" <?php  if($warter02 == $rowOrder['group_id']){echo 'selected';}?>><?php  echo $rowOrder['group_spro_id']." | ".$rowOrder['group_name'];?></option>
+              <?php
+            }
+            ?>
+            </select>
+            </td> 
+    </tr><tr>
+            <td style="font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>03. </strong>
+              <!-- <input type="text" name="warter03" value="<?php  echo $warter03;?>" id="warter03" class="inpfoder"> -->
+              <select name="warter03" id="warter03" class="inputselect">
+              <option value="">กรุณาเลือกน้ำยา</option>
+            <?php
+            $quOrder = mysqli_query($conn,"SELECT * FROM s_group_typeproduct WHERE 1 AND group_spro_id LIKE '04-%' ORDER BY group_spro_id ASC");
+            while($rowOrder = mysqli_fetch_array($quOrder)){
+              ?>
+              <option value="<?php  echo $rowOrder['group_id'];?>" <?php  if($warter03 == $rowOrder['group_id']){echo 'selected';}?>><?php  echo $rowOrder['group_spro_id']." | ".$rowOrder['group_name'];?></option>
+              <?php
+            }
+            ?>
+            </select>
+            </td>
+    </tr><tr>
+            <td style="font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>04. </strong>
+              <!-- <input type="text" name="warter04" value="<?php  echo $warter04;?>" id="warter04" class="inpfoder"> -->
+              <select name="warter04" id="warter04" class="inputselect">
+              <option value="">กรุณาเลือกน้ำยา</option>
+            <?php
+            $quOrder = mysqli_query($conn,"SELECT * FROM s_group_typeproduct WHERE 1 AND group_spro_id LIKE '04-%' ORDER BY group_spro_id ASC");
+            while($rowOrder = mysqli_fetch_array($quOrder)){
+              ?>
+              <option value="<?php  echo $rowOrder['group_id'];?>" <?php  if($warter04 == $rowOrder['group_id']){echo 'selected';}?>><?php  echo $rowOrder['group_spro_id']." | ".$rowOrder['group_name'];?></option>
+              <?php
+            }
+            ?>
+            </select>
+            </td>
+    </tr>
+     <tr>
+            <td style="font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>05. </strong>
+              
+              <select name="warter05" id="warter05" class="inputselect">
+              <option value="">กรุณาเลือกน้ำยา</option>
+            <?php
+            $quOrder = mysqli_query($conn,"SELECT * FROM s_group_typeproduct WHERE 1 AND group_spro_id LIKE '04-%' ORDER BY group_spro_id ASC");
+            while($rowOrder = mysqli_fetch_array($quOrder)){
+              ?>
+              <option value="<?php  echo $rowOrder['group_id'];?>" <?php  if($warter05 == $rowOrder['group_id']){echo 'selected';}?>><?php  echo $rowOrder['group_spro_id']." | ".$rowOrder['group_name'];?></option>
+              <?php
+            }
+            ?>
+            </select>
+            </td>
+    </tr>
+    <!--<tr>
+            <td style="font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>06. </strong>
+              
+              <select name="warter06" id="warter06" class="inputselect">
+              <option value="">กรุณาเลือกน้ำยา</option>
+            <?php
+            $quOrder = mysqli_query($conn,"SELECT * FROM s_group_typeproduct WHERE 1 AND group_spro_id LIKE '04-%' ORDER BY group_spro_id ASC");
+            while($rowOrder = mysqli_fetch_array($quOrder)){
+              ?>
+              <option value="<?php  echo $rowOrder['group_id'];?>" <?php  if($warter06 == $rowOrder['group_id']){echo 'selected';}?>><?php  echo $rowOrder['group_spro_id']." | ".$rowOrder['group_name'];?></option>
+              <?php
+            }
+            ?>
+            </select>
+            </td>
+    </tr><tr>
+            <td style="font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;"><strong>07. </strong>
+             
+              <select name="warter07" id="warter07" class="inputselect">
+              <option value="">กรุณาเลือกน้ำยา</option>
+            <?php
+            $quOrder = mysqli_query($conn,"SELECT * FROM s_group_typeproduct WHERE 1 AND group_spro_id LIKE '04-%' ORDER BY group_spro_id ASC");
+            while($rowOrder = mysqli_fetch_array($quOrder)){
+              ?>
+              <option value="<?php  echo $rowOrder['group_id'];?>" <?php  if($warter07 == $rowOrder['group_id']){echo 'selected';}?>><?php  echo $rowOrder['group_spro_id']." | ".$rowOrder['group_name'];?></option>
+              <?php
+            }
+            ?>
+            </select>
+            </td>
+    </tr> -->
 </table>
     </td>
   </tr>

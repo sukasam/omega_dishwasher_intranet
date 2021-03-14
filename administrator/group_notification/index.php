@@ -125,8 +125,9 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 		 <option value="index.php?typenoti=7" <?php if($_GET['typenoti'] == 7){echo "selected";}?>>วันหมดสัญญา (สัญญาเข่า)</option>
 		 <option value="index.php?typenoti=8" <?php if($_GET['typenoti'] == 8){echo "selected";}?>>วันหมดสัญญา (สัญญาบริการ)</option>
 		 <option value="index.php?typenoti=9" <?php if($_GET['typenoti'] == 9){echo "selected";}?>>วันหมดสัญญา (สัญญาซื้อ-ขาย)</option>
+		 <option value="index.php?typenoti=12" <?php if($_GET['typenoti'] == 12){echo "selected";}?>>ว้นสิ้นสุดอายุของเครื่อง (ล้างแก้ว/ล้างจาน/ทำน้ำแข็ง)</option>
 		 <option value="index.php?typenoti=10" <?php if($_GET['typenoti'] == 10){echo "selected";}?>>สถานะใบสั่งน้ำยา</option>
-		 <option value="index.php?typenoti=11" <?php if($_GET['typenoti'] == 10){echo "selected";}?>>สถานะใบแจ้งซ่อม</option>
+		 <option value="index.php?typenoti=11" <?php if($_GET['typenoti'] == 11){echo "selected";}?>>สถานะใบแจ้งซ่อม</option>
   	</select>
     </div>
 <DIV class=clear>

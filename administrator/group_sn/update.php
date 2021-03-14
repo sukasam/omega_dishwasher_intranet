@@ -9,8 +9,20 @@
 		$a_not_exists = array();
 		$param = get_param($a_param,$a_not_exists);
 		
-		$a_sdate=explode("/",$_POST['group_datetime_key']);
-		$_POST['group_datetime_key']=$a_sdate[2]."-".$a_sdate[1]."-".$a_sdate[0];
+    if(!empty($_POST['group_datetime_key'])){
+      $a_sdate=explode("/",$_POST['group_datetime_key']);
+      $_POST['group_datetime_key']= $a_sdate[2]."-".$a_sdate[1]."-".$a_sdate[0];
+    }else{
+      $_POST['group_datetime_key'] = "";
+    }
+		
+    if(!empty($_POST['group_expired'])){
+      $a_sdate=explode("/",$_POST['group_expired']);
+      $_POST['group_expired']=$a_sdate[2]."-".$a_sdate[1]."-".$a_sdate[0];
+    }else{
+      $_POST['group_expired']="";
+    }
+
 
 		if ($_POST['mode'] == "add") { 
 			
@@ -41,8 +53,18 @@
 			}
 		}
 		
-		$a_sdate=explode("-",$group_datetime_key);
-		$group_datetime_key = $a_sdate[2]."/".$a_sdate[1]."/".$a_sdate[0];
+    if(!empty($group_datetime_key)){
+      $a_sdate=explode("-",$group_datetime_key);
+      $group_datetime_key = $a_sdate[2]."/".$a_sdate[1]."/".$a_sdate[0];
+    }
+	
+    if(!empty($group_expired)){
+      $a_sdate=explode("-",$group_expired);
+      $group_expired = $a_sdate[2]."/".$a_sdate[1]."/".$a_sdate[0];
+    }
+
+    
+    
 	}
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
@@ -123,7 +145,7 @@ function submitForm() {
               </tr>
               <tr >
                 <td nowrap class="name">วันรับเข้า</td>
-                <td><input type="text" name="group_datetime_key" readonly value="<?php  if($group_datetime_key==""){echo date("d/m/Y");}else{ echo $group_datetime_key;}?>" class="inpfoder"/><script language="JavaScript">new tcal ({'formname': 'form1','controlname': 'group_datetime_key'});</script>
+                <td><input type="text" readonly name="group_datetime_key" value="<?php  echo $group_datetime_key;?>" class="inpfoder"/><script language="JavaScript">new tcal ({'formname': 'form1','controlname': 'group_datetime_key'});</script>
                 </td>
               </tr>
               <tr >
@@ -133,6 +155,11 @@ function submitForm() {
               <tr >
                 <td nowrap class="name">เลขที่ Invoice</td>
                 <td><input name="group_invoicenumber" type="text" id="group_invoicenumber"  value="<?php  echo $group_invoicenumber; ?>" size="60"></td>
+              </tr>
+              <tr >
+                <td nowrap class="name">วันสิ้นสุดการใช้งาน</td>
+                <td><input type="text" readonly name="group_expired" value="<?php  echo $group_expired;?>" class="inpfoder"/><script language="JavaScript">new tcal ({'formname': 'form1','controlname': 'group_expired'});</script>
+                </td>
               </tr>
               <!--<tr >
                 <td nowrap class="name">จำนวน</td>

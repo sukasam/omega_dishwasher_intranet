@@ -1260,14 +1260,16 @@ div.validateresult {
 
 .processAlert7,
 .processAlert8,
-.processAlert9 {
+.processAlert9,
+.processAlert12 {
     background-color: #ff1100 !important;
     color: #000 !important;
 }
 
 .processAlert7 strong,
 .processAlert8 strong,
-.processAlert9 strong {
+.processAlert9 strong,
+.processAlert12 strong {
     background-color: #ff1100 !important;
     color: #000 !important;
 }

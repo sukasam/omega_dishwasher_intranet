@@ -3326,7 +3326,7 @@ function get_typeNoti($val)
     }else if ($val == 11) {
         return "สถานะใบแจ้งซ่อม";
     }else if ($val == 12) {
-        return "ว้นหมดอายุการใช้งานของเครื่อง (ล้างแก้ว/ล้างจาน/ทำน้ำแข็ง)";
+        return "ว้นสิ้นสุดอายุของเครื่อง (ล้างแก้ว/ล้างจาน/ทำน้ำแข็ง)";
     }else {
         return "";
     }
@@ -3446,8 +3446,6 @@ function getShowNoti($conn, $res)
         }
     }
     
-    
-    
     if ($res['type_noti'] == '1') {
         $rownoti = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM " . $res['tag_db'] . " WHERE fo_id = '" . $res['t_id'] . "'"));
         return "<a href=\"../../upload/first_order/".str_replace("/","-",$rownoti['fs_id']).".pdf\" target=\"_blank\"><img src=\"../images/notifications-icon.png\" style=\"width: 24px;
@@ -3498,6 +3496,10 @@ function getShowNoti($conn, $res)
             return "<a href=\"../../upload/first_order/".str_replace("/","-",$rowFOTr['fs_id']).".pdf\" target=\"_blank\"><img src=\"../images/notifications-icon.png\" style=\"width: 24px;
 		vertical-align: middle;\"> <strong>สถานะใบงานซ่อม</strong> เลขที่ " . $rownoti['sv_id'] . " " . $processType."</a>";
         }
+    }else if ($res['type_noti'] == '12') {
+        $rownoti = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM " . $res['tag_db'] . " WHERE group_id = '" . $res['t_id'] . "'"));
+        return "<a href=\"../group_sn/index.php?pod=".$rownoti['group_pod']."\" target=\"_blank\"><img src=\"../images/notifications-icon.png\" style=\"width: 24px;
+		vertical-align: middle;\"> <strong>ว้นสิ้นสุดอายุของ".protype_name($conn, $rownoti['group_product'])." > รุ่น:".getpod_name($conn, $rownoti['group_pod'])."</strong> > S/N: " . $rownoti['group_name'] . " " . "| สิ้นสุดวันที่ ".format_date_th($rownoti['group_expired'], 1)."</a>";
     } else {
         return "";
     }
@@ -3689,6 +3691,15 @@ function chkContrac($conn,$typeC){
             return "";
         break;
     }
+}
+
+function chkExpiredMaintenance($conn){
+
+    $quCR = mysqli_query($conn,"SELECT * FROM `s_group_sn` WHERE `group_expired` BETWEEN NOW() AND DATE(NOW() + INTERVAL 30 DAY)");
+    while($rowCR = mysqli_fetch_array($quCR)){
+        addNotification($conn,12,'s_group_sn',$rowCR['group_id'],12);
+    }
+    return "";
 }
 
 function getCatSparev1($conn,$gid){
