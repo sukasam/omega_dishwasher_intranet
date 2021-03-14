@@ -6,6 +6,7 @@
   
   $vowels = array(",");
 
+
 	if ($_POST['mode'] <> "") {
 		$param = "";
 		$a_not_exists = array();
@@ -101,11 +102,13 @@
   }
   
 	if ($_GET['mode'] == "add") {
+
      Check_Permission($conn,$check_module,$_SESSION['login_id'],"add");
      
      if(isset($_GET['cus_id']) && $_GET['cus_id'] != ""){
      
       $foInfo = get_firstorder($conn, $_GET['cus_id']);
+      $cus_id = $foInfo['fo_id'];
       $cd_name = $foInfo['cd_name'];
       $cd_address = $foInfo['cd_address'];
       $cd_tel = $foInfo['cd_tel'];
@@ -120,6 +123,25 @@
     
       $a_sdate=explode("-",date("Y-m-d"));
       $date_forder=$a_sdate[2]."/".$a_sdate[1]."/".$a_sdate[0];
+
+      $warter = array();
+
+      if(!empty($foInfo['warter01'])){
+        array_push($warter,$foInfo['warter01']);
+      }
+      if(!empty($foInfo['warter02'])){
+        array_push($warter,$foInfo['warter02']);
+      }
+      if(!empty($foInfo['warter03'])){
+        array_push($warter,$foInfo['warter03']);
+      }
+      if(!empty($foInfo['warter04'])){
+        array_push($warter,$foInfo['warter04']);
+      }
+      if(!empty($foInfo['warter05'])){
+        array_push($warter,$foInfo['warter05']);
+      }
+
      }
 
 	}
@@ -138,6 +160,7 @@
 		$date_forder=$a_sdate[2]."/".$a_sdate[1]."/".$a_sdate[0];
 
 	}
+
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML xmlns="http://www.w3.org/1999/xhtml">
@@ -326,6 +349,8 @@ function submitForm() {
 
       $quOrder = mysqli_query($conn,"SELECT * FROM s_group_typeproduct WHERE 1 AND group_spro_id LIKE '04-%' ORDER BY group_spro_id ASC");
       while($rowOrder = mysqli_fetch_array($quOrder)){
+        if($_GET['cus_id'] != ""){
+         if(in_array($rowOrder['group_id'],$warter)){
       ?>
       <tr>
       <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;">
@@ -349,18 +374,56 @@ function submitForm() {
         <input type="text" name="chkPrice[]" id="chkPrice<?php echo $nRow-1;?>" value="<?php if(in_array($rowOrder['group_id'], $pro_id)){$key = array_search($rowOrder['group_id'], $pro_id);echo number_format($pro_price[$key]);}?>" style="text-align:center;" onkeypress="return isNumberKey(event);">
       </td>
     </tr>
-      <?php   
-       $nRow++;   
-
-       if(in_array($rowOrder['group_id'], $pro_id)){
-         $key = array_search($rowOrder['group_id'], $pro_id);
-         $pro_priceR = str_replace($vowels,"",$pro_price[$key]);
-         $sumprice =  $sumprice + ($pro_amount[$key]*$pro_priceR);
+      <?php
+      $nRow++;   
+        if(in_array($rowOrder['group_id'], $pro_id)){
+          $key = array_search($rowOrder['group_id'], $pro_id);
+          $pro_priceR = str_replace($vowels,"",$pro_price[$key]);
+          $sumprice =  $sumprice + ($pro_amount[$key]*$pro_priceR);
         }
         
         $sumpricevat = ($sumprice * 7) / 100;
         $sumtotals = $sumprice + $sumpricevat;
+        }
+        }else{
+          ?>
+      <tr>
+      <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;">
+        <input type="checkbox" name="chkOrder[]" id="chkOrder<?php echo $nRow-1;?>" <?php if(in_array($rowOrder['group_id'], $pro_id)){echo 'checked';}?> value="<?php echo $nRow-1;?>">
+        <input type="hidden" name="chkCode[]" value="<?php echo $rowOrder['group_id'];?>">
+      </td>
+      <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;">
+      <?php echo $nRow;?>
+      </td>
+      <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;">
+      <?php echo $rowOrder['group_spro_id'];?>
+       <input type="hidden" name="chkSproid[]" value="<?php echo $rowOrder['group_spro_id'];?>">
+      </td>
+      <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:left;">
+      <?php echo $rowOrder['group_name'].' '.$rowOrder['group_detail'];?>
+      </td>
+      <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;">
+        <input type="text" name="chkAmount[]" id="chkAmount<?php echo $nRow-1;?>" value="<?php if(in_array($rowOrder['group_id'], $pro_id)){$key = array_search($rowOrder['group_id'], $pro_id);echo number_format($pro_amount[$key]);}?>" style="text-align:center;" onkeypress="return isNumberKey(event);">
+      </td>
+      <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;display:none;">
+        <input type="text" name="chkPrice[]" id="chkPrice<?php echo $nRow-1;?>" value="<?php if(in_array($rowOrder['group_id'], $pro_id)){$key = array_search($rowOrder['group_id'], $pro_id);echo number_format($pro_price[$key]);}?>" style="text-align:center;" onkeypress="return isNumberKey(event);">
+      </td>
+    </tr>
+      <?php
+      $nRow++;   
+
+      if(in_array($rowOrder['group_id'], $pro_id)){
+        $key = array_search($rowOrder['group_id'], $pro_id);
+        $pro_priceR = str_replace($vowels,"",$pro_price[$key]);
+        $sumprice =  $sumprice + ($pro_amount[$key]*$pro_priceR);
+       }
+       
+       $sumpricevat = ($sumprice * 7) / 100;
+       $sumtotals = $sumprice + $sumpricevat;
+        }
+       
       }
+    
     ?>
     <!-- <tr>
       <td colspan="4" style="border:0px solid #003399;padding:9px 5px;"></td>
@@ -400,6 +463,7 @@ function submitForm() {
 			post_param($a_param,$a_not_exists);
 			?>
       <input name="mode" type="hidden" id="mode" value="<?php  echo $_GET['mode'];?>">
+      <input name="cus_id" type="hidden" id="cus_id" value="<?php  echo $cus_id;?>">
       <input name="st_setting" type="hidden" id="st_setting" value="<?php  echo $st_setting;?>">
       <input name="<?php  echo $PK_field;?>" type="hidden" id="<?php  echo $PK_field;?>" value="<?php  echo $_GET[$PK_field];?>">
     </div>
