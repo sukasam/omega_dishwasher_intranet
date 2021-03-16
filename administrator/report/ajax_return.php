@@ -37,6 +37,25 @@
 		}
 		//echo "SELECT cd_name FROM s_first_order ".$consd." ORDER BY cd_name ASC";
 	}
+
+	if($_GET['action'] == 'getpro2'){
+		// $cd_name =  iconv( 'UTF-8', 'TIS-620', $_REQUEST['pval']);
+		$cd_name =  $_REQUEST['pval'];
+		$keys = $_REQUEST['keys'];
+		if($cd_name != ""){
+			$consd = " AND (group_spro_id LIKE '%".$cd_name."%' OR group_name LIKE '%".$cd_name."%')";
+		}
+		//echo "SELECT * FROM s_group_typeproduct WHERE 1=1 ".$consd." AND group_spro_id LIKE '04-%' ORDER BY group_name ASC";
+		$qu_cus = mysqli_query($conn,"SELECT * FROM s_group_typeproduct WHERE 1=1 ".$consd." AND group_spro_id LIKE '04-%' ORDER BY group_name ASC");
+		while($row_cus = @mysqli_fetch_array($qu_cus)){
+			?>
+			 <tr>
+				<td><A href="javascript:void(0);" onclick="get_product('<?php  echo $row_cus['group_id'];?>','<?php  echo $row_cus['group_name'];?>','<?php  echo $keys;?>');"><?php  echo $row_cus['group_spro_id']." | ".$row_cus['group_name'];?></A></td>
+			  </tr>
+			<?php 	
+		}
+		//echo "SELECT cd_name FROM s_first_order ".$consd." ORDER BY cd_name ASC";
+	}
 	
 	if($_GET['action'] == 'getpodkey'){
 		$cd_name =  iconv( 'UTF-8', 'TIS-620', $_REQUEST['pval']);
@@ -80,6 +99,19 @@
 		while($row_qupro1 = @mysqli_fetch_array($qupro1)){
 		  ?>
 			<option value="<?php  echo $row_qupro1['group_id'];?>" <?php  if($group_id == $row_qupro1['group_id']){echo 'selected';}?>><?php  echo $row_qupro1['group_name'];?></option>
+		  <?php 	
+		}
+	}
+
+	if($_GET['action'] == 'getprotype2'){
+		$group_id = $_REQUEST['group_id'];
+		$group_name = $_REQUEST['group_name'];
+		$protype = $_REQUEST['protype'];
+		
+		$qupro1 = @mysqli_query($conn,"SELECT * FROM s_group_typeproduct WHERE 1=1 AND group_spro_id LIKE '04-%' ORDER BY group_name ASC");
+		while($row_qupro1 = @mysqli_fetch_array($qupro1)){
+		  ?>
+			<option value="<?php  echo $row_qupro1['group_id'];?>" <?php  if($group_id == $row_qupro1['group_id']){echo 'selected';}?>><?php  echo $row_qupro1['group_spro_id']." | ".$row_qupro1['group_name'];?></option>
 		  <?php 	
 		}
 	}

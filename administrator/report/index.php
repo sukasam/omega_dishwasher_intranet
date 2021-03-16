@@ -1754,6 +1754,28 @@ if ($_GET['action'] == "chksum") {
                               </td>
                             </tr>
                             <tr>
+                              <td width="10%" nowrap class="name">ชื่อร้าน-ชื่อบริษัท</td>
+                              <td width="90%"><input name="cd_name" type="text" id="cd_name" value="" style="width:40%;"><a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search.php');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a></td>
+                            </tr>
+                            <tr>
+                              <td width="10%" nowrap class="name">รายการน้ำยา</td>
+                              <td width="90%">
+                                <select name="cpro" id="cpro" class="inputselect" style="width:450px;">
+                                  <option value="">กรุณาเลือกน้ำยา</option>
+                                  <?php
+                                  $qupro1 = @mysqli_query($conn, "SELECT * FROM s_group_typeproduct WHERE 1=1 AND group_spro_id LIKE '04-%' ORDER BY group_name ASC");
+                                  while ($row_qupro1 = @@mysqli_fetch_array($qupro1)) {
+                                  ?>
+                                    <option value="<?php echo $row_qupro1['group_id']; ?>" <?php if ($cpro1 == $row_qupro1['group_id']) {
+                                                                                              echo 'selected';
+                                                                                            } ?>><?php echo $row_qupro1['group_spro_id']." | ".$row_qupro1['group_name']; ?></option>
+                                  <?php
+                                  }
+                                  ?>
+                                </select>
+                                <a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search_pro2.php?protype=cpro');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a></td>
+                            </tr>
+                            <tr>
                               <td nowrap class="name">&nbsp;</td>
                               <td><span class="name">
                                   <input name="priod" type="radio" value="0" checked>

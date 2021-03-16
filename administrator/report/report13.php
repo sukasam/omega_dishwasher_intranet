@@ -7,7 +7,9 @@
 	if ($_GET['page'] == ""){$_REQUEST['page'] = 1;	}
 	$param = get_param($a_param,$a_not_exists);
 	
+	$cd_name = $_REQUEST['cd_name'];
 	$order_status = $_REQUEST['order_status'];
+	$cpro = $_REQUEST['cpro'];
 	$a_sdate=explode("/",$_REQUEST['date_fm']);
 	$date_fm=$a_sdate[2]."-".$a_sdate[1]."-".$a_sdate[0];
 	$a_sdate=explode("/",$_REQUEST['date_to']);
@@ -24,7 +26,17 @@
 	$condi = '';
 
 	if($order_status != ""){
-		$condi = " AND `st_setting`  = '".$order_status."'"; 
+		$condi .= " AND `st_setting`  = '".$order_status."'"; 
+	}
+
+	if($cd_name != ""){
+		$condi .= " AND cd_name LIKE '%".$cd_name."%'"; 
+		
+	}
+
+	$condiPro = '';
+	if($cpro != ""){
+		$condiPro = " AND pro_id = '".$cpro."'";
 	}
 	
 	// $codi = " AND status_use = 0";
@@ -92,7 +104,7 @@
               	<table width="92%" border="0" cellpadding="0" cellspacing="0" class="tbreport" style="margin-bottom:5px;">
 				<?php  
 				 //echo "SELECT * FROM s_order_solution_pro WHERE  order_id = '".$row_fr['order_id']."' ORDER BY ASC";
-				  $quOrderPro = mysqli_query($conn,"SELECT * FROM s_order_solution_pro WHERE  order_id = '".$row_fr['order_id']."' ORDER BY `id` ASC");
+				  $quOrderPro = mysqli_query($conn,"SELECT * FROM s_order_solution_pro WHERE  order_id = '".$row_fr['order_id']."' ".$condiPro." ORDER BY `id` ASC");
 					while($rowOrderPro = mysqli_fetch_array($quOrderPro)){
 						?>
 						<tr>
