@@ -257,7 +257,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
           <TH width="5%" nowrap ><div align="center"><a>Memo</a></div></TH>
           <TH width="5%" nowrap ><div align="center"><a>เอกสาร</a></div></TH>
           <TH width="10%" nowrap ><div align="center">สถานะ</TH>
-		  <TH width="8%" nowrap> <div align="center"><a>การจ่ายเงิน</a></div></TH>
+		  <!-- <TH width="8%" nowrap> <div align="center"><a>การจ่ายเงิน</a></div></TH> -->
 <!--          <TH width="5%" nowrap ><div align="center"><a> Open / </a><a> Close</a></div></TH>-->
 <!--          <TH width="5%" nowrap ><div align="center"><a>Setting</a></div></TH>-->
 <!--          <TH width="5%"><div align="center"><a>Download</a></div></TH>-->
@@ -407,7 +407,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
             <a href="../first_order/?ff=<?php  echo $rec[$PK_field]; ?>&gg=2&page=<?php  echo $_GET['page']; ?>&<?php  echo $FK_field; ?>=<?php  echo $_REQUEST["$FK_field"];?>"><img src="../icons/favorites_close.png" width="15" height="15"></a>
             </div>
           </div></TD>
-		  <TD style="vertical-align:middle">
+		  <TD style="vertical-align:middle;display:none;">
 			<div align="center">
 				<?php if ($rec["cuspay"] == 0) {?>
 				<a href="../first_order/?cc=<?php echo $rec[$PK_field]; ?>&tt=<?php echo $rec["cuspay"]; ?>&page=<?php echo $_GET['page']; ?>&<?php echo $FK_field; ?>=<?php echo $_REQUEST["$FK_field"]; ?>&cus_id=<?php echo $rec["cus_id"]; ?>"><img src="../images/icons/check0.gif" width="15" height="15"></a>
