@@ -62,9 +62,9 @@ if ($_POST["mode"] <> "") {
 		for ($i = 0; $i <= count($_POST['cpro']); $i++) {
 			if ($_POST['cpro'][$i] != "") {
 
-				$_POST['cprice'][$i] = preg_replace("/,/", "", $_POST['cprice'][$i]);
+				// $_POST['cprice'][$i] = preg_replace("/,/", "", $_POST['cprice'][$i]);
 
-				$cost = $_POST['camount'][$i] * $_POST['cprice'][$i];
+				// $cost = $_POST['camount'][$i] * $_POST['cprice'][$i];
 
 				@mysqli_query($conn, "INSERT INTO `s_group_sparpart_bill_pro` (`id`, `id_bill`, `sparpart_id`, `sparpart_qty`, `sparpart_unit_price`, `sparpart_total`) VALUES (NULL,'" . $id . "','" . $_POST['cpro'][$i] . "','" . $_POST['camount'][$i] . "','" . $_POST['cprice'][$i] . "','" . $cost . "');");
 
@@ -240,9 +240,9 @@ if ($_GET["mode"] == "update") {
 		}
 
 		function changeAmount(id) {
-			console.log("change id = "+id)
+			console.log("change id = " + id)
 			var amount = $("#camount" + id).val()
-			console.log('amount='+amount)
+			console.log('amount=' + amount)
 			if (amount.length >= 1) {
 
 				let objSpareReplacing = sparPartList.find((o, i) => {
@@ -262,7 +262,28 @@ if ($_GET["mode"] == "update") {
 			}
 		}
 
+		function getUrlVars() {
+			var vars = {};
+			var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,
+				function(m, key, value) {
+					vars[key] = value;
+				});
+			return vars;
+		}
+
 		$(document).ready(function() {
+
+			$.ajax({
+				type: "GET",
+				url: "call_return.php?action=getSparScan&scan_part=" + getUrlVars()["sub_id"],
+				success: function(data) {
+					var listSpars = JSON.parse(data);
+					if (listSpars.items.length >= 1) {
+						sparPartList = listSpars.items;
+					}
+					console.log(JSON.stringify(sparPartList))
+				}
+			});
 
 			$("#scan_part").on('keyup', function(event) {
 				if (event.keyCode === 13) {
@@ -306,15 +327,17 @@ if ($_GET["mode"] == "update") {
 								var tableSpatList = '';
 
 								for (i = 0; i < sparPartList.length; i++) {
-									// console.log()
-									tableSpatList += '<tr>';
-									tableSpatList += '<td style="border:1px solid #000000;padding:5;text-align:center;">' + parseInt(i + 1) + '<input type="hidden" name="cpro[]" value="' + sparPartList[i]['group_id'] + '" id="cpro' + sparPartList[i]['group_id'] + '" class="inpfoder" style="width:100%;text-align:center;"></td>';
-									tableSpatList += '<td style="border:1px solid #000000;padding:5;text-align:center;">' + sparPartList[i]['group_spar_barcode'] + '<input type="hidden" name="barcode[]" value="' + sparPartList[i]['group_spar_barcode'] + '" id="barcode' + sparPartList[i]['group_id'] + '" class="inpfoder" style="width:100%;text-align:center;"></td>';
-									tableSpatList += '<td style="border:1px solid #000000;text-align:left;padding:5;">' + sparPartList[i]['group_name'] + '</td>';
-									tableSpatList += '<td style="border:1px solid #000000;padding:5;text-align:center;"><input type="text" name="camount[]" value="' + sparPartList[i]['group_qty'] + '" id="camount' + sparPartList[i]['group_id'] + '" class="inpfoder" style="width:100%;text-align:center;" onkeypress="return isNumberKey(event)" onchange="changeAmount(' + sparPartList[i]['group_id'] + ')"></td>';
-									tableSpatList += '</tr>';
-								}
+									if (sparPartList[i].group_qty >= 1) {
+										tableSpatList += '<tr>';
+										tableSpatList += '<td style="border:1px solid #000000;padding:5;text-align:center;">' + parseInt(i + 1) + '<input type="hidden" name="cpro[]" value="' + sparPartList[i]['group_id'] + '" id="cpro' + sparPartList[i]['group_id'] + '" class="inpfoder" style="width:100%;text-align:center;"></td>';
+										tableSpatList += '<td style="border:1px solid #000000;padding:5;text-align:center;">' + sparPartList[i]['group_spar_barcode'] + '<input type="hidden" name="barcode[]" value="' + sparPartList[i]['group_spar_barcode'] + '" id="barcode' + sparPartList[i]['group_id'] + '" class="inpfoder" style="width:100%;text-align:center;"></td>';
+										tableSpatList += '<td style="border:1px solid #000000;text-align:left;padding:5;">' + sparPartList[i]['group_name'] + '</td>';
+										tableSpatList += '<td style="border:1px solid #000000;padding:5;text-align:center;"><input type="text" name="camount[]" value="' + sparPartList[i]['group_qty'] + '" id="camount' + sparPartList[i]['group_id'] + '" class="inpfoder" style="width:100%;text-align:center;" onkeypress="return isNumberKey(event)" onchange="changeAmount(' + sparPartList[i]['group_id'] + ')"></td>';
+										tableSpatList += '</tr>';
+									}
 
+								}
+								$("#msg_scan").html('')
 								$("#exp").html(tableSpatList);
 								// console.log(JSON.stringify(sparPartList))
 							} else {
@@ -497,35 +520,18 @@ if ($_GET["mode"] == "update") {
 												while ($rowPro = mysqli_fetch_array($quQry)) {
 												?>
 													<tr>
-														<td style="border:1px solid #000000;padding:5;text-align:center;"><?php echo $rowCal; ?></td>
-														<td style="border:1px solid #000000;padding:5;text-align:center;" id="ccode<?php echo $rowCal; ?>">
-															<?php echo get_sparpart_id($conn, $rowPro['sparpart_id']); ?>
-														</td>
-														<td style="border:1px solid #000000;text-align:left;padding:5;">
-															<select name="cpro[]" id="cpro<?php echo $rowCal; ?>" class="inputselect" style="width:90%;" onchange="changeSpar('<?php echo $rowCal; ?>');">
-																<option value="">กรุณาเลือกรายการ</option>
-																<?php
-																$qupro1 = @mysqli_query($conn, "SELECT * FROM s_group_sparpart ORDER BY group_name ASC");
-																while ($row_qupro1 = @mysqli_fetch_array($qupro1)) {
-																?>
-																	<option value="<?php echo $row_qupro1['group_id']; ?>" <?php if ($rowPro['sparpart_id'] == $row_qupro1['group_id']) {
-																																echo 'selected';
-																															} ?>><?php echo $row_qupro1['group_name']; ?></option>
-																<?php
-																}
-																?>
-															</select>
-															<a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search_spar.php?protype=cpro<?php echo $rowCal; ?>&ccode=ccode<?php echo $rowCal; ?>');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>
+														<td style="border:1px solid #000000;padding:5;text-align:center;"><?php echo $rowCal; ?>
+															<input type="hidden" name="cpro[]" value="<?php echo $rowPro['sparpart_id']; ?>" id="cpro<?php echo $rowPro['sparpart_id']; ?>'" class="inpfoder" style="width:100%;text-align:center;">
 														</td>
 														<td style="border:1px solid #000000;padding:5;text-align:center;">
-															<input type="text" name="camount[]" value="<?php echo number_format($rowPro['sparpart_qty']); ?>" id="camount<?php echo $rowCal; ?>" class="inpfoder" style="width:100%;text-align:center;" onkeypress="return isNumberKey(event)" onblur="checkTotal('<?php echo $rowCal; ?>')">
+															<?php echo get_sparpart_barcode($conn, $rowPro['sparpart_id']); ?>
 														</td>
-														<!-- <td style="border:1px solid #000000;padding:5;text-align:center;">
-					<input type="text" name="cprice[]" value="<?php echo number_format($rowPro['sparpart_unit_price']); ?>" id="cprice<?php echo $rowCal; ?>" class="inpfoder" style="width:100%;text-align:center;" onkeypress="return isNumberKey(event)" onblur="checkTotal('<?php echo $rowCal; ?>')">
-				  </td> -->
-														<!-- <td style="border:1px solid #000000;padding:5;text-align:right;" id="ctotal<?php echo $rowCal; ?>">
-					<?php echo number_format($rowPro['sparpart_qty'] * $rowPro['sparpart_unit_price']) ?>
-				  </td> -->
+														<td style="border:1px solid #000000;text-align:left;padding:5;">
+															<?php echo get_sparpart_name($conn, $rowPro['sparpart_id']); ?>
+														</td>
+														<td style="border:1px solid #000000;padding:5;text-align:center;">
+															<input type="text" name="camount[]" value="<?php echo $rowPro['sparpart_qty']; ?>" id="camount<?php echo $rowPro['sparpart_id']; ?>" class="inpfoder" style="width:100%;text-align:center;" onkeypress="return isNumberKey(event)" onchange="changeAmount(<?php echo $rowPro['sparpart_id']; ?>)">
+														</td>
 													</tr>
 											<?php
 													$sumPrice = $sumPrice + ($rowPro['sparpart_qty'] * $rowPro['sparpart_unit_price']);

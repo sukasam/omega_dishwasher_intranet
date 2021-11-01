@@ -465,7 +465,7 @@ $qu_cusftype = @mysqli_query($conn, "SELECT * FROM s_group_status_svfix ORDER BY
                       <TD style="vertical-align:middle;">
                         <div align="center">
                           <?php if ($row_sr3['sr_id'] != "") {?>
-                            <a href="../service_report3/index.php?act=return&sr_id=<?php echo $row_sr3['sr_id']; ?>"><img src="../images/icons/icon-48-install.png" width="30"></a>
+                            <a href="../service_report3/index.php?act=return&sr_id=<?php echo $row_sr3['sr_id']; ?>"><img src="../images/icons/icon-48-install.png" width="30"> <a href="../../upload/return/<?php echo str_replace("/", "-", $row_sr3['sv_id']); ?>.pdf" target="_blank"><img src="../images/icon2/backup.png" width="25" height="25" title="ดาวน์โหลด" style="margin-left:10px;"></a></a>
                           <?php } else {
         echo "-";
     }?>

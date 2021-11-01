@@ -138,11 +138,12 @@
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tb2">
       <tr>
         <td width="4%"><strong>ลำดับ</strong></td>
-        <td width="8%"><strong>รหัสบาร์โค้ด</strong></td>
+        <td width="8%"><strong>Code</strong></td>
         <td width="44%"><strong>รายการ</strong></td>
         <td width="9%"><strong>หน่วยนับ</strong></td>
+        <td width="9%"><strong>ราคา/หน่วย</strong></td>
         <td width="9%"><strong>จำนวนใน Stock</strong></td>
-        <td width="9%"><strong>จำนวนยืม</strong></td>
+        <td width="9%"><strong>จำนวนเบิก</strong></td>
         </tr>';
 		
 		$sumtotal = 0;
@@ -150,13 +151,13 @@
 
 		foreach($codes as $a => $b){
 			//if($units[$a] != 0){$bunits = $units[$a];$units[$a] = number_format($units[$a]);}
-			// if($prices[$a] != 0){$bprices = $prices[$a];$prices[$a] = number_format($prices[$a]);}
+			if($prices[$a] != 0){$bprices = $prices[$a];$prices[$a] = number_format($prices[$a]);}
 			if($amounts[$a] != 0){$amounts[$a] = number_format($amounts[$a]);}
 			if($opens[$a] != 0){$bopens = $opens[$a];$opens[$a] = number_format($opens[$a]);}
 			if($remains[$a] != 0){$remains[$a] = number_format($remains[$a]);}
 			if($codes[$a] != "" || $lists[$a] != ""){$sumlist = $sumlist+1;}
 			
-			// $sumtotal = $bopens * $bprices;
+			$sumtotal = $bopens * $bprices;
 			
 			//if($lists[$a] != ""){
 				$form .='<tr >
@@ -164,6 +165,7 @@
 				<td>'.$codes[$a].'</td>
 				<td>'.get_sparpart_name($conn,$lists[$a]).'</td>
 				<td align="center">'.$units[$a].'</td>
+				<td align="right">'.$prices[$a].'</td>
 				<td align="right">'.getStockSpar($conn,$lists[$a]).'</td>
 				<td align="right">'.$opens[$a].'</td>
 				</tr>';
@@ -172,7 +174,15 @@
 			//}
 		 
 		}
-        $form .= '
+        $form .= '<tr >
+			<td colspan="4"><center><strong>รวมจำนวนที่เบิก</strong></center></td>
+			<td colspan="3" align="right"><strong>'.$sumlist.'&nbsp;&nbsp;รายการ</strong></td>
+		</tr>
+		
+        <tr >
+          <td colspan="4"><center><strong>ใช้จ่ายรวม (รวมมูลค่าอะไหล่ที่เบิก)</strong></center></td>
+          <td colspan="3" align="right"><strong>'.number_format($total,2).'&nbsp;&nbsp;บาท</strong></td>
+          </tr>
     </table>
 
 	<br>

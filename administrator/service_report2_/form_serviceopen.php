@@ -16,6 +16,8 @@
 		';	
 	}
 
+	$svInfo = get_servicereport2($conn,$_POST['srid']);
+
 	$form = '<style>
 	.bgheader{
 		font-size:10px;
@@ -43,8 +45,9 @@
 	.tb2 tr td{
 		font-size:10px;
 		font-family:Verdana, Geneva, sans-serif;
-		padding:5px;	
+		padding:5px;
 		border: 1px solid #00000;	
+
 	}
 	
 	.tb3 tr td{
@@ -101,7 +104,7 @@
 	<table width="100%" border="0" cellspacing="0" cellpadding="0">
 	  <tr>
 		<td style="text-align:right;font-size:12px;">
-			<img src="../images/form/header_service_report3.png" width="100%" border="0" />
+			<img src="../images/form/header_service_report2.png" width="100%" border="0" />
 			<div class="bgheader">'.$_POST['sv_id'].'</div>
 		</td>
 	  </tr>
@@ -113,13 +116,17 @@
             <br />
             โทรศัพท์ :</strong> '.$finfos['cd_tel'].'&nbsp;&nbsp;&nbsp;&nbsp;<strong>แฟกซ์ :</strong> '.$finfos['cd_fax'].'<br />
             <br />
-            <strong>ชื่อผู้ติดต่อ :</strong> '.$finfos['c_contact'].' <strong>&nbsp;&nbsp;&nbsp;&nbsp;เบอร์โทร :</strong> '.$finfos['c_tel'].'</td>
-            <td width="43%"><strong>ประเภทบริการลูกค้า :</strong> '.get_servicename($conn,$_POST['sr_ctype']).' <strong><br />
+            <strong>ชื่อผู้ติดต่อ :</strong> '.$finfos['c_contact'].' <strong>&nbsp;&nbsp;&nbsp;&nbsp;<br>
             <br>
-            ประเภทลูกค้า :</strong> '.custype_name($conn,$_POST['sr_ctype2']).' <strong><br /><br />
-            </strong><strong>วันที่ยืมอะไหล่  :</strong> '.format_date($_POST['job_open']).' <strong>&nbsp;&nbsp;<br />
+            เบอร์โทร :</strong> '.$finfos['c_tel'].'</td>
+            <td width="43%"><strong>ประเภทบริการลูกค้า :</strong> '.get_servicename($conn,$_POST['sr_ctype']).' <strong><br>
+            <br>
+            ประเภทลูกค้า :</strong> '.custype_name($conn,$_POST['sr_ctype2']).' <strong><br />
+              <br />
+            </strong><strong>วันที่เบิกอะไหล่  :</strong> '.format_date($_POST['job_open']).' <strong>&nbsp;&nbsp;เลขที่ใบงาน  :</strong> '.$svInfo['sv_id'].' <strong><br />
             <br />
-            กำหนดคืนอะไหล่ :</strong> '.format_date($_POST['job_balance']).'<br /><br />            <strong>วันที่คืนอะไหล่  :</strong> '.format_date($_POST['sr_stime']).'</td>
+            กำหนดคืนอะไหล่ :</strong> '.format_date($_POST['job_balance']).' &nbsp;<strong>วันที่คืนอะไหล่ :</strong> '.format_date($_POST['sr_stime']).'<br /><br />
+            <strong>อ้างอิงใบยืม :</strong> '.$_POST['srid2'].'&nbsp;&nbsp;<strong>วันที่ :</strong> '.format_date($_POST['ref_date']).'</td>
           </tr>
     </table>
 	<br>
@@ -130,7 +137,7 @@
             <strong>รุ่นเครื่อง : </strong> '.$_POST['loc_seal'].' <strong> S/N : </strong> '.$_POST['loc_sn'].'<br /><br />
             <strong>เครื่องป้อนน้ำยา : </strong> '.$_POST['loc_clean'].'<br /><br />
             <strong>ช่างบริการประจำ : </strong> '.$tecinfos['group_name'].'&nbsp;&nbsp;&nbsp;<strong> เบอร์โทร : </strong> '.$tecinfos['group_tel'].'</td>
-        <td width="47%" valign="top"><strong>อาการเสีย</strong><br><br>'.$_POST['detail_recom'].'</td>
+        <td width="47%" valign="top"><strong>รายละเอียดการเปลี่ยนอะไหล่</strong><br><br>'.$_POST['detail_recom'].'</td>
       </tr>
 </table>
 
@@ -138,11 +145,13 @@
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tb2">
       <tr>
         <td width="4%"><strong>ลำดับ</strong></td>
-        <td width="8%"><strong>รหัสบาร์โค้ด</strong></td>
+		<td width="8%"><strong>Code</strong></td>
+		<td width="8%"><strong>รหัสบัญชี</strong></td>
         <td width="44%"><strong>รายการ</strong></td>
         <td width="9%"><strong>หน่วยนับ</strong></td>
+        <td width="9%"><strong>ราคา/หน่วย</strong></td>
         <td width="9%"><strong>จำนวนใน Stock</strong></td>
-        <td width="9%"><strong>จำนวนยืม</strong></td>
+        <td width="9%"><strong>จำนวนเบิก</strong></td>
         </tr>';
 		
 		$sumtotal = 0;
@@ -150,29 +159,36 @@
 
 		foreach($codes as $a => $b){
 			//if($units[$a] != 0){$bunits = $units[$a];$units[$a] = number_format($units[$a]);}
-			// if($prices[$a] != 0){$bprices = $prices[$a];$prices[$a] = number_format($prices[$a]);}
+			if($prices[$a] != 0){$bprices = $prices[$a];$prices[$a] = number_format($prices[$a]);}
 			if($amounts[$a] != 0){$amounts[$a] = number_format($amounts[$a]);}
 			if($opens[$a] != 0){$bopens = $opens[$a];$opens[$a] = number_format($opens[$a]);}
 			if($remains[$a] != 0){$remains[$a] = number_format($remains[$a]);}
 			if($codes[$a] != "" || $lists[$a] != ""){$sumlist = $sumlist+1;}
 			
-			// $sumtotal = $bopens * $bprices;
+			$sumtotal = $bopens * $bprices;
 			
-			//if($lists[$a] != ""){
-				$form .='<tr >
-				<td><center>'.($a+1).'</center></td>
-				<td>'.$codes[$a].'</td>
-				<td>'.get_sparpart_name($conn,$lists[$a]).'</td>
-				<td align="center">'.$units[$a].'</td>
-				<td align="right">'.getStockSpar($conn,$lists[$a]).'</td>
-				<td align="right">'.$opens[$a].'</td>
-				</tr>';
-
-				if($codes[$a] != "" || $lists[$a] != ""){$total += $sumtotal;}
-			//}
-		 
+		 $form .='<tr >
+			<td><center>'.($a+1).'</center></td>
+			<td>'.$codes[$a].'</td>
+			<td>'.get_sparpart_account_id($conn,$lists[$a]).'</td>
+			<td>'.get_sparpart_name($conn,$lists[$a]).'</td>
+			<td align="center">'.$units[$a].'</td>
+			<td align="right">'.$prices[$a].'</td>		
+			<td align="right">'.getStockSpar($conn,$lists[$a]).'</td>
+			<td align="right">'.$opens[$a].'</td>
+			</tr>';
+			
+			if($codes[$a] != "" || $lists[$a] != ""){$total += $sumtotal;}
 		}
-        $form .= '
+        $form .= '<tr >
+			<td colspan="5"><center><strong>รวมจำนวนที่เบิก</strong></center></td>
+			<td colspan="3" align="right"><strong>'.$sumlist.'&nbsp;&nbsp;รายการ</strong></td>
+		</tr>
+		
+        <tr >
+          <td colspan="5"><center><strong>ใช้จ่ายรวม (รวมมูลค่าอะไหล่ที่เบิก)</strong></center></td>
+          <td colspan="3" align="right"><strong>'.number_format($total,2).'&nbsp;&nbsp;บาท</strong></td>
+          </tr>
     </table>
 
 	<br>
@@ -185,7 +201,7 @@
                 <td style="border-bottom:1px solid #000000;padding-bottom:23px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;">'.get_technician_name($conn,$_POST['loc_contact2']).'</td>
               </tr>
               <tr>
-                <td style="padding-top:10px;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>ช่างยืม</strong></td>
+                <td style="padding-top:10px;padding-bottom:10px;font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>ช่างเบิก</strong></td>
               </tr>
               <tr>
                 <td style="font-size:10px;font-family:Verdana, Geneva, sans-serif;text-align:center;"><strong>วันที่ : </strong>'.format_date($_POST['loc_date2']).'</td>
