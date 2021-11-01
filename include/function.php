@@ -3258,6 +3258,11 @@ function get_sparpart_id($conn, $gid)
     $row_dea = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM  s_group_sparpart WHERE group_id = '" . $gid . "'"));
     return $row_dea['group_spar_id'];
 }
+function get_sparpart_barcode($conn, $gid)
+{
+    $row_dea = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM  s_group_sparpart WHERE group_id = '" . $gid . "'"));
+    return $row_dea['group_spar_barcode'];
+}
 
 function get_sparpart_account_id($conn, $gid)
 {
@@ -3760,4 +3765,14 @@ function getCatProAllName($conn,$catv1,$catv2,$catv3,$catv4){
         return $shwCat;
     }
    
+}
+
+function barcode($code){
+	
+	$generator = new Picqer\Barcode\BarcodeGenerator();
+	$border = 2;//กำหนดความหน้าของเส้น Barcode
+	$height = 40;//กำหนดความสูงของ Barcode
+
+	return $generator->getBarcode($code , $generator::TYPE_CODE_128,$border,$height);
+
 }

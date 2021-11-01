@@ -21,8 +21,8 @@
 		 $url = $domain.'?month='.$dateMGen.'&year='.$dateYGen.'&loccontact='.$row_custec['group_id'];
 		 //$url = $domain.'?month='.$dateMGen.'&year='.$dateYGen.'&loccontact=0';
 		  
-//		 echo $domain;
-//     	 exit();
+		//  echo $url;
+    	//  exit();
 
 		 //echo $row_custec['group_id']."<br>";
 		 // Get cURL resource

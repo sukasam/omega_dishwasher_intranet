@@ -45,13 +45,20 @@ for($i=0;$i<=count($_POST['cpro']);$i++){
 		$sumprice += $_POST['camount'][$i]*$_POST['cprice'][$i];
 		$sumpriceNot += $_POST['cprice'][$i];
 		
-		$projectPro .= '<tr>
+		// $projectPro .= '<tr>
+		// <td style="border:1px solid #000000;padding:5;">'.($i+1).'</td>
+		// <td style="border:1px solid #000000;padding:5;">'.get_sparpart_id($conn,$_POST['cpro'][$i]).'</td>
+		// <td style="border:1px solid #000000;text-align:left;padding:5;">'.get_sparpart_name($conn,$_POST['cpro'][$i]).'</td>
+		//   <td style="border:1px solid #000000;padding:5;">'.$_POST['camount'][$i].'</td>
+		//   <td style="border:1px solid #000000;padding:5;text-align:right;">'.number_format($_POST['cprice'][$i]).'&nbsp;&nbsp;</td>
+		//   <td style="border:1px solid #000000;padding:5;text-align:right;">'.number_format($_POST['camount'][$i] * $_POST['cprice'][$i]).'&nbsp;&nbsp;</td>
+		// </tr>';
+
+    $projectPro .= '<tr>
 		<td style="border:1px solid #000000;padding:5;">'.($i+1).'</td>
-		<td style="border:1px solid #000000;padding:5;">'.get_sparpart_id($conn,$_POST['cpro'][$i]).'</td>
+		<td style="border:1px solid #000000;padding:5;">'.get_sparpart_barcode($conn,$_POST['cpro'][$i]).'</td>
 		<td style="border:1px solid #000000;text-align:left;padding:5;">'.get_sparpart_name($conn,$_POST['cpro'][$i]).'</td>
-		  <td style="border:1px solid #000000;padding:5;">'.$_POST['camount'][$i].'</td>
-		  <td style="border:1px solid #000000;padding:5;text-align:right;">'.number_format($_POST['cprice'][$i]).'&nbsp;&nbsp;</td>
-		  <td style="border:1px solid #000000;padding:5;text-align:right;">'.number_format($_POST['camount'][$i] * $_POST['cprice'][$i]).'&nbsp;&nbsp;</td>
+		<td style="border:1px solid #000000;padding:5;">'.$_POST['camount'][$i].'</td>
 		</tr>';
 		
 	}
@@ -85,26 +92,13 @@ $form = '
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="font-size:10px;text-align:center;margin-top:10px;">
     <tr>
       <td width="5%" style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>ลำดับ</strong></td>
-	  <td width="5%" style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>Code</strong></td>
+	  <td width="5%" style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>บาร์โค้ด</strong></td>
       <td width="30%" style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>รายการ</strong></td>
       <td width="10%" style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>จำนวน</strong></td>
-      <td width="15%" style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>ราคา / หน่วย</strong></td>
-	  <td width="15%" style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>ราคารวม (บาท)</strong></td>
     </tr>
     
 	'.$projectPro.'    
-	
-    <tr>
-      <td colspan="3" rowspan="2" style="text-align:left;border:0px solid #000000;padding:5;vertical-align:top;padding-top:15px;">
-      </td>
-      <td style="border:1px solid #000000;padding:5;font-size:13px;"><strong>รวมทั้งหมด</strong></td>
-      <td style="border:1px solid #000000;padding:5;text-align:right;font-size:13px;"><strong>'.number_format($sumpriceNot,2).'</strong>&nbsp;&nbsp;</td>
-	  <td style="border:1px solid #000000;padding:5;text-align:right;font-size:13px;"><strong>'.number_format($sumprice,2).'</strong>&nbsp;&nbsp;</td>
-    </tr>
-	<tr>
-      <td style="border:1px solid #000000;padding:5;font-size:13px;"><strong>จำนวนเงินรวมทั้งสิ้น</strong></td>
-      <td colspan="2" style="border:1px solid #000000;padding:5;text-align:right;font-size:13px;"><strong>'.number_format($sumremainTotal,2).'</strong>&nbsp;&nbsp;</td>
-    </tr>
+
 </table>
   ';
 ?>

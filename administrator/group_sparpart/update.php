@@ -233,7 +233,7 @@ function submitForm() {
                 </select>
                 </td>
               </tr>
-            <tr >
+              <tr >
                 <td nowrap class="name">รหัสอะไหล่</td>
 				  <td><span id="chkDupID" class="hide" style="color: red;">รหัสอะไหล่ซ้ำ<br></span><input name="group_spar_id" type="text" id="group_spar_id"  value="<?php     echo $group_spar_id; ?>" size="60"> <span class="editIDPro hide"><input type="checkbox" name="edit_spar_id" id="edit_spar_id" value="1" disabled> แก้ไขรหัสอะไหล่</span>
                 <input name="group_spar_id2" type="hidden" id="group_spar_id2"  value="" size="60">
@@ -242,6 +242,10 @@ function submitForm() {
               <tr >
                 <td nowrap class="name">รหัสบัญชี</td>
                 <td><input name="group_spar_account_id" type="text" id="group_spar_account_id"  value="<?php echo $group_spar_account_id; ?>" size="60"></td>
+              </tr>
+              <tr >
+                <td nowrap class="name">รหัส Barcode</td>
+                <td><input name="group_spar_barcode" type="text" id="group_spar_barcode"  value="<?php echo $group_spar_barcode; ?>" size="60"></td>
               </tr>
               <tr >
                 <td nowrap class="name">ชื่ออะไหล่</td>
