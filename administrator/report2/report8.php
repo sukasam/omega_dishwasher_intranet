@@ -305,7 +305,7 @@
               <?php  if($_REQUEST['sh9'] == 1){?><td><?php  echo $row_fr['detail_recom2'];?></td>   <?php  }?>
               <?php  if($_REQUEST['sh10'] == 1){?><td><?php  if($openclose == 0){echo format_date($row_fr['sr_stime']);}else if($openclose == 2){echo format_date($row_fr['sr_stime']);}else{echo "-";}?></td>  <?php  }?>   
 			  <td>
-					<?php if($row_fr['signature_date'] != ""){echo format_date(substr($row_fr['signature_date'],0,10));}else{echo '-';};?>
+					<?php if($row_fr['signature_date'] != ""){echo format_date(substr($row_fr['signature_date'],0,10))." ".substr($row_fr['signature_date'],10);}else{echo '-';};?>
 			  </td>
 			  <td>
 			  <?php
