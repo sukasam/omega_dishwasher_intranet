@@ -273,11 +273,11 @@ $param2 = get_param($a_param, $a_not_exists);
                     <TH width="10%">
                       <div align="center"><a>วันที่บริการ</a></div>
                     </TH>
+                    <!-- <TH width="10%">
+                      <div align="center"><a>เบิก</a></div>
+                    </TH> -->
                     <TH width="10%">
                       <div align="center"><a>เบิก</a></div>
-                    </TH>
-                    <TH width="10%">
-                      <div align="center"><a>ยืม</a></div>
                     </TH>
                     <TH width="10%">
                       <div align="center"><a>คืน</a></div>
@@ -446,13 +446,13 @@ $qu_cusftype = @mysqli_query($conn, "SELECT * FROM s_group_status_svfix ORDER BY
     } else {
         echo '-';
     }?></TD>
-                      <TD style="vertical-align:middle;">
+                      <!-- <TD style="vertical-align:middle;">
                         <div align="center"><a href="../service_report2/update.php?mode=<?php if ($row_sr2['sr_id'] == "") {
         echo "add&srid=" . $rec['sr_id'];
     } else {
         echo "update&srid=" . $rec['sr_id'] . "&sr_id=" . $row_sr2['sr_id'];
     }?>"><img src="../images/icons/icon-48-section.png" width="30"></a><?php if ($row_sr2['sr_id'] != "") {?><a href="../../upload/service_report_open/<?php echo str_replace("/", "-", $row_sr2['sv_id']); ?>.pdf" target="_blank"><img src="../images/icon2/backup.png" width="25" height="25" title="ดาวน์โหลดรายงานช่างซ่ิอม" style="margin-left:10px;"></a><?php }?></div>
-                      </TD>
+                      </TD> -->
 
                       <TD style="vertical-align:middle;">
                         <div align="center"><a href="../service_report3/update.php?mode=<?php if ($row_sr3['sr_id'] == "") {

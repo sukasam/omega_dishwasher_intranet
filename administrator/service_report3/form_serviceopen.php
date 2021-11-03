@@ -101,7 +101,7 @@
 	<table width="100%" border="0" cellspacing="0" cellpadding="0">
 	  <tr>
 		<td style="text-align:right;font-size:12px;">
-			<img src="../images/form/header_service_report3.png" width="100%" border="0" />
+			<img src="../images/form/header_service_report2.png" width="100%" border="0" />
 			<div class="bgheader">'.$_POST['sv_id'].'</div>
 		</td>
 	  </tr>

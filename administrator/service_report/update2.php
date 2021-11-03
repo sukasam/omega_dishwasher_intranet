@@ -785,32 +785,35 @@ for ($v = 0; $v < count($sImg); $v++) {
 	<?php
 
 //$serviceID = substr($sv_id,3);
-$serviceID = $sv_id;
-//echo $serviceID;
-$row_service2 = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM s_service_report2 WHERE srid = '" . trim($serviceID) . "'"));
+$serviceID = $_GET['sr_id'];
+// echo $serviceID;
+$row_service2 = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM s_service_report3 WHERE srid = '" . trim($serviceID) . "'"));
 
 ?>
 	<br>
-<p class="tby1"><strong>รายละเอียดการเปลี่ยนอะไหล่ / รายการใช้อุปกรณ์การติดตั้ง</strong> (เลขที่ใบเบิก <a href="../service_report2/update.php?mode=update&sr_id=<?php echo $row_service2['sr_id']; ?>&page=1&keyword=<?php echo $row_service2['sv_id']; ?>" target="_blank"><?php echo $row_service2['sv_id']; ?></a>)</p>
+    <!-- <p class="tby1"><strong>รายละเอียดการเปลี่ยนอะไหล่ / รายการใช้อุปกรณ์การติดตั้ง</strong> (เลขที่ใบเบิก <a href="../service_report2/update.php?mode=update&sr_id=<?php echo $row_service2['sr_id']; ?>&page=1&keyword=<?php echo $row_service2['sv_id']; ?>" target="_blank"><?php echo $row_service2['sv_id']; ?></a>)</p> -->
+	<p class="tby1"><strong>รายละเอียดการเปลี่ยนอะไหล่ / รายการใช้อุปกรณ์การติดตั้ง</strong> (เลขที่ใบเบิก <a href="../../upload/service_report_open/<?php echo str_replace("/", "-", $row_service2['sv_id']); ?>.pdf" target="_blank"><?php echo $row_service2['sv_id']; ?></a>)</p>
     <table width="100%" border="0" cellspacing="0" cellpadding="0" style="font-size:12px;text-align:center;">
     <tr>
       <td width="5%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>ลำดับ</strong></td>
+	  <td width="15%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>รหัสอะไหล่</strong></td>
       <td width="65%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>รายการ</strong></td>
       <td width="15%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>จำนวน</strong></td>
-      <td width="15%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>ราคา / ต่อหน่วย</strong></td>
+      <!-- <td width="15%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>ราคา / ต่อหน่วย</strong></td> -->
       </tr>
 
     <?php
-$qu_sr2 = @mysqli_query($conn, "SELECT * FROM s_service_report2sub WHERE sr_id = '" . $row_service2['sr_id'] . "' AND codes != ''");
+$qu_sr2 = @mysqli_query($conn, "SELECT * FROM s_service_report3sub WHERE sr_id = '" . $row_service2['sr_id'] . "' AND codes != '' ORDER BY r_id ASC");
 $brf = 1;
 while ($rowSRV = @mysqli_fetch_array($qu_sr2)) {
     ?>
 
 	<tr>
       <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><?php echo $brf; ?></td>
+	  <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><?php echo $rowSRV['codes'];?></td>
       <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:left;"><?php echo get_sparpart_name($conn, $rowSRV['lists']); ?></td>
-      <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><?php if ($rowSRV['opens'] != 0) {echo $rowSRV['opens'];}?></td>
-      <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><?php if ($rowSRV['prices'] != 0) {echo number_format($rowSRV['prices']);}?></td>
+      <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><?php echo $rowSRV['opens'];?></td>
+      <!-- <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><?php if ($rowSRV['prices'] != 0) {echo number_format($rowSRV['prices']);}?></td> -->
     </tr>
 
 	<?php

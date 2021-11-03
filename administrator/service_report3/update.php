@@ -529,7 +529,7 @@ function check(frm){
 	  <tr>
 		<td style="text-align:right;font-size:12px;">
 			<div style="position:relative;text-align:center;">
-            	<img src="../images/form/header_service_report3.png" width="100%" border="0" style="max-width:1182px;"/>
+            	<img src="../images/form/header_service_report2.png" width="100%" border="0" style="max-width:1182px;"/>
             </div>
 		</td>
 	  </tr>

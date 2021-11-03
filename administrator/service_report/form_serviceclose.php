@@ -56,10 +56,9 @@ if (($_POST['camount5'] * $_POST['cprice5']) != 0) {$suprice5 = number_format($_
 
 $totalprice = ($_POST['camount1'] * $_POST['cprice1']) + ($_POST['camount2'] * $_POST['cprice2']) + ($_POST['camount3'] * $_POST['cprice3']) + ($_POST['camount4'] * $_POST['cprice4']) + ($_POST['camount5'] * $_POST['cprice5']);
 
-$serviceID = substr($_POST['sv_id'], 3);
-$row_service2 = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM s_service_report2 WHERE srid = '" . trim($serviceID) . "'"));
-
-$qu_sr2 = @mysqli_query($conn, "SELECT * FROM s_service_report2sub WHERE sr_id = '" . $row_service2['sr_id'] . "' AND codes != ''");
+$serviceID = $_POST['srid'];
+$row_service2 = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM s_service_report3 WHERE sr_id = '" . trim($serviceID) . "'"));
+$qu_sr2 = @mysqli_query($conn, "SELECT * FROM s_service_report3sub WHERE sr_id = '" . $row_service2['sr_id'] . "' AND codes != '' ORDER BY r_id ASC");
 $brf = 1;
 
 $chkProcess = checkProcess($conn, "s_service_report", $PK_field, $id);
@@ -279,8 +278,6 @@ $form = '<style>
       <td width="10%" style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>รหัสอะไหล่</strong></td>
       <td width="35%" style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>รายการ</strong></td>
       <td width="10%" style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>จำนวน</strong></td>
-      <td width="15%" style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>ราคา / หน่วย</strong></td>
-      <td width="15%" style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>ราคารวม (บาท)</strong></td>
     </tr>';
 
 while ($rowSRV = @mysqli_fetch_array($qu_sr2)) {
@@ -289,21 +286,13 @@ while ($rowSRV = @mysqli_fetch_array($qu_sr2)) {
       <td style="border:1px solid #000000;padding:5;">' . $rowSRV['codes'] . '</td>
       <td style="border:1px solid #000000;text-align:left;padding:5;">' . get_sparpart_name($conn, $rowSRV['lists']) . '</td>
       <td style="border:1px solid #000000;padding:5;">' . $rowSRV['opens'] . '</td>
-      <td style="border:1px solid #000000;padding:5;">' . $rowSRV['prices'] . '</td>
-      <td style="border:1px solid #000000;padding:5;">' . ($rowSRV['opens'] * $rowSRV['prices']) . '</td>
     </tr>
     <tr>';
-    $totalprice += ($rowSRV['opens'] * $rowSRV['prices']);
+    // $totalprice += ($rowSRV['opens'] * $rowSRV['prices']);
     $brf++;
 }
 
-$form .= '<tr>
-      <td colspan="4" rowspan="1" style="text-align:left;border:1px solid #000000;padding:5;vertical-align:top;padding-top:15px;"><br>
-</td>
-      <td style="border:1px solid #000000;padding:5;vertical-align:middle;"><strong>ค่าใช้จ่ายรวม<br />
-(ทั้งหมด)</strong></td>
-      <td style="border:1px solid #000000;padding:5;vertical-align:middle;">' . number_format($totalprice, 2) . '</td>
-    </tr>
+$form .= '
   </table>
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" style="text-align:center;margin-top:5px;">
       <tr>
