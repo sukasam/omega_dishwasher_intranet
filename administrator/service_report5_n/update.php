@@ -32,59 +32,7 @@
 
 		if ($_POST['mode'] == "add") { 
 		
-			$_POST['detail_recom'] = nl2br($_POST['detail_recom']);
-			$_POST['detail_calpr'] = nl2br($_POST['detail_calpr']);
-			$_POST['detail_calpr'] = nl2br($_POST['detail_calpr']);
-			
-			$_POST['approve'] = 0;
-			$_POST['st_setting'] = 0;
-			$_POST['supply'] = 0;
-			$_POST['approve_return'] = 0;
-			
-			
-			$codes = $_POST['codes'];
-			$lists = $_POST['lists'];
-			$units = $_POST['units'];
-			$prices = $_POST['prices'];
-			$amounts = $_POST['amounts'];
-			$opens = $_POST['opens'];
-			$remains = $_POST['remains'];
-			
-			$_POST['job_last'] = get_lastservice_s($conn,$_POST['cus_id'],"");
-			
-//			foreach ($_POST['ckf_list2'] as $value) {
-//				$checklist .= $value.',';
-//			}
-//			
-//			$_POST['ckf_list'] = substr($checklist,0,-1);
-//			
-//			$_POST['ckf_list'];
-
-			include "../include/m_add.php";
-			
-			$id = mysqli_insert_id($conn);
-			
-			foreach($codes as $a => $b){
-				
-				if($lists[$a] != ""){
-					if($opens[$a] == ""){
-						$opens[$a] = 0;
-					}
-					@mysqli_query($conn,"INSERT INTO `s_service_report3sub` (`r_id`, `sr_id`, `codes`, `lists`, `units`, `prices`, `amounts`, `opens`, `remains`) VALUES (NULL, '".$id."', '".$codes[$a]."', '".$lists[$a]."', '".$units[$a]."', '".$prices[$a]."', '".$amounts[$a]."', '".$opens[$a]."', '0');");
-					@mysqli_query($conn,"UPDATE `s_group_sparpart` SET `group_stock` = `group_stock` - '".$opens[$a]."' WHERE `group_id` = '".$lists[$a]."';");
-				}
-			}
-			
-				
-			include_once("../mpdf54/mpdf.php");
-			include_once("form_serviceopen.php");
-			$mpdf=new mPDF('UTF-8'); 
-			$mpdf->SetAutoFont();
-			$mpdf->WriteHTML($form);
-			$chaf = str_replace("/","-",$_POST['sv_id']); 
-			$mpdf->Output('../../upload/service_report_open/'.$chaf.'.pdf','F');
-			
-			header ("location:../service_report/" . $param); 
+		
 		}
 		if ($_POST['mode'] == "update" ) {
 			
@@ -93,13 +41,20 @@
 			
 			$_POST['job_last'] = get_lastservice_f($conn,$_POST['cus_id'],$_POST['sv_id']);
 			
-			$codes = $_POST['codes'];
+			// $codes = $_POST['codes'];
+			// $lists = $_POST['lists'];
+			// $units = $_POST['units'];
+			// $prices = $_POST['prices'];
+			// $amounts = $_POST['amounts'];
+			// $opens = $_POST['opens'];
+			// $remains = $_POST['remains'];
+			$codes = $_POST['barcode'];
 			$lists = $_POST['lists'];
-			$units = $_POST['units'];
-			$prices = $_POST['prices'];
-			$amounts = $_POST['amounts'];
-			$opens = $_POST['opens'];
-			$remains = $_POST['remains'];
+			$units = $_POST['cnamecall'];
+			// $prices = $_POST['prices'];
+			$amounts = $_POST['cstock'];
+			$opens = $_POST['camount'];
+			$remains = $_POST['cremains'];
 			$rid = $_POST['r_id'];
 			
 //			foreach ($_POST['ckf_list2'] as $value) {
@@ -110,44 +65,51 @@
 //			
 //			$_POST['ckf_list'];
 			
-			$sql2 = "select * from s_service_report3sub where sr_id = '".$_REQUEST[$PK_field]."'";
+			$sql2 = "select * from s_service_report5sub where sr_id = '".$_REQUEST[$PK_field]."'";
 			$quPro = @mysqli_query($conn,$sql2);
+			
 			while($rowPro = mysqli_fetch_array($quPro)){
-				@mysqli_query($conn,"UPDATE `s_group_sparpart` SET `group_stock` = `group_stock`+'".$rowPro['opens']."' WHERE `group_id` = '".$rowPro['lists']."';");
+				if($rowPro['remains'] != ""){
+					@mysqli_query($conn,"UPDATE `s_group_sparpart` SET `group_stock` = `group_stock`-'".$rowPro['remains']."' WHERE `group_id` = '".$rowPro['lists']."';");
+				}
 			}
 			
-			@mysqli_query($conn,"DELETE FROM `s_service_report3sub` WHERE `sr_id` = '".$_REQUEST[$PK_field]."'");
+			$sql3 = "select * from s_service_report5sub where sr_id = '".$_REQUEST[$PK_field]."'";
+			$quPro3 = @mysqli_query($conn,$sql3);
+			
+			@mysqli_query($conn,"DELETE FROM `s_service_report5sub` WHERE `sr_id` = '".$_REQUEST[$PK_field]."'");
+			
+			
+			$runA = 0;
+			while($rowPro3 = mysqli_fetch_array($quPro3)){
+				if($remains[$runA] == ""){
+					$remains[$runA] = 0;
+				}
+				@mysqli_query($conn,"INSERT INTO `s_service_report5sub` (`r_id`, `sr_id`, `codes`, `lists`, `units`, `prices`, `amounts`, `opens`, `remains`) VALUES (NULL, '".$rowPro3['sr_id']."', '".$rowPro3['codes']."', '".$rowPro3['lists']."', '".$rowPro3['units']."', '0', '".$rowPro3['amounts']."', '".$rowPro3['opens']."', '".$remains[$runA]."');");
+				@mysqli_query($conn,"UPDATE `s_group_sparpart` SET `group_stock` = `group_stock` + '".$remains[$runA]."' WHERE `group_id` = '".$rowPro3['lists']."';");
+				$runA++;
+			}
 			 
 			include ("../include/m_update.php");
 			
 			$id = $_REQUEST[$PK_field];		
 			
 //			foreach($codes as $a => $b){
-//				$resupdate = get_plusminus($conn,"s_group_sparpart","s_service_report3sub",$rid[$a],$lists[$a]);
+//				$resupdate = get_plusminus2($conn,"s_group_sparpart","s_service_report5sub",$rid[$a],$lists[$a]);
 //				
-//				@mysqli_query($conn,"UPDATE `s_service_report3sub` SET `codes` = '".$codes[$a]."', `lists` = '".$lists[$a]."', `units` = '".$units[$a]."', `prices` = '".$prices[$a]."', `opens` = '".$opens[$a]."' WHERE `r_id` =".$rid[$a]."");
-//				@mysqli_query($conn,"UPDATE `s_group_sparpart` SET `group_stock` = `group_stock` - '".$opens[$a]."' WHERE `group_id` = '".$lists[$a]."';");
+//				@mysqli_query($conn,"UPDATE `s_service_report5sub` SET `codes` = '".$codes[$a]."', `lists` = '".$lists[$a]."', `units` = '".$units[$a]."', `prices` = '".$prices[$a]."', `opens` = '".$opens[$a]."', `remains` = '".$remains[$a]."' WHERE `r_id` =".$rid[$a]."");
+//				
+//				@mysqli_query($conn,"UPDATE `s_group_sparpart` SET `group_stock` = `group_stock` + '".$remains[$a]."' WHERE `group_id` = '".$lists[$a]."';");
 //				
 //				$amount = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM `s_group_sparpart` WHERE `group_id` = '".$lists[$a]."';"));
-//								
-//				@mysqli_query($conn,"UPDATE `s_service_report3sub` SET `amounts` = '".$amount['group_stock']."' WHERE `r_id` = '".$rid[$a]."';");	
 //				
-//				if($opens[$a] == 0){
-//					@mysqli_query($conn,"UPDATE `s_service_report3sub` SET `codes` = '', `lists` = '', `units` = '', `prices` = '', `amounts` = '', `opens` = '', `remains` = '' WHERE `r_id` =".$rid[$a]."");
-//				}
+//				@mysqli_query($conn,"UPDATE `s_service_report5sub` SET `amounts` = '".$amount['group_stock']."' WHERE `r_id` = '".$rid[$a]."';");	
+//				
+//				$amountss[] = $amount['group_stock'];
+//				/*if($opens[$a] == 0){
+//					@mysqli_query($conn,"UPDATE `s_service_report5sub` SET `codes` = '', `lists` = '', `units` = '', `prices` = '', `amounts` = '', `opens` = '', `remains` = '' WHERE `r_id` =".$rid[$a]."");
+//				}*/
 //			}	
-			
-			foreach($codes as $a => $b){
-				
-				if($lists[$a] != ""){
-					if($opens[$a] == ""){
-						$opens[$a] = 0;
-					}
-					@mysqli_query($conn,"INSERT INTO `s_service_report3sub` (`r_id`, `sr_id`, `codes`, `lists`, `units`, `prices`, `amounts`, `opens`, `remains`) VALUES (NULL, '".$id."', '".$codes[$a]."', '".$lists[$a]."', '".$units[$a]."', '".$prices[$a]."', '".$amounts[$a]."', '".$opens[$a]."', '0');");
-					@mysqli_query($conn,"UPDATE `s_group_sparpart` SET `group_stock` = `group_stock` - '".$opens[$a]."' WHERE `group_id` = '".$lists[$a]."';");
-				}
-						
-			}	
 			
 	
 				
@@ -156,21 +118,16 @@
 			$mpdf=new mPDF('UTF-8'); 
 			$mpdf->SetAutoFont();
 			$mpdf->WriteHTML($form);
-			$chaf = str_replace("/","-",$_POST['sv_id']); 
-//			echo '../../upload/service_report_open/'.$chaf.'.pdf';
-//			exit();
-			$mpdf->Output('../../upload/service_report_open/'.$chaf.'.pdf','F');
+			$chaf = preg_replace("/\//","-",$_POST['sv_id']); 
+			$mpdf->Output('../../upload/return/'.$chaf.'.pdf','F');
 			
-			header ("location:../service_report/" . $param); 
+			header ("location:../service_report/?" . $param); 
+			
 		}
 		
 	}
 	if ($_GET['mode'] == "add") { 
 		 Check_Permission($conn,$check_module,$_SESSION['login_id'],"add");
-		
-		$rowSR = mysqli_fetch_array(mysqli_query($conn,"SELECT * FROM s_service_report WHERE sr_id = '".$_GET['srid']."'"));
-		 $finfo = get_firstorder($conn,$rowSR['cus_id']);
-		
 	}
 	if ($_GET['mode'] == "update") { 
 		 Check_Permission($conn,$check_module,$_SESSION['login_id'],"update");
@@ -182,10 +139,6 @@
 				$$value = $rec[$value];
 			}
 		}
-		
-		$rowSR = mysqli_fetch_array(mysqli_query($conn,"SELECT * FROM s_service_report WHERE sr_id = '".$_GET['srid']."'"));
-		
-		$finfo = get_firstorder($conn,$rowSR['cus_id']);
 		
 		$a_sdate=explode("-",$sr_stime);
 		$sr_stime=$a_sdate[2]."/".$a_sdate[1]."/".$a_sdate[0];
@@ -208,6 +161,7 @@
 		$a_sdate=explode("-",$sell_date);
 		$sell_date=$a_sdate[2]."/".$a_sdate[1]."/".$a_sdate[0];
 		
+		$finfo = get_firstorder($conn,$cus_id);
 		
 		$ckf_list = explode(',',$ckf_list);
 		
@@ -235,6 +189,8 @@
 <link rel="stylesheet" href="../Carlender/calendar.css">
 
 <script>
+	var sparPartList = [];
+
 function confirmDelete(delUrl,text) {
   if (confirm("Are you sure you want to delete\n"+text)) {
     document.location = delUrl;
@@ -274,6 +230,217 @@ function check(frm){
 		document.getElementById("resetF").disabled = true;
 		document.form1.submit()
 	}
+
+	function getUrlVars() {
+		var vars = {};
+		var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,
+			function(m, key, value) {
+				vars[key] = value;
+			});
+		return vars;
+	}
+
+
+
+	function changeAmount(id) {
+		console.log("change id = " + id)
+		var remain = parseInt($("#cremains" + id).val())
+		console.log('remains=' + remain)
+		var remainold = parseInt($("#cremainsold" + id).val())
+		var remaindiv = parseInt(remainold - remain);
+
+		var cstockold = parseInt($("#cstockold" + id).val())
+		var stocknew = parseInt(cstockold + remaindiv);
+		console.log("newstock=" + stocknew);
+
+		//if (amount >= 1) {
+		// console.log(remain, id)
+		let objSpareReplacing = sparPartList.find((o, i) => {
+			if (o.group_id == id) {
+				sparPartList[i] = {
+					"group_id": o.group_id,
+					"group_spar_barcode": o.group_spar_barcode,
+					"group_name": o.group_name,
+					"group_namecall": o.group_namecall,
+					"group_stock": parseInt(cstockold - remaindiv),
+					"group_qty": parseInt(o.group_qty),
+					"group_remain": parseInt(remain)
+				};
+				return true; // stop searching
+			}
+		});
+
+		var tableSpatList = '';
+
+		for (i = 0; i < sparPartList.length; i++) {
+			// if (sparPartList[i].group_qty >= 1) {
+			tableSpatList += '<tr>';
+			tableSpatList += '<td style="border:1px solid #000000;padding:5;text-align:center;">' + parseInt(i + 1) + '<input type="hidden" name="lists[]" value="' + sparPartList[i]['group_id'] + '" id="lists' + sparPartList[i]['group_id'] + '" class="inpfoder" style="width:100%;text-align:center;"></td>';
+			tableSpatList += '<td style="border:1px solid #000000;padding:5;text-align:center;">' + sparPartList[i]['group_spar_barcode'] + '<input type="hidden" name="barcode[]" value="' + sparPartList[i]['group_spar_barcode'] + '" id="barcode' + sparPartList[i]['group_id'] + '" class="inpfoder" style="width:100%;text-align:center;"></td>';
+			tableSpatList += '<td style="border:1px solid #000000;text-align:left;padding:5;">' + sparPartList[i]['group_name'] + '<input type="hidden" name="cname[]" value="' + sparPartList[i]['group_name'] + '" id="cname' + sparPartList[i]['group_id'] + '" class="inpfoder" style="width:100%;text-align:center;"></td>';
+			tableSpatList += '<td style="border:1px solid #000000;text-align:center;padding:5;">' + sparPartList[i]['group_namecall'] + '<input type="hidden" name="cnamecall[]" value="' + sparPartList[i]['group_namecall'] + '" id="cnamecall' + sparPartList[i]['group_id'] + '" class="inpfoder" style="width:100%;text-align:center;"></td>';
+			tableSpatList += '<td style="border:1px solid #000000;text-align:center;padding:5;">' + sparPartList[i]['group_stock'] + '<input type="hidden" name="cstock[]" value="' + sparPartList[i]['group_stock'] + '" id="cstock' + sparPartList[i]['group_id'] + '" class="inpfoder" style="width:100%;text-align:center;"><input type="hidden" name="cstockold[]" value="' + sparPartList[i]['group_stock'] + '" id="cstockold' + sparPartList[i]['group_id'] + '" class="inpfoder" style="width:100%;text-align:center;"></td>';
+			tableSpatList += '<td style="border:1px solid #000000;padding:5;text-align:center;">' + sparPartList[i]['group_qty'] + '<input type="hidden" name="camount[]" value="' + sparPartList[i]['group_qty'] + '" id="camount' + sparPartList[i]['group_id'] + '" class="inpfoder" style="width:100%;text-align:center;"></td>';
+			tableSpatList += '<td style="border:1px solid #000000;padding:5;text-align:center;"><input type="text" name="cremains[]" value="' + sparPartList[i]['group_remain'] + '" id="cremains' + sparPartList[i]['group_id'] + '" class="inpfoder" style="width:100%;text-align:center;" onkeypress="return isNumberKey(event)" onchange="changeAmount(' + sparPartList[i]['group_id'] + ')"><input type="hidden" name="cremainsold[]" value="' + sparPartList[i]['group_remain'] + '" id="cremainsold' + sparPartList[i]['group_id'] + '" class="inpfoder" style="width:100%;text-align:center;"></td>';
+			tableSpatList += '</tr>';
+			// }
+
+		}
+		$("#msg_scan").html('')
+		$("#exp").html(tableSpatList);
+		$('#scan_part').val('');
+		$('#scan_part').focus();
+		//}
+		console.log(JSON.stringify(sparPartList))
+	}
+
+
+	$(document).ready(function() {
+
+		if (getUrlVars()["mode"] === 'update') {
+			$.ajax({
+				type: "GET",
+				url: "call_return.php?action=getSparScan&scan_part=" + getUrlVars()["sr_id"],
+				success: function(data) {
+					var listSpars = JSON.parse(data);
+					if (listSpars.items.length >= 1) {
+						sparPartList = listSpars.items;
+					}
+					console.log(JSON.stringify(sparPartList))
+				}
+			});
+		}
+
+
+		$("#scan_part").on('keyup', function(event) {
+			if (event.keyCode === 13) {
+				var scan_part = $('#scan_part').val();
+				if (scan_part.length >= 5) {
+
+					var foundValueChk = sparPartList.filter(findSpar => findSpar.group_spar_barcode == scan_part);
+					
+					if(foundValueChk.length >= 1){
+
+						let objSpareReplacing = sparPartList.find((o, i) => {
+							if (o.group_spar_barcode == scan_part) {
+								sparPartList[i] = {
+									"group_id": o.group_id,
+									"group_spar_barcode": o.group_spar_barcode,
+									"group_name": o.group_name,
+									"group_namecall": o.group_namecall,
+									"group_stock": parseInt(o.group_stock)+parseInt(1),
+									"group_qty": parseInt(o.group_qty),
+									"group_remain": parseInt(sparPartList[i].group_remain) + parseInt(1)
+								};
+								return true; // stop searching
+							}
+						});
+
+						$('#scan_part').val('');
+						$('#scan_part').focus();
+
+						var tableSpatList = '';
+
+						for (i = 0; i < sparPartList.length; i++) {
+							// if (sparPartList[i].group_qty >= 1) {
+							tableSpatList += '<tr>';
+							tableSpatList += '<td style="border:1px solid #000000;padding:5;text-align:center;">' + parseInt(i + 1) + '<input type="hidden" name="lists[]" value="' + sparPartList[i]['group_id'] + '" id="lists' + sparPartList[i]['group_id'] + '" class="inpfoder" style="width:100%;text-align:center;"></td>';
+							tableSpatList += '<td style="border:1px solid #000000;padding:5;text-align:center;">' + sparPartList[i]['group_spar_barcode'] + '<input type="hidden" name="barcode[]" value="' + sparPartList[i]['group_spar_barcode'] + '" id="barcode' + sparPartList[i]['group_id'] + '" class="inpfoder" style="width:100%;text-align:center;"></td>';
+							tableSpatList += '<td style="border:1px solid #000000;text-align:left;padding:5;">' + sparPartList[i]['group_name'] + '<input type="hidden" name="cname[]" value="' + sparPartList[i]['group_name'] + '" id="cname' + sparPartList[i]['group_id'] + '" class="inpfoder" style="width:100%;text-align:center;"></td>';
+							tableSpatList += '<td style="border:1px solid #000000;text-align:center;padding:5;">' + sparPartList[i]['group_namecall'] + '<input type="hidden" name="cnamecall[]" value="' + sparPartList[i]['group_namecall'] + '" id="cnamecall' + sparPartList[i]['group_id'] + '" class="inpfoder" style="width:100%;text-align:center;"></td>';
+							tableSpatList += '<td style="border:1px solid #000000;text-align:center;padding:5;">' + sparPartList[i]['group_stock'] + '<input type="hidden" name="cstock[]" value="' + sparPartList[i]['group_stock'] + '" id="cstock' + sparPartList[i]['group_id'] + '" class="inpfoder" style="width:100%;text-align:center;"><input type="hidden" name="cstockold[]" value="' + sparPartList[i]['group_stock'] + '" id="cstockold' + sparPartList[i]['group_id'] + '" class="inpfoder" style="width:100%;text-align:center;"></td>';
+							tableSpatList += '<td style="border:1px solid #000000;padding:5;text-align:center;">' + sparPartList[i]['group_qty'] + '<input type="hidden" name="camount[]" value="' + sparPartList[i]['group_qty'] + '" id="camount' + sparPartList[i]['group_id'] + '" class="inpfoder" style="width:100%;text-align:center;"></td>';
+							tableSpatList += '<td style="border:1px solid #000000;padding:5;text-align:center;"><input type="text" name="cremains[]" value="' + sparPartList[i]['group_remain'] + '" id="cremains' + sparPartList[i]['group_id'] + '" class="inpfoder" style="width:100%;text-align:center;" onkeypress="return isNumberKey(event)" onchange="changeAmount(' + sparPartList[i]['group_id'] + ')"><input type="hidden" name="cremainsold[]" value="' + sparPartList[i]['group_remain'] + '" id="cremainsold' + sparPartList[i]['group_id'] + '" class="inpfoder" style="width:100%;text-align:center;"></td>';
+							tableSpatList += '</tr>';
+							// }
+
+						}
+						$("#msg_scan").html('')
+						$("#exp").html(tableSpatList);
+						console.log(JSON.stringify(sparPartList))
+
+						// $.ajax({
+						// 	type: "GET",
+						// 	url: "call_return.php?action=chkSparScan&scan_part=" + scan_part,
+						// 	success: function(data) {
+						// 		var obj = JSON.parse(data);
+						// 		if (obj.status === 'yes') {
+
+						// 			var foundValue = sparPartList.filter(findSpar => findSpar.group_spar_barcode == obj.group_spar_barcode);
+						// 			// let objFind = arr.find(o => o.group_spar_barcode === obj.group_spar_barcode);
+
+						// 			if (foundValue.length <= 0) {
+						// 				var sparList = {
+						// 					"group_id": obj.group_id,
+						// 					"group_spar_barcode": obj.group_spar_barcode,
+						// 					"group_name": obj.group_name,
+						// 					"group_namecall": obj.group_namecall,
+						// 					"group_stock": parseInt(obj.group_stock+1),
+						// 					"group_qty": parseInt(obj.group_qty),
+						// 					"group_remain": parseInt(1)
+						// 				}
+						// 				sparPartList.push(sparList);
+
+						// 			} else {
+
+						// 				let objSpareReplacing = sparPartList.find((o, i) => {
+						// 					if (o.group_spar_barcode == obj.group_spar_barcode) {
+						// 						sparPartList[i] = {
+						// 							"group_id": o.group_id,
+						// 							"group_spar_barcode": o.group_spar_barcode,
+						// 							"group_name": o.group_name,
+						// 							"group_namecall": o.group_namecall,
+						// 							"group_stock": parseInt(o.group_stock + 1),
+						// 							"group_qty": parseInt(o.group_qty),
+						// 							"group_remain": parseInt(sparPartList[i].group_remain) + parseInt(1)
+						// 						};
+						// 						return true; // stop searching
+						// 					}
+						// 				});
+						// 			}
+						// 			$('#scan_part').val('');
+						// 			$('#scan_part').focus();
+
+						// 			var tableSpatList = '';
+
+						// 			for (i = 0; i < sparPartList.length; i++) {
+						// 				// if (sparPartList[i].group_qty >= 1) {
+						// 				tableSpatList += '<tr>';
+						// 				tableSpatList += '<td style="border:1px solid #000000;padding:5;text-align:center;">' + parseInt(i + 1) + '<input type="hidden" name="lists[]" value="' + sparPartList[i]['group_id'] + '" id="lists' + sparPartList[i]['group_id'] + '" class="inpfoder" style="width:100%;text-align:center;"></td>';
+						// 				tableSpatList += '<td style="border:1px solid #000000;padding:5;text-align:center;">' + sparPartList[i]['group_spar_barcode'] + '<input type="hidden" name="barcode[]" value="' + sparPartList[i]['group_spar_barcode'] + '" id="barcode' + sparPartList[i]['group_id'] + '" class="inpfoder" style="width:100%;text-align:center;"></td>';
+						// 				tableSpatList += '<td style="border:1px solid #000000;text-align:left;padding:5;">' + sparPartList[i]['group_name'] + '<input type="hidden" name="cname[]" value="' + sparPartList[i]['group_name'] + '" id="cname' + sparPartList[i]['group_id'] + '" class="inpfoder" style="width:100%;text-align:center;"></td>';
+						// 				tableSpatList += '<td style="border:1px solid #000000;text-align:center;padding:5;">' + sparPartList[i]['group_namecall'] + '<input type="hidden" name="cnamecall[]" value="' + sparPartList[i]['group_namecall'] + '" id="cnamecall' + sparPartList[i]['group_id'] + '" class="inpfoder" style="width:100%;text-align:center;"></td>';
+						// 				tableSpatList += '<td style="border:1px solid #000000;text-align:center;padding:5;">' + sparPartList[i]['group_stock'] + '<input type="hidden" name="cstock[]" value="' + sparPartList[i]['group_stock'] + '" id="cstock' + sparPartList[i]['group_id'] + '" class="inpfoder" style="width:100%;text-align:center;"><input type="hidden" name="cstockold[]" value="' + sparPartList[i]['group_stock'] + '" id="cstockold' + sparPartList[i]['group_id'] + '" class="inpfoder" style="width:100%;text-align:center;"></td>';
+						// 				tableSpatList += '<td style="border:1px solid #000000;padding:5;text-align:center;">' + sparPartList[i]['group_qty'] + '</td>';
+						// 				tableSpatList += '<td style="border:1px solid #000000;padding:5;text-align:center;"><input type="text" name="cremains[]" value="' + sparPartList[i]['group_remain'] + '" id="cremains' + sparPartList[i]['group_id'] + '" class="inpfoder" style="width:100%;text-align:center;" onkeypress="return isNumberKey(event)" onchange="changeAmount(' + sparPartList[i]['group_id'] + ')"><input type="hidden" name="cremainsold[]" value="' + sparPartList[i]['group_remain'] + '" id="cremainsold' + sparPartList[i]['group_id'] + '" class="inpfoder" style="width:100%;text-align:center;"></td>';
+						// 				tableSpatList += '</tr>';
+						// 				// }
+
+						// 			}
+						// 			$("#msg_scan").html('')
+						// 			$("#exp").html(tableSpatList);
+						// 			console.log(JSON.stringify(sparPartList))
+						// 		} else {
+						// 			console.log(JSON.stringify(obj))
+						// 			$("#msg_scan").html('ไม่พบรหัสบาร์โค้ด')
+						// 			$('#scan_part').val('');
+						// 			$('#scan_part').focus();
+						// 		}
+						// 	}
+						// });
+					}else{
+						$("#msg_scan").html('รหัสบาร์โค้ดไม่ถูกต้อง')
+						$('#scan_part').val('');
+						$('#scan_part').focus();
+					}
+				} else {
+					$("#msg_scan").html('ไม่พบรหัสบาร์โค้ด')
+					$('#scan_part').val('');
+					$('#scan_part').focus();
+				}
+			}
+		});
+	});
 	
 </script>
 <SCRIPT language=Javascript>
@@ -397,7 +564,7 @@ function check(frm){
 	  <tr>
 		<td style="text-align:right;font-size:12px;">
 			<div style="position:relative;text-align:center;">
-            	<img src="../images/form/header_service_report3.png" width="100%" border="0" style="max-width:1182px;"/>
+            	<img src="../images/form/header_service_report5.png" width="100%" border="0" style="max-width:1182px;"/>
             </div>
 		</td>
 	  </tr>
@@ -417,8 +584,8 @@ function check(frm){
 						}
 					?>
                 </select>-->
-                <input name="cd_names" type="text" id="cd_names"  value="<?php  echo get_customername($conn,$rowSR['cus_id']);?>" style="width:100%;" readonly>
-                <span id="rsnameid"><input type="hidden" name="cus_id" value="<?php  echo $rowSR['cus_id'];?>"></span><!--<a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search.php');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>-->
+                <input name="cd_names" type="text" id="cd_names"  value="<?php  echo get_customername($conn,$cus_id);?>" style="width:50%;" readonly>
+                <span id="rsnameid"><input type="hidden" name="cus_id" value="<?php  echo $cus_id;?>"></span><a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search.php');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>
             </td>
             <td><strong>ประเภทบริการลูกค้า :</strong> 
             	<select name="sr_ctype" id="sr_ctype">
@@ -427,7 +594,7 @@ function check(frm){
 						$qu_cusftype = @mysqli_query($conn,"SELECT * FROM s_group_service ORDER BY group_name ASC");
 						while($row_cusftype = @mysqli_fetch_array($qu_cusftype)){
 							?>
-							<option value="<?php  echo $row_cusftype['group_id'];?>" <?php  if($row_cusftype['group_id'] == $rowSR['sr_ctype']){echo 'selected';}?>><?php  echo $row_cusftype['group_name'];?></option>
+							<option value="<?php  echo $row_cusftype['group_id'];?>" <?php  if($row_cusftype['group_id'] == $sr_ctype){echo 'selected';}?>><?php  echo $row_cusftype['group_name'];?></option>
 							<?php 
 						}
 					?>
@@ -440,7 +607,7 @@ function check(frm){
 						while($row_cusftype2 = @mysqli_fetch_array($qu_cusftype2)){
 							if(substr($row_cusftype2['group_name'],0,2) == "SR"){
 							?>
-            	  <option value="<?php  echo $row_cusftype2['group_id'];?>" <?php  if($row_cusftype2['group_id'] == $rowSR['sr_ctype2']){echo 'selected';}?>><?php  echo $row_cusftype2['group_name'];?></option>
+            	  <option value="<?php  echo $row_cusftype2['group_id'];?>" <?php  if($row_cusftype2['group_id'] == $sr_ctype2){echo 'selected';}?>><?php  echo $row_cusftype2['group_name'];?></option>
             	  <?php 
 							}
 						}
@@ -456,7 +623,7 @@ function check(frm){
           <tr>
             <td><strong>จังหวัด :</strong> <span id="cusprovince"><?php  echo province_name($conn,$finfo['cd_province']);?></span></td>
             <td><strong>วันที่ยืมอะไหล่  :</strong> <span id="datef"></span>
-              <input type="text" name="job_open" readonly value="<?php  if($job_open == ""){echo date("d/m/Y");}else{ echo $job_open;}?>" class="inpfoder"/><script language="JavaScript">new tcal ({'formname': 'form1','controlname': 'job_open'});</script></td>
+              <input type="text" name="job_open" readonly value="<?php  if($job_open==""){echo date("d/m/Y");}else{ echo $job_open;}?>" class="inpfoder"/><script language="JavaScript">new tcal ({'formname': 'form1','controlname': 'job_open'});</script></td>
           </tr>
           <tr>
             <td><strong>โทรศัพท์ :</strong> <span id="custel"><?php  echo $finfo['cd_tel'];?></span><strong>&nbsp;&nbsp;&nbsp;&nbsp;แฟกซ์ :</strong> <span id="cusfax"><?php  echo $finfo['cd_fax'];?></span></td>
@@ -477,7 +644,7 @@ function check(frm){
       <tr>
         <td width="50%"><strong>สถานที่ติดตั้ง / ส่งสินค้า : </strong><span id="sloc_name"><?php  echo $finfo['loc_name'];?></span><br />
           <br>
-          <!--<strong>เลือกสินค้า :</strong>
+          <strong>เลือกสินค้า :</strong>
           <span id="prolist">
           		<?php  
 				$prolist = get_profirstorder($conn,$cus_id);
@@ -491,14 +658,14 @@ function check(frm){
 				echo $plid .=	 "</select>";
 						?>
           </span>
-          <br>-->
+          <br>
           <br />
             <strong>เครื่องล้างจาน / ยี่ห้อ : </strong><span style="font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;" id="lpa1">
-            <input type="text" name="loc_pro" value="<?php  echo $rowSR['loc_pro'];?>" id="loc_pro" class="inpfoder" style="width:50%;">
+            <input type="text" name="loc_pro" value="<?php  echo $loc_pro;?>" id="loc_pro" class="inpfoder" style="width:50%;">
             </span><br>
             <br />
-            <strong>รุ่นเครื่อง : </strong><span id="lpa2"><input type="text" name="loc_seal" value="<?php  echo $rowSR['loc_seal'];?>" id="loc_seal" class="inpfoder" style="width:20%;"></span>&nbsp;&nbsp;&nbsp;<strong>S/N</strong>&nbsp;<span id="lpa3"><input type="text" name="loc_sn" value="<?php  echo $rowSR['loc_sn'];?>" id="loc_sn" class="inpfoder" style="width:20%;"></span><br /><br />
-            <strong>เครื่องป้อนน้ำยา : </strong><input type="text" name="loc_clean" value="<?php  echo $rowSR['loc_clean'];?>" id="loc_clean" class="inpfoder" style="width:50%;"><br />
+            <strong>รุ่นเครื่อง : </strong><span id="lpa2"><input type="text" name="loc_seal" value="<?php  echo $loc_seal;?>" id="loc_seal" class="inpfoder" style="width:20%;"></span>&nbsp;&nbsp;&nbsp;<strong>S/N</strong>&nbsp;<span id="lpa3"><input type="text" name="loc_sn" value="<?php  echo $loc_sn;?>" id="loc_sn" class="inpfoder" style="width:20%;"></span><br /><br />
+            <strong>เครื่องป้อนน้ำยา : </strong><input type="text" name="loc_clean" value="<?php  echo $loc_clean;?>" id="loc_clean" class="inpfoder" style="width:50%;"><br />
             <br>
             <strong>ช่างบริการประจำ :</strong>
             <select name="loc_contact" id="loc_contact">
@@ -507,7 +674,7 @@ function check(frm){
 						$qu_custec = @mysqli_query($conn,"SELECT * FROM s_group_technician ORDER BY group_name ASC");
 						while($row_custec = @mysqli_fetch_array($qu_custec)){
 							?>
-							<option value="<?php  echo $row_custec['group_id'];?>" <?php  if($row_custec['group_id'] == $rowSR['loc_contact']){echo 'selected';}?>><?php  echo $row_custec['group_name']. " (Tel : ".$row_custec['group_tel'].")";?></option>
+							<option value="<?php  echo $row_custec['group_id'];?>" <?php  if($row_custec['group_id'] == $loc_contact){echo 'selected';}?>><?php  echo $row_custec['group_name']. " (Tel : ".$row_custec['group_tel'].")";?></option>
 							<?php 
 						}
 					?>
@@ -523,36 +690,55 @@ function check(frm){
     <center>
       <br>
       <span style="font-size:18px;font-weight:bold;">รายละเอียดการเปลี่ยนอะไหล่</span></center><br>
+	  <div>
+			<center><strong>แสกนรหัสอะไหล่ : </strong><input name="scan_part" type="text" id="scan_part" value="" size="30"> <span id="msg_scan" style="color:red;font-weight: bold;"></span></center><br>
+	</div>
     <table width="100%" border="0" cellspacing="0" cellpadding="0" id="dataTable" style="text-align:center;margin-top:5px;">
       <tr>
         <td width="4%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding-top:10px;padding-bottom:10px;text-align:center;"><strong>ลำดับ</strong></td>
-        <td width="10%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding-top:10px;padding-bottom:10px;text-align:center;"><strong>Code</strong></td>
+        <td width="10%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding-top:10px;padding-bottom:10px;text-align:center;"><strong>รหัสบาร์โค้ด</strong></td>
         <td width="30%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding-top:10px;padding-bottom:10px;"><strong>รายการ</strong></td>
         <td width="9%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding-top:10px;padding-bottom:10px;text-align:center;"><strong>หน่วยนับ</strong></td>
-        <td width="9%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding-top:10px;padding-bottom:10px;text-align:center;"><strong>ราคา/หน่วย</strong></td>
+        <!-- <td width="9%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding-top:10px;padding-bottom:10px;text-align:center;"><strong>ราคา/หน่วย</strong></td> -->
         <td width="9%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding-top:10px;padding-bottom:10px;text-align:center;"><strong>จำนวนใน Stock</strong></td>
         <td width="9%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding-top:10px;padding-bottom:10px;text-align:center;"><strong>จำนวนเบิก</strong></td>
-       <!-- <td width="9%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding-top:10px;padding-bottom:10px;text-align:center;"><strong>จำนวนคงเหลือ</strong></td>-->
+        <td width="9%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding-top:10px;padding-bottom:10px;text-align:center;"><strong>จำนวนคืน</strong></td>
         </tr>
+		<tbody id="exp" name="exp">
         <?php  
-		 $qu = @mysqli_query($conn,"SELECT * FROM s_service_report3sub WHERE sr_id = '".$sr_id."' ORDER BY r_id ASC");
+		$runRow = 1;
+		 $qu = @mysqli_query($conn,"SELECT * FROM s_service_report5sub WHERE sr_id = '".$sr_id."' ORDER BY r_id ASC");
 		 while($row_sub = @mysqli_fetch_array($qu)){
-			 $brid[] = $row_sub['r_id'];
-			 $bcodes[] = $row_sub['codes'];
-			 $blists[] = $row_sub['lists'];
-			 $bunits[] = $row_sub['units'];
-			 $bprices[] = $row_sub['prices'];
-			 $bamounts[] = $row_sub['amounts'];
-			 $bopens[] = $row_sub['opens'];
-			 $bremains[] = $row_sub['remains'];
-	     }
-		 for($i=1;$i<=10;$i++){
+			//  $brid[] = $row_sub['r_id'];
+			//  $bcodes[] = $row_sub['codes'];
+			//  $blists[] = $row_sub['lists'];
+			//  $bunits[] = $row_sub['units'];
+			//  $bprices[] = $row_sub['prices'];
+			//  $bamounts[] = $row_sub['amounts'];
+			//  $bopens[] = $row_sub['opens'];
+			//  $bremains[] = $row_sub['remains'];
+	     ?>
+		 <tr>
+				<td style="border:1px solid #000000;padding:5;text-align:center;"><?php echo $runRow; ?><input type="hidden" name="lists[]" value="<?php echo $row_sub['lists']; ?>" id="lists<?php echo $row_sub['lists']; ?>" class="inpfoder" style="width:100%;text-align:center;"></td>
+				<td style="border:1px solid #000000;padding:5;text-align:center;"><?php echo $row_sub['codes']; ?><input type="hidden" name="barcode[]" value="<?php echo $row_sub['codes']; ?>" id="barcode<?php echo $row_sub['lists']; ?>" class="inpfoder" style="width:100%;text-align:center;"></td>
+				<td style="border:1px solid #000000;text-align:left;padding:5;"><?php echo get_sparpart_name($conn, $row_sub['lists']); ?><input type="hidden" name="cname[]" value="<?php echo get_sparpart_name($conn, $row_sub['lists']); ?>" id="cname<?php echo $row_sub['lists']; ?>" class="inpfoder" style="width:100%;text-align:center;"></td>
+				<td style="border:1px solid #000000;text-align:center;padding:5;"><?php echo $row_sub['units']; ?><input type="hidden" name="cnamecall[]" value="<?php echo $row_sub['units']; ?>" id="cnamecall<?php echo $row_sub['lists']; ?>" class="inpfoder" style="width:100%;text-align:center;"></td>
+				<td style="border:1px solid #000000;text-align:center;padding:5;"><?php echo getStockSpar($conn, $row_sub['lists']); ?><input type="hidden" name="cstock[]" value="<?php echo getStockSpar($conn, $row_sub['lists']); ?>" id="cstock<?php echo $row_sub['lists']; ?>" class="inpfoder" style="width:100%;text-align:center;">
+					<input type="hidden" name="cstockold[]" value="<?php echo getStockSpar($conn, $row_sub['lists']); ?>" id="cstockold<?php echo $row_sub['lists']; ?>" class="inpfoder" style="width:100%;text-align:center;">
+				</td>
+				<td style="border:1px solid #000000;padding:5;text-align:center;"><?php echo $row_sub['opens'];?><input type="hidden" name="camount[]" value="<?php echo $row_sub['opens']; ?>" id="camount<?php echo $row_sub['lists']; ?>" class="inpfoder" style="width:100%;text-align:center;"></td>
+				<td style="border:1px solid #000000;padding:5;text-align:center;"><input type="text" name="cremains[]" value="<?php echo $row_sub['remains']; ?>" id="cremains<?php echo $row_sub['lists']; ?>" class="inpfoder" style="width:100%;text-align:center;" onkeypress="return isNumberKey(event)" onchange="changeAmount(<?php echo $row_sub['lists']; ?>)">
+					<input type="hidden" name="cremainsold[]" value="<?php echo $row_sub['remains']; ?>" id="cremainsold<?php echo $row_sub['lists']; ?>" class="inpfoder" style="width:100%;text-align:center;">
+				</td>
+			</tr>
+		 <?php
+		 /*for($i=1;$i<=10;$i++){
 		?>
 		<tr >
         <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding-top:10px;padding-bottom:10px;text-align:center;"><?php  echo $i;?></td>
         <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding-top:10px;padding-bottom:10px;"><input type="text" name="codes[]" id="codes<?php  echo $i;?>" value="<?php  echo $bcodes[$i-1];?>" style="width:100%" readonly><input type="hidden" name="r_id[]" value="<?php  echo $brid[$i-1]?>"></td>
         <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding-top:10px;padding-bottom:10px;">
-        <span id="listss<?php  echo $i;?>"><select name="lists[]" id="lists<?php  echo $i;?>" class="inputselect" style="width:92%" onchange="showspare(this.value,'<?php  echo "codes".$i;?>','<?php  echo "units".$i;?>','<?php  echo "prices".$i;?>','<?php  echo "amounts".$i;?>','<?php  echo "opens".$i;?>')">
+        <span id="listss<?php  echo $i;?>"><select name="lists[]" id="lists<?php  echo $i;?>" class="inputselect" style="width:92%" onchange="showspare(this.value,'<?php  echo "codes".$i;?>','<?php  echo "units".$i;?>','<?php  echo "prices".$i;?>','<?php  echo "amounts".$i;?>')">
         <option value="">กรุณาเลือกรายการอะไหล่</option>
                 <?php 
                 	$qucgspare = @mysqli_query($conn,"SELECT * FROM s_group_sparpart ORDER BY group_name ASC");
@@ -566,22 +752,24 @@ function check(frm){
         <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding-top:10px;padding-bottom:10px;"><input type="text" name="units[]" id="units<?php  echo $i;?>" value="<?php  echo $bunits[$i-1];?>" style="width:100%;text-align:center;" readonly></td>
         <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding-top:10px;padding-bottom:10px;"><input type="text" name="prices[]" id="prices<?php  echo $i;?>" value="<?php  if($bprices[$i-1] != 0){echo $bprices[$i-1];}?>" style="width:100%;text-align:right;" readonly></td>
         <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding-top:10px;padding-bottom:10px;"><input type="text" name="amounts[]" id="amounts<?php  echo $i;?>" value="<?php   
-		echo getStockSpar($conn,$blists[$i-1]);
-		?>" style="width:100%;text-align:right;" readonly></td>
-        <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding-top:10px;padding-bottom:10px;"><input type="text" name="opens[]" id="opens<?php  echo $i;?>" value="<?php  if($bopens[$i-1] != 0){echo $bopens[$i-1];}?>" style="width:100%;text-align:right;" onkeypress="return isNumberKey(event)"></td>
-        <!--<td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding-top:10px;padding-bottom:10px;"><input type="text" name="remains[]" id="remains" value="<?php  if($bremains[$i-1] != 0){echo $bremains[$i-1];}?>" style="width:100%;text-align:right;"></td>-->
+		echo getStockSpar($conn,$blists[$i-1]);?>" style="width:100%;text-align:right;" readonly></td>
+        <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding-top:10px;padding-bottom:10px;"><input type="text" name="opens[]" id="opens" value="<?php  if($bopens[$i-1] != 0){echo $bopens[$i-1];}?>" style="width:100%;text-align:right;" onkeypress="return isNumberKey(event)"></td>
+        <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding-top:10px;padding-bottom:10px;"><input type="text" name="remains[]" id="remains" value="<?php  if($bremains[$i-1] != 0){echo $bremains[$i-1];}?>" style="width:100%;text-align:right;"></td>
         </tr>
 				<?php 	
+			}*/
+			$runRow++;
 			}
 		?>
-        <tr >
+        <!-- <tr >
 				  <td colspan="5" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding-top:10px;padding-bottom:10px;text-align:center;"><strong>รวมจำนวนที่เบิก</strong></td>
 				  <td colspan="3" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding-top:10px;padding-bottom:10px;text-align:right;"><strong>รายการ</strong></td>
 				  </tr>
         <tr >
           <td colspan="5" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding-top:10px;padding-bottom:10px;text-align:center;"><strong>ใช้จ่ายรวม (รวมมูลค่าอะไหล่ที่เบิก)</strong></td>
           <td colspan="3" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding-top:10px;padding-bottom:10px;text-align:right;"><strong>บาท</strong></td>
-          </tr>
+          </tr> -->
+		</tbody>
     </table>
     
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" style="text-align:center;margin-top:5px;">
@@ -687,7 +875,6 @@ function check(frm){
       <input name="ckw_list" type="hidden" id="ckw_list" value="<?php  echo $ckw_list;?>">
       <input name="detail_recom2" type="hidden" id="detail_recom2" value="<?php  echo strip_tags($detail_recom2);?>">
       
-<!--
       <input name="cpro1" type="hidden" id="cpro1" value="<?php  echo $cpro1;?>">
       <input name="cpro2" type="hidden" id="cpro2" value="<?php  echo $cpro2;?>">
       <input name="cpro3" type="hidden" id="cpro3" value="<?php  echo $cpro3;?>">
@@ -699,13 +886,8 @@ function check(frm){
       <input name="camount3" type="hidden" id="camount3" value="<?php  echo $camount3;?>">
       <input name="camount4" type="hidden" id="camount4" value="<?php  echo $camount4;?>">
       <input name="camount5" type="hidden" id="camount5" value="<?php  echo $camount5;?>">  
--->
       
-      <input name="st_setting" type="hidden" id="border: 1px solid;" value="<?php   echo $st_setting;?>">   
-      <input name="approve_return" type="hidden" id="border: 1px solid;" value="<?php   echo $approve_return;?>">   
-      <input name="approve" type="hidden" id="approve" value="<?php   echo $approve;?>">  
-      <input name="supply" type="hidden" id="supply" value="<?php   echo $supply;?>"> 
-      <input name="srid" type="hidden" id="srid" value="<?php  echo $_GET['srid'];?>">         
+      <input name="st_setting" type="hidden" id="st_setting" value="<?php  echo $st_setting;?>">         
     
       <input name="<?php  echo $PK_field;?>" type="hidden" id="<?php  echo $PK_field;?>" value="<?php  echo $_GET[$PK_field];?>">
     </div>
