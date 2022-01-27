@@ -244,7 +244,7 @@ if($_GET['catv2'] != ""){
 <!--          <TD><INPUT type=checkbox name="del[]" value="<?php     echo $rec[$PK_field]; ?>" ></TD>-->
           <TD><span class="text"><?php     echo sprintf("%04d",$counter); ?></span></TD>
           <TD style="text-align: center;"><span class="text"><?php     echo $rec["group_spro_id"] ; ?></span></TD>
-          <TD style="text-align: center;"><span class="text"><?php     echo $rec["group_spro_account_id"] ; ?></span></TD>
+          <TD style="text-align: center;"><span class="text"><?php     echo $rec["group_spar_account_id"] ; ?></span></TD>
           <TD><span class="text"><?php     echo $rec["group_name"] ; ?></span></TD>
           <TD><span class="text"><?php     echo $rec["group_namecall"] ; ?></span></TD>
 <!--          <TD><span class="text"><?php     echo $rec["group_location"] ; ?></span></TD>-->
