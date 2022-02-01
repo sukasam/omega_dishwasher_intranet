@@ -180,11 +180,11 @@ if($_GET['catv2'] != ""){
       <TR>
 <!--          <TH width="4%"><INPUT class=check-all type=checkbox name="ca" value="true" onClick="chkAll(this.form, 'del[]', this.checked)"></TH>-->
           <TH width="5%"><center><a>ลำดับ</a></center></TH>
-          <TH width="10%"><center><a>รหัสอะไหล่</a></center></TH>
-          <TH width="10%"><center><a>รหัสบัญชี</a></center></TH>
+          <TH width="10%"><center><a>รหัสต่างประเทศ</a></center></TH>
+          <TH width="10%"><center><a>รหัสภายใน</a></center></TH>
           <TH width="10%"><center><a>รหัส Barcode</a></center></TH>
           <TH width="20%"><a>ชื่ออะไหล่</a></TH>
-          <TH width="5%"><a>นาม</a></TH>
+          <TH width="5%"><a>หน่วย</a></TH>
 <!--          <TH width="10%"><a>สถานที่จัดเก็บ</a></TH>-->
           <TH width="10%"><center><a>คงเหลือ</a></center></TH>
 <!--          <TH width="10%"><a>ชนิดสินค้า</a></TH>-->
