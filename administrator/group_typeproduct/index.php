@@ -181,18 +181,20 @@ if($_GET['catv2'] != ""){
       <TR>
 <!--          <TH width="4%"><INPUT class=check-all type=checkbox name="ca" value="true" onClick="chkAll(this.form, 'del[]', this.checked)"></TH>-->
           <TH width="5%"><center><a>ลำดับ</a></center></TH>
-          <TH width="10%"><center><a>รหัสอะไหล่</a></center></TH>
-          <TH width="10%"><center><a>รหัสบัญชี</a></center></TH>
-          <TH width="20%"><a>ชื่ออะไหล่</a></TH>
-          <TH width="5%"><a>นาม</a></TH>
-<!--          <TH width="10%"><a>สถานที่จัดเก็บ</a></TH>-->
+          <TH width="5%"><center><a>รูปภาพ</a></center></TH>
+          <TH width="10%"><center><a>	รหัสต่างประเทศ</a></center></TH>
+          <TH width="10%"><center><a>รหัสภายใน</a></center></TH>
+          <TH width="10%"><center><a>รหัส Barcode</a></center></TH>
+          <TH width="20%"><a>ชื่อสินค้า</a></TH>
           <TH width="10%"><center><a>คงเหลือ</a></center></TH>
+          <TH width="5%"><a>หน่วย</a></TH>
+<!--          <TH width="10%"><a>สถานที่จัดเก็บ</a></TH>-->
+          
 <!--          <TH width="10%"><a>ชนิดสินค้า</a></TH>-->
-          <TH width="10%"><center><a>ราคาต้นทุนสินค้า</a></center></TH>
-          <TH width="10%"><center><a>รวมราคาต้นทุนสินค้า</a></center></TH>
-<!--          <TH width="10%"><center><a>ราคาขาย</a></center></TH>-->
-        <TH width="5%"><center><a>แก้ไข</a></center></TH>
-          <TH width="5%"><center><a>ลบ</a></center></TH>
+          <TH width="10%"><center><a>ราคาต้นทุน</a></center></TH>
+          <TH width="10%"><center><a>รวมราคาต้นทุน</a></center></TH>
+         <TH width="10%"><center><a>ราคาขาย</a></center></TH>
+          <TH width="5%" style="white-space: nowrap;"><center><a>แก้ไข | ลบ</a></center></TH>
         </TR>
       </THEAD>
       <TFOOT>
@@ -206,7 +208,7 @@ if($_GET['catv2'] != ""){
 					if ($_GET[$PK_field] <> "") $sql .= " and ($PK_field  = '" . $_GET[$PK_field] . " ' ) ";					
 					if ($_GET[$FR_field] <> "") $sql .= " and ($FR_field  = '" . $_GET[$FR_field] . " ' ) ";					
  					if ($_GET['keyword'] <> "") { 
-						$sql .= "and ( " .  $PK_field  . " like '%".$_GET['keyword']."%' ";
+						$sql .= "and ( " .  $PK_field  . " like '%".$_GET['keyword']."%' OR `group_spar_barcode` = '".$_GET['keyword']."'  ";
 						if (count ($search_key) > 0) { 
 							$search_text = " and ( " ;
 							foreach ($search_key as $key=>$value) { 
@@ -243,18 +245,21 @@ if($_GET['catv2'] != ""){
          <TR>
 <!--          <TD><INPUT type=checkbox name="del[]" value="<?php     echo $rec[$PK_field]; ?>" ></TD>-->
           <TD><span class="text"><?php     echo sprintf("%04d",$counter); ?></span></TD>
+          <TD style="text-align: center;"><?php if(!empty($rec['u_images'])){?><img src="../../upload/product/<?php  echo $rec['u_images'];?>" width="100" style="border-radius: 10px;margin-top: 10px;"><?php }else{echo '';}?></TD>
           <TD style="text-align: center;"><span class="text"><?php     echo $rec["group_spro_id"] ; ?></span></TD>
           <TD style="text-align: center;"><span class="text"><?php     echo $rec["group_spar_account_id"] ; ?></span></TD>
-          <TD><span class="text"><?php     echo $rec["group_name"] ; ?></span></TD>
-          <TD><span class="text"><?php     echo $rec["group_namecall"] ; ?></span></TD>
+          <!-- <TD style="text-align: center;"><span class="text"><?php     echo $rec["group_spar_account_id"] ; ?></span></TD> -->
+          <TD style="text-align: center;"><span class="text"><a href="../../barcode_gen/barcode.php?val=<?php echo $rec["group_spar_barcode"];?>" target="_blank" style="color: #2958df;"><?php echo $rec["group_spar_barcode"];?></span></a></TD>
+          <TD><span class="text"><?php     echo $rec["group_name"] ; ?> <?php if(!is_null($rec["group_pro_pod"]) && !empty($rec["group_pro_pod"])){echo ' | รุ่น '.getpod_name($conn,$rec["group_pro_pod"]);}?></span></TD>
+          
 <!--          <TD><span class="text"><?php     echo $rec["group_location"] ; ?></span></TD>-->
           <TD style="text-align: center;"><span class="text"><?php     echo number_format($rec["group_stock"]); ?></span></TD>
+          <TD><span class="text"><?php     echo $rec["group_namecall"] ; ?></span></TD>
 <!--          <TD style="text-align: center;"><span class="text"><?php     echo $rec["group_type"] ; ?></span></TD>-->
           <TD style="text-align: right;"><span class="text"><?php     echo number_format($rec["group_unit_price"],2); ?></span></TD>
           <TD style="text-align: right;"><span class="text"><?php     echo number_format($rec["group_stock"]*$rec["group_unit_price"],2) ; ?></span></TD>
-<!--          <TD style="text-align: right;"><span class="text"><?php     echo number_format($rec["group_price"],2); ?></span></TD>-->
-          <TD style="text-align: center;"><A title=Edit href="update.php?mode=update&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field]; if($param <> "") {?>&<?php  echo $param; }?>"><IMG alt=Edit src="../images/pencil.png"></A></TD>
-          <TD style="text-align: center;"><A title=Delete  href="#"><IMG alt=Delete src="../images/cross.png" onClick="confirmDelete('?action=delete&<?php     echo $PK_field; ?>=<?php     echo $rec[$PK_field];?>','Group  <?php     echo $rec[$PK_field];?> : <?php     echo $rec["group_name"];?>')"></A></TD>
+          <TD style="text-align: right;"><span class="text"><?php     echo number_format($rec["group_price"],2); ?></span></TD>
+          <TD style="text-align: center;"><A title=Edit href="update.php?mode=update&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field]; if($param <> "") {?>&<?php  echo $param; }?>"><IMG alt=Edit src="../images/pencil.png"></A> | <IMG alt=Delete src="../images/cross.png" onClick="confirmDelete('?action=delete&<?php     echo $PK_field; ?>=<?php     echo $rec[$PK_field];?>','Group  <?php     echo $rec[$PK_field];?> : <?php     echo $rec["group_name"];?>')"></A></TD>
 
         </TR>  
 		<?php  }?>

@@ -131,7 +131,9 @@
 			$chaf = str_replace("/","-",$_POST['sv_id']); 
 			$mpdf->Output('../../upload/service_report_open/'.$chaf.'.pdf','F');
 			
-			header ("location:index.php?" . $param); 
+			
+			header ("location:index.php?keyword=".$id);
+			// header ("location:index.php?" . $param); 
 		}
 		
 	}

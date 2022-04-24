@@ -492,6 +492,12 @@ function check(frm){
         <textarea name="detail_recom" class="inpfoder" id="detail_recom" style="width:50%;height:250px;"><?php  echo strip_tags($detail_recom);?></textarea>
         </span><br /></td>
       </tr>
+	  <tr>
+        <td width="33%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;text-align:left;padding-top:10px;padding-bottom:10px;">
+        <strong>ข้อความแจ้งผู้อนุมัติ :</strong>
+        <input type="text" name="noti_comment" value="<?php  echo $noti_comment;?>" id="noti_comment" class="inpfoder" style="width:90%;">
+        </td>
+      </tr>
     </table>
 	<br/><br>
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" style="font-size:12px;text-align:center;" id="productConlist">

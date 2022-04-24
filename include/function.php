@@ -1745,6 +1745,26 @@ function check_ordersolution($conn)
 
 }
 
+function check_returnproduct($conn)
+{
+
+    $thdate = substr(date("Y") + 543, 2);
+    $concheck = "RP " . $thdate . date("/m/");
+
+    $qu_forder = @mysqli_query($conn, "SELECT * FROM s_return_product WHERE fs_id like '%" . $concheck . "%' ORDER BY order_id DESC");
+    $num_oder = @mysqli_num_rows($qu_forder);
+    $row_forder = @mysqli_fetch_array($qu_forder);
+
+    if ($row_forder['fs_id'] == "") {
+        return "RP " . $thdate . date("/m/") . "0001";
+    } else {
+        //$num_odersum = $num_oder+1;
+        $num_odersum = substr($row_forder['fs_id'], -4) + 1;
+        return "RP " . $thdate . date("/m/") . sprintf("%04d", $num_odersum);
+    }
+
+}
+
 function check_contract_number($conn)
 {
     $thdate = substr(date("Y") + 543, 2);
@@ -2029,6 +2049,12 @@ function get_proname($conn, $value)
     return $row_protype['group_name'];
 }
 
+function get_probarcode($conn, $value)
+{
+    $row_protype = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM  s_group_typeproduct WHERE group_id = '" . $value . "'"));
+    return $row_protype['group_spar_barcode'];
+}
+
 function get_pronamecall($conn, $value)
 {
     $row_protype = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM  s_group_typeproduct WHERE group_id = '" . $value . "'"));
@@ -2061,6 +2087,12 @@ function get_price($conn, $value)
 {
     $row_protype = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM  s_group_typeproduct WHERE group_id = '" . $value . "'"));
     return $row_protype['group_pro_price'];
+}
+
+function get_product_barcode($conn, $gid)
+{
+    $row_dea = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM  s_group_typeproduct WHERE group_id = '" . $gid . "'"));
+    return $row_dea['group_spar_barcode'];
 }
 
 function get_sprice($cprice, $camount)
@@ -3453,53 +3485,75 @@ function getShowNoti($conn, $res)
     
     if ($res['type_noti'] == '1') {
         $rownoti = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM " . $res['tag_db'] . " WHERE fo_id = '" . $res['t_id'] . "'"));
+        if(!is_null($rownoti['noti_comment']) && $rownoti['noti_comment'] !== ''){
+            $notiComment = "<br><span style=\"padding-left:26px;\"><strong>หมายเหตุ: ".$rownoti['noti_comment']."</strong><span>"; 
+        }
         return "<a href=\"../../upload/first_order/".str_replace("/","-",$rownoti['fs_id']).".pdf\" target=\"_blank\"><img src=\"../images/notifications-icon.png\" style=\"width: 24px;
-		vertical-align: middle;\"> <strong>มีการอนุมัติเอกสาร (First Order)</strong> เลขที่ " . $rownoti['fs_id'] . " " . $processType."</a>";
+		vertical-align: middle;\"> <strong>มีการอนุมัติเอกสาร (First Order | ".$rownoti['fs_id'].")</strong> ( " . $rownoti['loc_name'] . " ) " . $processType."</a>".$notiComment;
     } else if ($res['type_noti'] == '2') {
         $rownoti = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM " . $res['tag_db'] . " WHERE qc_id = '" . $res['t_id'] . "'"));
+        if(!is_null($rownoti['noti_comment']) && $rownoti['noti_comment'] !== ''){
+            $notiComment = "<br><span style=\"padding-left:26px;\"><strong>หมายเหตุ: ".$rownoti['noti_comment']."</strong><span>"; 
+        }
+        $quinfo =get_quotation($conn,$rownoti['qu_id'],$rownoti['qu_table']);
         return "<a href=\"../../upload/quotation_jobcard/".str_replace("/","-",$rownoti['sv_id']).".pdf\" target=\"_blank\"><img src=\"../images/notifications-icon.png\" style=\"width: 24px;
-		vertical-align: middle;\"> <strong>มีการอนุมัติเอกสาร (ใบแจ้งงาน)</strong> เลขที่ " . $rownoti['sv_id'] . " " . $processType."</a>";
+		vertical-align: middle;\"> <strong>มีการอนุมัติเอกสาร (ใบแจ้งงาน | ".$rownoti['sv_id'].")</strong> ( " . $quinfo['loc_name'] . " ) " . $processType."</a>".$notiComment;
     } else if ($res['type_noti'] == '3') {
         $rownoti = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM " . $res['tag_db'] . " WHERE id = '" . $res['t_id'] . "'"));
+        if(!is_null($rownoti['noti_comment']) && $rownoti['noti_comment'] !== ''){
+            $notiComment = "<br><span style=\"padding-left:26px;\"><strong>หมายเหตุ: ".$rownoti['noti_comment']."</strong><span>"; 
+        }
+        $quinfo = get_quotation($conn, $rownoti['fo_id'], 3);
         return "<a href=\"../../upload/memo/".str_replace("/","-",$rownoti['mo_id']).".pdf\" target=\"_blank\"><img src=\"../images/notifications-icon.png\" style=\"width: 24px;
-		vertical-align: middle;\"> <strong>มีการอนุมัติเอกสาร (Memo)</strong> เลขที่ " . $rownoti['mo_id'] . " " . $processType."</a>";
+		vertical-align: middle;\"> <strong>มีการอนุมัติเอกสาร (Memo | ".$rownoti['mo_id'].")</strong> ( " . $quinfo['loc_name'] . " ) " . $processType."</a>".$notiComment;
     } else if ($res['type_noti'] == '4') {
         $rownoti = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM " . $res['tag_db'] . " WHERE qu_id = '" . $res['t_id'] . "'"));
+        if(!is_null($rownoti['noti_comment']) && $rownoti['noti_comment'] !== ''){
+            $notiComment = "<br><span style=\"padding-left:26px;\"><strong>หมายเหตุ: ".$rownoti['noti_comment']."</strong><span>"; 
+        }
         return "<a href=\"../../upload/quotation/".str_replace("/","-",$rownoti['fs_id']).".pdf\" target=\"_blank\"><img src=\"../images/notifications-icon.png\" style=\"width: 24px;
-		vertical-align: middle;\"> <strong>มีการอนุมัติเอกสาร (ใบเสนอราคาซื้อ)</strong> เลขที่ " . $rownoti['fs_id'] . " " . $processType."</a>";
+		vertical-align: middle;\"> <strong>มีการอนุมัติเอกสาร (ใบเสนอราคาซื้อ | ".$rownoti['fs_id'].")</strong> ( " . $rownoti['cd_name'] . " ) " . $processType."</a>".$notiComment;
     } else if ($res['type_noti'] == '5') {
         $rownoti = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM " . $res['tag_db'] . " WHERE qu_id = '" . $res['t_id'] . "'"));
+        if(!is_null($rownoti['noti_comment']) && $rownoti['noti_comment'] !== ''){
+            $notiComment = "<br><span style=\"padding-left:26px;\"><strong>หมายเหตุ: ".$rownoti['noti_comment']."</strong><span>"; 
+        }
         return "<a href=\"../../upload/quotation/".str_replace("/","-",$rownoti['fs_id']).".pdf\" target=\"_blank\"><img src=\"../images/notifications-icon.png\" style=\"width: 24px;
-		vertical-align: middle;\"> <strong>มีการอนุมัติเอกสาร (ใบเสนอราคาเช่า)</strong> เลขที่ " . $rownoti['fs_id'] . " " . $processType."</a>";
+		vertical-align: middle;\"> <strong>มีการอนุมัติเอกสาร (ใบเสนอราคาเช่า | ".$rownoti['fs_id'].")</strong> ( " . $rownoti['cd_name'] . " ) " . $processType."</a>".$notiComment;
     } else if ($res['type_noti'] == '6') {
         $rownoti = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM " . $res['tag_db'] . " WHERE sr_id = '" . $res['t_id'] . "'"));
+        $quinfo = get_firstorder($conn,$rownoti['cus_id']);
         return "<a href=\"../../upload/service_report_close/".str_replace("/","-",$rownoti['sv_id']).".pdf\" target=\"_blank\"><img src=\"../images/notifications-icon.png\" style=\"width: 24px;
-		vertical-align: middle;\"> <strong>มีการอนุมัติเอกสาร (ใบงานบริการ)</strong> เลขที่ " . $rownoti['sv_id'] . " " . $processType."</a>";
+		vertical-align: middle;\"> <strong>มีการอนุมัติเอกสาร (ใบงานบริการ | ".$rownoti['sv_id'].")</strong> ( " . $quinfo['loc_name'] . " ) " . $processType."</a>";
     }else if ($res['type_noti'] == '7') {
         $rownoti = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM " . $res['tag_db'] . " WHERE ct_id = '" . $res['t_id'] . "'"));
+        $quinfo = get_customername($conn, $rownoti['cus_id']);
         return "<a href=\"../../upload/contract/".str_replace("/","-",$rownoti['con_id']).".pdf\" target=\"_blank\"><img src=\"../images/notifications-icon.png\" style=\"width: 24px;
-		vertical-align: middle;\"> <strong>แจ้งต่ออายุ (สัญญาเข่า)</strong> เลขที่ " . $rownoti['con_id'] . " " . "| สัญญาสิ้นสุดวันที่ ".format_date_th($rownoti['con_enddate'], 1)."</a>";
+		vertical-align: middle;\"> <strong>แจ้งต่ออายุ (สัญญาเข่า | ".$rownoti['con_id'].")</strong> ( " . $quinfo['loc_name'] . " ) " . "| สัญญาสิ้นสุดวันที่ ".format_date_th($rownoti['con_enddate'], 1)."</a>";
     }else if ($res['type_noti'] == '8') {
         $rownoti = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM " . $res['tag_db'] . " WHERE ct_id = '" . $res['t_id'] . "'"));
+        $quinfo = get_customername($conn, $rownoti['cus_id']);
         return "<a href=\"../../upload/contract2/".str_replace("/","-",$rownoti['con_id']).".pdf\" target=\"_blank\"><img src=\"../images/notifications-icon.png\" style=\"width: 24px;
-		vertical-align: middle;\"> <strong>แจ้งต่ออายุ (สัญญาบริการ)</strong> เลขที่ " . $rownoti['con_id'] . " " . "| สัญญาสิ้นสุดวันที่ ".format_date_th($rownoti['con_enddate'], 1)."</a>";
+		vertical-align: middle;\"> <strong>แจ้งต่ออายุ (สัญญาบริการ | ".$rownoti['con_id'].")</strong> ( " . $quinfo['loc_name'] . " ) " . "| สัญญาสิ้นสุดวันที่ ".format_date_th($rownoti['con_enddate'], 1)."</a>".$notiComment;
     }else if ($res['type_noti'] == '9') {
         $rownoti = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM " . $res['tag_db'] . " WHERE ct_id = '" . $res['t_id'] . "'"));
-        return "<a href=\"../../upload/contract2/".str_replace("/","-",$rownoti['con_id']).".pdf\" target=\"_blank\"><img src=\"../images/notifications-icon.png\" style=\"width: 24px;
-		vertical-align: middle;\"> <strong>แจ้งต่ออายุ (สัญญาบริการ)</strong> เลขที่ " . $rownoti['con_id'] . " " . "| สัญญาสิ้นสุดวันที่ ".format_date_th($rownoti['con_enddate'], 1)."</a>";
+        $quinfo = get_customername($conn, $rownoti['cus_id']);
+        return "<a href=\"../../upload/contract3/".str_replace("/","-",$rownoti['con_id']).".pdf\" target=\"_blank\"><img src=\"../images/notifications-icon.png\" style=\"width: 24px;
+		vertical-align: middle;\"> <strong>แจ้งต่ออายุ (สัญญาซื้อ-ขาย | ".$rownoti['con_id'].")</strong> ( " . $quinfo['loc_name'] . " ) " . "| สัญญาสิ้นสุดวันที่ ".format_date_th($rownoti['con_enddate'], 1)."</a>";
     } else if ($res['type_noti'] == '10') {
         $rownoti = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM " . $res['tag_db'] . " WHERE order_id = '" . $res['t_id'] . "'"));
         return "<a href=\"../../upload/order_solution/".str_replace("/","-",$rownoti['fs_id']).".pdf\" target=\"_blank\"><img src=\"../images/notifications-icon.png\" style=\"width: 24px;
-		vertical-align: middle;\"> <strong>สถานะใบสั่งน้ำยา</strong> เลขที่ " . $rownoti['fs_id'] . " " .$processType."</a>";
+		vertical-align: middle;\"> <strong>สถานะใบสั่งน้ำยา : ".$rownoti['fs_id']."</strong> ( " . $rownoti['cd_name'] . " ) " .$processType."</a>";
     }else if ($res['type_noti'] == '11') {
         $rownoti = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM " . $res['tag_db'] . " WHERE sr_id = '" . $res['t_id'] . "'"));
         if($rownoti['service_status'] == '5'){
+            $quinfo = get_firstorder($conn,$rownoti['cus_id']);
             return "<a href=\"../../upload/service_report_close/".str_replace("/","-",$rownoti['sv_id']).".pdf\" target=\"_blank\"><img src=\"../images/notifications-icon.png\" style=\"width: 24px;
-		vertical-align: middle;\"> <strong>สถานะใบงานซ่อม</strong> เลขที่ " . $rownoti['sv_id'] . " " . $processType."</a>";
+		vertical-align: middle;\"> <strong>สถานะใบงานซ่อม : ".$rownoti['sv_id']."</strong> ( " . $quinfo['loc_name'] . " ) " . $processType."</a>";
         }else{
             $rowFOTr = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM s_first_order WHERE fo_id = '".$rownoti['cus_id']."'"));
             return "<a href=\"../../upload/first_order/".str_replace("/","-",$rowFOTr['fs_id']).".pdf\" target=\"_blank\"><img src=\"../images/notifications-icon.png\" style=\"width: 24px;
-		vertical-align: middle;\"> <strong>สถานะใบงานซ่อม</strong> เลขที่ " . $rownoti['sv_id'] . " " . $processType."</a>";
+		vertical-align: middle;\"> <strong>สถานะใบงานซ่อม : ".$rowFOTr['fs_id']."</strong> ( " . $rowFOTr['loc_name'] . " ) " . $processType."</a>";
         }
     }else if ($res['type_noti'] == '12') {
         $rownoti = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM " . $res['tag_db'] . " WHERE group_id = '" . $res['t_id'] . "'"));
@@ -3673,6 +3727,9 @@ function get_headerPaper($conn, $keys, $user_id)
                 break;
             case "OS":
                 return "../images/form/header-order_solution.jpg";
+                break;
+            case "RP":
+                return "../images/form/header-return_product.jpg";
                 break;
 
         }

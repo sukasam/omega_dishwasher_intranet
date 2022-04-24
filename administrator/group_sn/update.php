@@ -184,6 +184,7 @@ function submitForm() {
       <input type="reset" name="Reset" id="resetF" value="Reset" class="button">
       <input type="hidden" name="pod" value="<?php echo $_GET['pod'];?>" class="button">
       <input type="hidden" name="group_product" value="<?php echo $group_product;?>" class="button">
+      <input type="hidden" name="group_status" value="<?php echo $group_status;?>" class="button">
       <?php  
 			$a_not_exists = array();
 			post_param($a_param,$a_not_exists); 

@@ -463,7 +463,7 @@ function submitForm() {
 			post_param($a_param,$a_not_exists);
 			?>
       <input name="mode" type="hidden" id="mode" value="<?php  echo $_GET['mode'];?>">
-      <input name="cus_id" type="hidden" id="cus_id" value="<?php  echo $cus_id;?>">
+      <!-- <input name="cus_id" type="hidden" id="cus_id" value="<?php  echo $cus_id;?>"> -->
       <input name="st_setting" type="hidden" id="st_setting" value="<?php  echo $st_setting;?>">
       <input name="<?php  echo $PK_field;?>" type="hidden" id="<?php  echo $PK_field;?>" value="<?php  echo $_GET[$PK_field];?>">
     </div>

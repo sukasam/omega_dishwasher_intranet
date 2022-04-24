@@ -5,7 +5,7 @@
 	if($_SESSION['login_id'] == ""){
 		header("Location:../profiles/");
 	}
-
+	
     $img = $_POST['imgData'];
 	$img = str_replace('data:image/png;base64,', '', $img);
 	$img = str_replace(' ', '+', $img);
@@ -16,7 +16,7 @@
 	file_put_contents($path.$fileName, $fileData);
 	
 	$sqlSugnature = "UPDATE `s_user` SET `signature` = '".$fileName."' WHERE `s_user`.`user_id` = ".$_SESSION['login_id'].";";
-	@mysqli_query($conn,"$sqlSugnature");
+	@mysqli_query($conn,$sqlSugnature);
 	
     die;
 ?>

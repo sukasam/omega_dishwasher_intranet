@@ -11,10 +11,61 @@
 
 		if ($_POST['mode'] == "add") { 
 				include "../include/m_add.php";
+
+        if ($_FILES['fimages']['name'] != "") { 
+          $mname="";
+          $mname=gen_random_num(5);
+          $a_size = array('100');	
+          $filename = "";
+          foreach($a_size as $key => $value) {
+            $path = "../../upload/sparpart/";
+            $quality = 80;
+            if($filename == "")
+              $name_data=explode(".",$_FILES['fimages']['name']);
+              $type=$name_data[1];
+              $filename =$mname.".".$type;
+              list($width, $height) = getimagesize($_FILES['fimages']['name']);
+              //$sizes = $value;
+              uploadfile($path,$filename,$_FILES['fimages']['tmp_name'],$width, $quality);
+          } // end foreach				
+            $sql = "update ".$tbl_name." set u_images = '".$filename."' where ".$PK_field." = '".$_POST[$PK_field]."' ";
+            @mysqli_query($conn,$sql);				
+          } // end if ($_FILES[fimages][name] != "")	
+
 			header ("location:index.php?" . $param); 
 		}
-		if ($_POST['mode'] == "update" ) { 
+		if ($_POST['mode'] == "update" ) {
+
+      $_POST['group_unit_price'] = number_format($_POST['group_unit_price'],2,'.','');
+      $_POST['group_price'] = number_format($_POST['group_price'],2,'.','');
+
 			include ("../include/m_update.php");
+
+      if ($_FILES['fimages']['name'] != "") { 
+
+        @unlink("../../upload/sparpart/".$_POST['u_images']);
+
+				$mname="";
+				$mname=gen_random_num(5);
+				$a_size = array('100');				
+				$filename = "";
+				foreach($a_size as $key => $value) {
+					$path = "../../upload/sparpart/";
+					@unlink($path.$_POST['u_images']);
+					$quality = 80;
+					if($filename == "")
+						$name_data=explode(".",$_FILES['fimages']['name']);
+						$type=$name_data[1];
+						$filename =$mname.".".$type;
+						list($width, $height) = getimagesize($_FILES['fimages']['name']);
+						uploadfile($path,$filename,$_FILES['fimages']['tmp_name'],$width, $quality);
+				} // end foreach		
+				$sql = "update ".$tbl_name." set u_images = '".$filename."' where ".$PK_field." = '".$_POST[$PK_field]."' ";
+				@mysqli_query($conn,$sql);				
+			} // end if ($_FILES[fimages][name] != "")
+
+      // exit();
+
 			header ("location:index.php?" . $param); 
 		}
 	}
@@ -22,6 +73,7 @@
 		 Check_Permission($conn,$check_module,$_SESSION['login_id'],"add");
 	}
 	if ($_GET['mode'] == "update") { 
+
 		 Check_Permission($conn,$check_module,$_SESSION['login_id'],"update");
 		$sql = "select * from $tbl_name where $PK_field = '" . $_GET[$PK_field] ."'";
 		$query = @mysqli_query($conn,$sql);
@@ -31,6 +83,7 @@
 				$$value = $rec[$value];
 			}
 		}
+
 	}
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
@@ -255,10 +308,24 @@ function submitForm() {
                 <td nowrap class="name">หน่วย</td>
                 <td><input name="group_namecall" type="text" id="group_namecall"  value="<?php     echo $group_namecall; ?>" size="60"></td>
               </tr>
-              
               <tr>
-                <td nowrap class="name">ราคาต้นทุนสินค้า</td>
-                <td><input name="group_unit_price" type="text" id="group_unit_price"  value="<?php     echo number_format($group_unit_price); ?>" size="60"></td>
+                <td nowrap class="name">ราคาต้นทุน</td>
+                <td><input name="group_unit_price" type="text" id="group_unit_price"  value="<?php     echo $group_unit_price; ?>" size="60"></td>
+              </tr>
+              <tr>
+                <td nowrap class="name">ราคาขาย</td>
+                <td><input name="group_price" type="text" id="group_price"  value="<?php     echo $group_price; ?>" size="60"></td>
+              </tr>
+              <tr>
+                <td nowrap class="name">รูปภาพ<br>
+                  <small>Size 100px x 100px</small></td>
+                <td><input name="fimages" type="file" id="fimages">
+                  <br>
+					<?php 
+					    if($u_images != ""){?>
+                  <img src="../../upload/sparpart/<?php  echo $u_images?>" width="155" style="border-radius: 10px;margin-top: 10px;">
+                  <?php  }?>
+                  <input name="u_images" type="hidden" value="<?php  echo $u_images; ?>"></td>
               </tr>
               <!--<tr >
                 <td nowrap class="name">จำนวน</td>

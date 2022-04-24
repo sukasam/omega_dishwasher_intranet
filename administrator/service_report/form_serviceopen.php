@@ -13,11 +13,19 @@
 	$chk = get_fixlist($_POST['ckf_list']);
 	
 	$tecinfos = get_technician($conn,$_POST['loc_contact']);
-	$ty = "460";
-	foreach($chk as $vals){
-		$sfix .= '<div class="m03" style="margin-top:'.$ty.'px;"> - '.get_fixname($conn,$vals).'</div>';	
-		$ty += 20;
-	}
+	// $ty = "460";
+	// foreach($chk as $vals){
+	// 	$sfix .= '<div class="m03" style="margin-top:'.$ty.'px;"> <img src="../images/aroow_nch.png" width="10"  border="0" alt="" /> '.get_fixname($conn,$vals).'</div>';	
+	// 	$ty += 20;
+	// }
+	
+	$sfix = '<div class="m03" style="margin-top:460px;"> <img src="../images/aroow_nch.png" width="10"  border="0" alt="" /> อุณหภูมิการใช้งาน &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="../images/aroow_nch.png" width="10"  border="0" alt="" /> ในถาดน้ำทิ้งมีน้ำไม่ขัง</span></div>';
+	$sfix .= '<div class="m03" style="margin-top:480px;"> <img src="../images/aroow_nch.png" width="10"  border="0" alt="" /> ถาดน้ำทิ้งมีอาการชำรุด &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="../images/aroow_nch.png" width="10"  border="0" alt="" /> Fin condenser ล้มหรือมีรอยบุบ</span></div>';
+	$sfix .= '<div class="m03" style="margin-top:500px;"> <img src="../images/aroow_nch.png" width="10"  border="0" alt="" /> การระบายความร้อนของ CDU &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="../images/aroow_nch.png" width="10"  border="0" alt="" /> พัดลมคอยล์ร้อนสั่นสะเทือน</span></div>';
+	$sfix .= '<div class="m03" style="margin-top:520px;"> <img src="../images/aroow_nch.png" width="10"  border="0" alt="" /> พัดลมคอยล์ร้ร้อนมีเสียงดังและแกว่ง &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="../images/aroow_nch.png" width="10"  border="0" alt="" /> ระดับน้ำมันคอม compressor</span></div>';
+	$sfix .= '<div class="m03" style="margin-top:540px;"> <img src="../images/aroow_nch.png" width="10"  border="0" alt="" /> ไส้กรองมีอาการสกปรก &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="../images/aroow_nch.png" width="10"  border="0" alt="" /> น้ำแข็งมีอาการขุ่น</span></div>';
+	$sfix .= '<div class="m03" style="margin-top:560px;"> <img src="../images/aroow_nch.png" width="10"  border="0" alt="" /> ตรวจสอบการลงกราวน์ ทั้งระบบภายนอก ภายใน </div>';
+
 
 	$form = '<style>
 	.bgheader{
@@ -227,7 +235,7 @@
 		position:absolute;
 		margin-top:460px;
 		padding-left:350px;
-		width:300px;
+		width:600px;
 	}
 	</style>
 	<div class="bgheader">'.substr($_POST['sv_id'],2).'</div>

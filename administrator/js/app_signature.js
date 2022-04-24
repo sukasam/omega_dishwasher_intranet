@@ -77,9 +77,8 @@ function dataURLToBlob(dataURL) {
 }
 
 function saveImage(dataURL) {
-  //console.log(dataURL);
+
   var canvasData = dataURL;
-  var xmlHttpReq = false;
 
   if (window.XMLHttpRequest) {
     ajax = new XMLHttpRequest();
@@ -95,8 +94,9 @@ function saveImage(dataURL) {
   }
   ajax.send("imgData=" + canvasData);
   signaturePad.clear();
-  opener.location.reload();
+  //opener.location.reload();
   window.close();
+  //window.location='update2.php?mode=update';
  
 	
 }

@@ -89,7 +89,7 @@
 <br />
 ประเภทบริการ  :
 <?php  if($_POST['sr_ctype']){echo get_servicename($conn,$_POST['sr_ctype']);}else{echo "ทั้งหมด";}?><br /></th>
-	    <th colspan="5" style="text-align:right;font-size:11px;vertical-align:bottom;"><?php  echo $dateshow;?><br />
+	    <th colspan="6" style="text-align:right;font-size:11px;vertical-align:bottom;"><?php  echo $dateshow;?><br />
         <br />
         <br /></th>
       </tr>
@@ -113,11 +113,12 @@
        </th><?php  }?>
         <?php  if($_REQUEST['sh9'] == 1){?><th width="19%">รายละเอียดบริการ</th><?php  }?>
         <?php  if($_REQUEST['sh10'] == 1){?><th width="7%" style="white-space: nowrap;">วันที่ให้บริการ</th><?php  }?>
-		<th width="10%" style="white-space: nowrap;">วันที่เข้าเซอร์วิส</th>
+		<th width="10%" style="white-space: nowrap;">วันเวลาที่เข้า</th>
+		<th width="10%" style="white-space: nowrap;">วันเวลาที่ออก</th>
 		<th width="7%" style="white-space: nowrap;">พื้นที่เข้าบริการ</th>
       </tr>
       <?php  
-		$sql = "SELECT * FROM s_first_order as fr, s_service_report as sv WHERE sv.cus_id = fr.fo_id ".$condition." ".$daterriod." ORDER BY fr.cd_name ASC";
+		$sql = "SELECT * FROM s_first_order as fr, s_service_report as sv WHERE sv.cus_id = fr.fo_id ".$condition." ".$daterriod." ORDER BY sv.signature_date ASC";
 	  	$qu_fr = @mysqli_query($conn,$sql);
 		$sum = 0;
 		$sums = 0;
@@ -305,6 +306,9 @@
               <?php  if($_REQUEST['sh9'] == 1){?><td><?php  echo $row_fr['detail_recom2'];?></td>   <?php  }?>
               <?php  if($_REQUEST['sh10'] == 1){?><td><?php  if($openclose == 0){echo format_date($row_fr['sr_stime']);}else if($openclose == 2){echo format_date($row_fr['sr_stime']);}else{echo "-";}?></td>  <?php  }?>   
 			  <td>
+					<?php if($row_fr['server_before'] != ""){echo format_date(substr($row_fr['server_before'],0,10))." ".substr($row_fr['server_before'],10);}else{echo '-';};?>
+			  </td> 
+			  <td>
 					<?php if($row_fr['signature_date'] != ""){echo format_date(substr($row_fr['signature_date'],0,10))." ".substr($row_fr['signature_date'],10);}else{echo '-';};?>
 			  </td>
 			  <td>
@@ -328,13 +332,13 @@
 		
 	  ?>
       <tr>
-			  <td colspan="11" align="right"><strong>ให้บริการตามรายชื่อช่างทั้งหมด</strong>&nbsp;&nbsp;&nbsp;<strong><?php  echo $sums;?>&nbsp;&nbsp;รายการ</strong>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			  <td colspan="12" align="right"><strong>ให้บริการตามรายชื่อช่างทั้งหมด</strong>&nbsp;&nbsp;&nbsp;<strong><?php  echo $sums;?>&nbsp;&nbsp;รายการ</strong>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 	  </tr>
 	  <tr>
-			  <td colspan="11" align="right"><strong>ให้บริการทั้งหมด</strong>&nbsp;&nbsp;&nbsp;<strong><?php  echo $sumSerice;?>&nbsp;&nbsp;รายการ</strong>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			  <td colspan="12" align="right"><strong>ให้บริการทั้งหมด</strong>&nbsp;&nbsp;&nbsp;<strong><?php  echo $sumSerice;?>&nbsp;&nbsp;รายการ</strong>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 	  </tr>
 	  <tr>
-			  <td colspan="11" align="right"><strong>คงเหลือเข้าบริการทั้งหมด</strong>&nbsp;&nbsp;&nbsp;<strong><?php  echo $sums - $sumSerice;?>&nbsp;&nbsp;รายการ</strong>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			  <td colspan="12" align="right"><strong>คงเหลือเข้าบริการทั้งหมด</strong>&nbsp;&nbsp;&nbsp;<strong><?php  echo $sums - $sumSerice;?>&nbsp;&nbsp;รายการ</strong>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 	  </tr>
     </table>
 

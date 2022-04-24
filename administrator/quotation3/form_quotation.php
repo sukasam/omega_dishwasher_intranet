@@ -42,6 +42,15 @@ if ($_POST["type_service"] == '2') {
 $userCreate = getCreatePaper($conn, $tbl_name, " AND `qu_id`= " . $_POST['qu_id']);
 $headerIMG = get_headerPaper($conn, "QAR", $userCreate);
 
+$cpro = array($cpro1,$cpro2,$cpro3,$cpro4,$cpro5,$cpro6,$cpro7);
+$cproPost = array($_POST["cpro1"],$_POST["cpro2"],$_POST["cpro3"],$_POST["cpro4"],$_POST["cpro5"],$_POST["cpro6"],$_POST["cpro7"]);
+$pro_pod = array($pro_pod1,$pro_pod2,$pro_pod3,$pro_pod4,$pro_pod5,$pro_pod6,$pro_pod7);
+$pro_podPost = array($_POST["pro_sn1"],$_POST["pro_sn2"],$_POST["pro_sn3"],$_POST["pro_sn4"],$_POST["pro_sn5"],$_POST["pro_sn6"],$_POST["pro_sn7"]);
+$camountPost = array($_POST["camount1"],$_POST["camount2"],$_POST["camount3"],$_POST["camount4"],$_POST["camount5"],$_POST["camount6"],$_POST["camount7"]);
+$prpro = array($prpro1,$prpro2,$prpro3,$prpro4,$prpro5,$prpro6,$prpro7);
+$totalSub = array($totalSub1s,$totalSub2s,$totalSub3s,$totalSub4s,$totalSub5s,$totalSub6s,$totalSub7s);
+
+
 $form = '
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
@@ -73,64 +82,71 @@ $form = '
       <td width="10%" style="border:1px solid #003399;font-size:11px;font-family:Verdana, Geneva, sans-serif;padding:9px 5px;text-align:center;"><strong>ราคา</strong></td>
       <td width="15%" style="border:1px solid #003399;font-size:11px;font-family:Verdana, Geneva, sans-serif;padding:9px 5px;text-align:center;"><strong>ส่วนลด</strong></td>
       <td width="15%" style="border:1px solid #003399;font-size:11px;font-family:Verdana, Geneva, sans-serif;padding:9px 5px;text-align:center;"><strong>ราคาสุทธิ</strong></td>
-    </tr>
-    <tr>
-      <td style="border:1px solid #003399;padding:9px 5px;">' . $cpro1 . '</td>
-      <td style="border:1px solid #003399;text-align:left;padding:9px 5px;">' . get_proname($conn, $_POST["cpro1"]) . $pro_pod1 . '</td>
-      <td style="border:1px solid #003399;padding:9px 5px;">' . $_POST["pro_sn1"] . '</td>
-      <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">' . number_format($_POST["camount1"]) . '</td>
-      <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">' . $prpro1 . '&nbsp;&nbsp;</td>
-      <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">' . $totalSub1s . '&nbsp;&nbsp;</td>
-    </tr>
-    <tr>
-      <td style="border:1px solid #003399;padding:9px 5px;">' . $cpro2 . '</td>
-      <td style="border:1px solid #003399;text-align:left;padding:9px 5px;">' . get_proname($conn, $_POST["cpro2"]) . $pro_pod2 . '</td>
-      <td style="border:1px solid #003399;padding:9px 5px;">' . $_POST["pro_sn2"] . '</td>
-      <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">' . number_format($_POST["camount2"]) . '</td>
-      <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">' . $prpro2 . '&nbsp;&nbsp;</td>
-      <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">' . $totalSub2s . '&nbsp;&nbsp;</td>
-    </tr>
-    <tr>
-      <td style="border:1px solid #003399;padding:9px 5px;">' . $cpro3 . '</td>
-      <td style="border:1px solid #003399;text-align:left;padding:9px 5px;">' . get_proname($conn, $_POST["cpro3"]) . $pro_pod3 . '</td>
-      <td style="border:1px solid #003399;padding:9px 5px;">' . $_POST["pro_sn3"] . '</td>
-      <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">' . number_format($_POST["camount3"]) . '</td>
-      <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">' . $prpro3 . '&nbsp;&nbsp;</td>
-      <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">' . $totalSub3s . '&nbsp;&nbsp;</td>
-    </tr>
-    <tr>
-      <td style="border:1px solid #003399;padding:9px 5px;">' . $cpro4 . '</td>
-      <td style="border:1px solid #003399;text-align:left;padding:9px 5px;">' . get_proname($conn, $_POST["cpro4"]) . $pro_pod4 . '</td>
-      <td style="border:1px solid #003399;padding:9px 5px;">' . $_POST["pro_sn4"] . '</td>
-      <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">' . number_format($_POST["camount4"]) . '</td>
-      <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">' . $prpro4 . '&nbsp;&nbsp;</td>
-      <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">' . $totalSub4s . '&nbsp;&nbsp;</td>
-    </tr>
-    <tr>
-      <td style="border:1px solid #003399;padding:9px 5px;">' . $cpro5 . '</td>
-      <td style="border:1px solid #003399;text-align:left;padding:9px 5px;">' . get_proname($conn, $_POST["cpro5"]) . $pro_pod5 . '</td>
-      <td style="border:1px solid #003399;padding:9px 5px;">' . $_POST["pro_sn5"] . '</td>
-      <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">' . number_format($_POST["camount5"]) . '</td>
-      <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">' . $prpro5 . '&nbsp;&nbsp;</td>
-      <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">' . $totalSub5s . '&nbsp;&nbsp;</td>
-    </tr>
-    <tr>
-      <td style="border:1px solid #003399;padding:9px 5px;">' . $cpro6 . '</td>
-      <td style="border:1px solid #003399;text-align:left;padding:9px 5px;">' . get_proname($conn, $_POST["cpro6"]) . $pro_pod6 . '</td>
-      <td style="border:1px solid #003399;padding:9px 5px;">' . $_POST["pro_sn6"] . '</td>
-      <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">' . number_format($_POST["camount6"]) . '</td>
-      <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">' . $prpro6 . '&nbsp;&nbsp;</td>
-      <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">' . $totalSub6s . '&nbsp;&nbsp;</td>
-    </tr>
-    <tr>
-      <td style="border:1px solid #003399;padding:9px 5px;">' . $cpro7 . '</td>
-      <td style="border:1px solid #003399;text-align:left;padding:9px 5px;">' . get_proname($conn, $_POST["cpro7"]) . $pro_pod7 . '</td>
-      <td style="border:1px solid #003399;padding:9px 5px;">' . $_POST["pro_sn7"] . '</td>
-      <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">' . number_format($_POST["camount7"]) . '</td>
-      <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">' . $prpro7 . '&nbsp;&nbsp;</td>
-      <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">' . $totalSub7s . '&nbsp;&nbsp;</td>
-    </tr>
-    <tr>
+    </tr>';
+    
+    for($i=0;$i<count($cpro);$i++){
+     if(!empty($cproPost[$i])){
+      $form .=' <tr>
+        <td style="border:1px solid #003399;padding:9px 5px;">' . $cpro[$i] . '</td>
+        <td style="border:1px solid #003399;text-align:left;padding:9px 5px;">' . get_proname($conn, $cproPost[$i]) . $pro_pod[$i] . '</td>
+        <td style="border:1px solid #003399;padding:9px 5px;">' . $pro_podPost[$i] . '</td>
+        <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">' . number_format($camountPost[$i]) . '</td>
+        <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">' . $prpro[$i] . '&nbsp;&nbsp;</td>
+        <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">' . $totalSub[$i] . '&nbsp;&nbsp;</td>
+      </tr>';
+     }
+    }
+   
+    // <tr>
+    //   <td style="border:1px solid #003399;padding:9px 5px;">' . $cpro2 . '</td>
+    //   <td style="border:1px solid #003399;text-align:left;padding:9px 5px;">' . get_proname($conn, $_POST["cpro2"]) . $pro_pod2 . '</td>
+    //   <td style="border:1px solid #003399;padding:9px 5px;">' . $_POST["pro_sn2"] . '</td>
+    //   <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">' . number_format($_POST["camount2"]) . '</td>
+    //   <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">' . $prpro2 . '&nbsp;&nbsp;</td>
+    //   <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">' . $totalSub2s . '&nbsp;&nbsp;</td>
+    // </tr>
+    // <tr>
+    //   <td style="border:1px solid #003399;padding:9px 5px;">' . $cpro3 . '</td>
+    //   <td style="border:1px solid #003399;text-align:left;padding:9px 5px;">' . get_proname($conn, $_POST["cpro3"]) . $pro_pod3 . '</td>
+    //   <td style="border:1px solid #003399;padding:9px 5px;">' . $_POST["pro_sn3"] . '</td>
+    //   <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">' . number_format($_POST["camount3"]) . '</td>
+    //   <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">' . $prpro3 . '&nbsp;&nbsp;</td>
+    //   <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">' . $totalSub3s . '&nbsp;&nbsp;</td>
+    // </tr>
+    // <tr>
+    //   <td style="border:1px solid #003399;padding:9px 5px;">' . $cpro4 . '</td>
+    //   <td style="border:1px solid #003399;text-align:left;padding:9px 5px;">' . get_proname($conn, $_POST["cpro4"]) . $pro_pod4 . '</td>
+    //   <td style="border:1px solid #003399;padding:9px 5px;">' . $_POST["pro_sn4"] . '</td>
+    //   <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">' . number_format($_POST["camount4"]) . '</td>
+    //   <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">' . $prpro4 . '&nbsp;&nbsp;</td>
+    //   <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">' . $totalSub4s . '&nbsp;&nbsp;</td>
+    // </tr>
+    // <tr>
+    //   <td style="border:1px solid #003399;padding:9px 5px;">' . $cpro5 . '</td>
+    //   <td style="border:1px solid #003399;text-align:left;padding:9px 5px;">' . get_proname($conn, $_POST["cpro5"]) . $pro_pod5 . '</td>
+    //   <td style="border:1px solid #003399;padding:9px 5px;">' . $_POST["pro_sn5"] . '</td>
+    //   <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">' . number_format($_POST["camount5"]) . '</td>
+    //   <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">' . $prpro5 . '&nbsp;&nbsp;</td>
+    //   <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">' . $totalSub5s . '&nbsp;&nbsp;</td>
+    // </tr>
+    // <tr>
+    //   <td style="border:1px solid #003399;padding:9px 5px;">' . $cpro6 . '</td>
+    //   <td style="border:1px solid #003399;text-align:left;padding:9px 5px;">' . get_proname($conn, $_POST["cpro6"]) . $pro_pod6 . '</td>
+    //   <td style="border:1px solid #003399;padding:9px 5px;">' . $_POST["pro_sn6"] . '</td>
+    //   <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">' . number_format($_POST["camount6"]) . '</td>
+    //   <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">' . $prpro6 . '&nbsp;&nbsp;</td>
+    //   <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">' . $totalSub6s . '&nbsp;&nbsp;</td>
+    // </tr>
+    // <tr>
+    //   <td style="border:1px solid #003399;padding:9px 5px;">' . $cpro7 . '</td>
+    //   <td style="border:1px solid #003399;text-align:left;padding:9px 5px;">' . get_proname($conn, $_POST["cpro7"]) . $pro_pod7 . '</td>
+    //   <td style="border:1px solid #003399;padding:9px 5px;">' . $_POST["pro_sn7"] . '</td>
+    //   <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">' . number_format($_POST["camount7"]) . '</td>
+    //   <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">' . $prpro7 . '&nbsp;&nbsp;</td>
+    //   <td style="border:1px solid #003399;padding:9px 5px;text-align:right;">' . $totalSub7s . '&nbsp;&nbsp;</td>
+    // </tr>
+
+    $form .='<tr>
       <td colspan="3" style="border:0px solid #003399;padding:9px 5px;"></td>
       <td style="border:0px solid #003399;padding:9px 5px;"></td>
       <td style="border:1px solid #003399;padding:9px 5px;"><strong>รวมทั้งหมด</strong></td>
@@ -161,6 +177,9 @@ $form .= '
   <p style="font-size:12px;">1. <strong ><u>การชำระเงิน</u></strong> ชำระเงินสด นับจากวันที่ส่งมอบสินค้า<br>
   2. กำหนดยืนราคา ' . $_POST['giveprice'] . ' วัน</p>
   <p style="font-size:12px;"><strong>** รับประกันอะไหล่ ' . $_POST['guaran'] . ' เดือน **</strong></p>
+  <p style="font-size:12px;color:red;">กรุณาโอนเงินเข้าบัญชีธนาคาร “บริษัท โอเมก้า ดิชวอชเชอร์ (ประเทศไทย) จำกัด” เท่านั้น<br>
+  บริษัท โอเมก้า ดิชวอชเชอร์ (ประเทศไทย) ออมทรัพย์ เลขทีบัญชี 011-190420-0 ธนาคารกสิกร<br>
+  บริษัทโอเมก้าดิชวอชเชอร์(ประเทศไทย) ออมทรัพย์ เลขทีบัญชี 127-242699-9 ธนาคารไทยพาณิชย์</p>
   <p style="font-size:12px;">จึงเรียนมาเพื่อโปรดพิจารณา และทางบริษัท ฯ หวังเป็นอย่างยิ่งว่าจะได้รับการพิจารณาจากท่าน</p><br>
   	<table width="100%" border="0" cellspacing="0" cellpadding="0" style="text-align:center;">
       <tr>

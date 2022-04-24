@@ -28,7 +28,9 @@
 		if($_GET['latitude'] != ""){
 			$_SESSION["LATITUDE"] = $_GET['latitude'];
 			$_SESSION["LONGITUDE"] = $_GET['longitude'];
-			echo json_encode(array('status' => 'yes','latitude' => $_GET['latitude'],'longitude'=> $_GET['longitude']));
+			$dateTime = date("Y-m-d H:i:s");
+			$_SESSION['DATETIME_BEFORE'] = $dateTime;
+			echo json_encode(array('status' => 'yes','latitude' => $_GET['latitude'],'longitude'=> $_GET['longitude'],'datetime'=> $dateTime));
 		}else{
 			echo json_encode(array('status' => 'no'));
 		}

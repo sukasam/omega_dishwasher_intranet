@@ -225,8 +225,8 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 					if ($orderby <> "") $sql .= " order by " . $orderby;
 					if ($sortby <> "") $sql .= " " . $sortby;
 					include ("../include/page_init.php");
-//					echo $sql;
-//					exit();
+					// echo $sql;
+					// exit();
 					$query = @mysqli_query($conn,$sql);
 					if($_GET['page'] == "") $_GET['page'] = 1;
 					$counter = ($_GET['page']-1)*$pagesize;

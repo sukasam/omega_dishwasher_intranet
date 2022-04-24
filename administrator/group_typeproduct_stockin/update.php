@@ -118,7 +118,6 @@
 <!--<SCRIPT type=text/javascript src="../js/simpla.jquery.configuration.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/facebox.js"></SCRIPT>-->
 <SCRIPT type=text/javascript src="../js/jquery.wysiwyg.js"></SCRIPT>
--->
 <SCRIPT type=text/javascript src="../js/popup.js"></SCRIPT>
 <SCRIPT type=text/javascript src="ajax.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/accounting.js"></SCRIPT>
@@ -248,6 +247,8 @@ function submitForm() {
 <UL class=shortcut-buttons-set>
   <LI><A class=shortcut-button href="index.php"><SPAN><IMG  alt=icon src="../images/btn_back.gif"><BR>
   กลับ</SPAN></A></LI>
+  <LI><A class=shortcut-button href="../group_typeproduct_stockin_n/update.php?mode=add"><SPAN><IMG  alt=icon src="../images/icons/icon-48-info.png" width="31px"><BR>
+  เวอร์ชั่นใหม่</SPAN></A></LI>
 </UL>
 <!-- End .clear -->
 <DIV class=clear></DIV><!-- End .clear -->

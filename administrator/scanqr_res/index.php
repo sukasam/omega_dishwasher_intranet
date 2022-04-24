@@ -11,6 +11,18 @@
 		echo "<script>window.location='../scanqr/index.php';</script>";
 	}
 
+	$getFO = get_firstorder_qr($conn,$_SESSION['QR_FIELD']);
+
+	$serviceID = mysqli_fetch_array(mysqli_query($conn,"SELECT sr . * , fd.cd_name FROM s_service_report AS sr, s_first_order AS fd WHERE sr.cus_id = fd.fo_id AND `loc_sn` = '".$_SESSION["QR_FIELD"]."' and ( cus_id = '".$getFO["fo_id"]."' ) order by sr.sr_id DESC limit 0,1"));
+	$serviceLogin = mysqli_fetch_array(mysqli_query($conn,"SELECT * FROM s_service_report WHERE sr_id = '".$serviceID['sr_id']."'"));
+	if(empty($serviceLogin['server_before'])){
+		//echo "Not have";
+		$dateTine = date('Y-m-d H:i:s');
+		// echo "UPDATE `s_service_report` SET `server_before` = '".$dateTine."' WHERE `s_service_report`.`sr_id` = ".$serviceLogin['sr_id'].";";
+		@mysqli_query($conn,"UPDATE `s_service_report` SET `server_before` = '".$dateTine."' WHERE `s_service_report`.`sr_id` = ".$serviceLogin['sr_id'].";");
+	}else{
+		//echo "have";
+	}
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
@@ -49,7 +61,7 @@ input, label {vertical-align:middle}
 
 <DIV class=content-box><!-- Start Content Box -->
 	<DIV class=content-box-header align="right">
-		<H3 align="left"><?php  echo $check_module; ?></H3>
+		<H3 align="left"><?php  echo $check_module; ?> <!--latitude : <?php echo $_SESSION["LATITUDE"];?>, longitude : <?php echo $_SESSION["LONGITUDE"];?>--></H3>
 		<DIV class=clear></DIV>
 	</DIV>
 
@@ -67,7 +79,7 @@ input, label {vertical-align:middle}
 //			$getFO = get_firstorder($conn,$_SESSION['QR_FIELD']);
 //		}
 		
-		$getFO = get_firstorder_qr($conn,$_SESSION['QR_FIELD']);
+		
 		//echo $_SESSION['QR_FIELD'];
 		?>
 		

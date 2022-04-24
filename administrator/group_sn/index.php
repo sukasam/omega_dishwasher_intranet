@@ -20,6 +20,35 @@
 			header ("location:index.php?pod=".$_GET['pod']);
 		} 
 	}
+
+  //-------------------------------------------------------------------------------------
+if ($_GET['b'] != "" && $_GET['s'] != "") {
+  if ($_GET['s'] == 0) {
+      $status = 1;
+  }
+
+  if ($_GET['s'] == 1) {
+      $status = 0;
+  }
+
+  Check_Permission($conn, $check_module, $_SESSION['login_id'], "update");
+  $sql_status = "update $tbl_name set group_status = '" . $status . "' where $PK_field = " . $_GET['b'] . "";
+  @mysqli_query($conn, $sql_status);
+  /*$sql_fostatus = "update s_first_order set status = ".$status." where fo_id = '$_GET[cus_id]'";
+  @mysqli_query($conn,$sql_fostatus);*/
+  $conpage = '';
+  if ($_GET['page'] != "") {
+      $conpage .= "page=" . $_GET['page'];
+  }
+  if ($_GET['pod'] != "") {
+    if ($_GET['page'] != "") {
+        $conpage .= "&pod=" . $_GET['pod'];
+    } else {
+        $conpage .= "pod=" . $_GET['pod'];}
+}
+  header("location:?" . $conpage);
+}
+
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML xmlns="http://www.w3.org/1999/xhtml">
@@ -123,6 +152,9 @@ function check_select(frm){
             &nbsp;</TH>
             <TH width="15%" <?php  Show_Sort_bg ("group_expired", $orderby) ?>> <?php   Show_Sort_new ("group_expired", "วันสิ้นสุดการใช้งาน", $orderby, $sortby,$page,$param2);?>
             &nbsp;</TH>
+            <TH width="8%">
+                      <div align="center" style="white-space: nowrap;"><a>เปิด / ปิด</a></div>
+                    </TH>
           <TH width="5%"><a>แก้ไข</a></TH>
           <TH width="4%"><a>ลบ</a></TH>
         </TR>
@@ -174,8 +206,14 @@ function check_select(frm){
           <TD><span class="text"><?php  echo $rec["group_invoicenumber"] ; ?></span></TD>
           <TD><span class="text"><?php  echo format_date_th($rec["group_expired"],6); ?></span></TD>
           <!--<TD><span class="text"><?php  echo $rec["group_stock"] ; ?></span></TD>-->
-          <!--<TD><span class="text"><?php  echo $rec["group_pro_pod"] ; ?></span></TD>
-          <TD><span class="text"><?php  echo $rec["group_pro_sn"] ; ?></span></TD>-->
+          <!--<TD><span class="text"><?php  echo $rec["group_pro_pod"] ; ?></span></TD>-->
+          <TD><center>
+                <?php if ($rec["group_status"] == 0) {?>
+                  <a href="../group_sn/?b=<?php echo $rec[$PK_field]; ?>&s=<?php echo $rec["group_status"]; ?>&page=<?php echo $_GET['page']; ?>&<?php echo $FK_field; ?>=<?php echo $_REQUEST["$FK_field"]; ?>&pod=<?php echo $_GET['pod'];?>"><img src="../icons/status_on.gif" width="10" height="10"></a>
+                <?php } else {?>
+                  <a href="../group_sn/?b=<?php echo $rec[$PK_field]; ?>&s=<?php echo $rec["group_status"]; ?>&page=<?php echo $_GET['page']; ?>&<?php echo $FK_field; ?>=<?php echo $_REQUEST["$FK_field"]; ?>&pod=<?php echo $_GET['pod'];?>"><img src="../icons/status_off.gif" width="10" height="10"></a>
+                <?php }?>
+          </center></TD>
           <TD><!-- Icons -->
             <A title=Edit href="update.php?mode=update&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field]; if($param <> "") {?>&<?php  echo $param; }?>&pod=<?php echo $_GET['pod'];?>"><IMG alt=Edit src="../images/pencil.png"></A> <A title=Delete  href="#"></A></TD>
           <TD><A title="Delete"  href="#"><IMG alt=Delete src="../images/cross.png" onClick="confirmDelete('?action=delete&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field];?>&pod=<?php echo $_GET['pod'];?>','Group  <?php  echo $rec[$PK_field];?> : <?php  echo $rec["group_name"];?>')"></A></TD>

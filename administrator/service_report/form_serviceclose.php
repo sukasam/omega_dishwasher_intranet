@@ -280,20 +280,21 @@ $form = '<style>
       <td width="10%" style="border:1px solid #000000;font-size:10px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>จำนวน</strong></td>
     </tr>';
 
-while ($rowSRV = @mysqli_fetch_array($qu_sr2)) {
-  if(intval($rowSRV['opens']) >= 1){
+    while ($rowSRV = @mysqli_fetch_array($qu_sr2)) {
+      if(intval($rowSRV['opens']) >= 1){
 
-    $form .= '<tr>
-      <td style="border:1px solid #000000;padding:5;">' . $brf . '</td>
-      <td style="border:1px solid #000000;padding:5;">' . $rowSRV['codes'] . '</td>
-      <td style="border:1px solid #000000;text-align:left;padding:5;">' . get_sparpart_name($conn, $rowSRV['lists']) . '</td>
-      <td style="border:1px solid #000000;padding:5;">' . $rowSRV['opens'] . '</td>
-    </tr>
-    <tr>';
-    
-    // $totalprice += ($rowSRV['opens'] * $rowSRV['prices']);
-    $brf++;
-}
+        $form .= '<tr>
+          <td style="border:1px solid #000000;padding:5;">' . $brf . '</td>
+          <td style="border:1px solid #000000;padding:5;">' . $rowSRV['codes'] . '</td>
+          <td style="border:1px solid #000000;text-align:left;padding:5;">' . get_sparpart_name($conn, $rowSRV['lists']) . '</td>
+          <td style="border:1px solid #000000;padding:5;">' . $rowSRV['opens'] . '</td>
+        </tr>
+        <tr>';
+        
+        // $totalprice += ($rowSRV['opens'] * $rowSRV['prices']);
+        $brf++;
+      }
+    }
 
 $form .= '
   </table>
