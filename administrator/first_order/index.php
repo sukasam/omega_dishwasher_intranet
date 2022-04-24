@@ -253,6 +253,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
           <TH width="12%"><center>FO ID</center></TH>
           <TH width="35%">ชื่อลูกค้า</TH>
           <!-- <TH width="18%"><strong>สถานที่ติดตั้ง</strong></TH> -->
+		  <TH width="5%"><center>QR/SN</center></TH>
           <TH width="5%" nowrap ><div align="center"><a>แจ้งงาน</a></div></TH>
           <TH width="5%" nowrap ><div align="center"><a>Memo</a></div></TH>
           <TH width="5%" nowrap ><div align="center"><a>เอกสาร</a></div></TH>
@@ -380,13 +381,18 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
           <TD><center><?php  
           $chaf = str_replace("/","-",$rec["fs_id"]); ?>
           <span class="text"><a href="../../upload/first_order/<?php  echo $chaf;?>.pdf" target="_blank"><?php  echo $rec["fs_id"] ; ?></a></span></center></TD>
-          <TD><span class="text"><?php  echo $rec["cd_name"] ; ?></span><br>
+		 
+		  <TD><span class="text"><?php  echo $rec["cd_name"] ; ?></span><br>
 		  <strong>สถานที่ติดตั้ง : <span class="text"><?php  echo $rec["loc_name"] ; ?></span></strong>
 		</TD>
           <!-- <TD></TD> -->
+		  <td>
+		  <center><a href="qr-sn.php?id=<?php  echo $rec[$PK_field]; ?>" target="_blank"><img src="../images/icons/qrsn.png" width="25" height="25"></a></center>
+			</td> 
           <td style="vertical-align: middle;">
 			  <center><a href="../quotation_jobcard/?tab=3&id=<?php  echo $rec[$PK_field]; ?>"><img src="../images/hammer_screwdriver.png" width="20" height="20"></a></center>
 			  </td>
+			
          	<td style="vertical-align: middle;">
 			  <center><a href="../memo/?cus_id=<?php  echo $rec[$PK_field];?>"><img src="../images/meno.png" height="30"></a></center>
 			  </td>
