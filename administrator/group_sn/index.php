@@ -208,10 +208,10 @@ function check_select(frm){
           <!--<TD><span class="text"><?php  echo $rec["group_stock"] ; ?></span></TD>-->
           <!--<TD><span class="text"><?php  echo $rec["group_pro_pod"] ; ?></span></TD>-->
           <TD><center>
-                <?php if ($rec["group_status"] == 0) {?>
-                  <a href="../group_sn/?b=<?php echo $rec[$PK_field]; ?>&s=<?php echo $rec["group_status"]; ?>&page=<?php echo $_GET['page']; ?>&<?php echo $FK_field; ?>=<?php echo $_REQUEST["$FK_field"]; ?>&pod=<?php echo $_GET['pod'];?>"><img src="../icons/status_on.gif" width="10" height="10"></a>
+                <?php if ($rec["group_status"] == '0' || $rec["group_status"] == 0) {?>
+                  <a href="../group_sn/?b=<?php echo $rec[$PK_field]; ?>&s=<?php echo $rec["group_status"]; ?>&page=<?php echo $_GET['page']; ?>&<?php echo $FK_field; ?>=<?php echo $_REQUEST[$FK_field]; ?>&pod=<?php echo $_GET['pod'];?>"><img src="../icons/status_on.gif" width="10" height="10"></a>
                 <?php } else {?>
-                  <a href="../group_sn/?b=<?php echo $rec[$PK_field]; ?>&s=<?php echo $rec["group_status"]; ?>&page=<?php echo $_GET['page']; ?>&<?php echo $FK_field; ?>=<?php echo $_REQUEST["$FK_field"]; ?>&pod=<?php echo $_GET['pod'];?>"><img src="../icons/status_off.gif" width="10" height="10"></a>
+                  <a href="../group_sn/?b=<?php echo $rec[$PK_field]; ?>&s=<?php echo $rec["group_status"]; ?>&page=<?php echo $_GET['page']; ?>&<?php echo $FK_field; ?>=<?php echo $_REQUEST[$FK_field]; ?>&pod=<?php echo $_GET['pod'];?>"><img src="../icons/status_off.gif" width="10" height="10"></a>
                 <?php }?>
           </center></TD>
           <TD><!-- Icons -->

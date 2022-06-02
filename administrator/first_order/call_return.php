@@ -146,9 +146,9 @@ if($_GET['action'] == 'changeSN'){
 	
 	$list = '<option value="">กรุณาเลือกรายการ</option>';
 
-	$qusn1 = @mysqli_query($conn,"SELECT * FROM s_group_sn WHERE group_pod = '".$group_pod."' AND group_status = '0' ORDER BY group_id ASC");
+	$qusn1 = @mysqli_query($conn,"SELECT * FROM s_group_sn WHERE group_pod = '".$group_pod."' AND group_status = 0 ORDER BY group_id ASC");
 	while($row_qusn1 = @mysqli_fetch_array($qusn1)){
-		//echo chkSeries($conn,$row_qusn1['group_name'],$fo_id);
+		// echo chkSeries($conn,$row_qusn1['group_name'],$fo_id);
 		if(chkSeries($conn,$row_qusn1['group_name'],$fo_id) == 0){
 			$list .= '<option value="'.$row_qusn1['group_name'].'">'.$row_qusn1['group_name'].'</option>'; 
 		}
