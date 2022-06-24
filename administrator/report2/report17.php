@@ -95,20 +95,39 @@
 			}
 			
 			//if($loc_contact != ""){
-				if($row_sr['setup'] > 0 && $numTechnician > 0){
-					if($loc_contact != ""){
-						//$setupCost = ($row_sr['setup']/$numTechnician) * $datSV;
-						$setupCost = ($row_sr['setup']/$numTechnician);
+				if($row_sr['setup'] == ""){
+					if($row_sr['setupP'] > 0 && $numTechnician > 0){
+						if($loc_contact != ""){
+							//$setupCost = ($row_sr['setup']/$numTechnician) * $datSV;
+							$setupCost = ($row_sr['setupP']/$numTechnician);
+						}else{
+							//$setupCost = $row_sr['setup']* $datSV;
+							$setupCost = $row_sr['setupP'];
+						}
 					}else{
-						//$setupCost = $row_sr['setup']* $datSV;
-						$setupCost = $row_sr['setup'];
+						if($row_sr['setupP'] != ""){
+							//$setupCost = $row_sr['setup'] * $datSV;
+							$setupCost = $row_sr['setupP'];
+						}else{
+							$setupCost = 0;
+						}
 					}
 				}else{
-					if($row_sr['setup'] != ""){
-						//$setupCost = $row_sr['setup'] * $datSV;
-						$setupCost = $row_sr['setup'];
+					if($row_sr['setup'] > 0 && $numTechnician > 0){
+						if($loc_contact != ""){
+							//$setupCost = ($row_sr['setup']/$numTechnician) * $datSV;
+							$setupCost = ($row_sr['setup']/$numTechnician);
+						}else{
+							//$setupCost = $row_sr['setup']* $datSV;
+							$setupCost = $row_sr['setup'];
+						}
 					}else{
-						$setupCost = 0;
+						if($row_sr['setup'] != ""){
+							//$setupCost = $row_sr['setup'] * $datSV;
+							$setupCost = $row_sr['setup'];
+						}else{
+							$setupCost = 0;
+						}
 					}
 				}
 			//}

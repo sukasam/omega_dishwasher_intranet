@@ -70,12 +70,13 @@
 			//$numTechnician = get_number_technician_cost($conn,$row_sr['job_id']);
 			
 			
-			if($row_sr['setup'] != ""){
+			if($row_sr['setup'] == ""){
 				//$sumsetup = $row_sr['setup'] * $row_sr['detail3_1'];
-				$sumsetup = $row_sr['setup'];
+				$sumsetup = $row_sr['setupP'];
 			}else{
-				$sumsetup = 0;
+				$sumsetup = $row_sr['setup'];
 			}
+			
 			if($row_sr['ot'] != ""){
 				//$sumOT = $row_sr['ot'] * $row_sr['detail3_1'];
 				$sumOT = $row_sr['ot'];
@@ -129,7 +130,7 @@
 				<td style="text-align: right;"><strong>ยอดเงิน</strong></td>
 			</tr>
 			<tr>
-				<td colspan="3"><strong>ค่าติดตั้ง</strong></td>
+				<td colspan="3"><strong>ค่าติดตั้ง (ถอด/เปลี่ยน/ย้าย)</strong></td>
 				<td style="text-align: right;"><?php echo number_format($sumsetup,2);?></td>
 			</tr>
 			<tr>
