@@ -191,16 +191,34 @@ function check_select(frm){
 					$query = @mysqli_query($conn,$sql);
 					if($_GET['page'] == "") $_GET['page'] = 1;
 					$counter = ($_GET['page']-1)*$pagesize;
+
+          $numRemain = 0;
 					
 					while ($rec = @mysqli_fetch_array($query)) { 
 					$counter++;
+
+          $snUse = ''; 
+          $foid = getFOSNuseID($conn, $rec["group_name"]);
+          $linkFO = '';
+          $chaf = str_replace("/","-",$foid);
+
+          
+
+          if(getFOSNuse($conn,$rec["group_name"]) >= 1){
+            $snUse = 'color: red;';
+            $linkFO = '<a href="../../upload/first_order/'.$chaf.'.pdf" target="_blank" style="color: red;">'.$rec['group_name'].'</a>';
+            $numRemain++;
+          }else{
+            $linkFO = $rec['group_name'];
+          }
+         
 				   ?>
         <TR>
 <!--          <TD><INPUT type=checkbox name="del[]" value="<?php  echo $rec[$PK_field]; ?>" ></TD>-->
           <TD><span class="text"><?php  echo sprintf("%04d",$counter); ?></span></TD>
           <TD><center><img src="../../qrcode_gen/qrcode.php?val=<?php echo $rec["group_name"];?>" width="80"></center></TD>
           <!--<TD><span class="text"><?php  echo $rec["group_spro_id"] ; ?></span></TD>-->
-          <TD><span class="text"><?php  echo $rec["group_name"] ; ?></span></TD>
+          <TD><span class="text" style="<?php echo $snUse;?>"><?php echo $linkFO;?></span></TD>
           <TD><span class="text"><?php  echo format_date_th($rec["group_datetime_key"],6); ?></span></TD>
           <TD><span class="text"><?php  echo $rec["group_shipnumber"] ; ?></span></TD>
           <TD><span class="text"><?php  echo $rec["group_invoicenumber"] ; ?></span></TD>
@@ -218,7 +236,9 @@ function check_select(frm){
             <A title=Edit href="update.php?mode=update&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field]; if($param <> "") {?>&<?php  echo $param; }?>&pod=<?php echo $_GET['pod'];?>"><IMG alt=Edit src="../images/pencil.png"></A> <A title=Delete  href="#"></A></TD>
           <TD><A title="Delete"  href="#"><IMG alt=Delete src="../images/cross.png" onClick="confirmDelete('?action=delete&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field];?>&pod=<?php echo $_GET['pod'];?>','Group  <?php  echo $rec[$PK_field];?> : <?php  echo $rec["group_name"];?>')"></A></TD>
         </TR>  
-		<?php  }?>
+		<?php  } 
+    // echo $numRemain;
+    ?>
       </TBODY>
     </TABLE>
     <br><br>

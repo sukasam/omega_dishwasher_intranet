@@ -182,7 +182,7 @@ if($_GET['catv2'] != ""){
            <?php   Show_Sort_new ("group_name", "รหัสสินค้า", $orderby, $sortby,$page,$param2);?>
             &nbsp;</TH>-->
             <TH width="30%"><a>หมวดหมู่</a></TH>
-          <TH width="49%" <?php  Show_Sort_bg ("group_name", $orderby) ?>> <?php   Show_Sort_new ("group_name", "รุ่นสินค้า", $orderby, $sortby,$page,$param2);?>
+          <TH width="30%" <?php  Show_Sort_bg ("group_name", $orderby) ?>> <?php   Show_Sort_new ("group_name", "รุ่นสินค้า", $orderby, $sortby,$page,$param2);?>
             &nbsp;</TH>
          <!-- <TH width="15%" <?php  Show_Sort_bg ("group_name", $orderby) ?>> <?php   Show_Sort_new ("group_name", "จำนวน", $orderby, $sortby,$page,$param2);?>
   &nbsp;</TH>-->
@@ -190,6 +190,8 @@ if($_GET['catv2'] != ""){
   &nbsp;</TH>
           <TH width="18%" <?php  Show_Sort_bg ("group_name", $orderby) ?>> <?php   Show_Sort_new ("group_name", "S/N", $orderby, $sortby,$page,$param2);?>
             &nbsp;</TH>-->
+          <TH width="10%"><a>ทั้งหมด</a></TH>
+          <TH width="10%"><a>คงเหลือ</a></TH>
           <TH width="5%"><a>ซีรีย์</a></TH>
           <TH width="5%"><a>แก้ไข</a></TH>
           <TH width="4%"><a>ลบ</a></TH>
@@ -247,8 +249,9 @@ if($_GET['catv2'] != ""){
           <TD><span class="text"><?php echo getCatProAllName($conn,$rec['catv1'],$rec['catv2'],$rec['catv3'],$rec['catv4']);?></span></TD>
           <TD><span class="text"><?php  echo $rec["group_name"] ; ?></span></TD>
           <!--<TD><span class="text"><?php  echo $rec["group_stock"] ; ?></span></TD>-->
-          <!--<TD><span class="text"><?php  echo $rec["group_pro_pod"] ; ?></span></TD>
-          <TD><span class="text"><?php  echo $rec["group_pro_sn"] ; ?></span></TD>-->
+          <TD><span class="text"><?php echo getTotalSNofPod($conn,$rec[$PK_field]);?>
+        </span></TD>
+          <TD><span class="text"><?php echo checkSNRemain($conn,$rec[$PK_field]);?></span></TD>
           <TD><!-- Icons -->
             <A title='Series' href="../group_sn/index.php?pod=<?php  echo $rec[$PK_field];?>"><IMG alt=Edit src="../images/icon2/addedit.png" width="25"></A></TD>
           <TD><A title=Edit href="update.php?mode=update&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field]; if($param <> "") {?>&<?php  echo $param; }?>"><IMG alt=Edit src="../images/pencil.png"></A> <A title=Delete  href="#"></A></TD>

@@ -3212,11 +3212,12 @@ function chkSeries($conn, $sn, $foid)
         $sqlSN = "SELECT *  FROM `s_first_order` WHERE 1 AND (`pro_sn1` LIKE '" . $sn . "' OR `pro_sn1` LIKE '" . $sn . "' OR `pro_sn2` LIKE '" . $sn . "' OR `pro_sn3` LIKE '" . $sn . "' OR `pro_sn4` LIKE '" . $sn . "' OR `pro_sn5` LIKE '" . $sn . "' OR `pro_sn6` LIKE '" . $sn . "' OR `pro_sn7` LIKE '" . $sn . "') AND `status_use` != '2' AND fo_id != '" . $foid . "' AND `fs_id` NOT LIKE 'SV%' ORDER BY `fo_id`  DESC";
         $qu_prosn = @mysqli_query($conn, $sqlSN);
         $row_prosn = @mysqli_num_rows($qu_prosn);
-
         return $row_prosn;
     } else {
         return 0;
     }
+
+    // SELECT *  FROM `s_first_order` WHERE 1 AND (`pro_sn1` LIKE 'ODT61-06-158' OR `pro_sn1` LIKE 'ODT61-06-158' OR `pro_sn2` LIKE 'ODT61-06-158' OR `pro_sn3` LIKE 'ODT61-06-158' OR `pro_sn4` LIKE 'ODT61-06-158' OR `pro_sn5` LIKE 'ODT61-06-158' OR `pro_sn6` LIKE 'ODT61-06-158' OR `pro_sn7` LIKE 'ODT61-06-158') AND `status_use` != '2' AND fo_id != '4898' AND `fs_id` NOT LIKE 'SV%' ORDER BY `fo_id`  DESC
 
 }
 
@@ -3832,3 +3833,37 @@ function barcode($code){
 	return $generator->getBarcode($code , $generator::TYPE_CODE_128,$border,$height);
 
 }
+
+function getTotalSNofPod($conn,$gid){
+    $sql = "SELECT * FROM `s_group_sn` WHERE `group_pod` = '".$gid."'";
+    $rowcount = mysqli_num_rows(@mysqli_query($conn,  $sql));
+    return $rowcount;
+}
+
+function getFOSNuse($conn,$sn){
+    $sql = "SELECT *  FROM `s_first_order` WHERE 1=1 AND (`pro_sn1` = '".$sn."' OR `pro_sn2` = '".$sn."' OR `pro_sn3` = '".$sn."' OR `pro_sn4` = '".$sn."' OR `pro_sn5` = '".$sn."' OR `pro_sn6` = '".$sn."' OR `pro_sn7` = '".$sn."')";
+    $rowcount = mysqli_num_rows(@mysqli_query($conn,  $sql));
+    return $rowcount;
+}
+function getFOSNuseID($conn,$sn){
+    $sql = "SELECT *  FROM `s_first_order` WHERE status_use != 2 AND (`pro_sn1` = '".$sn."' OR `pro_sn2` = '".$sn."' OR `pro_sn3` = '".$sn."' OR `pro_sn4` = '".$sn."' OR `pro_sn5` = '".$sn."' OR `pro_sn6` = '".$sn."' OR `pro_sn7` = '".$sn."')";
+    $row = @mysqli_fetch_array(@mysqli_query($conn,  $sql));
+    return $row['fs_id'];
+}
+
+function checkSNRemain($conn,$gid){
+    $sql = "SELECT * FROM `s_group_sn` WHERE `group_pod` = '".$gid."'";
+    $contUse = 0;
+    $query = @mysqli_query($conn, $sql);
+
+    while ($rec = @mysqli_fetch_array($query)) {
+        $sql = "SELECT *  FROM `s_first_order` WHERE 1=1 AND (`pro_sn1` = '".$rec['group_name']."' OR `pro_sn2` = '".$rec['group_name']."' OR `pro_sn3` = '".$rec['group_name']."' OR `pro_sn4` = '".$rec['group_name']."' OR `pro_sn5` = '".$rec['group_name']."' OR `pro_sn6` = '".$rec['group_name']."' OR `pro_sn7` = '".$rec['group_name']."')";
+        $rowcount = mysqli_num_rows(@mysqli_query($conn,  $sql));
+        if($rowcount >= 1){
+            $contUse++;
+        }
+    }
+    return $contUse;
+}
+
+

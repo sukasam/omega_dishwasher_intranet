@@ -832,17 +832,27 @@ Vat 7%</strong></td>
 			  </select><a href="javascript:void(0);" onClick="windowOpener('400', '500', '', 'search_pod.php?protype=pro_pod<?php echo $i;?>&protype2=pro_sn<?php echo $i;?>&protype3=<?php echo $i;?>&fo_id=<?php echo $_GET['fo_id'];?>');"><img src="../images/icon2/mark_f2.png" width="25" height="25" border="0" alt="" style="vertical-align:middle;padding-left:5px;"></a>
 			  </td>
 			  <td style="border:1px solid #000000;padding:5;text-align:center;white-space: nowrap;" >
-	
 			 <select name="pro_sn<?php echo $i;?>" id="pro_sn<?php echo $i;?>" class="inputselect" style="width:80%;">
 					<option value="">กรุณาเลือกรายการ</option>
+          <option value="<?php echo $csnTmp[$i-1];?>" selected><?php echo $csnTmp[$i-1];?></option>
 				  <?php
-					  $qusn1 = @mysqli_query($conn,"SELECT * FROM s_group_sn WHERE group_pod = '".getpod_id($conn,$cpodTmp[$i-1])."' AND group_status = '0' ORDER BY group_id ASC");
-					  while($row_qusn1 = @mysqli_fetch_array($qusn1)){
+          // echo "SELECT * FROM s_group_sn WHERE group_pod = '".getpod_id($conn,$cpodTmp[$i-1])."' AND group_status = '0' ORDER BY group_id ASC";
+					  $qusn1 = @mysqli_query($conn,"SELECT * FROM s_group_sn WHERE group_pod = '".getpod_id($conn,$cpodTmp[$i-1])."' AND group_status = '0' ORDER BY group_id DESC");
+            while($row_qusn1 = @mysqli_fetch_array($qusn1)){
+              // echo $csnTmp[$i-1] ." | ".$row_qusn1['group_name']." || ";
+              // if($csnTmp[$i-1] == $row_qusn1['group_name']){
+              //   chkSeries($conn,$row_qusn1['group_name'],$_GET['fo_id']);
+              // }
 						  if(chkSeries($conn,$row_qusn1['group_name'],$_GET['fo_id']) == 0){
 							  ?>
-							  <option value="<?php  echo $row_qusn1['group_name'];?>" <?php  if($csnTmp[$i-1] == $row_qusn1['group_name']){echo 'selected';}?>><?php  echo $row_qusn1['group_name'];?></option>
+							  <!-- <option value="<?php  echo $row_qusn1['group_name'];?>" <?php if($csnTmp[$i-1] == $row_qusn1['group_name']){echo 'selected';}?>><?php  echo $row_qusn1['group_name'];?></option> -->
 							<?php 
-						  } 
+						  }
+              /*else{
+                ?>
+                <option><?php echo $row_qusn1['group_name'];?>:<?php echo chkSeries($conn,$row_qusn1['group_name'],$_GET['fo_id']);?></option>
+                <?php
+              }*/
 					  }
 				  ?>
 			  </select><span id="search_sn<?php echo $i;?>">
