@@ -3834,8 +3834,11 @@ function barcode($code){
 
 }
 
-function getTotalSNofPod($conn,$gid){
-    $sql = "SELECT * FROM `s_group_sn` WHERE `group_pod` = '".$gid."'";
+function getTotalSNofPod($conn,$gid,$inv){
+    if(empty($inv)){
+        $inv = 0;
+    }
+    $sql = "SELECT * FROM `s_group_sn` WHERE `group_pod` = '".$gid."' AND `group_inv`='".$inv."'";
     $rowcount = mysqli_num_rows(@mysqli_query($conn,  $sql));
     return $rowcount;
 }
@@ -3851,8 +3854,12 @@ function getFOSNuseID($conn,$sn){
     return $row['fs_id'];
 }
 
-function checkSNRemain($conn,$gid){
-    $sql = "SELECT * FROM `s_group_sn` WHERE `group_pod` = '".$gid."'";
+function checkSNRemain($conn,$gid,$inv){
+
+    if(empty($inv)){
+        $inv = 0;
+    }
+    $sql = "SELECT * FROM `s_group_sn` WHERE `group_pod` = '".$gid."' AND `group_inv`='".$inv."'";
     $contUse = 0;
     $contRemain = 0;
     $query = @mysqli_query($conn, $sql);

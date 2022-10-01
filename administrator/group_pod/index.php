@@ -12,7 +12,7 @@
 		if ($code == "1") {
 			$sql = "delete from $tbl_name  where $PK_field = '$_GET[$PK_field]'";
 			@mysqli_query($conn,$sql);			
-			header ("location:index.php");
+			header ("location:index.php?inv=".$_GET['inv']);
 		} 
 	}
 ?>
@@ -60,8 +60,14 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 <P id=page-intro><?php  echo $page_name; ?></P>
 
 <UL class=shortcut-buttons-set>
-  <LI><A class=shortcut-button href="update.php?mode=add<?php  if ($param <> "") echo "&".$param; ?>"><SPAN><IMG  alt=icon src="../images/pencil_48.png"><BR>
+  <LI><A class=shortcut-button href="update.php?inv=<?php echo $_GET['inv'];?>&mode=add<?php  if ($param <> "") echo "&".$param; ?>"><SPAN><IMG  alt=icon src="../images/pencil_48.png"><BR>
     เพิ่ม</SPAN></A></LI>
+    <LI><A class=shortcut-button href="../group_pod/?inv=0"><SPAN><IMG  alt=icon src="../images/icons/icon-48-module.png"><BR>
+    คลังสินค้าใหม่</SPAN></A></LI>
+    <LI><A class=shortcut-button href="../group_pod/?inv=1"><SPAN><IMG  alt=icon src="../images/icons/icon-48-module.png"><BR>
+    คลังซ่อมบำรุง</SPAN></A></LI>
+    <LI><A class=shortcut-button href="../group_pod/?inv=2"><SPAN><IMG  alt=icon src="../images/icons/icon-48-module.png"><BR>
+    คลังสินค้ามือสอง</SPAN></A></LI>
     <?php  
 	if ($FR_module <> "") { 
 	$param2 = get_return_param();
@@ -81,7 +87,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
           $qucatv1 = @mysqli_query($conn, "SELECT * FROM s_group_catpro ORDER BY group_name ASC");
           while ($row_catv1 = @mysqli_fetch_array($qucatv1)) {
           ?>
-              <option value="index.php?catv1=<?php echo $row_catv1['group_id']; ?>" <?php  if($row_catv1['group_id'] == $_GET['catv1']){echo 'selected';}?>><?php echo $row_catv1['group_name']; ?></option>
+              <option value="index.php?inv=<?php if($_GET['inv'] != ''){echo $_GET['inv'];}else{echo "0";};?>&catv1=<?php echo $row_catv1['group_id']; ?>" <?php  if($row_catv1['group_id'] == $_GET['catv1']){echo 'selected';}?>><?php echo $row_catv1['group_name']; ?></option>
           <?php
             }
       ?>
@@ -98,7 +104,7 @@ if($_GET['catv1'] != ""){
          $qucatv2 = @mysqli_query($conn, "SELECT * FROM s_group_catpro2 WHERE 1 ".$condi2." ORDER BY group_name ASC");
          while ($row_catv2 = @mysqli_fetch_array($qucatv2)) {
           ?>
-              <option value="index.php?catv1=<?php echo $_GET['catv1']; ?>&catv2=<?php echo $row_catv2['group_id']; ?>" <?php  if($row_catv2['group_id'] == $_GET['catv2']){echo 'selected';}?>><?php echo $row_catv2['group_name']; ?></option>
+              <option value="index.php?inv=<?php if($_GET['inv'] != ''){echo $_GET['inv'];}else{echo "0";};?>&catv1=<?php echo $_GET['catv1']; ?>&catv2=<?php echo $row_catv2['group_id']; ?>" <?php  if($row_catv2['group_id'] == $_GET['catv2']){echo 'selected';}?>><?php echo $row_catv2['group_name']; ?></option>
           <?php
             }
       ?>
@@ -116,7 +122,7 @@ if($_GET['catv2'] != ""){
            $qucatv3 = @mysqli_query($conn, "SELECT * FROM s_group_catpro3 WHERE 1 ".$condi3." ORDER BY group_name ASC");
            while ($row_catv3 = @mysqli_fetch_array($qucatv3)) {
             ?>
-                <option value="index.php?catv1=<?php echo $_GET['catv1']; ?>&catv2=<?php echo $_GET['catv2']; ?>&catv3=<?php echo $row_catv3['group_id']; ?>" <?php  if($row_catv3['group_id'] == $_GET['catv3']){echo 'selected';}?>><?php echo $row_catv3['group_name']; ?></option>
+                <option value="index.php?inv=<?php if($_GET['inv'] != ''){echo $_GET['inv'];}else{echo "0";};?>&catv1=<?php echo $_GET['catv1']; ?>&catv2=<?php echo $_GET['catv2']; ?>&catv3=<?php echo $row_catv3['group_id']; ?>" <?php  if($row_catv3['group_id'] == $_GET['catv3']){echo 'selected';}?>><?php echo $row_catv3['group_name']; ?></option>
             <?php
               }
         ?>
@@ -134,7 +140,7 @@ if($_GET['catv2'] != ""){
              $qucatv4 = @mysqli_query($conn, "SELECT * FROM s_group_catpro4 WHERE 1 ".$condi4." ORDER BY group_name ASC");
              while ($row_catv4 = @mysqli_fetch_array($qucatv4)) {
               ?>
-                  <option value="index.php?catv1=<?php echo $_GET['catv1']; ?>&catv2=<?php echo $_GET['catv2']; ?>&catv3=<?php echo $_GET['catv3']; ?>&catv4=<?php echo $row_catv4['group_id']; ?>" <?php  if($row_catv4['group_id'] == $_GET['catv4']){echo 'selected';}?>><?php echo $row_catv4['group_name']; ?></option>
+                  <option value="index.php?inv=<?php if($_GET['inv'] != ''){echo $_GET['inv'];}else{echo "0";};?>&catv1=<?php echo $_GET['catv1']; ?>&catv2=<?php echo $_GET['catv2']; ?>&catv3=<?php echo $_GET['catv3']; ?>&catv4=<?php echo $row_catv4['group_id']; ?>" <?php  if($row_catv4['group_id'] == $_GET['catv4']){echo 'selected';}?>><?php echo $row_catv4['group_name']; ?></option>
               <?php
                 }
           ?>
@@ -151,12 +157,13 @@ if($_GET['catv2'] != ""){
 <H3 align="left"><?php  echo $page_name; ?></H3>
 <br><form name="form1" method="get" action="index.php">
     <input name="keyword" type="text" id="keyword" value="<?php  echo $keyword;?>">
+    <input name="inv" type="hidden" id="inv" value="<?php  echo $_GET['inv'];?>">
     <input name="Action" type="submit" id="Action" value="ค้นหา">
     <?php 
 			$a_not_exists = array('keyword');
 			$param2 = get_param($a_param,$a_not_exists);
 			  ?>
-    <a href="index.php?<?php  echo $param2;?>">แสดงทั้งหมด</a>
+    <a href="index.php?inv=<?php echo $_GET['inv'];?>&<?php  echo $param2;?>">แสดงทั้งหมด</a>
     <?php  
 			/*$a_not_exists = array();
 			post_param($a_param,$a_not_exists);*/
@@ -249,13 +256,13 @@ if($_GET['catv2'] != ""){
           <TD><span class="text"><?php echo getCatProAllName($conn,$rec['catv1'],$rec['catv2'],$rec['catv3'],$rec['catv4']);?></span></TD>
           <TD><span class="text"><?php  echo $rec["group_name"] ; ?></span></TD>
           <!--<TD><span class="text"><?php  echo $rec["group_stock"] ; ?></span></TD>-->
-          <TD><span class="text"><?php echo getTotalSNofPod($conn,$rec[$PK_field]);?>
+          <TD><span class="text"><?php echo getTotalSNofPod($conn,$rec[$PK_field],$_GET['inv']);?>
         </span></TD>
-          <TD><span class="text"><?php echo checkSNRemain($conn,$rec[$PK_field]);?></span></TD>
+          <TD><span class="text"><?php echo checkSNRemain($conn,$rec[$PK_field],$_GET['inv']);?></span></TD>
           <TD><!-- Icons -->
-            <A title='Series' href="../group_sn/index.php?pod=<?php  echo $rec[$PK_field];?>"><IMG alt=Edit src="../images/icon2/addedit.png" width="25"></A></TD>
-          <TD><A title=Edit href="update.php?mode=update&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field]; if($param <> "") {?>&<?php  echo $param; }?>"><IMG alt=Edit src="../images/pencil.png"></A> <A title=Delete  href="#"></A></TD>
-          <TD><A title=Delete  href="#"><IMG alt=Delete src="../images/cross.png" onClick="confirmDelete('?action=delete&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field];?>','Group  <?php  echo $rec[$PK_field];?> : <?php  echo $rec["group_name"];?>')"></A></TD>
+            <A title='Series' href="../group_sn/index.php?inv=<?php if($_GET['inv'] != ''){echo $_GET['inv'];}else{echo "0";};?>&pod=<?php  echo $rec[$PK_field];?>"><IMG alt=Edit src="../images/icon2/addedit.png" width="25"></A></TD>
+          <TD><A title=Edit href="update.php?mode=update&inv=<?php if($_GET['inv'] != ''){echo $_GET['inv'];}else{echo "0";};?>&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field]; if($param <> "") {?>&<?php  echo $param; }?>"><IMG alt=Edit src="../images/pencil.png"></A> <A title=Delete  href="#"></A></TD>
+          <TD><A title=Delete  href="#"><IMG alt=Delete src="../images/cross.png" onClick="confirmDelete('?action=delete&inv=<?php if($_GET['inv'] != ''){echo $_GET['inv'];}else{echo "0";};?>&<?php  echo $PK_field; ?>=<?php  echo $rec[$PK_field];?>','Group  <?php  echo $rec[$PK_field];?> : <?php  echo $rec["group_name"];?>')"></A></TD>
         </TR>  
 		<?php  }?>
       </TBODY>

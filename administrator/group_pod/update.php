@@ -8,14 +8,15 @@
 		$param = "";
 		$a_not_exists = array();
 		$param = get_param($a_param,$a_not_exists);
+    $_POST['group_stock'] = 0;
 
 		if ($_POST['mode'] == "add") { 
-				include "../include/m_add.php";
-			header ("location:index.php?" . $param); 
+			include "../include/m_add.php"; 
+			header ("location:index.php?inv=".$_POST['inv']."&" . $param); 
 		}
 		if ($_POST['mode'] == "update" ) { 
 			include ("../include/m_update.php");
-			header ("location:index.php?" . $param); 
+			header ("location:index.php?inv=".$_POST['inv']."&" . $param); 
 		}
 	}
 	if ($_GET['mode'] == "add") { 
@@ -262,6 +263,7 @@ function submitForm() {
 			$a_not_exists = array();
 			post_param($a_param,$a_not_exists); 
 			?>
+      <input name="inv" type="hidden" id="inv" value="<?php  echo $_GET['inv'];?>">
       <input name="mode" type="hidden" id="mode" value="<?php  echo $_GET['mode'];?>">
       <input name="<?php  echo $PK_field;?>" type="hidden" id="<?php  echo $PK_field;?>" value="<?php  echo $_GET[$PK_field];?>">
     </div>

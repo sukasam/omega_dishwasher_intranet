@@ -20,23 +20,21 @@
       $a_sdate=explode("/",$_POST['group_expired']);
       $_POST['group_expired']=$a_sdate[2]."-".$a_sdate[1]."-".$a_sdate[0];
     }else{
-      $_POST['group_expired']="";
+      $_POST['group_expired']= "";
     }
+
+    $_POST['group_pod'] = $_POST['pod'];
+    $_POST['group_inv'] = $_POST['inv'];
+    $_POST['group_status'] = 0;
 
 
 		if ($_POST['mode'] == "add") { 
-			
-			$_POST['group_pod'] = $_POST['pod'];
-			
-				include "../include/m_add.php";
-			header ("location:index.php?pod=".$_POST['pod']."&" . $param); 
+			include "../include/m_add.php";
+			header ("location:index.php?pod=".$_POST['pod']."&inv=".$_POST['inv']."&" . $param); 
 		}
 		if ($_POST['mode'] == "update" ) { 
-			
-			$_POST['group_pod'] = $_POST['pod'];
-			
 			include ("../include/m_update.php");
-			header ("location:index.php?pod=".$_POST['pod']."&" . $param); 
+			header ("location:index.php?pod=".$_POST['pod']."&inv=".$_POST['inv']."&" . $param); 
 		}
 	}
 	if ($_GET['mode'] == "add") { 
@@ -182,6 +180,7 @@ function submitForm() {
     <div class="formArea">
     <input type="button" value="Submit" id="submitF" class="button" onclick="submitForm()">
       <input type="reset" name="Reset" id="resetF" value="Reset" class="button">
+      <input type="hidden" name="inv" value="<?php echo $_GET['inv'];?>" class="button">
       <input type="hidden" name="pod" value="<?php echo $_GET['pod'];?>" class="button">
       <input type="hidden" name="group_product" value="<?php echo $group_product;?>" class="button">
       <input type="hidden" name="group_status" value="<?php echo $group_status;?>" class="button">
