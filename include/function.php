@@ -3854,6 +3854,7 @@ function getFOSNuseID($conn,$sn){
 function checkSNRemain($conn,$gid){
     $sql = "SELECT * FROM `s_group_sn` WHERE `group_pod` = '".$gid."'";
     $contUse = 0;
+    $contRemain = 0;
     $query = @mysqli_query($conn, $sql);
 
     while ($rec = @mysqli_fetch_array($query)) {
@@ -3861,9 +3862,13 @@ function checkSNRemain($conn,$gid){
         $rowcount = mysqli_num_rows(@mysqli_query($conn,  $sql));
         if($rowcount >= 1){
             $contUse++;
+        }else{
+            if($rec['group_status'] !== '1'){
+                $contRemain++;
+            }
         }
     }
-    return $contUse;
+    return $contRemain;
 }
 
 

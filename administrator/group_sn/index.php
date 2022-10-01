@@ -76,6 +76,10 @@ function check_select(frm){
 			frm.choose_action.focus(); return false;
 		}
 }	
+function MM_jumpMenu(targ,selObj,restore){ //v3.0
+  eval(targ+".location='"+selObj.options[selObj.selectedIndex].value+"'");
+  if (restore) selObj.selectedIndex=0;
+}
 </script>
 </HEAD>
 <?php  include ("../../include/function_script.php"); ?>
@@ -108,7 +112,9 @@ function check_select(frm){
 <DIV class=content-box-header align="right" style="padding-right:15px;">
 
 <H3 align="left"><?php  echo $page_name; ?></H3>
-<br><form name="form1" method="get" action="index.php">
+<br>
+<div style="float:right;">
+<form name="form1" method="get" action="index.php">
     <input name="keyword" type="text" id="keyword" value="<?php  echo $keyword;?>">
     <input name="pod" type="hidden" id="pod" value="<?php  echo $_GET['pod'];?>">
     <input name="Action" type="submit" id="Action" value="ค้นหา">
@@ -122,6 +128,15 @@ function check_select(frm){
 			post_param($a_param,$a_not_exists);*/
 			?>
   </form>
+  </div>
+  <!-- <div style="float:right;margin-right:20px;">  
+  <label><strong>การใช้งาน SN : </strong></label>
+    <select name="catalog_master" id="catalog_master" style="height:24px;" onChange="MM_jumpMenu('parent',this,0)">
+     <option value="index.php" <?php  if(!isset($_GET['process'])){echo "selected";}?>>กรุณาเลือก</option>
+     <option value="index.php?snuse=1&pod=<?php echo $_GET['pod'];?>" <?php  if($_GET['process'] == '0'){echo "selected";}?>>คงเหลือ</option>
+		 <option value="index.php?snuse=2&pod=<?php echo $_GET['pod'];?>" <?php  if($_GET['process'] == '0'){echo "selected";}?>>ใช้งานแล้ว</option>
+  	</select>
+    </div> -->
 <DIV class=clear>
 
 </DIV></DIV><!-- End .content-box-header -->
@@ -179,6 +194,11 @@ function check_select(frm){
 						}
 						$sql .=  $subtext . " ) ";
 					} 
+
+          // if ($_GET['snuse'] != "") { 
+					// 	$sql .= " and ( snuse = '".$_GET['snuse']."' ";
+					// 	$sql .=  $subtext . " ) ";
+					// }
 		  			
 		  			if ($_REQUEST['pod'] <> "") { 
 						$sql .= " and group_pod = '".$_REQUEST['pod']."'";
@@ -203,7 +223,7 @@ function check_select(frm){
           $chaf = str_replace("/","-",$foid);
 
           
-
+          
           if(getFOSNuse($conn,$rec["group_name"]) >= 1){
             $snUse = 'color: red;';
             $linkFO = '<a href="../../upload/first_order/'.$chaf.'.pdf" target="_blank" style="color: red;">'.$rec['group_name'].'</a>';
@@ -211,9 +231,9 @@ function check_select(frm){
           }else{
             $linkFO = $rec['group_name'];
           }
-         
+          
 				   ?>
-        <TR>
+         <TR>
 <!--          <TD><INPUT type=checkbox name="del[]" value="<?php  echo $rec[$PK_field]; ?>" ></TD>-->
           <TD><span class="text"><?php  echo sprintf("%04d",$counter); ?></span></TD>
           <TD><center><img src="../../qrcode_gen/qrcode.php?val=<?php echo $rec["group_name"];?>" width="80"></center></TD>
@@ -226,10 +246,10 @@ function check_select(frm){
           <!--<TD><span class="text"><?php  echo $rec["group_stock"] ; ?></span></TD>-->
           <!--<TD><span class="text"><?php  echo $rec["group_pro_pod"] ; ?></span></TD>-->
           <TD><center>
-                <?php if ($rec["group_status"] == '0' || $rec["group_status"] == 0) {?>
-                  <a href="../group_sn/?b=<?php echo $rec[$PK_field]; ?>&s=<?php echo $rec["group_status"]; ?>&page=<?php echo $_GET['page']; ?>&<?php echo $FK_field; ?>=<?php echo $_REQUEST[$FK_field]; ?>&pod=<?php echo $_GET['pod'];?>"><img src="../icons/status_on.gif" width="10" height="10"></a>
-                <?php } else {?>
+                <?php if ($rec["group_status"] === '1' || $rec["group_status"] == 1) {?>
                   <a href="../group_sn/?b=<?php echo $rec[$PK_field]; ?>&s=<?php echo $rec["group_status"]; ?>&page=<?php echo $_GET['page']; ?>&<?php echo $FK_field; ?>=<?php echo $_REQUEST[$FK_field]; ?>&pod=<?php echo $_GET['pod'];?>"><img src="../icons/status_off.gif" width="10" height="10"></a>
+                <?php } else {?>
+                  <a href="../group_sn/?b=<?php echo $rec[$PK_field]; ?>&s=<?php echo $rec["group_status"]; ?>&page=<?php echo $_GET['page']; ?>&<?php echo $FK_field; ?>=<?php echo $_REQUEST[$FK_field]; ?>&pod=<?php echo $_GET['pod'];?>"><img src="../icons/status_on.gif" width="10" height="10"></a>
                 <?php }?>
           </center></TD>
           <TD><!-- Icons -->
