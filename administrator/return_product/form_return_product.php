@@ -81,7 +81,8 @@ $form = '
     <tr>
       <td width="5%" style="border:1px solid #003399;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>ลำดับ</strong></td>
       <td width="10%" style="border:1px solid #003399;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>รหัส</strong></td>
-      <td width="40%" style="border:1px solid #003399;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>รายการ</strong></td>
+      <td width="10%" style="border:1px solid #003399;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>SN</strong></td>
+      <td width="30%" style="border:1px solid #003399;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>รายการ</strong></td>
       <td width="10%" style="border:1px solid #003399;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>จำนวน</strong></td>
       <td width="10%" style="border:1px solid #003399;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>หน่วย</strong></td>
     </tr>';
@@ -103,6 +104,9 @@ foreach($_POST['chkOrder'] as $a => $b){
           </td>
           <td style="border:1px solid #003399;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;">
           ' . $_POST['chkSproid'][$b] . '
+          </td>
+          <td style="border:1px solid #003399;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;">
+          ' . $_POST['chkSn'][$b] . '
           </td>
           <td style="border:1px solid #003399;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:left;">
           ' . get_proname($conn, $_POST['chkCode'][$b]) . ' ' . get_prodetail($conn, $_POST['chkCode'][$b]) . '
@@ -130,6 +134,9 @@ for($i=1;$i<=count($csPro);$i++){
     $form .= '<tr>
               <td style="border:1px solid #003399;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;">
              '.($nrow).'
+              </td>
+              <td style="border:1px solid #003399;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;">
+              &nbsp;&nbsp;
               </td>
               <td style="border:1px solid #003399;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;">
               &nbsp;&nbsp;

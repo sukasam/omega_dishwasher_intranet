@@ -87,7 +87,7 @@ include("../../include/function.php");
             <td>
               <div align="center"><a href="../group_pod/?inv=0"><img src="../images/menu/serial.png" width="89" height="61" border="0" alt=""><br>
                   <br>
-                  <strong>รายการรุ่นสินค้า</strong></a></div>
+                  <strong>รายการคลังสินค้า</strong></a></div>
             </td>
             <!--
         <td><div align="center"><a href="../group_sn/"><img src="../images/menu/serial2.png" width="89" height="61" border="0" alt=""><br>

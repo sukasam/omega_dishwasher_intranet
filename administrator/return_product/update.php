@@ -52,7 +52,7 @@
 
         foreach($_POST['chkOrder'] as $a => $b){
           if(!empty($_POST['chkCode'][$b])){
-            @mysqli_query($conn,"INSERT INTO `s_return_product_pro` (`id`, `order_id`, `pro_id`, `pro_code`, `pro_amount`) VALUES (NULL, '".$id."', '".$_POST['chkCode'][$a]."', '".$_POST['chkSproid'][$a]."', '".$_POST['chkAmount'][$a]."');");
+            @mysqli_query($conn,"INSERT INTO `s_return_product_pro` (`id`, `order_id`, `pro_id`, `pro_code`, `pro_sn`, `pro_amount`) VALUES (NULL, '".$id."', '".$_POST['chkCode'][$a]."', '".$_POST['chkSproid'][$a]."', '".$_POST['chkSn'][$a]."', '".$_POST['chkAmount'][$a]."');");
           }
         }	
 
@@ -83,7 +83,7 @@
 
         foreach($_POST['chkOrder'] as $a => $b){
           if(!empty($_POST['chkCode'][$b])){
-            @mysqli_query($conn,"INSERT INTO `s_return_product_pro` (`id`, `order_id`, `pro_id`, `pro_code`, `pro_amount`) VALUES (NULL, '".$id."', '".$_POST['chkCode'][$b]."', '".$_POST['chkSproid'][$b]."', '".$_POST['chkAmount'][$b]."');");
+            @mysqli_query($conn,"INSERT INTO `s_return_product_pro` (`id`, `order_id`, `pro_id`, `pro_code`, `pro_sn`, `pro_amount`) VALUES (NULL, '".$id."', '".$_POST['chkCode'][$b]."', '".$_POST['chkSproid'][$b]."', '".$_POST['chkSn'][$b]."', '".$_POST['chkAmount'][$b]."');");
           }
         }	
 
@@ -346,7 +346,8 @@ function submitForm() {
           <td width="5%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>เลือก</strong></td>
           <td width="5%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>ลำดับ</strong></td>
           <td width="10%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>รหัสสินค้า</strong></td>
-          <td width="40%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>รายละเอียด</strong></td>
+          <td width="10%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>SN</strong></td>
+          <td width="30%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>รายละเอียด</strong></td>
           <td width="10%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>จำนวน</strong></td>
           <td width="10%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>หน่วย</strong></td>
           <td width="10%" style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;display:none;"><strong>ราคา/หน่วย</strong></td>
@@ -356,6 +357,7 @@ function submitForm() {
         $rowcusFO  = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM s_first_order WHERE fo_id  = '".$cus_id."'"));
 
         $arrayProFO = array('cpro1','cpro2','cpro3','cpro4','cpro5','cpro6','cpro7');
+        $arrayProFOSN = array('pro_sn1','pro_sn2','pro_sn3','pro_sn4','pro_sn5','pro_sn6','pro_sn7');
         $arrayProFOAmount = array('camount1','camount2','camount3','camount4','camount5','camount6','camount7');
 
           for($i=0;$i<count($arrayProFO);$i++){
@@ -376,6 +378,9 @@ function submitForm() {
                 <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;">'.($i+1).'</td>
                 <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;">'.get_probarcode($conn,$rowcusFO[$arrayProFO[$i]]).'
                   <input type="hidden" name="chkSproid[]" value="'.get_probarcode($conn,$rowcusFO[$arrayProFO[$i]]).'">
+                </td>
+                <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;">'.$rowcusFO[$arrayProFOSN[$i]].'
+                  <input type="hidden" name="chkSn[]" value="'.$rowcusFO[$arrayProFOSN[$i]].'">
                 </td>
                 <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:left;">'.get_proname($conn,$rowcusFO[$arrayProFO[$i]]).'</td>
                 <td style="border:1px solid #000000;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;">'.$rowcusFO[$arrayProFOAmount[$i]].'

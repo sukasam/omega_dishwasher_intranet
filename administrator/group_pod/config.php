@@ -3,7 +3,7 @@
 	$PK_field = "group_id";
 	//$FR_field = "";
 	$check_module = "รายการสินค้า";
-	$page_name = "รายการรุ่นสินค้า";
+	$page_name = "รายการคลังสินค้า";
 	$tbl_name = "s_group_pod";
 	$field_confirm_showname= "group_name";
 	$fieldlist = array('group_spro_id','group_name','group_stock','group_pro_pod','group_pro_sn','catv1','catv2','catv3','catv4');
