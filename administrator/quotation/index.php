@@ -361,7 +361,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 			  </td>
 					<TD style="text-align: center;"><?php
 						if($rec["quotation"] != "" && $rec["quotation"] != "0"){
-							$chafQA = preg_replace("/","-",getQaHNumber($conn,$rec["quotation"]))
+							$chafQA = str_replace("/","-",getQaHNumber($conn,$rec["quotation"]));
 							?>
 							<a href="../quotation2/update.php?mode=update&qu_id=<?php echo $rec["quotation"];?>"><?php echo getQaHNumber($conn,$rec["quotation"]);?></a> 
 							<?php 
