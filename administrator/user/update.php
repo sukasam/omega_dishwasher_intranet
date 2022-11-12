@@ -223,6 +223,10 @@ function check(frm){
                 <td><input name="new_p" type="password" id="new_p"  style="width:200px;"></td>
               </tr>
 			  <?php  } ?>
+			  <tr >
+                <td class="name">ชื่อบริษัท <span class="required">*</span></td>
+                <td><input name="com_name" type="text" id="com_name"  value="<?php  echo $com_name; ?>" style="width:200px;"></td>
+              </tr>
 			  <tr>
                 <td class="name" style="vertical-align: top;">ที่อยู่</td>
                 <td><textarea name="address" id="address" rows="4" cols="20"><?php  echo $address;?></textarea></td>

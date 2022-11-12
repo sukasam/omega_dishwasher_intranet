@@ -11,6 +11,21 @@ if ($_POST['mode'] != "") {
     $a_not_exists = array();
     $param = get_param($a_param, $a_not_exists);
 
+    if(userGroup($conn,$_SESSION['login_id']) === "Dealer"){
+        $dealerInfo = get_user_info($conn, $_SESSION['login_id']);
+        $_POST['companyName'] = $dealerInfo['com_name'];
+        $_POST['companyPerson'] = $dealerInfo['name'];
+        $_POST['companyAddress'] = $dealerInfo['address'];
+        $_POST['companyTelephone'] = $dealerInfo['telephone'];
+        
+    }else{
+        $_POST['companyName'] = 'บริษัท โอเมก้า ดิชวอชเชอร์ (ประเทศไทย) จำกัด';
+        $_POST['companyPerson'] = 'นางอัญชลี อภิรักษ์โยธิน / นายคณวัฒน์ อภิรักษ์โยธิน';
+        $_POST['companyAddress'] = '31 ซอยโชคชัย 4 ซอย 50 แยก 4 ถนนโชคชัย 4 แขวงลาดพร้าว เขตลาดพร้าว กรุงเทพมหานคร 10230';
+        $_POST['companyTelephone'] = '02-530-6357, 082-323-3535';
+        
+    }
+
     if ($_POST['con_stime'] == "") {
         $_POST['con_stime'] = date("Y-m-d");
     } else {
