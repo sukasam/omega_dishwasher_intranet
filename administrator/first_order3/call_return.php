@@ -113,7 +113,7 @@ if($_GET['action']  === 'genTablePro'){
 	   <select name="pro_sn'.$i.'" id="pro_sn'.$i.'" class="inputselect" style="width:80%;">
 			  <option value="">กรุณาเลือกรายการ</option>';
 				
-				$qusn1 = @mysqli_query($conn,"SELECT * FROM s_group_sn WHERE group_pod = '".$cpodRelate."' AND group_inv = '0' ORDER BY group_id ASC");
+				$qusn1 = @mysqli_query($conn,"SELECT * FROM s_group_sn WHERE group_pod = '".$cpodRelate."' AND group_inv = '2' ORDER BY group_id ASC");
 				while($row_qusn1 = @mysqli_fetch_array($qusn1)){
 					if(chkSeries($conn,$row_qusn1['group_name'],$_GET['fo_id']) == 0){
 						$tablePro .= '<option value="'.$row_qusn1['group_name'].'">'.$row_qusn1['group_name'].'</option>';
@@ -148,7 +148,7 @@ if($_GET['action'] == 'changeSN'){
 
 	// echo "SELECT * FROM s_group_sn WHERE group_pod = '".$group_pod."' AND group_status = '0' AND group_inv = '0' ORDER BY group_id ASC";
 
-	$qusn1 = @mysqli_query($conn,"SELECT * FROM s_group_sn WHERE group_pod = '".$group_pod."' AND group_status = '0' AND group_inv = '0' ORDER BY group_id ASC");
+	$qusn1 = @mysqli_query($conn,"SELECT * FROM s_group_sn WHERE group_pod = '".$group_pod."' AND group_status = '0' AND group_inv = '2' ORDER BY group_id ASC");
 	while($row_qusn1 = @mysqli_fetch_array($qusn1)){
 		// echo chkSeries($conn,$row_qusn1['group_name'],$fo_id);
 		if(chkSeries($conn,$row_qusn1['group_name'],$fo_id) == 0){

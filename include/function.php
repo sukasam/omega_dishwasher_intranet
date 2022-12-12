@@ -3187,7 +3187,7 @@ function getTypeServiceDesc($id, $word)
 
 function getpod_id($conn, $value)
 {
-    $row_protype = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM s_group_pod WHERE group_name = '" . $value . "'"));
+    $row_protype = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM s_group_pod WHERE group_name like '%" . $value . "%'"));
     return $row_protype['group_id'];
 }
 

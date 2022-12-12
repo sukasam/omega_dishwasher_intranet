@@ -92,9 +92,11 @@ function check_select(frm){
 
 <UL class=shortcut-buttons-set>
   <LI><A class=shortcut-button href="update.php?mode=add<?php  if ($param <> "") echo "&".$param; ?>"><SPAN><IMG  alt=icon src="../images/pencil_48.png"><BR>
-    เพิ่ม</SPAN></A></LI>
+    เพิ่ม<br><br></SPAN></A></LI>
   <LI><A class=shortcut-button href="../first_order/index.php"><SPAN><IMG  alt=icon src="../images/icons/icon-48-category.png"><BR>
-    First Order</SPAN></A></LI>
+  	FO Order<br>(คลังมือใหม่)</SPAN></A></LI>
+	<LI><A class=shortcut-button href="../first_order3/index.php"><SPAN><IMG  alt=icon src="../images/icons/icon-48-category.png"><BR>
+	FO Order<br>(คลังมือสอง)</SPAN></A></LI>
     <?php  
 	if ($FR_module <> "") { 
 	$param2 = get_return_param();

@@ -98,7 +98,7 @@ if($_GET['action'] == 'getsn'){
 			$consd = "AND group_pod = '".$pod."'";
 		}
 		
-		$qusn1 = @mysqli_query($conn,"SELECT * FROM s_group_sn WHERE 1 ".$consd." AND group_inv = '0' ORDER BY group_id ASC");
+		$qusn1 = @mysqli_query($conn,"SELECT * FROM s_group_sn WHERE 1 ".$consd." AND group_inv = '2' ORDER BY group_id ASC");
 		while($row_qusn1 = @mysqli_fetch_array($qusn1)){
 			if(chkSeries($conn,$row_qusn1['group_name'],$fo_id) == 0){
 		  ?>
@@ -121,7 +121,7 @@ if($_GET['action'] == 'getsnkey'){
 			$consd = "WHERE group_pod = '".$pod."'";
 		}
 		//echo "SELECT group_name FROM s_group_typeproduct ".$consd." ORDER BY group_name ASC";
-		$qu_cus = mysqli_query($conn,"SELECT * FROM s_group_sn ".$consd." AND group_inv = '0' ORDER BY group_id ASC");
+		$qu_cus = mysqli_query($conn,"SELECT * FROM s_group_sn ".$consd." AND group_inv = '2' ORDER BY group_id ASC");
 		while($row_cus = @mysqli_fetch_array($qu_cus)){
 			 if(chkSeries($conn,$row_cus['group_name'],$fo_id) == 0){
 			?>

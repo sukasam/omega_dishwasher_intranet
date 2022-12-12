@@ -182,8 +182,8 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 <UL class=shortcut-buttons-set>
   <LI><A class=shortcut-button href="update.php?mode=add<?php  if ($param != "") echo "&".$param; ?>"><SPAN><IMG  alt=icon src="../images/pencil_48.png"><BR>
     เพิ่ม<br><br></SPAN></A></LI>
-	<LI><A class=shortcut-button href="../first_order3/index.php"><SPAN><IMG  alt=icon src="../images/icons/icon-48-category.png"><BR>
-	FO Order<br>(คลังมือสอง)</SPAN></A></LI>
+	<LI><A class=shortcut-button href="../first_order/index.php"><SPAN><IMG  alt=icon src="../images/icons/icon-48-category.png"><BR>
+  	FO Order<br>(คลังมือใหม่)</SPAN></A></LI>
   <LI><A class=shortcut-button href="../first_order2/index.php"><SPAN><IMG  alt=icon src="../images/icons/icon-48-section.png"><BR>
     Service Order<br><br></SPAN></A></LI>
     <?php  
@@ -281,7 +281,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 						$conDealer = " AND `create_by` = '".$_SESSION['login_id']."'";
 					}
 					
-				   	$sql = " select *,$tbl_name.create_date as c_date from $tbl_name  where 1 ".$conDealer." AND separate = 0 AND fo_inventory = '1'";
+				   	$sql = " select *,$tbl_name.create_date as c_date from $tbl_name  where 1 ".$conDealer." AND separate = 0 AND fo_inventory = '2'";
 					if ($_GET[$PK_field] != "") $sql .= " and ($PK_field  = '" . $_GET[$PK_field] . " ' ) ";					
 					if ($_GET[$FR_field] != "") $sql .= " and ($FR_field  = '" . $_GET[$FR_field] . " ' ) ";					
  					if ($_GET['keyword'] != "") { 

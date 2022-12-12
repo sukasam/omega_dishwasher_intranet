@@ -10,6 +10,8 @@
 		$param = "";
 		$a_not_exists = array();
 		$param = get_param($a_param,$a_not_exists);
+
+    $_POST['fo_inventory'] = '1';
 		
 		$a_sdate=explode("/",$_POST['date_forder']);
 		$_POST['date_forder']=$a_sdate[2]."-".$a_sdate[1]."-".$a_sdate[0];

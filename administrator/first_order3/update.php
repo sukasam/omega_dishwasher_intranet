@@ -11,7 +11,7 @@
 		$a_not_exists = array();
 		$param = get_param($a_param,$a_not_exists);
 
-    $_POST['fo_inventory'] = '1';
+    $_POST['fo_inventory'] = '2';
 
 		$a_sdate=explode("/",$_POST['date_forder']);
 		$_POST['date_forder']=$a_sdate[2]."-".$a_sdate[1]."-".$a_sdate[0];
@@ -839,7 +839,7 @@ Vat 7%</strong></td>
           <option value="<?php echo $csnTmp[$i-1];?>" selected><?php echo $csnTmp[$i-1];?></option>
 				  <?php
           // echo "SELECT * FROM s_group_sn WHERE group_pod = '".getpod_id($conn,$cpodTmp[$i-1])."' AND group_status = '0' AND group_inv = '0' ORDER BY group_id ASC";
-					  $qusn1 = @mysqli_query($conn,"SELECT * FROM s_group_sn WHERE group_pod = '".getpod_id($conn,$cpodTmp[$i-1])."' AND group_status = '0' AND group_inv = '0' ORDER BY group_id DESC");
+					  $qusn1 = @mysqli_query($conn,"SELECT * FROM s_group_sn WHERE group_pod = '".getpod_id($conn,$cpodTmp[$i-1])."' AND group_status = '0' AND group_inv = '2' ORDER BY group_id DESC");
             while($row_qusn1 = @mysqli_fetch_array($qusn1)){
               // echo $csnTmp[$i-1] ." | ".$row_qusn1['group_name']." || ";
               // if($csnTmp[$i-1] == $row_qusn1['group_name']){

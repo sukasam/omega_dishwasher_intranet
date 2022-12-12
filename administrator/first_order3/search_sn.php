@@ -88,7 +88,7 @@
 </table>
 <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tv_search" id="rscus">
 <?php  
-  	$qu_cus = mysqli_query($conn,"SELECT * FROM s_group_sn WHERE group_pod = '".$_GET['pod']."' AND group_status = 0 AND group_inv = '0' ORDER BY group_id ASC");
+  	$qu_cus = mysqli_query($conn,"SELECT * FROM s_group_sn WHERE group_pod = '".$_GET['pod']."' AND group_status = '0' AND group_inv = '2' ORDER BY group_id ASC");
 	while($row_cus = @mysqli_fetch_array($qu_cus)){
 		 if(chkSeries($conn,$row_cus['group_name'],$_GET['fo_id']) == 0){
 		?>
