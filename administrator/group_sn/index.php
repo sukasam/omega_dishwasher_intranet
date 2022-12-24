@@ -22,7 +22,13 @@
 	}
 
   //-------------------------------------------------------------------------------------
+
+if ($_GET['s'] == '') {
+  $_GET['s'] = 0;
+}
+
 if ($_GET['b'] != "" && $_GET['s'] != "") {
+
   if ($_GET['s'] == 0) {
       $status = 1;
   }
@@ -294,7 +300,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
             <img src="../icons/favorites_stranby.png" width="30" height="30">
             <?php  }?>
             <?php
-            if(!getFOSNuse($conn,$rec["group_name"]) >= 1){
+            // if(!getFOSNuse($conn,$rec["group_name"]) >= 1){
               ?>
                <div align="center" style="padding-top:5px;">
                 <a href="../group_sn/?ff=<?php  echo $rec[$PK_field]; ?>&gg=0&page=<?php  echo $_GET['page']; ?>&<?php  echo $FK_field; ?>=<?php  echo $_REQUEST["$FK_field"];?>&inv=<?php echo $_GET['inv'];?>&pod=<?php echo $_GET['pod'];?>"><img src="../icons/favorites_stranby.png" width="15" height="15"> | </a>
@@ -302,7 +308,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
                 <a href="../group_sn/?ff=<?php  echo $rec[$PK_field]; ?>&gg=2&page=<?php  echo $_GET['page']; ?>&<?php  echo $FK_field; ?>=<?php  echo $_REQUEST["$FK_field"];?>&inv=<?php echo $_GET['inv'];?>&pod=<?php echo $_GET['pod'];?>"><img src="../icons/favorites_use.png" width="15" height="15"></a>
                </div>
               <?php
-            }
+            // }
             ?>
            
           </div>
@@ -313,7 +319,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
                 <?php if ($rec["group_status"] === '1' || $rec["group_status"] == 1) {?>
                   <a href="../group_sn/?inv=<?php  echo $_GET['inv'];?>&b=<?php echo $rec[$PK_field]; ?>&s=<?php echo $rec["group_status"]; ?>&page=<?php echo $_GET['page']; ?>&<?php echo $FK_field; ?>=<?php echo $_REQUEST[$FK_field]; ?>&pod=<?php echo $_GET['pod'];?>"><img src="../icons/status_off.gif" width="10" height="10"></a>
                 <?php } else {?>
-                  <a href="../group_sn/?inv=<?php  echo $_GET['inv'];?>&b=<?php echo $rec[$PK_field]; ?>&s=<?php echo $rec["group_status"]; ?>&page=<?php echo $_GET['page']; ?>&<?php echo $FK_field; ?>=<?php echo $_REQUEST[$FK_field]; ?>&pod=<?php echo $_GET['pod'];?>"><img src="../icons/status_on.gif" width="10" height="10"></a>
+                  <a href="../group_sn/?inv=<?php  echo $_GET['inv'];?>&b=<?php echo $rec[$PK_field]; ?>&s=<?php if(empty($rec["group_status"])){echo 0;}else{echo $rec["group_status"];} ?>&page=<?php echo $_GET['page']; ?>&<?php echo $FK_field; ?>=<?php echo $_REQUEST[$FK_field]; ?>&pod=<?php echo $_GET['pod'];?>"><img src="../icons/status_on.gif" width="10" height="10"></a>
                 <?php }?>
           </center></TD>
           <TD><!-- Icons -->

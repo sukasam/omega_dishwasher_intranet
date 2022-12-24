@@ -3187,7 +3187,7 @@ function getTypeServiceDesc($id, $word)
 
 function getpod_id($conn, $value)
 {
-    $row_protype = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM s_group_pod WHERE group_name like '%" . $value . "%'"));
+    $row_protype = @mysqli_fetch_array(@mysqli_query($conn, "SELECT * FROM s_group_pod WHERE group_name LIKE '" . $value . "'"));
     return $row_protype['group_id'];
 }
 
@@ -3844,7 +3844,7 @@ function getTotalSNofPod($conn,$gid,$inv){
 }
 
 function getFOSNuse($conn,$sn){
-    $sql = "SELECT *  FROM `s_first_order` WHERE 1=1 AND (`pro_sn1` = '".$sn."' OR `pro_sn2` = '".$sn."' OR `pro_sn3` = '".$sn."' OR `pro_sn4` = '".$sn."' OR `pro_sn5` = '".$sn."' OR `pro_sn6` = '".$sn."' OR `pro_sn7` = '".$sn."')";
+    $sql = "SELECT *  FROM `s_first_order` WHERE status_use != 2 AND (`pro_sn1` = '".$sn."' OR `pro_sn2` = '".$sn."' OR `pro_sn3` = '".$sn."' OR `pro_sn4` = '".$sn."' OR `pro_sn5` = '".$sn."' OR `pro_sn6` = '".$sn."' OR `pro_sn7` = '".$sn."')";
     $rowcount = mysqli_num_rows(@mysqli_query($conn,  $sql));
     return $rowcount;
 }
@@ -3865,7 +3865,7 @@ function checkSNRemain($conn,$gid,$inv){
     $query = @mysqli_query($conn, $sql);
 
     while ($rec = @mysqli_fetch_array($query)) {
-        $sql = "SELECT *  FROM `s_first_order` WHERE 1=1 AND (`pro_sn1` = '".$rec['group_name']."' OR `pro_sn2` = '".$rec['group_name']."' OR `pro_sn3` = '".$rec['group_name']."' OR `pro_sn4` = '".$rec['group_name']."' OR `pro_sn5` = '".$rec['group_name']."' OR `pro_sn6` = '".$rec['group_name']."' OR `pro_sn7` = '".$rec['group_name']."')";
+        $sql = "SELECT *  FROM `s_first_order` WHERE 1=1 AND status_use != 2 AND (`pro_sn1` = '".$rec['group_name']."' OR `pro_sn2` = '".$rec['group_name']."' OR `pro_sn3` = '".$rec['group_name']."' OR `pro_sn4` = '".$rec['group_name']."' OR `pro_sn5` = '".$rec['group_name']."' OR `pro_sn6` = '".$rec['group_name']."' OR `pro_sn7` = '".$rec['group_name']."')";
         $rowcount = mysqli_num_rows(@mysqli_query($conn,  $sql));
         if($rowcount >= 1){
             $contUse++;

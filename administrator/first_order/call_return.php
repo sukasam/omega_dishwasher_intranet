@@ -140,13 +140,14 @@ if($_GET['action']  === 'genTablePro'){
 
 if($_GET['action'] == 'changeSN'){
 	
+	//echo $_REQUEST['pod'];
 	$group_pod = getpod_id($conn,$_REQUEST['pod']);
 	$id = $_REQUEST['id'];
 	$fo_id = (!empty($_REQUEST['fo_id'])) ? $_REQUEST['fo_id'] : '0';
 	
 	$list = '<option value="">กรุณาเลือกรายการ</option>';
 
-	// echo "SELECT * FROM s_group_sn WHERE group_pod = '".$group_pod."' AND group_status = '0' AND group_inv = '0' ORDER BY group_id ASC";
+	//echo "SELECT * FROM s_group_sn WHERE group_pod = '".$group_pod."' AND group_status = '0' AND group_inv = '0' ORDER BY group_id ASC";
 
 	$qusn1 = @mysqli_query($conn,"SELECT * FROM s_group_sn WHERE group_pod = '".$group_pod."' AND group_status = '0' AND group_inv = '0' ORDER BY group_id ASC");
 	while($row_qusn1 = @mysqli_fetch_array($qusn1)){
