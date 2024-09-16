@@ -17,7 +17,8 @@ flex-direction: column;
 justify-content: center;
 align-items: center;
 text-align: center;
-min-height: 100vh;"><div><img src="data:image/png;base64,', base64_encode(barcode($_GET['val'])), '" /></div></div>';
+min-height: 100vh;"><div><img src="data:image/png;base64,', base64_encode(barcode($_GET['val'])), '" />
+</div></div>';
 ?>
 
 

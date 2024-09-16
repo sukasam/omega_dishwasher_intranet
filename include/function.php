@@ -985,9 +985,9 @@ function Check_Permission($conn, $check_module, $user_id, $action)
     $sql = "select * from s_user where user_id = '".$user_id."'";
     $query = @mysqli_query($conn, $sql) or die("3");
     if ($rec = @mysqli_fetch_array($query)) {
-        if ($rec["admin_flag"] == '1' or $_SESSION['s_group_all'] == "ALL") {
+        // if ($rec["admin_flag"] == '1' or $_SESSION['s_group_all'] == "ALL") {
 
-        } else {
+        // } else {
 
             $sql = "select * from s_user_p where user_id = '$user_id'  and  module_id like '$module_id'";
 
@@ -1036,7 +1036,7 @@ function Check_Permission($conn, $check_module, $user_id, $action)
                 if (trim($code) == '' or $code == '0') {
                     header("location:../error/permission.php");
                 }
-            }
+            // }
         }
     } else {
         header("location:../error/permission.php");
@@ -1149,10 +1149,11 @@ function Check_Permission_menu($conn, $check_module, $user_id, $action)
     }
     $sql = "select * from s_user where user_id = '$user_id'";
     $query = @mysqli_query($conn, $sql) or die("3");
+    
     if ($rec = @mysqli_fetch_array($query)) {
-        if ($rec["admin_flag"] == '1' or $_SESSION['s_group_all'] == "ALL") {
+        // if ($rec["admin_flag"] == '1' or $_SESSION['s_group_all'] == "ALL") {
 
-        } else {
+        // } else {
 /*
 if ($action == "read") $sql .= " read_p like '1'";
 if ($action == "add") $sql .= " add_p like '1'";
@@ -1210,7 +1211,7 @@ if ($action == "delete") $sql .= " delete_p like '1'";
                     $permission_denine = 1;
                 }
             }
-        }
+        // }
     } else {
 //header ("location:/inner/error/permission.php");
         $permission_denine = 1;
@@ -3422,10 +3423,10 @@ function addNotification($conn, $typenoti, $tbl_name, $PK_field, $process)
         $qu_forder = @mysqli_query($conn, "SELECT * FROM `s_group_notification` WHERE group_name = '" . $typenoti . "'");
         while ($row_forder = @mysqli_fetch_array($qu_forder)) {
             if($typenoti == 7 || $typenoti == 8 || $typenoti == 9){ ///หมดอายุสัญญา เช่า บริการ
-                $rowConTr = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM s_notification WHERE tag_db = '".$tbl_name."' AND t_id = '".$PK_field."' AND `user_account` = '".$row_forder['user_account']."'"));
-                if($rowConTr['id'] == ""){
-                    @mysqli_query($conn, "INSERT INTO `s_notification` (`id`, `tag_db`, `t_id`, `process`, `process_date`, `user_account`, `view`, `type_noti`) VALUES (NULL, '" . $tbl_name . "', '" . $PK_field . "', '" . $process . "','" . date("Y-m-d H:i:s") . "', '" . $row_forder['user_account'] . "', '0', '" . $typenoti . "');");
-                }
+                // $rowConTr = @mysqli_fetch_array(@mysqli_query($conn,"SELECT * FROM s_notification WHERE tag_db = '".$tbl_name."' AND t_id = '".$PK_field."' AND `user_account` = '".$row_forder['user_account']."'"));
+                // if($rowConTr['id'] == ""){
+                //     @mysqli_query($conn, "INSERT INTO `s_notification` (`id`, `tag_db`, `t_id`, `process`, `process_date`, `user_account`, `view`, `type_noti`) VALUES (NULL, '" . $tbl_name . "', '" . $PK_field . "', '" . $process . "','" . date("Y-m-d H:i:s") . "', '" . $row_forder['user_account'] . "', '0', '" . $typenoti . "');");
+                // }
             }else{
                 //echo "INSERT INTO `s_notification` (`id`, `tag_db`, `t_id`, `process`, `process_date`, `user_account`, `view`, `type_noti`) VALUES (NULL, '" . $tbl_name . "', '" . $PK_field . "', '" . $process . "','" . date("Y-m-d H:i:s") . "', '" . $row_forder['user_account'] . "', '0', '" . $typenoti . "');";
                 @mysqli_query($conn, "INSERT INTO `s_notification` (`id`, `tag_db`, `t_id`, `process`, `process_date`, `user_account`, `view`, `type_noti`) VALUES (NULL, '" . $tbl_name . "', '" . $PK_field . "', '" . $process . "','" . date("Y-m-d H:i:s") . "', '" . $row_forder['user_account'] . "', '0', '" . $typenoti . "');");

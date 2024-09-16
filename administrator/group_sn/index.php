@@ -192,16 +192,15 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
       <THEAD>
         <TR>
 <!--          <TH width="3%"><INPUT class=check-all type=checkbox name="ca" value="true" onClick="chkAll(this.form, 'del[]', this.checked)"></TH>-->
-          <TH width="9%" <?php  Show_Sort_bg ("user_id", $orderby) ?>> <?php 
+          <TH width="5%" <?php  Show_Sort_bg ("user_id", $orderby) ?>> <?php 
 		$a_not_exists = array('orderby','sortby');
 		$param2 = get_param($a_param,$a_not_exists);
 	?>
             <?php   Show_Sort_new ("user_id", "ลำดับ.", $orderby, $sortby,$page,$param2);?>
             &nbsp;</TH>
             <TH width="12%"><center>QR Code</center></TH>
-          <!--<TH width="19%" <?php  Show_Sort_bg ("group_name", $orderby) ?>>
-           <?php   Show_Sort_new ("group_name", "รหัสสินค้า", $orderby, $sortby,$page,$param2);?>
-            &nbsp;</TH>-->
+           <TH width="10%" <?php  Show_Sort_bg ("group_name", $orderby) ?>>
+           <center><?php   Show_Sort_new ("group_name", "บาร์โค้ด", $orderby, $sortby,$page,$param2);?></center></TH>
           <TH width="15%" <?php  Show_Sort_bg ("group_name", $orderby) ?>> <?php   Show_Sort_new ("group_name", "รหัสซีรี่ย์สินค้า", $orderby, $sortby,$page,$param2);?>
             &nbsp;</TH>
          <TH width="15%" <?php  Show_Sort_bg ("group_datetime_key", $orderby) ?>> <?php   Show_Sort_new ("group_datetime_key", "วันรับเข้า / <br>วันสิ้นสุดการใช้งาน", $orderby, $sortby,$page,$param2);?>
@@ -285,7 +284,8 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 <!--          <TD><INPUT type=checkbox name="del[]" value="<?php  echo $rec[$PK_field]; ?>" ></TD>-->
           <TD><span class="text"><?php  echo sprintf("%04d",$counter); ?></span></TD>
           <TD><center><img src="../../qrcode_gen/qrcode.php?val=<?php echo $rec["group_name"];?>" width="80"></center></TD>
-          <!--<TD><span class="text"><?php  echo $rec["group_spro_id"] ; ?></span></TD>-->
+          <!-- <TD><a href="../../barcode_gen/barcode.php?val=<?php echo $rec["group_name"];?>" target="_blank" style="color: #2958df;"><?php echo $rec["group_name"];?></span></a></TD> -->
+          <td><a href="../../barcode_gen/barcode.php?val=<?php echo $rec["group_name"];?>" target="_blank" style="color: #2958df;"><img alt="<?php echo $rec["group_name"];?>" width="150" height="50" src="https://barcode.tec-it.com/barcode.ashx?data=<?php echo $rec["group_name"];?>&amp;code=&amp;translate-esc=true"></a></td>
           <TD><span class="text" style="<?php echo $snUse;?>"><?php echo $linkFO;?></span></TD>
           <TD><span class="text"><?php  echo format_date_th($rec["group_datetime_key"],6); ?> / <br><?php  echo format_date_th($rec["group_expired"],6); ?></span></TD>
           <TD><span class="text"><?php  echo $rec["group_shipnumber"] ; ?></span></TD>
@@ -300,7 +300,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
             <img src="../icons/favorites_stranby.png" width="30" height="30">
             <?php  }?>
             <?php
-            // if(!getFOSNuse($conn,$rec["group_name"]) >= 1){
+            if(!getFOSNuse($conn,$rec["group_name"]) >= 1){
               ?>
                <div align="center" style="padding-top:5px;">
                 <a href="../group_sn/?ff=<?php  echo $rec[$PK_field]; ?>&gg=0&page=<?php  echo $_GET['page']; ?>&<?php  echo $FK_field; ?>=<?php  echo $_REQUEST["$FK_field"];?>&inv=<?php echo $_GET['inv'];?>&pod=<?php echo $_GET['pod'];?>"><img src="../icons/favorites_stranby.png" width="15" height="15"> | </a>
@@ -308,7 +308,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
                 <a href="../group_sn/?ff=<?php  echo $rec[$PK_field]; ?>&gg=2&page=<?php  echo $_GET['page']; ?>&<?php  echo $FK_field; ?>=<?php  echo $_REQUEST["$FK_field"];?>&inv=<?php echo $_GET['inv'];?>&pod=<?php echo $_GET['pod'];?>"><img src="../icons/favorites_use.png" width="15" height="15"></a>
                </div>
               <?php
-            // }
+            }
             ?>
            
           </div>

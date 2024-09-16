@@ -41,19 +41,16 @@
         <!--[if IE 9]><link rel="stylesheet" href="css/styleIE9.css" type="text/css" media="screen" /><![endif]-->
                 
         <Script Language="JavaScript">
-		<!--
 		function check(frm){
-		if (frm.login_name.value.length==0 || frm.login_name.value == "User ID"){
-			alert ('Please enter User ID!!');
-			frm.login_name.focus(); return false;
-		}
-		if (frm.passwd.value.length==0 || frm.passwd.value == "Passwords"){
-			alert ('Please enter Password!!');
-			frm.passwd.focus(); return false;
+            if (frm.login_name.value.length==0 || frm.login_name.value == "User ID"){
+                alert ('Please enter User ID!!');
+                frm.login_name.focus(); return false;
+            }
+            if (frm.passwd.value.length==0 || frm.passwd.value == "Passwords"){
+                alert ('Please enter Password!!');
+                frm.passwd.focus(); return false;
+            }	
 		}	
-	
-		}	
-		//-->
 		</Script>
      
     </head>
@@ -77,7 +74,8 @@
                         <input type="image" src="images/template/bt_login.png" style="margin-right:9px;"/><a href=""><img src="images/template/bt_cancel.png" width="121" height="33" border="0" alt="" /></a>
                     </p>
                 </form>
-            </div> <!-- End #login-content -->
+            </div>
+            <!-- End #login-content -->
         </div>
             </div>            
         </div>

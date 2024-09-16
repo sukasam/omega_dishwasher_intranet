@@ -810,11 +810,11 @@ function submitForm() {
                 	<?php  
 						$qu_custec = @mysqli_query($conn,"SELECT * FROM s_group_technician ORDER BY group_name ASC");
 						while($row_custec = @mysqli_fetch_array($qu_custec)){
-							if($row_custec['group_id'] == 7 || $row_custec['group_id'] == 11 || $row_custec['group_id'] == 33 || $row_custec['group_id'] == 34){
+							// if($row_custec['group_id'] == 7 || $row_custec['group_id'] == 11 || $row_custec['group_id'] == 33 || $row_custec['group_id'] == 34){
 							?>
 							<option value="<?php  echo $row_custec['group_id'];?>" <?php  if($row_custec['group_id'] == $cs_technic){echo 'selected';}?>><?php  echo $row_custec['group_name'];?></option>
 							<?php 
-							}
+							// }
 						}
 					?>
                 </select></strong></td>

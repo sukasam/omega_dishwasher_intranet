@@ -65,7 +65,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
     สต๊อคอะไหล่</SPAN></A></LI>
     <LI><A class=shortcut-button href="update.php?mode=add<?php  if ($param <> "") echo "&".$param; ?>"><SPAN><IMG  alt=icon src="../images/menu/mn_serting21.png"><BR>
     เพิ่มอะไหล่</SPAN></A></LI>
-    <LI><A class=shortcut-button href="../group_sparpart_stockin/update.php?mode=add"><SPAN><IMG  alt=icon src="../images/menu/mn_serting22.png"><BR>
+    <LI><A class=shortcut-button href="../group_sparpart_stockin_n/update.php?mode=add"><SPAN><IMG  alt=icon src="../images/menu/mn_serting22.png"><BR>
     รับเข้าสต๊อค</SPAN></A></LI>
     <LI><A class=shortcut-button href="../report2/?mid=16&act=19"><SPAN><IMG  alt=icon src="../images/menu/mn_serting23.png"><BR>
     รายงานสต็อค</SPAN></A></LI>
@@ -201,7 +201,7 @@ if($_GET['catv2'] != ""){
         </TFOOT>
       <TBODY>
         <?php  
-					if($orderby=="") $orderby = $tbl_name.".group_name";
+					if($orderby=="") $orderby = $tbl_name.".group_spar_account_id";
 					if ($sortby =="") $sortby ="ASC";
 					
 				   	$sql = " select *,$tbl_name.create_date as c_date from $tbl_name  where 1 ";

@@ -47,7 +47,7 @@ if ($_GET['action'] == 'getcusfirsh') {
 		$feeder = "";
 	}
 
-	$displ = $rowcus['cd_address'] . "|" . province_name($conn, $rowcus['cd_province']) . "|" . $rowcus['cd_tel'] . "|" . $rowcus['cd_fax'] . "|" . $rowcus['fs_id'] . "|" . format_date($rowcus['date_quf']) . "||" . $rowcus['c_contact'] . "|" . $rowcus['c_tel'] . "|" . $rowcus['loc_name'] . "|" . get_lastservice_s($conn, $fpid, "") . '|' . $plid . '|' . $ctyp . '|' . $feeder . '|' . $rowcus['loc_clean'] . '|' . $rowcus['loc_clean_sn'];
+	$displ = $rowcus['cd_address'] . "|" . province_name($conn, $rowcus['cd_province']) . "|" . $rowcus['cd_tel'] . "|" . $rowcus['cd_fax'] . "|" . $rowcus['fs_id'] . "|" . format_date($rowcus['date_quf']) . "||" . $rowcus['c_contact'] . "|" . $rowcus['c_tel'] . "|" . str_replace("|","-",$rowcus['loc_name']) . "|" . get_lastservice_s($conn, $fpid, "") . '|' . $plid . '|' . $ctyp . '|' . $feeder . '|' . $rowcus['loc_clean'] . '|' . $rowcus['loc_clean_sn'];
 	echo $displ;
 }
 

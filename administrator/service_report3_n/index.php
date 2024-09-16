@@ -71,7 +71,7 @@ if ($_GET['act'] == "return") {
 
 ?>
 	<script type="text/javascript">
-		window.location = '<?php echo "../service_report5/update.php?mode=update&sr_id=" . $copydb['sr_id'] . "&page=1" ?>';
+		window.location = '<?php echo "../service_report5_n/update.php?mode=update&sr_id=" . $copydb['sr_id'] . "&page=1" ?>';
 	</script>
 <?php
 }

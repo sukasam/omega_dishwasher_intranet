@@ -351,7 +351,14 @@ if ($sortby != "") {
 include "../include/page_init.php";
 //echo $sql;
 // exit();
-$query = @mysqli_query($conn, $sql);
+if (!@mysqli_query($conn, $sql)) {
+  echo("Error description: " . mysqli_error($conn));
+  echo "M1";
+}else{
+  $query = @mysqli_query($conn, $sql);
+  echo "M2";
+}
+
 if ($_GET['page'] == "") {
     $_GET['page'] = 1;
 }
@@ -455,7 +462,7 @@ $qu_cusftype = @mysqli_query($conn, "SELECT * FROM s_group_status_svfix ORDER BY
                       </TD> -->
 
                       <TD style="vertical-align:middle;">
-                        <div align="center"><a href="../service_report3/update.php?mode=<?php if ($row_sr3['sr_id'] == "") {
+                        <div align="center"><a href="../service_report3_n/update.php?mode=<?php if ($row_sr3['sr_id'] == "") {
         echo "add&srid=" . $rec['sr_id'];
     } else {
         echo "update&srid=" . $rec['sr_id'] . "&sr_id=" . $row_sr3['sr_id'];
@@ -465,7 +472,7 @@ $qu_cusftype = @mysqli_query($conn, "SELECT * FROM s_group_status_svfix ORDER BY
                       <TD style="vertical-align:middle;">
                         <div align="center">
                           <?php if ($row_sr3['sr_id'] != "") {?>
-                            <a href="../service_report3/index.php?act=return&sr_id=<?php echo $row_sr3['sr_id']; ?>"><img src="../images/icons/icon-48-install.png" width="30"> <a href="../../upload/return/<?php echo str_replace("/", "-", $row_sr3['sv_id']); ?>.pdf" target="_blank"><img src="../images/icon2/backup.png" width="25" height="25" title="ดาวน์โหลด" style="margin-left:10px;"></a></a>
+                            <a href="../service_report3_n/index.php?act=return&sr_id=<?php echo $row_sr3['sr_id']; ?>"><img src="../images/icons/icon-48-install.png" width="30"> <a href="../../upload/return/<?php echo str_replace("/", "-", $row_sr3['sv_id']); ?>.pdf" target="_blank"><img src="../images/icon2/backup.png" width="25" height="25" title="ดาวน์โหลด" style="margin-left:10px;"></a></a>
                           <?php } else {
         echo "-";
     }?>

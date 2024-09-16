@@ -17,16 +17,16 @@
 	$date_to=$a_sdate[2]."-".$a_sdate[1]."-".$a_sdate[0];
 	
 	if($_REQUEST['priod'] == 0){
-		$daterriod = " AND `sr_stime`  between '".$date_fm."' and '".$date_to."'"; 
+		$daterriod = " AND sv.sr_stime  between '".$date_fm."' and '".$date_to."'"; 
 		$dateshow = "เริ่มวันที่ : ".format_date($date_fm)."&nbsp;&nbsp;ถึงวันที่ : ".format_date($date_to); 
 	}
 	else{
 		$dateshow = "วันที่ค้นหา : ".format_date(date("Y-m-d")); 
 	}
 	
-	if($cpro != ""){
-		$condition = "AND (sv.cpro1 = '".$cpro."' OR sv.cpro2 = '".$cpro."' OR sv.cpro3 = '".$cpro."' OR sv.cpro4 = '".$cpro."' OR sv.cpro5 = '".$cpro."')";
-	}
+	// if($cpro != ""){
+	// 	$condition = "AND sb.lists = '".$cpro."'";
+	// }
 	
 	if($sr_ctype != ""){
 		$condition .= " AND sv.sr_ctype = '".$sr_ctype."'";
@@ -100,7 +100,8 @@
        <?php  if($_REQUEST['sh10'] == 1){?><th width="5%">ชื่อช่าง</th><?php  }?>
       </tr>
       <?php  
-		$sql = "SELECT * FROM s_first_order as fr, s_service_report as sv WHERE sv.cus_id = fr.fo_id ".$condition." ".$daterriod." AND sv.cpro1 != '' ORDER BY fr.cd_name ASC";
+		$sql = "SELECT * FROM s_first_order as fr, s_service_report3 as sv, s_service_report3sub as sb WHERE sv.cus_id = fr.fo_id and sv.sr_id = sb.sr_id ".$condition." ".$daterriod." GROUP BY sb.sr_id
+		HAVING COUNT(sb.sr_id) > 1 ORDER BY fr.cd_name ASC";
 	  	$qu_fr = @mysqli_query($conn,$sql);
 		$sum = 0;
 		while($row_fr = @mysqli_fetch_array($qu_fr)){
@@ -188,6 +189,7 @@
               <?php  if($_REQUEST['sh8'] == 1){?><td style="padding:0;">
               	<table width="99%" border="0" cellpadding="0" cellspacing="0" class="tbreport" style="margin-bottom:5px;">
                 <?php  
+
 					if($cpro == ""){
 						
 						if($row_fr['cpro1'] != ""){

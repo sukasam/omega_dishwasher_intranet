@@ -36,7 +36,7 @@ class PS_Pagination {
 	 * @param string $append Parameters to be appended to pagination links 
 	 */
 	
-	function PS_Pagination($connection, $sql, $rows_per_page = 10, $links_per_page = 5, $append = "") {
+	function constructor($connection, $sql, $rows_per_page = 10, $links_per_page = 5, $append = "") {
 		$this->conn = $connection;
 		$this->sql = $sql;
 		$this->rows_per_page = (int)$rows_per_page;

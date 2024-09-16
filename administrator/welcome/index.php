@@ -22,7 +22,7 @@
 <?php  include("../left.php");?>
 <DIV id=main-content><!-- Main Content Section with everything --><NOSCRIPT><!-- Show a notification if the user has disabled javascript -->
 </NOSCRIPT><!-- Page Head -->
-<?php  include('../top.php');?>
+<?php  //include('../top.php');?>
 
 <div class="bbmainmenu">
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tbmainindex">
