@@ -45,7 +45,7 @@
 			  while($rowSched = mysqli_fetch_array($quSched)){
 
 				  set_time_limit(0);
-				  sleep(1);
+				//   sleep(1);
 
 	//			  echo $runRow++." => ".$rowSched['cpro2']."<br>".$url;
 	//			  exit();

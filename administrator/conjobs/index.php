@@ -45,7 +45,7 @@
 				
 		fclose($resultfile);
 		  
-		sleep(1);
+		// sleep(1);
 		 
 		if($numRun >= 1){
 			 //exit();
