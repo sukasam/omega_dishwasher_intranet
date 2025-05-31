@@ -55,7 +55,7 @@
 <body>
 	<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbreport">
 	  <tr>
-	    <th colspan="2" style="text-align:left;font-size:12px;">บริษัท โอเมก้า ดิชวอชเชอร์ (ประเทศไทย) จำกัด<br />
+	    <th colspan="2" style="text-align:left;font-size:12px;">บริษัท โอเมก้า กรุ๊ป คอร์ปอเรชั่น จำกัด<br />
 รายงานตามเขต / จังหวัด ( <?php  echo province_name($conn,$cd_province);?> )<br />
 ประเภทลูกค้า  :
 <?php  if($_POST['ctype'] != ""){echo custype_name($conn,$_POST['ctype']);}else{echo "ทั้งหมด";}?>

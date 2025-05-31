@@ -65,7 +65,7 @@ $form = '
 			</td>
           </tr>
 </table>
-  <p style="font-size:12px;"><strong>ทางบริษัท โอเมก้า ดิชวอชเชอร์ (ประเทศไทย) จำกัด มีความยินดีขอเสนอราคาน้ำยาให้พิจารณา ดังนี้</strong></p>
+  <p style="font-size:12px;"><strong>ทางบริษัท โอเมก้า กรุ๊ป คอร์ปอเรชั่น จำกัด มีความยินดีขอเสนอราคาน้ำยาให้พิจารณา ดังนี้</strong></p>
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="font-size:11px;text-align:center;">
     <tr>
       <td width="5%" style="border:1px solid #003399;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>ลำดับ</strong></td>

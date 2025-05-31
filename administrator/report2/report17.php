@@ -57,7 +57,7 @@
 <body>
 	<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbreport">
 	  <tr>
-	    <th colspan="2" style="text-align:left;font-size:12px;">บริษัท โอเมก้า ดิชวอชเชอร์ (ประเทศไทย) จำกัด<br />
+	    <th colspan="2" style="text-align:left;font-size:12px;">บริษัท โอเมก้า กรุ๊ป คอร์ปอเรชั่น จำกัด<br />
         รายงาน ST/OT/PD/HD ตามชื่อช่าง ( <?php  if($loc_contact != ""){echo get_technician_name($conn,$loc_contact);}else{echo "ทั้งหมด";}?> )</th>
 	    <th colspan="6" style="text-align:right;font-size:11px;"><?php  echo $dateshow;?></th>
       </tr>

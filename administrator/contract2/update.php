@@ -19,7 +19,7 @@ if ($_POST['mode'] != "") {
         $_POST['companyTelephone'] = $dealerInfo['telephone'];
         
     }else{
-        $_POST['companyName'] = 'บริษัท โอเมก้า ดิชวอชเชอร์ (ประเทศไทย) จำกัด';
+        $_POST['companyName'] = 'บริษัท โอเมก้า กรุ๊ป คอร์ปอเรชั่น จำกัด';
         $_POST['companyPerson'] = 'นางอัญชลี อภิรักษ์โยธิน / นายคณวัฒน์ อภิรักษ์โยธิน';
         $_POST['companyAddress'] = '31 ซอยโชคชัย 4 ซอย 50 แยก 4 ถนนโชคชัย 4 แขวงลาดพร้าว เขตลาดพร้าว กรุงเทพมหานคร 10230';
         $_POST['companyTelephone'] = '02-530-6357, 082-323-3535';

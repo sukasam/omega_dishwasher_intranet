@@ -76,7 +76,7 @@ $form = '
 			</td>
           </tr>
 </table>
-  <p style="font-size:12px;"><strong>ทางบริษัท โอเมก้า ดิชวอชเชอร์ (ประเทศไทย) จำกัด ขอรับคืนสินค้า โดยมีรายละเอียดดังนี้</strong></p>
+  <p style="font-size:12px;"><strong>ทางบริษัท โอเมก้า กรุ๊ป คอร์ปอเรชั่น จำกัด ขอรับคืนสินค้า โดยมีรายละเอียดดังนี้</strong></p>
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="font-size:11px;text-align:center;">
     <tr>
       <td width="5%" style="border:1px solid #003399;font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;text-align:center;"><strong>ลำดับ</strong></td>
@@ -205,7 +205,7 @@ $form .= '</table><br>';
 
 $form .='<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tb1" >
           <tr>
-          <td style="border:0px solid #003399;font-size:11px;font-family:Verdana, Geneva, sans-serif;padding:15px;text-align:right;"><p style="font-size:12px;"><strong>ในนาม บริษัท โอเมก้า ดิชวอชเชอร์ (ประเทศไทย) จำกัด</strong></p></td>
+          <td style="border:0px solid #003399;font-size:11px;font-family:Verdana, Geneva, sans-serif;padding:15px;text-align:right;"><p style="font-size:12px;"><strong>ในนาม บริษัท โอเมก้า กรุ๊ป คอร์ปอเรชั่น จำกัด</strong></p></td>
           </tr>
         </table>
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="text-align:center;">

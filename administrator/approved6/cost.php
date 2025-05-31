@@ -918,7 +918,7 @@ function isNumberKey(e) {
 			  <td style="border: 1px solid #000000;">
 					<table style="border-collapse: separate;" class="tbCost">
 						<tr>
-							<td colspan="2"><strong>จากบริษัท โอเมกา ดิชวอชเชอร์ (ประเทศไทย) จำกัด</strong></td>
+							<td colspan="2"><strong>จากบริษัท โอเมก้า กรุ๊ป คอร์ปอเรชั่น จำกัด</strong></td>
 						</tr>
 						<tr>
 							<td>ถึง</td>

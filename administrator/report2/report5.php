@@ -71,7 +71,7 @@
 <body>
 	<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbreport">
 	  <tr>
-	    <th colspan="5" style="text-align:left;font-size:12px;"> บริษัท โอเมก้า ดิชวอชเชอร์ (ประเทศไทย) จำกัด<br />
+	    <th colspan="5" style="text-align:left;font-size:12px;"> บริษัท โอเมก้า กรุ๊ป คอร์ปอเรชั่น จำกัด<br />
 รายงานการแจ้งซ่อม หรือตามให้บริการต่างๆ<br />
 ประเภทลูกค้า  :
 <?php  if($_REQUEST['ctype'] != ""){echo getcustom_type($conn,$_REQUEST['ctype']);}else{echo "ทั้งหมด";}?>

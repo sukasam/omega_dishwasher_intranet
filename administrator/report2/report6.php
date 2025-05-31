@@ -67,7 +67,7 @@
 <body>
 	<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbreport">
 	  <tr>
-	    <th colspan="5" style="text-align:left;font-size:12px;">บริษัท โอเมก้า ดิชวอชเชอร์ (ประเทศไทย) จำกัด<br />
+	    <th colspan="5" style="text-align:left;font-size:12px;">บริษัท โอเมก้า กรุ๊ป คอร์ปอเรชั่น จำกัด<br />
         รายงานตามการใช้อะไหล่ ( <?php  if($cpro != ""){echo get_sparpart_name($conn,$cpro);}else{echo "ทั้งหมด";}?> )<br />
         ประเภทลูกค้า  :
         <?php  if($_POST['ctype'] != ""){echo getcustom_type($conn,$_POST['ctype']);}else{echo "ทั้งหมด";}?>

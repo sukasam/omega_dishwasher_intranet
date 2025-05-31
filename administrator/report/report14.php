@@ -63,7 +63,7 @@
 <body>
 	<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbreport">
 	  <tr>
-	    <th colspan="6" style="text-align:left;font-size:12px;">บริษัท โอเมก้า ดิชวอชเชอร์ (ประเทศไทย) จำกัด<br />
+	    <th colspan="6" style="text-align:left;font-size:12px;">บริษัท โอเมก้า กรุ๊ป คอร์ปอเรชั่น จำกัด<br />
         รายงานวันหมดอายุสัญญา <?php if($contact_status == 1){echo "(สัญญาเช่า)";}else{echo "(สัญญาบริการ)";}?></th>
 	    <th colspan="11" style="text-align:right;font-size:11px;"><?php  echo $dateshow;?></th>
       </tr>

@@ -418,7 +418,7 @@ function check(frm){
       <tr>
 	    <td width="50%"><strong>รายละเอียด :</strong><br><br />
         <span style="font-size:12px;font-family:Verdana, Geneva, sans-serif;padding:5px;">
-        <textarea name="remark1" class="inpfoder" id="remark1" style="width:50%;height:150px;"><?php if ($remark1 != "") {echo strip_tags($remark1);} else {echo strip_tags($quinfo['cd_name'] . " ได้ทำการ" . custype_name($conn, $quinfo['ctype']) . protype_name($conn, $quinfo['pro_type']) . " ของบริษัท โอเมก้า ดิชวอชเชอร์ (ประเทศไทย) จำกัด สถานที่ติดตั้ง " . $quinfo['loc_name'] . " " . $quinfo['loc_address'] . " สัญญาเริ่มวันที่ " . format_date_th($quinfo["date_quf"], 1) . " – " . format_date_th($quinfo["date_qut"], 1) . " (สัญญา 1 ปี) <br><br>
+        <textarea name="remark1" class="inpfoder" id="remark1" style="width:50%;height:150px;"><?php if ($remark1 != "") {echo strip_tags($remark1);} else {echo strip_tags($quinfo['cd_name'] . " ได้ทำการ" . custype_name($conn, $quinfo['ctype']) . protype_name($conn, $quinfo['pro_type']) . " ของบริษัท โอเมก้า กรุ๊ป คอร์ปอเรชั่น จำกัด สถานที่ติดตั้ง " . $quinfo['loc_name'] . " " . $quinfo['loc_address'] . " สัญญาเริ่มวันที่ " . format_date_th($quinfo["date_quf"], 1) . " – " . format_date_th($quinfo["date_qut"], 1) . " (สัญญา 1 ปี) <br><br>
 
 โดยลูกค้าได้แจ้งความประสงค์ขอถอด" . protype_name($conn, $quinfo['pro_type']) . "เนื่องจากทางลูกค้าได้ทำการเซ้งร้านให้กับเจ้าของคนใหม่ และทางเจ้าของร้านคนใหม่แจ้งว่าขอดูยอดขายของร้านก่อน หากต้องการติด" . protype_name($conn, $quinfo['pro_type']) . "ใหม่จะแจ้งให้ทราบอีกครั้ง<br><br>
 
