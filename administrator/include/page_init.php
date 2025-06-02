@@ -1,13 +1,13 @@
 <?php 
 	$query = @mysqli_query($conn,$sql);
 	$all_row = @mysqli_num_rows($query);
-// ######### ËÒ¨Ó¹Ç¹Ë¹éÒ·Ñé§ËÁ´ #########
-	if (isset($page)=="") {
+// ######### à¸«à¸™à¹‰à¸²à¸«à¸¥à¸±à¸ #########
+	if (isset($page) === false) {
 		$page = 1;
 	}
 
-	$mod_page = $all_row%$pagesize;
-	if ($mod_page==0) { 
+	$mod_page = $all_row % $pagesize;
+	if ($mod_page == 0) { 
 		$pagecount = floor($all_row/$pagesize);	} else { $pagecount = floor($all_row/$pagesize)+1; 
 	}
 

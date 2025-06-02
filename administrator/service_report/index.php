@@ -86,7 +86,7 @@ if ($_GET['cc'] != "" and $_GET['tt'] != "") {
   <SCRIPT type=text/javascript src="../js/jquery-1.9.1.min.js"></SCRIPT>
   <!--<SCRIPT type=text/javascript src="../js/simpla.jquery.configuration.js"></SCRIPT>
 <SCRIPT type=text/javascript src="../js/facebox.js"></SCRIPT>-->
-  <SCRIPT type=text/javascript src="../js/jquery.wysiwyg.js"></SCRIPT>
+  <!-- <SCRIPT type=text/javascript src="../js/jquery.wysiwyg.js"></SCRIPT> -->
   <META name=GENERATOR content="MSHTML 8.00.7600.16535">
   <script>
     function confirmDelete(delUrl, text) {
@@ -330,6 +330,8 @@ if ($_GET['keyword'] != "") {
 
 if ($_GET['ctype'] != "") {
     $sql .= " AND sr.sr_ctype = '" . $_GET['ctype'] . "'";
+}else{
+  $sql .= " AND DATE(sr.create_date) BETWEEN '" . date('Y-m-01') . "' AND '" . date('Y-m-t') . "'";
 }
 
 //                    if ($_GET['app_id'] <> "") {
@@ -348,8 +350,8 @@ if ($sortby != "") {
     $sql .= " " . $sortby;
 }
 
-include "../include/page_init.php";
-//echo $sql;
+include_once  ("../include/page_init.php");
+// echo $sql;
 // exit();
 if (!@mysqli_query($conn, $sql)) {
   echo("Error description: " . mysqli_error($conn));
