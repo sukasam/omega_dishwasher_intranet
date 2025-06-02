@@ -83,9 +83,10 @@
         	<div class="fb">
             <ul>
             	<li class="blogo"><img src="images/template/footer_logo.png" width="106" height="42" border="0" alt="" /></li>
-                <li class="bfooter" style="color:#FFFFFF;">OMEGA DISHWASHER (THAILAND) CO.,LTD. 31 Chokchai 4 (soi 50), Yak 4 Chokchai Road , Ladpraw, Bangkok 10230<br />
-Tel : 02-530-6357 / Mobile : 086-085-5557<br />
-Website : www.omegadishwasher-thailand.com&nbsp;&nbsp;E-mail : aapisak@hotmail.com</li>           
+                <li class="bfooter" style="color:#FFFFFF;">OMEGA GROUP COPARATION CO.,LTD.
+                201 Chokchai 4 (soi 54), Yak 4 Chokchai Road , Landprao, Bangkok 10230<br />
+Tel : 02-530-6357 / Mobile : 063-190-6557<br />
+Website : www.omegagroupcorporation.co.th&nbsp;&nbsp;E-mail : admin@omegagroupcorporation.co.th</li>           
             </ul>
              <div class="clear"></div>
             </div>
