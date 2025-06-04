@@ -331,7 +331,10 @@ if ($_GET['keyword'] != "") {
 if ($_GET['ctype'] != "") {
     $sql .= " AND sr.sr_ctype = '" . $_GET['ctype'] . "'";
 }else{
-  $sql .= " AND DATE(sr.create_date) BETWEEN '" . date('Y-m-01') . "' AND '" . date('Y-m-t') . "'";
+  if($_GET['keyword'] != ""){
+  }else{
+    $sql .= " AND DATE(sr.create_date) BETWEEN '" . date('Y-m-01') . "' AND '" . date('Y-m-t') . "'";
+  }
 }
 
 //                    if ($_GET['app_id'] <> "") {
@@ -352,7 +355,7 @@ if ($sortby != "") {
 
 include_once  ("../include/page_init.php");
 // echo $sql;
-// exit();
+//exit();
 if (!@mysqli_query($conn, $sql)) {
   echo("Error description: " . mysqli_error($conn));
   echo "M1";
