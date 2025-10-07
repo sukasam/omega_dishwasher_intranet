@@ -39,15 +39,27 @@
 				include_once "../include/m_add.php";
         $id = mysqli_insert_id($conn);
         
-        foreach($_POST['chkCode'] as $a => $b){
-				
-          if($_POST['chkAmount'][$a] != ""){
-
-            $_POST['chkPrice'][$a] = str_replace($vowels,"",$_POST['chkPrice'][$a]);
-            //echo "INSERT INTO `s_order_solution_pro` (`id`, `order_id`, `pro_id`, `pro_code`, `pro_amount`) VALUES (NULL, '".$id."', '".$_POST['chkCode'][$a]."', '".$_POST['chkSproid'][$a]."', '".$_POST['chkAmount'][$a]."');"."<br>";
-            @mysqli_query($conn,"INSERT INTO `s_order_solution_pro` (`id`, `order_id`, `pro_id`, `pro_code`, `pro_amount`) VALUES (NULL, '".$id."', '".$_POST['chkCode'][$a]."', '".$_POST['chkSproid'][$a]."', '".$_POST['chkAmount'][$a]."');");
+        // Process product data from JSON to reduce input variables
+        if(isset($_POST['product_data_json']) && !empty($_POST['product_data_json'])) {
+          $productData = json_decode($_POST['product_data_json'], true);
+          if($productData) {
+            foreach($productData as $product) {
+              if(!empty($product['amount'])) {
+                $product['price'] = str_replace($vowels,"",$product['price']);
+                @mysqli_query($conn,"INSERT INTO `s_order_solution_pro` (`id`, `order_id`, `pro_id`, `pro_code`, `pro_amount`) VALUES (NULL, '".$id."', '".$product['code']."', '".$product['sproid']."', '".$product['amount']."');");
+              }
+            }
           }
-          //echo $a ." ". $b." ".$_POST['chkOrder'][$a]." ".$_POST['chkAmount'][$a]." ".$_POST['chkPrice'][$a]."<br>";
+        } else {
+          // Fallback to old method if JSON not available
+          if(isset($_POST['chkCode']) && is_array($_POST['chkCode'])) {
+            foreach($_POST['chkCode'] as $a => $b){
+              if(isset($_POST['chkAmount'][$a]) && $_POST['chkAmount'][$a] != ""){
+                $_POST['chkPrice'][$a] = str_replace($vowels,"",$_POST['chkPrice'][$a]);
+                @mysqli_query($conn,"INSERT INTO `s_order_solution_pro` (`id`, `order_id`, `pro_id`, `pro_code`, `pro_amount`) VALUES (NULL, '".$id."', '".$_POST['chkCode'][$a]."', '".$_POST['chkSproid'][$a]."', '".$_POST['chkAmount'][$a]."');");
+              }
+            }
+          }
         }	
 
         @mysqli_query($conn,"UPDATE `s_order_solution` SET `who_sale` = '".$_SESSION["login_id"]."' WHERE `order_id` = ".$id.";");
@@ -76,13 +88,27 @@
         $id = $_REQUEST[$PK_field];
 
         
-        foreach($_POST['chkCode'] as $a => $b){
-				
-          if($_POST['chkAmount'][$a] != ""){
-            $_POST['chkPrice'][$a] = str_replace($vowels,"",$_POST['chkPrice'][$a]);
-            @mysqli_query($conn,"INSERT INTO `s_order_solution_pro` (`id`, `order_id`, `pro_id`, `pro_code`, `pro_amount`) VALUES (NULL, '".$id."', '".$_POST['chkCode'][$a]."', '".$_POST['chkSproid'][$a]."', '".$_POST['chkAmount'][$a]."');");
+        // Process product data from JSON to reduce input variables
+        if(isset($_POST['product_data_json']) && !empty($_POST['product_data_json'])) {
+          $productData = json_decode($_POST['product_data_json'], true);
+          if($productData) {
+            foreach($productData as $product) {
+              if(!empty($product['amount'])) {
+                $product['price'] = str_replace($vowels,"",$product['price']);
+                @mysqli_query($conn,"INSERT INTO `s_order_solution_pro` (`id`, `order_id`, `pro_id`, `pro_code`, `pro_amount`) VALUES (NULL, '".$id."', '".$product['code']."', '".$product['sproid']."', '".$product['amount']."');");
+              }
+            }
           }
-          //echo $a ." ". $b." ".$_POST['chkOrder'][$a]." ".$_POST['chkAmount'][$a]." ".$_POST['chkPrice'][$a]."<br>";
+        } else {
+          // Fallback to old method if JSON not available
+          if(isset($_POST['chkCode']) && is_array($_POST['chkCode'])) {
+            foreach($_POST['chkCode'] as $a => $b){
+              if(isset($_POST['chkAmount'][$a]) && $_POST['chkAmount'][$a] != ""){
+                $_POST['chkPrice'][$a] = str_replace($vowels,"",$_POST['chkPrice'][$a]);
+                @mysqli_query($conn,"INSERT INTO `s_order_solution_pro` (`id`, `order_id`, `pro_id`, `pro_code`, `pro_amount`) VALUES (NULL, '".$id."', '".$_POST['chkCode'][$a]."', '".$_POST['chkSproid'][$a]."', '".$_POST['chkAmount'][$a]."');");
+              }
+            }
+          }
         }	
 
 			 // exit();
@@ -207,6 +233,29 @@ function isNumberKey(evt){
 function submitForm() {
 		document.getElementById("submitF").disabled = true;
 		document.getElementById("resetF").disabled = true;
+		
+		// Collect product data to reduce form inputs
+		var productData = [];
+		var checkboxes = document.querySelectorAll('input[name="chkOrder[]"]');
+		var amounts = document.querySelectorAll('input[name="chkAmount[]"]');
+		var prices = document.querySelectorAll('input[name="chkPrice[]"]');
+		var codes = document.querySelectorAll('input[name="chkCode[]"]');
+		var sproids = document.querySelectorAll('input[name="chkSproid[]"]');
+		
+		for(var i = 0; i < checkboxes.length; i++) {
+			if(checkboxes[i].checked && amounts[i].value != "") {
+				productData.push({
+					code: codes[i].value,
+					sproid: sproids[i].value,
+					amount: amounts[i].value,
+					price: prices[i].value
+				});
+			}
+		}
+		
+		// Set the hidden field with JSON data
+		document.getElementById('product_data_json').value = JSON.stringify(productData);
+		
 		document.form1.submit()
 	}
 
@@ -329,13 +378,23 @@ function submitForm() {
        $pro_code[] = $rowOrderList['pro_code'];
        $pro_amount[] = $rowOrderList['pro_amount'];
        $pro_price[] = $rowOrderList['pro_price'];
-       ?>
-       <input type="hidden" name="pro_id[]" value="<?php echo $rowOrderList['pro_id'];?>">
-       <input type="hidden" name="pro_code[]" value="<?php echo $rowOrderList['pro_code'];?>">
-       <input type="hidden" name="pro_amount[]" value="<?php echo $rowOrderList['pro_amount'];?>">
-       <input type="hidden" name="pro_price[]" value="<?php echo $rowOrderList['pro_price'];?>">
-       <?php
        }
+       
+       // Store existing product data as JSON to reduce form inputs
+       $existing_products = array();
+       if(!empty($pro_id)) {
+         for($i = 0; $i < count($pro_id); $i++) {
+           $existing_products[] = array(
+             'pro_id' => $pro_id[$i],
+             'pro_code' => $pro_code[$i], 
+             'pro_amount' => $pro_amount[$i],
+             'pro_price' => $pro_price[$i]
+           );
+         }
+       }
+       ?>
+       <input type="hidden" name="existing_products_json" value="<?php echo htmlspecialchars(json_encode($existing_products));?>">
+       <?php
 
       $nRow = 1;
       $sumTotal = 0;
@@ -466,6 +525,9 @@ function submitForm() {
       <!-- <input name="cus_id" type="hidden" id="cus_id" value="<?php  echo $cus_id;?>"> -->
       <input name="st_setting" type="hidden" id="st_setting" value="<?php  echo $st_setting;?>">
       <input name="<?php  echo $PK_field;?>" type="hidden" id="<?php  echo $PK_field;?>" value="<?php  echo $_GET[$PK_field];?>">
+      
+      <!-- Hidden field for consolidated product data -->
+      <input type="hidden" name="product_data_json" id="product_data_json" value="">
     </div>
   </form>
 </DIV>
